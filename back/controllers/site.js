@@ -1,6 +1,8 @@
 import mysql from "mysql";
 import dbConfig from '../config/dbConfig.js';
 
+import { uploadFile } from "../util/uploadFile.js";
+
 const connection = mysql.createConnection(dbConfig);
 
 export const createSite = async (req, res) => {
@@ -239,10 +241,11 @@ export const getSite = async (req, res) => {
 export const updateSite = async (req, res) => {
     const connection = mysql.createConnection(dbConfig);
     const { siteId } = req.params;
-    const { header, slider, services, info, socials, footer } = req.body;
+    const data = JSON.parse(req.body.data);
 
+    const { header, slider, services, info, socials, footer } = data;
 
-    console.log(req.body)
+    const headerLogo = req.files.logo;
 
     connection.beginTransaction(err => {
         if (err) {
@@ -250,10 +253,13 @@ export const updateSite = async (req, res) => {
             return res.status(500).json({ error: 'Помилка початку транзакції' });
         }
 
+        const imageLocation = uploadFile(headerLogo[0]);
+
+
         const queries = [
             {
                 query: 'UPDATE headers SET visible = ?, logo = ?, menu = ? WHERE site_id = ?',
-                params: [header.visible, header.logo, JSON.stringify(header.menu), siteId]
+                params: [header.visible, imageLocation, JSON.stringify(header.menu), siteId]
             },
             {
                 query: 'UPDATE sliders SET visible = ?, images = ? WHERE site_id = ?',
