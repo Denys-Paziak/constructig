@@ -1,8 +1,27 @@
+@import "./utils/switcher/switcher.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background-color: #fff !important;
+}
 
 .container {
-    padding: 0 20px;
+  padding: 0 20px;
+}
+
+.react-colorful {
+  width: 100% !important;
+}
+
+.burger-menu.active span:nth-child(2) {
+  opacity: 0;
+}
+.burger-menu.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.burger-menu.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
 }
