@@ -1,6 +1,4 @@
-
 import AWS from 'aws-sdk';
-import fs from 'fs';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 
@@ -21,16 +19,12 @@ const s3 = new AWS.S3();
 const bucketName = 'constructig';
 
 export const uploadFile = (file) => {
-
-    console.log(file)
-
     const params = {
         Bucket: bucketName,
-        Key: generateUniqueName(file.fieldname),
+        Key: generateUniqueName(file.originalname),  // Використовуємо оригінальне ім'я файлу для генерації унікального ключа
         Body: file.buffer,
         ContentType: file.mimetype,
     };
-
 
     return new Promise((resolve, reject) => {
         s3.upload(params, (err, data) => {
@@ -45,4 +39,17 @@ export const uploadFile = (file) => {
     });
 };
 
+export const uploadFiles = (files) => {
+    // Використовуємо Promise.all для завантаження всіх файлів
+    const uploadPromises = files.map(file => uploadFile(file));
 
+    return Promise.all(uploadPromises)
+        .then(locations => {
+            console.log('All files uploaded successfully:', locations);
+            return locations;  // Повертаємо масив посилань
+        })
+        .catch(err => {
+            console.error('Error uploading files:', err);
+            throw err;
+        });
+};

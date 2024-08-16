@@ -1,7 +1,7 @@
 import mysql from "mysql";
 import dbConfig from '../config/dbConfig.js';
 
-import { uploadFile } from "../util/uploadFile.js";
+import { uploadFile, uploadFiles } from "../util/uploadFile.js";
 
 const connection = mysql.createConnection(dbConfig);
 
@@ -321,30 +321,64 @@ export const updateHeader = async (req, res) => {
     const { visible, menu } = data;
     const headerLogo = req.files.logo;
 
+    let params = [];
 
     if (headerLogo) {
         const imageLocation = await uploadFile(headerLogo[0]);
-        console.log(imageLocation)
-
-        const query = 'UPDATE headers SET visible = ?, logo = ?, menu = ? WHERE site_id = ?';
-        const params = [visible, imageLocation, JSON.stringify(menu), siteId];
-
-        connection.query(query, params, (err, results) => {
-            if (err) {
-                console.error('Error updating header:', err);
-                res.status(500).json({ error: 'Error updating header' });
-                return;
-            }
-
-            res.status(200).json({ message: 'Header updated successfully' });
-        });
+        params = [visible, imageLocation, JSON.stringify(menu), siteId];
     } else {
-        res.status(400).json({ error: 'Logo file is required' });
+        params = [visible, null, JSON.stringify(menu), siteId];
     }
+
+    const query = 'UPDATE headers SET visible = ?, logo = ?, menu = ? WHERE site_id = ?';
+
+
+    connection.query(query, params, (err, results) => {
+        if (err) {
+            console.error('Error updating header:', err);
+            res.status(500).json({ error: 'Error updating header' });
+            return;
+        }
+
+        res.status(200).json({ message: 'Header updated successfully' });
+    });
 
     connection.end();
 };
 
+export const updateSlider = async (req, res) => {
+    const connection = mysql.createConnection(dbConfig);
+    const { siteId } = req.params;
+    const { visible } = req.body;
+
+    let images = null;  // Значення за замовчуванням, якщо файлів немає
+
+    if (req.files && req.files.slides) {
+        const slides = req.files.slides;
+        images = await uploadFiles(slides);
+    }
+
+    const query = 'UPDATE sliders SET visible = ?, images = ? WHERE site_id = ?';
+    const params = [visible, images ? JSON.stringify(images) : null, siteId];
+
+    connection.query(query, params, (err, results) => {
+        if (err) {
+            console.error('Error updating slider:', err);
+            res.status(500).json({ error: 'Error updating slider' });
+            return;
+        }
+
+        res.status(200).json({
+            message: 'Slider updated successfully',
+            updatedFields: {
+                visible: visible,
+                images: images || null
+            }
+        });
+    });
+
+    connection.end();
+};
 
 
 export const deleteSite = async (req, res) => {
