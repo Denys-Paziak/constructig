@@ -445,9 +445,10 @@ export const updateSlider = async (req, res) => {
 
   let images = null;
 
-  if (imagesUrls) {
-    images = imagesUrls;
-    console.log(imagesUrls);
+  if (imagesUrls > 0) {
+    images = JSON.parse(imagesUrls);
+  } else {
+    images = [imagesUrls];
   }
 
   const query = "UPDATE sliders SET visible = ?, images = ? WHERE site_id = ?";
