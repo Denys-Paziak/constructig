@@ -355,11 +355,6 @@ export const updateSlider = async (req, res) => {
 
   let images = null;
 
-  if (req.files && req.files.slides) {
-    const slides = req.files.slides;
-    images = await uploadFiles(slides);
-  }
-
   if (imagesUrls) {
     images = JSON.parse(imagesUrls);
     console.log(imagesUrls)
@@ -385,6 +380,13 @@ export const updateSlider = async (req, res) => {
   });
 
   connection.end();
+};
+
+
+export const uploadImage = async (req, res) => {
+  const image = req.file;
+  const url = await uploadFile(image);
+  return res.status(200).json({ url });
 };
 
 

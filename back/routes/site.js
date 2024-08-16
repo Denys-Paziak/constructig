@@ -7,6 +7,7 @@ import {
   getUserSites,
   updateHeader,
   updateSlider,
+  uploadImage
 } from "../controllers/site.js";
 import multer from "multer";
 import authMiddleware from "../middlewares/authMiddleware.js";
@@ -15,6 +16,9 @@ const upload = multer();
 const router = express.Router();
 
 router.post("/site", upload.none(), authMiddleware, createSite);
+router.post("/site/upload", upload.single("image"), authMiddleware, uploadImage);
+
+
 router.get("/site/:siteId", upload.none(), authMiddleware, getSite);
 router.put(
   "/site/:siteId",
@@ -30,7 +34,7 @@ router.put(
 );
 router.put(
   "/site/slider/:siteId",
-  upload.fields([{ name: "slides", maxCount: 3 }]),
+  upload.none(),
   authMiddleware,
   updateSlider
 );
