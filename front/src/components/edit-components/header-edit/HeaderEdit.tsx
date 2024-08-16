@@ -56,7 +56,7 @@ const HeaderEdit: React.FC<Props> = ({
 
         const response = await updateHeaderEdit(id!, formData, token);
         console.log(response);
-        handleInputChange("header", "logo", null);
+        handleInputChange("header", "logo", response.location);
       }
     } catch (error) {
       console.log(error);

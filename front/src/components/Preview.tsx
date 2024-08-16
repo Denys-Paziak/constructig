@@ -23,16 +23,16 @@ const Preview: React.FC<PreviewProps> = ({
 
   //   console.log(data);
 
-  //   useEffect(() => {
-  //     console.log("preview", color);
-  //   }, [color]);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   //   const handleChangeScreen = (changedScreen) => {
   //     setScreen
   //   }
 
   return (
-    <div className="w-[100%] flex items-center flex-col bg-gray-200">
+    <div className="w-[75%] flex items-center flex-col bg-gray-200">
       <div className="w-full bg-white shadow-md flex items-center justify-center gap-6 py-4">
         <div
           onClick={() => setScreen("desktop")}
@@ -91,9 +91,9 @@ const Preview: React.FC<PreviewProps> = ({
             headerTextColor={headerTextColor}
           />
         )}
-        {data.slider?.visible && (
-          <Slider images={data.slider.images || []} backgroundColor="#fff" />
-        )}
+        {/* {data.slider?.visible && (
+        )} */}
+        <Slider images={data.slider.images || []} backgroundColor="#fff" />
         {data.services?.visible && (
           <Services services={data.services.cols || []} />
         )}

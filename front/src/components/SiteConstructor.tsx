@@ -56,13 +56,7 @@ const SiteConstructor: React.FC = () => {
     }
   };
 
-  const handleInputChange = (
-    section: string,
-    field: string,
-    value: string | null
-  ) => {
-    console.log(field);
-    console.log(value);
+  const handleInputChange = (section: string, field: string, value: any) => {
     if (data) {
       const newData = { ...data };
       newData[section][field] = value;
@@ -87,7 +81,7 @@ const SiteConstructor: React.FC = () => {
 
   return (
     <div className="flex">
-      <div className="max-w-[400px] min-w-[360px] h-[100vh] p-4 overflow-y-scroll">
+      <div className="max-w-[25%] min-w-[25%] h-[100vh] p-4 overflow-y-scroll">
         <SectionEditor
           title="Header"
           sectionName="header"

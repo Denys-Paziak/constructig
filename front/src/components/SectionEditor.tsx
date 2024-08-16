@@ -71,7 +71,7 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
         <SliderEdit
           data={data}
           sectionName={sectionName}
-          handleAddSlider={addSliderImage}
+          handleInputChange={handleInputChange}
           handleRemoveSlider={removeSliderImage}
         />
         <InfoEdit
