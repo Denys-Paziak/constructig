@@ -340,7 +340,7 @@ export const updateHeader = async (req, res) => {
             return;
         }
 
-        res.status(200).json({ message: 'Header updated successfully' });
+        res.status(200).json({ message: 'Header updated successfully', location: imageLocation });
     });
 
     connection.end();
