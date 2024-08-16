@@ -401,8 +401,6 @@ export const updateSite = async (req, res) => {
 export const updateHeader = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
 
-  console.log(req.body);
-
   const data = JSON.parse(req.body.data);
 
   const { siteId } = req.params;
@@ -428,7 +426,10 @@ export const updateHeader = async (req, res) => {
       return;
     }
 
-    res.status(200).json({ message: "Header updated successfully" });
+    res.status(200).json({
+      message: "Header updated successfully",
+      location: imageLocation,
+    });
   });
 
   connection.end();
