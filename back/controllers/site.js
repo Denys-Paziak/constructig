@@ -312,6 +312,41 @@ export const updateSite = async (req, res) => {
 };
 
 
+export const updateHeader = async (req, res) => {
+    const connection = mysql.createConnection(dbConfig);
+
+    const data = JSON.parse(req.body.data);
+
+    const { siteId } = req.params;
+    const { visible, menu } = data;
+    const headerLogo = req.files.logo;
+
+
+    if (headerLogo) {
+        const imageLocation = await uploadFile(headerLogo[0]);
+        console.log(imageLocation)
+
+        const query = 'UPDATE headers SET visible = ?, logo = ?, menu = ? WHERE site_id = ?';
+        const params = [visible, imageLocation, JSON.stringify(menu), siteId];
+
+        connection.query(query, params, (err, results) => {
+            if (err) {
+                console.error('Error updating header:', err);
+                res.status(500).json({ error: 'Error updating header' });
+                return;
+            }
+
+            res.status(200).json({ message: 'Header updated successfully' });
+        });
+    } else {
+        res.status(400).json({ error: 'Logo file is required' });
+    }
+
+    connection.end();
+};
+
+
+
 export const deleteSite = async (req, res) => {
     const { siteId } = req.params;
 
