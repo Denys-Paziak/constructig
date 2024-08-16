@@ -355,7 +355,7 @@ export const updateSlider = async (req, res) => {
 
   let images = null;
 
-  if (imagesUrls > 0) {
+  if (imagesUrls.lenght > 0) {
     images = JSON.parse(imagesUrls);
   } else {
     images = [imagesUrls];
