@@ -351,13 +351,18 @@ export const updateHeader = async (req, res) => {
 export const updateSlider = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
   const { siteId } = req.params;
-  const { visible } = req.body;
+  const { visible, imagesUrls } = req.body;
 
-  let images = null;  // Значення за замовчуванням, якщо файлів немає
+  let images = null;
 
   if (req.files && req.files.slides) {
     const slides = req.files.slides;
     images = await uploadFiles(slides);
+  }
+
+  if (imagesUrls) {
+    images = JSON.parse(imagesUrls);
+    console.log(imagesUrls)
   }
 
   const query = 'UPDATE sliders SET visible = ?, images = ? WHERE site_id = ?';
