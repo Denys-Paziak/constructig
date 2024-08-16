@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/site', upload.none(), authMiddleware, createSite);
 router.get('/site/:siteId', upload.none(), authMiddleware, getSite);
-router.put('/site/:siteId', upload.none(), authMiddleware, updateSite);
+router.put('/site/:siteId', upload.fields([{ name: 'logo', maxCount: 1 }]), authMiddleware, updateSite);
 router.delete('/site/:siteId', upload.none(), authMiddleware, deleteSite);
 router.get('/sites', upload.none(), authMiddleware, getUserSites);
 
