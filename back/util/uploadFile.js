@@ -29,12 +29,15 @@ export const uploadFile = (file) => {
     ContentType: file.mimetype,
   };
 
-  s3.upload(params, (err, data) => {
-    if (err) {
-      console.error("Error uploading file:", err);
-    } else {
-      console.log(`File uploaded successfully. ${data.Location}`);
-      return data.Location;
-    }
+  return new Promise((resolve, reject) => {
+    s3.upload(params, (err, data) => {
+      if (err) {
+        console.error("Error uploading file:", err);
+        reject(err);
+      } else {
+        console.log(`File uploaded successfully. ${data.Location}`);
+        resolve(data.Location);
+      }
+    });
   });
 };
