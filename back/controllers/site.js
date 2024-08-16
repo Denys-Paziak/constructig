@@ -408,31 +408,83 @@ export const updateHeader = async (req, res) => {
   const headerLogo = req.files.logo;
 
   let params = [];
+  let imageLocation = null;
 
   if (headerLogo) {
-    const imageLocation = await uploadFile(headerLogo[0]);
+    imageLocation = await uploadFile(headerLogo[0]);
     params = [visible, imageLocation, JSON.stringify(menu), siteId];
   } else {
     params = [visible, null, JSON.stringify(menu), siteId];
   }
 
-  const query =
-    "UPDATE headers SET visible = ?, logo = ?, menu = ? WHERE site_id = ?";
-
-  connection.query(query, params, (err, results) => {
+  connection.query(query, [siteId, req.user.id], (err, results) => {
     if (err) {
-      console.error("Error updating header:", err);
-      res.status(500).json({ error: "Error updating header" });
-      return;
+      console.error("Помилка виконання запиту: " + err.message);
+      return res.status(500).json({ error: "Помилка виконання запиту" });
     }
 
-    res.status(200).json({
-      message: "Header updated successfully",
-      location: imageLocation,
-    });
-  });
+    if (results.length === 0) {
+      return res.status(404).json({ message: "Лендінг не знайдено" });
+    }
 
-  connection.end();
+    const result = results[0];
+
+    const site = {
+      id: result.site_id,
+      url: result.site_url,
+      name: result.site_name,
+    };
+
+    const header = {
+      visible: result.header_visible,
+      logo: result.header_logo,
+      menu: JSON.parse(result.header_menu),
+    };
+
+    const slider = {
+      visible: result.slider_visible,
+      images: JSON.parse(result.slider_images),
+    };
+
+    const services = {
+      visible: result.services_visible,
+      cols: JSON.parse(result.services_cols),
+    };
+
+    const info = {
+      visible: result.info_visible,
+      image: result.info_image,
+      title: result.info_title,
+      text: result.info_text,
+    };
+
+    const socials = {
+      visible: result.socials_visible,
+      instagram: result.socials_instagram,
+      facebook: result.socials_facebook,
+      youtube: result.socials_youtube,
+    };
+
+    const footer = {
+      visible: result.footer_visible,
+      work_time: result.footer_work_time,
+      web_link: result.footer_web_link,
+    };
+
+    console.log(result);
+
+    res.status(200).json({
+      site,
+      header,
+      slider,
+      services,
+      info,
+      socials,
+      footer,
+    });
+
+    connection.end();
+  });
 };
 
 export const updateSlider = async (req, res) => {
