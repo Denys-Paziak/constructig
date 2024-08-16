@@ -27,19 +27,6 @@ const SiteConstructor: React.FC = () => {
       getSite(parseInt(id), token || "")
         .then((response) => {
           const siteData = response;
-          // const updatedData = {
-          //     header: {
-          //         visible: siteData.header?.visible || false,
-          //         logo: siteData.header?.logo || null,
-          //         menu: siteData.header?.menu || [{ link: '', text: '' }]
-          //     },
-          //     slider: siteData.slider || { visible: false, images: [] },
-          //     services: siteData.services || { visible: false, cols: [] },
-          //     info: siteData.info || { visible: false, image: null, title: '', text: '' },
-          //     socials: siteData.socials || { visible: false, instagram: '', facebook: '', youtube: '' },
-          //     footer: siteData.footer || { visible: false, work_time: '', web_link: '' },
-          //     site: siteData.site || {}
-          // };
           setData(siteData);
         })
         .catch((error) => {
@@ -50,8 +37,14 @@ const SiteConstructor: React.FC = () => {
 
   const handleSave = () => {
     const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+
+    formData.append("data", JSON.stringify(data));
+    formData.append("logo", JSON.stringify(uploadedFile));
+
     if (id && data) {
-      updateSite(parseInt(id), data, token || "")
+      updateSite(parseInt(id), formData, token || "")
         .then(() => {
           alert("Site updated successfully!");
           navigate("/sites");
@@ -63,12 +56,19 @@ const SiteConstructor: React.FC = () => {
     }
   };
 
-  const handleInputChange = (section: string, field: string, value: any) => {
+  const handleInputChange = (
+    section: string,
+    field: string,
+    value: string | null
+  ) => {
+    console.log(field);
+    console.log(value);
     if (data) {
       const newData = { ...data };
       newData[section][field] = value;
       setData(newData);
     }
+    console.log(data);
   };
 
   const visibleHandler = (name: string, checked: boolean) => {
@@ -81,17 +81,13 @@ const SiteConstructor: React.FC = () => {
     }
   };
 
-  //   useEffect(() => {
-  //     console.log("const", headerColorBg);
-  //   }, [headerColorBg]);
-
   if (!data) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="flex">
-      <div className="min-w-[360px] h-[100vh] p-4 overflow-y-scroll">
+      <div className="max-w-[400px] min-w-[360px] h-[100vh] p-4 overflow-y-scroll">
         <SectionEditor
           title="Header"
           sectionName="header"
@@ -102,6 +98,7 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
+          //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Slider"
@@ -113,6 +110,7 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
+          //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Services"
@@ -124,6 +122,7 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
+          //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Info"
@@ -135,6 +134,7 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
+          //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Socials"
@@ -146,6 +146,7 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
+          //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Footer"
@@ -157,6 +158,7 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
+          //   onFileUpload={handleFileUpload}
         />
         <button
           onClick={handleSave}

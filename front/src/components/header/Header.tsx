@@ -37,11 +37,7 @@ export const Header: React.FC<HeaderProps> = ({
     >
       <div className="container mx-auto flex justify-between items-center">
         <div className="logo">
-          {logo ? (
-            <img src={URL.createObjectURL(logo)} alt="Logo" className="h-8" />
-          ) : (
-            company
-          )}
+          {logo ? <img src={logo} alt="Logo" className="h-8" /> : company}
         </div>
 
         {/* <button

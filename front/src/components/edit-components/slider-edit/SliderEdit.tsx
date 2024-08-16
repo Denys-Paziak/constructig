@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import { AdminImage } from "../../../utils/dropzone/dropzone";
 import { useDropzone } from "react-dropzone";
-import styles from "../../../utils/switcher/switcher.css";
 
 interface Props {
   data: any;

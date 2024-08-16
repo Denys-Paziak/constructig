@@ -1,51 +1,79 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { AdminImage } from "../../../utils/dropzone/dropzone";
 import { RgbaColorPicker } from "react-colorful";
 import { useDropzone } from "react-dropzone";
-import Toggle from "react-toggle";
+// import Toggle from "react-toggle";
+import Button from "../../UI/button/Button";
+import { updateHeaderEdit } from "../../../services/header-edit/headerEdit";
+import { useParams } from "react-router-dom";
 
 interface Props {
   data: any;
   sectionName: string;
-  handleVisibleBlock: (sectionName: string, checked: boolean) => void;
+  // handleVisibleBlock: (sectionName: string, checked: boolean) => void;
   setHeaderColorBg: (color: string) => void;
   headerColorBg: void;
   setHeaderTextColor: (color: string) => void;
   headerTextColor: void;
+  handleInputChange: (
+    section: string,
+    field: string,
+    value: string | null
+  ) => void;
 }
 
 const HeaderEdit: React.FC<Props> = ({
   data,
   sectionName,
-  handleVisibleBlock,
+  // handleVisibleBlock,
   setHeaderColorBg,
   headerColorBg,
   setHeaderTextColor,
   headerTextColor,
+  handleInputChange,
 }) => {
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const { id } = useParams();
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    console.log(acceptedFiles);
+    if (acceptedFiles.length > 0) {
+      setUploadedFile(acceptedFiles[0]);
+    }
   }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    maxFiles: 1,
+  });
+
+  const handleSaveChanges = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      if (token) {
+        const formData = new FormData();
+
+        formData.append("data", JSON.stringify(data.header));
+        formData.append("logo", uploadedFile);
+
+        const response = await updateHeaderEdit(id!, formData, token);
+        console.log(response);
+        handleInputChange("header", "logo", null);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleRemoveSlider = () => {
+    handleInputChange("header", "logo", null);
+  };
 
   return (
     <>
-      <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
-        <h4 className="font-semibold text-lg">Відображення блоку</h4>
-        <div className="w-full flex items-center justify-between">
-          <p>Сховати/Показати:</p>
-          <Toggle
-            defaultChecked={true}
-            icons={false}
-            onChange={(e) => handleVisibleBlock(sectionName, e.target.checked)}
-          />
-        </div>
-      </div>
       {sectionName === "header" && (
         <div className="w-full flex flex-col gap-4">
           <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
             <h4 className="font-semibold text-lg">Логотип сайту</h4>
-            <div className="w-full flex items-center justify-between">
+            <div className="w-full flex items-start flex-col gap-2">
               <AdminImage
                 {...getRootProps({
                   isdragactive: isDragActive.toString(),
@@ -58,7 +86,25 @@ const HeaderEdit: React.FC<Props> = ({
                   <p>Перетягніть сюди файли</p>
                 )}
               </AdminImage>
+              <span className="text-[11px] text-black">
+                {uploadedFile?.name}
+              </span>
             </div>
+            {data.header.logo && (
+              <div className="w-full flex justify-center relative">
+                <img className="w-full" src={data.header.logo} alt="logo" />
+                <span
+                  onClick={handleRemoveSlider}
+                  className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"
+                >
+                  <img
+                    className="w-full"
+                    src="/src/assets/images/trash-icon.svg"
+                    alt="trash icon"
+                  />
+                </span>
+              </div>
+            )}
           </div>
           <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
             <h4 className="font-semibold text-lg">Колір шапки</h4>
@@ -78,6 +124,7 @@ const HeaderEdit: React.FC<Props> = ({
               />
             </div>
           </div>
+          <Button handleButtonClick={handleSaveChanges} />
         </div>
       )}
     </>
