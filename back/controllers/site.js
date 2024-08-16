@@ -322,9 +322,10 @@ export const updateHeader = async (req, res) => {
     const headerLogo = req.files.logo;
 
     let params = [];
+    const imageLocation = null;
 
     if (headerLogo) {
-        const imageLocation = await uploadFile(headerLogo[0]);
+        imageLocation = await uploadFile(headerLogo[0]);
         params = [visible, imageLocation, JSON.stringify(menu), siteId];
     } else {
         params = [visible, null, JSON.stringify(menu), siteId];
