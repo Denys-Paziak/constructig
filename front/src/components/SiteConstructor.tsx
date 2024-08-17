@@ -93,7 +93,7 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
-          //   onFileUpload={handleFileUpload}
+        //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Slider"
@@ -105,7 +105,7 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
-          //   onFileUpload={handleFileUpload}
+        //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Services"
@@ -117,7 +117,7 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
-          //   onFileUpload={handleFileUpload}
+        //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Info"
@@ -129,7 +129,7 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
-          //   onFileUpload={handleFileUpload}
+        //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Socials"
@@ -141,7 +141,7 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
-          //   onFileUpload={handleFileUpload}
+        //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Footer"
@@ -153,7 +153,7 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
-          //   onFileUpload={handleFileUpload}
+        //   onFileUpload={handleFileUpload}
         />
         <button
           onClick={handleSave}
