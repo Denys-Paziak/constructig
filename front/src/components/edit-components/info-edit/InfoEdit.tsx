@@ -1,6 +1,10 @@
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { AdminImage } from "../../../utils/dropzone/dropzone";
+import { deleteImage, uploadImage } from "../../../services/upload-images/uploadImages";
+import Button from "../../UI/button/Button";
+import { updateInfo } from "../../../services/info/info";
+import { useParams } from "react-router-dom";
 
 interface Props {
   data: any;
@@ -8,11 +12,43 @@ interface Props {
   handlerInput: (section: string, field: string, value: string) => void;
 }
 
+
 const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    console.log(acceptedFiles);
+  const { id } = useParams();
+
+  const handleSaveChanges = () => {
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(data.info));
+
+    if (token) {
+      updateInfo(id!, formData, token);
+    }
+  }
+
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+    const formDataDelete = new FormData();
+
+    formData.append("image", acceptedFiles[0]);
+    formDataDelete.append("image", data.info.image);
+
+    if (token) {
+      const res = await uploadImage(formData, token);
+      const resDelete = await deleteImage(formDataDelete, token);
+      handlerInput("info", "image", res.url);
+
+      console.log(resDelete)
+    }
+
+    handleSaveChanges();
   }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
 
   return (
     <>
@@ -33,6 +69,11 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
                 <p>Перетягніть сюди файли</p>
               )}
             </AdminImage>
+
+            {data.info.image && <>
+              <img src={data.info.image} alt="" />
+            </>}
+
           </div>
           <div className="w-full flex flex-col gap-2">
             <p>Заголовок:</p>
@@ -57,6 +98,8 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
               className="h-36 p-2 text-sm border border-gray-300 rounded-md resize-none"
             />
           </div>
+
+          <Button handleButtonClick={handleSaveChanges} />
         </div>
       )}
     </>

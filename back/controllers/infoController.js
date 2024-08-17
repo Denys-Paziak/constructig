@@ -23,7 +23,7 @@ export const updateInfo = async (req, res) => {
             return;
         }
 
-        res.status(200).json({ message: "Header updated successfully", url: logo });
+        res.status(200).json({ message: "Info updated successfully", data });
     });
 
     connection.end();
