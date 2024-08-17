@@ -34,7 +34,7 @@ export const login = async (req, res) => {
                 return res.status(401).json({ message: 'Невірний email або пароль' });
             }
 
-            const token = jwt.sign({ id: user.id, role: user.role }, dotenv.config().parsed.JWT_SECRET, { expiresIn: '30d' });
+            const token = jwt.sign({ id: user.id, email: user.email, company: user.company }, dotenv.config().parsed.JWT_SECRET, { expiresIn: '30d' });
             res.json({ message: 'Вхід успішний', token });
             connection.end();
         });
@@ -70,5 +70,12 @@ export const register = async (req, res) => {
         console.error('Помилка хешування паролю: ' + error.message);
         res.status(500).json({ error: 'Помилка хешування паролю' });
     }
+};
+
+
+export const getUser = async (req, res) => {
+    const token = req.header('Authorization').replace('Bearer ', '');
+    const decoded = jwt.verify(token, dotenv.config().parsed.JWT_SECRET);
+    res.status(200).json(decoded)
 };
 
