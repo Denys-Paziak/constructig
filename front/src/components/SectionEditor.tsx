@@ -14,7 +14,7 @@ interface SectionEditorProps {
   handleInputChange: (
     section: string,
     field: string,
-    value: string | null
+    value: string | null | any[]
   ) => void;
   setHeaderColorBg: void;
   headerColorBg: void;
@@ -33,15 +33,25 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
   setHeaderTextColor,
   headerTextColor,
 }) => {
-  const addSliderImage = () => {
-    const newImages = [...data[sectionName].images, ""];
-    handleInputChange(sectionName, "images", newImages);
-  };
+  //   const addSliderImage = () => {
+  //     const newImages = [...data[sectionName].images, ""];
+  //     handleInputChange(sectionName, "images", newImages);
+  //   };
 
-  const removeSliderImage = (index: number) => {
-    const newImages = [...data[sectionName].images];
-    newImages.splice(index, 1);
-    handleInputChange(sectionName, "images", newImages);
+  const removeSliderImage = (index?: number) => {
+    let newImages = [...data[sectionName].images];
+
+    if (newImages) {
+      newImages.splice(index, 1);
+      handleInputChange(sectionName, "images", newImages);
+    }
+
+    console.log(newImages);
+
+    // else {
+    //   newImages = [];
+    //   handleInputChange(sectionName, "images", newImages);
+    // }
   };
 
   return (

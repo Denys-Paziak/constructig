@@ -62,7 +62,7 @@ const SiteConstructor: React.FC = () => {
       newData[section][field] = value;
       setData(newData);
     }
-    console.log(data);
+    console.log(value);
   };
 
   const visibleHandler = (name: string, checked: boolean) => {

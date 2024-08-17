@@ -14,10 +14,6 @@ export const Slider: React.FC<SliderProps> = ({
   images,
   backgroundColor = "#ddd",
 }) => {
-  useEffect(() => {
-    console.log(images);
-  }, [images]);
-
   if (images.length === 0) {
     return (
       <div
@@ -43,17 +39,18 @@ export const Slider: React.FC<SliderProps> = ({
         navigation={true}
         className="h-[90vh]"
       >
-        {images.map((image, index) => (
-          <SwiperSlide key={index}>
-            <div className="h-full w-full flex justify-center items-center">
-              <img
-                src={image}
-                alt={`Slide ${index + 1}`}
-                className="object-cover h-full w-full"
-              />
-            </div>
-          </SwiperSlide>
-        ))}
+        {images &&
+          images.map((image, index) => (
+            <SwiperSlide key={index}>
+              <div className="h-full w-full flex justify-center items-center">
+                <img
+                  src={image}
+                  alt={`Slide ${index + 1}`}
+                  className="object-cover h-full w-full"
+                />
+              </div>
+            </SwiperSlide>
+          ))}
       </Swiper>
     </div>
   );

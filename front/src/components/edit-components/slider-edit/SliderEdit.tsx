@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { AdminImage } from "../../../utils/dropzone/dropzone";
 import { useDropzone } from "react-dropzone";
 import Button from "../../UI/button/Button";
@@ -10,7 +10,7 @@ interface Props {
   data: any;
   sectionName: string;
   handleInputChange: (section: string, field: string, value: any) => void;
-  handleRemoveSlider: () => void;
+  handleRemoveSlider: (index?: number) => void;
 }
 
 const SliderEdit: React.FC<Props> = ({
@@ -37,15 +37,9 @@ const SliderEdit: React.FC<Props> = ({
 
         const response = await uploadImage(formData, token);
         imagesUrls.push(response.url);
-        // setImagesUrls((prevState) => [...prevState, response.url]);
-        console.log("imagesUrls", imagesUrls);
         handleInputChange("slider", "images", imagesUrls);
-        console.log(response);
       }
-      // console.log(acceptedFiles);
-      // setUploadedSliderImages(acceptedFiles);
     });
-    // console.log(imagesUrls);
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -57,11 +51,12 @@ const SliderEdit: React.FC<Props> = ({
       if (token) {
         const formData = new FormData();
 
+        formData.append("visible", data.slider.visible);
+
         console.log(data.slider.images);
 
-        formData.append("visible", data.slider.visible);
         data.slider.images?.forEach((image: string) => {
-          formData.append("imagesUrls", image);
+          formData.append("imagesUrls[]", image);
         });
 
         const response = await updateSliderEdit(id!, formData, token);
@@ -105,7 +100,40 @@ const SliderEdit: React.FC<Props> = ({
             )
           )}
 
-          {data.slider.images.length > 0 &&
+          {data.slider.images &&
+            data.slider.images.map((image: string, index: number) => (
+              <div key={index} className="w-full flex justify-center relative">
+                <img className="w-full" src={image} alt="slide image" />
+                <span
+                  onClick={() => handleRemoveSlider(index)}
+                  className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"
+                >
+                  <img
+                    className="w-full"
+                    src="/src/assets/images/trash-icon.svg"
+                    alt="trash icon"
+                  />
+                </span>
+              </div>
+            ))}
+          {/* <div className="w-full flex justify-center relative">
+              <img
+                className="w-full"
+                src={data.slider.images}
+                alt="slide image"
+              />
+              <span
+                onClick={handleRemoveSlider}
+                className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"
+              >
+                <img
+                  className="w-full"
+                  src="/src/assets/images/trash-icon.svg"
+                  alt="trash icon"
+                />
+              </span>
+            </div> */}
+          {/* {Array.isArray(data.slider.images) ? (
             data.slider.images.map((image: string, index: number) => (
               <div key={index} className="w-full flex justify-center relative">
                 <img className="w-full" src={image} alt="slide image" />
@@ -120,7 +148,27 @@ const SliderEdit: React.FC<Props> = ({
                   />
                 </span>
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="w-full flex justify-center relative">
+              <img
+                className="w-full"
+                src={data.slider.images}
+                alt="slide image"
+              />
+              <span
+                onClick={handleRemoveSlider}
+                className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"
+              >
+                <img
+                  className="w-full"
+                  src="/src/assets/images/trash-icon.svg"
+                  alt="trash icon"
+                />
+              </span>
+            </div>
+          )} */}
+
           {/* <span
             onClick={() => handleRemoveSlider(index)}
             className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"

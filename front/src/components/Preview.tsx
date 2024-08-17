@@ -23,9 +23,9 @@ const Preview: React.FC<PreviewProps> = ({
 
   //   console.log(data);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  //   useEffect(() => {
+  //     console.log(data);
+  //   }, [data]);
 
   //   const handleChangeScreen = (changedScreen) => {
   //     setScreen

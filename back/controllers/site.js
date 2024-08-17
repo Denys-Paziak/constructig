@@ -441,15 +441,13 @@ export const updateSlider = async (req, res) => {
   const { siteId } = req.params;
   const { visible, imagesUrls } = req.body;
 
-  console.log(req.body);
-
   let images = null;
 
-  if (imagesUrls > 0) {
-    images = JSON.parse(imagesUrls);
-  } else {
-    images = [imagesUrls];
+  if (imagesUrls) {
+    images = imagesUrls;
   }
+  console.log("test images aws pidaar");
+  console.log(images);
 
   const query = "UPDATE sliders SET visible = ?, images = ? WHERE site_id = ?";
   const params = [visible, images ? JSON.stringify(images) : null, siteId];
