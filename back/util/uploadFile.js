@@ -53,3 +53,23 @@ export const uploadFiles = (files) => {
       throw err;
     });
 };
+
+
+export const deleteFile = (filename) => {
+  const params = {
+    Bucket: bucketName,
+    Key: filename,
+  };
+
+  return new Promise((resolve, reject) => {
+    s3.deleteObject(params, (err, data) => {
+      if (err) {
+        console.error("Error deleting file:", err);
+        reject(err);
+      } else {
+        console.log(`File deleted successfully: ${filename}`);
+        resolve(`File deleted successfully: ${filename}`);
+      }
+    });
+  });
+};
