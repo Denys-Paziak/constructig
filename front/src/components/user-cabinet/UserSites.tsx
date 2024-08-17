@@ -9,29 +9,29 @@ interface UserSitesProps {
 }
 
 function UserSites({ onEditSite }: UserSitesProps) {
-  const [sites, setSites] = useState([]);
-  const navigate = useNavigate();
+  // const [sites, setSites] = useState([]);
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
 
-    getUserSites(token || "")
-      .then((data) => {
-        setSites(data.sites || []);
-      })
-      .catch((error) => {
-        console.error("Error fetching sites:", error);
-      });
-  }, []);
+  //   getUserSites(token || "")
+  //     .then((data) => {
+  //       setSites(data.sites || []);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching sites:", error);
+  //     });
+  // }, []);
 
   return (
-    <div className="w-full p-4 shape_bg">
-      <div className="container mx-auto flex items-center flex-col gap-6">
-        <h2 className="text-2xl font-bold text-center text-white">
+    <div className="w-full py-8 px-4 shape_bg">
+      <div className="max-w-[1200px] mx-auto  flex items-center flex-col gap-6">
+        <h2 className="text-3xl font-bold text-center text-white">
           Welcome in your Account!
         </h2>
         <UserCabinetInterface />
-        <UserCabinetInfo />
+        <UserCabinetInfo onEditSite={onEditSite} />
         {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {sites.map((site) => (
             <div key={site.id} className="bg-white shadow-lg rounded-lg p-6">
