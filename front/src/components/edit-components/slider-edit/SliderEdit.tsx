@@ -53,8 +53,6 @@ const SliderEdit: React.FC<Props> = ({
 
         formData.append("visible", data.slider.visible);
 
-        console.log(data.slider.images);
-
         data.slider.images?.forEach((image: string) => {
           formData.append("imagesUrls[]", image);
         });
@@ -74,11 +72,11 @@ const SliderEdit: React.FC<Props> = ({
       {sectionName === "slider" && (
         <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-4 flex-col">
           <h4 className="font-semibold text-lg">Слайди</h4>
-          {/* {data[sectionName]?.images.length === 0 && (
-            <p className="text-sm text-black text-center">
+          {data[sectionName]?.images.length === 0 && (
+            <p className="text-sm text-black text-center py-4">
               Зображень слайдера поки що немає.
             </p>
-          )} */}
+          )}
 
           <AdminImage
             {...getRootProps({
@@ -133,67 +131,6 @@ const SliderEdit: React.FC<Props> = ({
                 />
               </span>
             </div> */}
-          {/* {Array.isArray(data.slider.images) ? (
-            data.slider.images.map((image: string, index: number) => (
-              <div key={index} className="w-full flex justify-center relative">
-                <img className="w-full" src={image} alt="slide image" />
-                <span
-                  onClick={handleRemoveSlider}
-                  className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"
-                >
-                  <img
-                    className="w-full"
-                    src="/src/assets/images/trash-icon.svg"
-                    alt="trash icon"
-                  />
-                </span>
-              </div>
-            ))
-          ) : (
-            <div className="w-full flex justify-center relative">
-              <img
-                className="w-full"
-                src={data.slider.images}
-                alt="slide image"
-              />
-              <span
-                onClick={handleRemoveSlider}
-                className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"
-              >
-                <img
-                  className="w-full"
-                  src="/src/assets/images/trash-icon.svg"
-                  alt="trash icon"
-                />
-              </span>
-            </div>
-          )} */}
-
-          {/* <span
-            onClick={() => handleRemoveSlider(index)}
-            className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"
-          >
-            <img
-              className="w-full"
-              src="/src/assets/images/trash-icon.svg"
-              alt="trash icon"
-            />
-          </span> */}
-          {/* {data[sectionName]?.images.length > 0 &&
-            data[sectionName]?.images?.map((image: string, index: number) => (
-              <div key={index} className="w-full mb-1 relative">
-                <p className="text-sm text-black">name of file</p>
-              </div>
-            ))}
-          {data[sectionName]?.images.length < 3 && (
-            <button
-              type="button"
-              onClick={handleAddSlider}
-              className="w-full mt-2 py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            >
-              Додати слайд
-            </button>
-          )} */}
           <Button handleButtonClick={handleSaveChanges} />
         </div>
       )}

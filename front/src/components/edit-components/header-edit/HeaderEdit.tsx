@@ -1,9 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { AdminImage } from "../../../utils/dropzone/dropzone";
-import { RgbaColorPicker } from "react-colorful";
 import { useDropzone } from "react-dropzone";
 // import Toggle from "react-toggle";
-import Button from "../../UI/button/Button";
 import { updateHeaderEdit } from "../../../services/header-edit/headerEdit";
 import { useParams } from "react-router-dom";
 import {
@@ -35,19 +33,23 @@ const HeaderEdit: React.FC<Props> = ({
   const onDrop = useCallback(async (acceptedFile: File) => {
     const imagesUrls: string[] = [];
 
-    // acceptedFiles.forEach(async (acceptedFiles: File) => {
-    // });
     if (token) {
+      const formDataLogo = new FormData();
+
+      formDataLogo.append("image", acceptedFile[0]);
+
+      const responseLogo = await uploadImage(formDataLogo, token);
+      imagesUrls.push(responseLogo.url);
+      handleInputChange("header", "logo", imagesUrls);
+
       const formData = new FormData();
 
-      console.log(acceptedFile);
+      formData.append("data", JSON.stringify(data.header));
+      formData.append("logo", data.header.logo);
 
-      formData.append("image", acceptedFile[0]);
-
-      const response = await uploadImage(formData, token);
+      const response = await updateHeaderEdit(id!, formData, token);
       console.log(response);
-      imagesUrls.push(response.url);
-      handleInputChange("header", "logo", imagesUrls);
+      handleInputChange("header", "logo", response.url);
     }
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -55,24 +57,24 @@ const HeaderEdit: React.FC<Props> = ({
     maxFiles: 1,
   });
 
-  const handleSaveChanges = async () => {
-    try {
-      if (token) {
-        const formData = new FormData();
+  // const handleSaveChanges = async () => {
+  //   try {
+  //     if (token) {
+  // const formData = new FormData();
 
-        console.log(data.header.logo);
+  // console.log(data.header.logo);
 
-        formData.append("data", JSON.stringify(data.header));
-        formData.append("logo", data.header.logo);
+  // formData.append("data", JSON.stringify(data.header));
+  // formData.append("logo", data.header.logo);
 
-        const response = await updateHeaderEdit(id!, formData, token);
-        console.log(response);
-        handleInputChange("header", "logo", response.url);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const response = await updateHeaderEdit(id!, formData, token);
+  // console.log(response);
+  // handleInputChange("header", "logo", response.url);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // const handleRemoveSlider = async () => {
   //   handleInputChange("header", "logo", null);
@@ -142,9 +144,6 @@ const HeaderEdit: React.FC<Props> = ({
                   <p>Перетягніть сюди файли</p>
                 )}
               </AdminImage>
-              {/* <span className="text-[11px] text-black">
-                {uploadedFile?.name}
-              </span> */}
             </div>
             {data.header.logo && (
               <div className="w-full flex justify-center relative">
@@ -162,25 +161,6 @@ const HeaderEdit: React.FC<Props> = ({
               </div>
             )}
           </div>
-          {/* <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
-            <h4 className="font-semibold text-lg">Колір шапки</h4>
-            <div className="w-full color-picker-block">
-              <RgbaColorPicker
-                color={headerColorBg}
-                onChange={setHeaderColorBg}
-              />
-            </div>
-          </div>
-          <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
-            <h4 className="font-semibold text-lg">Колір тексту в шапці</h4>
-            <div className="w-full color-picker-block">
-              <RgbaColorPicker
-                color={headerTextColor}
-                onChange={setHeaderTextColor}
-              />
-            </div>
-          </div>
-          <Button handleButtonClick={handleSaveChanges} /> */}
         </div>
       )}
     </>

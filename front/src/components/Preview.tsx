@@ -32,7 +32,7 @@ const Preview: React.FC<PreviewProps> = ({
   //   }
 
   return (
-    <div className="w-[75%] flex items-center flex-col bg-gray-200">
+    <div className="w-[75%] h-[100vh] overflow-scroll flex items-center flex-col bg-gray-200">
       <div className="w-full bg-white shadow-md flex items-center justify-center gap-6 py-4">
         <div
           onClick={() => setScreen("desktop")}
@@ -89,6 +89,7 @@ const Preview: React.FC<PreviewProps> = ({
             company={data.site?.name || ""}
             headerColorBg={headerColorBg}
             headerTextColor={headerTextColor}
+            screen={screen}
           />
         )}
         {/* {data.slider?.visible && (

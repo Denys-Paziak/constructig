@@ -21,8 +21,8 @@ function AddSite() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+    <div className="min-h-screen px-6 md:px-8 flex items-center justify-center bg-gray-100 shape_bg">
+      <div className="bg-white py-12 px-8 rounded-lg shadow-lg max-w-md w-full">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
           Add New Site
         </h2>
@@ -37,9 +37,10 @@ function AddSite() {
             <input
               id="siteName"
               type="text"
+              placeholder="Site Name"
               value={siteName}
               onChange={(e) => setSiteName(e.target.value)}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
@@ -53,16 +54,17 @@ function AddSite() {
             <input
               id="siteUrl"
               type="text"
+              placeholder="Site URL"
               value={siteUrl}
               onChange={(e) => setSiteUrl(e.target.value)}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
           <div>
             <button
               type="submit"
-              className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="w-full py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Add Site
             </button>

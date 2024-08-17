@@ -1,13 +1,18 @@
-import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './components/auth/Login';
-import Register from './components/auth/Register';
-import UserSites from './components/UserSites';
-import SiteConstructor from './components/SiteConstructor';
-import AddSite from './components/AddSite';
+import { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import UserSites from "./components/user-cabinet/UserSites";
+import SiteConstructor from "./components/SiteConstructor";
+import AddSite from "./components/AddSite";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const [editingSiteId, setEditingSiteId] = useState<number | null>(null);
 
   const handleLogin = () => {
@@ -15,7 +20,7 @@ function App() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
   };
 
@@ -28,7 +33,13 @@ function App() {
       <Routes>
         <Route
           path="/login"
-          element={!isLoggedIn ? <Login onLogin={handleLogin} /> : <Navigate to="/sites" />}
+          element={
+            !isLoggedIn ? (
+              <Login onLogin={handleLogin} />
+            ) : (
+              <Navigate to="/sites" />
+            )
+          }
         />
         <Route
           path="/register"
@@ -36,7 +47,13 @@ function App() {
         />
         <Route
           path="/sites"
-          element={isLoggedIn ? <UserSites onEditSite={handleEditSite} /> : <Navigate to="/login" />}
+          element={
+            isLoggedIn ? (
+              <UserSites onEditSite={handleEditSite} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route
           path="/site/:id"
