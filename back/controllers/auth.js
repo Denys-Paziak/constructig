@@ -34,7 +34,7 @@ export const login = async (req, res) => {
                 return res.status(401).json({ message: 'Невірний email або пароль' });
             }
 
-            const token = jwt.sign({ id: user.id, email: user.email, company: user.company }, dotenv.config().parsed.JWT_SECRET, { expiresIn: '30d' });
+            const token = jwt.sign({ id: user.id, email: user.email, name: user.username, company: user.company }, dotenv.config().parsed.JWT_SECRET, { expiresIn: '30d' });
             res.json({ message: 'Вхід успішний', token });
             connection.end();
         });
