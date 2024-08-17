@@ -5,6 +5,7 @@ import InfoEdit from "./edit-components/info-edit/InfoEdit";
 import SocialsEdit from "./edit-components/socials-edit/SocialsEdit";
 import Toggle from "react-toggle";
 import FooterEdit from "./edit-components/footer-edit/FooterEdit";
+import Global from "./edit-components/global/Global";
 
 interface SectionEditorProps {
   title: string;
@@ -46,7 +47,7 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
       handleInputChange(sectionName, "images", newImages);
     }
 
-    console.log(newImages);
+    // console.log(newImages);
 
     // else {
     //   newImages = [];
@@ -55,6 +56,12 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
   };
 
   return (
+    //     <Global
+    //     setHeaderColorBg={setHeaderColorBg}
+    //     headerColorBg={headerColorBg}
+    //     setHeaderTextColor={setHeaderTextColor}
+    //     headerTextColor={headerTextColor}
+    //   />
     <div className="mb-6">
       <div className="bg-gray-100 rounded-md p-4 w-full flex flex-col gap-4">
         <h2 className="text-2xl font-bold">{title}</h2>
@@ -72,10 +79,6 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
         <HeaderEdit
           data={data}
           sectionName={sectionName}
-          setHeaderColorBg={setHeaderColorBg}
-          headerColorBg={headerColorBg}
-          setHeaderTextColor={setHeaderTextColor}
-          headerTextColor={headerTextColor}
           handleInputChange={handleInputChange}
         />
         <SliderEdit

@@ -14,3 +14,18 @@ export const uploadImage = async (formData: FormData, token: string) => {
     return [];
   }
 };
+
+export const deleteImage = async (formData: FormData, token: string) => {
+  try {
+    const { data } = await axios.post("/site/delete", formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getSite, updateSite } from "../services/server";
 import SectionEditor from "./SectionEditor";
 import Preview from "./Preview";
+import Global from "./edit-components/global/Global";
 
 const SiteConstructor: React.FC = () => {
   const [headerColorBg, setHeaderColorBg] = useState({

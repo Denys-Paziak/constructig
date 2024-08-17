@@ -6,16 +6,15 @@ import { useDropzone } from "react-dropzone";
 import Button from "../../UI/button/Button";
 import { updateHeaderEdit } from "../../../services/header-edit/headerEdit";
 import { useParams } from "react-router-dom";
-import { uploadImage } from "../../../services/upload-images/uploadImages";
+import {
+  deleteImage,
+  uploadImage,
+} from "../../../services/upload-images/uploadImages";
 
 interface Props {
   data: any;
   sectionName: string;
   // handleVisibleBlock: (sectionName: string, checked: boolean) => void;
-  setHeaderColorBg: (color: string) => void;
-  headerColorBg: void;
-  setHeaderTextColor: (color: string) => void;
-  headerTextColor: void;
   handleInputChange: (
     section: string,
     field: string,
@@ -27,10 +26,6 @@ const HeaderEdit: React.FC<Props> = ({
   data,
   sectionName,
   // handleVisibleBlock,
-  setHeaderColorBg,
-  headerColorBg,
-  setHeaderTextColor,
-  headerTextColor,
   handleInputChange,
 }) => {
   // const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -79,8 +74,53 @@ const HeaderEdit: React.FC<Props> = ({
     }
   };
 
-  const handleRemoveSlider = () => {
-    handleInputChange("header", "logo", null);
+  // const handleRemoveSlider = async () => {
+  //   handleInputChange("header", "logo", null);
+  //   const token = localStorage.getItem("token");
+
+  //   try {
+  //     if (token) {
+  //       const formData = new FormData();
+
+  //       const regex =
+  //         /^https:\/\/constructig\.s3\.eu-north-1\.amazonaws\.com\/(.*)$/;
+  //       const match = data.header.logo.match(regex);
+
+  //       formData.append("image", match[1]);
+
+  //       const response = await deleteImage(formData, token);
+  //       console.log(response);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const handleRemoveSlider = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      if (token && typeof data.header.logo === "string") {
+        const formData = new FormData();
+
+        const regex = /amazonaws\.com\/(.*)$/;
+        const match = data.header.logo.match(regex);
+
+        if (match && match[1]) {
+          formData.append("image", match[1]);
+
+          const response = await deleteImage(formData, token);
+          console.log(response);
+          handleInputChange("header", "logo", null);
+        } else {
+          console.log("Logo URL does not match the expected pattern.");
+        }
+      } else {
+        console.log("Token is missing or logo is not a string.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -122,7 +162,7 @@ const HeaderEdit: React.FC<Props> = ({
               </div>
             )}
           </div>
-          <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
+          {/* <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
             <h4 className="font-semibold text-lg">Колір шапки</h4>
             <div className="w-full color-picker-block">
               <RgbaColorPicker
@@ -140,7 +180,7 @@ const HeaderEdit: React.FC<Props> = ({
               />
             </div>
           </div>
-          <Button handleButtonClick={handleSaveChanges} />
+          <Button handleButtonClick={handleSaveChanges} /> */}
         </div>
       )}
     </>
