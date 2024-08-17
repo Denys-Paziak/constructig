@@ -11,6 +11,7 @@ import {
 import { updateHeader } from "../controllers/headerController.js";
 import { updateSlider } from "../controllers/sliderController.js";
 import { deleteImage, uploadImage } from "../controllers/upload.js";
+import { updateInfo } from "../controllers/infoController.js";
 
 const upload = multer();
 const router = express.Router();
@@ -18,7 +19,6 @@ const router = express.Router();
 router.post("/site", upload.none(), authMiddleware, createSite);
 router.post("/site/upload", upload.single("image"), authMiddleware, uploadImage);
 router.post("/site/delete", upload.none(), authMiddleware, deleteImage);
-
 router.get("/site/:siteId", upload.none(), authMiddleware, getSite);
 
 router.put(
@@ -33,11 +33,20 @@ router.put(
   authMiddleware,
   updateHeader
 );
+
 router.put(
   "/site/slider/:siteId",
   upload.none(),
   authMiddleware,
   updateSlider
+);
+
+
+router.put(
+  "/site/info/:siteId",
+  upload.none(),
+  authMiddleware,
+  updateInfo
 );
 
 router.delete("/site/:siteId", upload.none(), authMiddleware, deleteSite);
