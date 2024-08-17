@@ -6,6 +6,7 @@ import { useDropzone } from "react-dropzone";
 import Button from "../../UI/button/Button";
 import { updateHeaderEdit } from "../../../services/header-edit/headerEdit";
 import { useParams } from "react-router-dom";
+import { uploadImage } from "../../../services/upload-images/uploadImages";
 
 interface Props {
   data: any;
@@ -32,11 +33,26 @@ const HeaderEdit: React.FC<Props> = ({
   headerTextColor,
   handleInputChange,
 }) => {
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  // const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const token = localStorage.getItem("token");
+
   const { id } = useParams();
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles.length > 0) {
-      setUploadedFile(acceptedFiles[0]);
+  const onDrop = useCallback(async (acceptedFile: File) => {
+    const imagesUrls: string[] = [];
+
+    // acceptedFiles.forEach(async (acceptedFiles: File) => {
+    // });
+    if (token) {
+      const formData = new FormData();
+
+      console.log(acceptedFile);
+
+      formData.append("image", acceptedFile[0]);
+
+      const response = await uploadImage(formData, token);
+      console.log(response);
+      imagesUrls.push(response.url);
+      handleInputChange("header", "logo", imagesUrls);
     }
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -45,18 +61,18 @@ const HeaderEdit: React.FC<Props> = ({
   });
 
   const handleSaveChanges = async () => {
-    const token = localStorage.getItem("token");
-
     try {
       if (token) {
         const formData = new FormData();
 
+        console.log(data.header.logo);
+
         formData.append("data", JSON.stringify(data.header));
-        formData.append("logo", uploadedFile);
+        formData.append("logo", data.header.logo);
 
         const response = await updateHeaderEdit(id!, formData, token);
         console.log(response);
-        handleInputChange("header", "logo", response.location);
+        handleInputChange("header", "logo", response.url);
       }
     } catch (error) {
       console.log(error);
@@ -86,9 +102,9 @@ const HeaderEdit: React.FC<Props> = ({
                   <p>Перетягніть сюди файли</p>
                 )}
               </AdminImage>
-              <span className="text-[11px] text-black">
+              {/* <span className="text-[11px] text-black">
                 {uploadedFile?.name}
-              </span>
+              </span> */}
             </div>
             {data.header.logo && (
               <div className="w-full flex justify-center relative">
