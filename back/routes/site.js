@@ -17,6 +17,7 @@ const upload = multer();
 const router = express.Router();
 
 router.post("/site", upload.none(), authMiddleware, createSite);
+
 router.post("/site/upload", upload.single("image"), authMiddleware, uploadImage);
 router.post("/site/delete", upload.none(), authMiddleware, deleteImage);
 router.get("/site/:siteId", upload.none(), authMiddleware, getSite);
@@ -40,7 +41,6 @@ router.put(
   authMiddleware,
   updateSlider
 );
-
 
 router.put(
   "/site/info/:siteId",

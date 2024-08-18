@@ -127,6 +127,7 @@ export const createNews = async (req, res) => {
                 return res.status(500).json({ error: 'Помилка виконання запиту' });
             }
 
+
             res.status(201).json({ message: 'Новина створена успішно!' });
             connection.end();
         });
