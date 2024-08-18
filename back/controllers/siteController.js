@@ -235,6 +235,108 @@ export const getSite = async (req, res) => {
         });
     });
 };
+
+export const getSiteByName = async (req, res) => {
+    const connection = mysql.createConnection(dbConfig);
+    const { siteName } = req.params;
+
+    const query = `
+        SELECT 
+            s.id AS site_id, s.url AS site_url, s.name AS site_name,
+            h.visible AS header_visible, h.logo AS header_logo, h.menu AS header_menu,
+            sl.visible AS slider_visible, sl.images AS slider_images,
+            se.visible AS services_visible, se.cols AS services_cols,
+            i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
+            so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube,
+            f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link
+        FROM sites s
+        LEFT JOIN headers h ON s.id = h.site_id
+        LEFT JOIN sliders sl ON s.id = sl.site_id
+        LEFT JOIN services se ON s.id = se.site_id
+        LEFT JOIN info i ON s.id = i.site_id
+        LEFT JOIN socials so ON s.id = so.site_id
+        LEFT JOIN footers f ON s.id = f.site_id
+        WHERE s.name = ?
+    `;
+
+    connection.connect(err => {
+        if (err) {
+            console.error('Помилка підключення до бази даних: ' + err.stack);
+            return res.status(500).json({ error: 'Помилка підключення до бази даних' });
+        }
+
+        connection.query(query, [siteName], (err, results) => {
+            if (err) {
+                console.error('Помилка виконання запиту: ' + err.message);
+                return res.status(500).json({ error: 'Помилка виконання запиту' });
+            }
+
+            if (results.length === 0) {
+                return res.status(404).json({ message: 'Лендінг не знайдено' });
+            }
+
+            const result = results[0];
+
+            const site = {
+                id: result.site_id,
+                url: result.site_url,
+                name: result.site_name
+            };
+
+            const header = {
+                visible: result.header_visible,
+                logo: result.header_logo,
+                menu: JSON.parse(result.header_menu)
+            };
+
+            const slider = {
+                visible: result.slider_visible,
+                images: JSON.parse(result.slider_images)
+            };
+
+            const services = {
+                visible: result.services_visible,
+                cols: JSON.parse(result.services_cols)
+            };
+
+            const info = {
+                visible: result.info_visible,
+                image: result.info_image,
+                title: result.info_title,
+                text: result.info_text
+            };
+
+            const socials = {
+                visible: result.socials_visible,
+                instagram: result.socials_instagram,
+                facebook: result.socials_facebook,
+                youtube: result.socials_youtube
+            };
+
+            const footer = {
+                visible: result.footer_visible,
+                work_time: result.footer_work_time,
+                web_link: result.footer_web_link
+            };
+
+            console.log(result);
+
+            res.status(200).json({
+                site,
+                header,
+                slider,
+                services,
+                info,
+                socials,
+                footer,
+            });
+
+            connection.end();
+        });
+    });
+};
+
+
 export const updateSite = async (req, res) => {
     const connection = mysql.createConnection(dbConfig);
     const { siteId } = req.params;

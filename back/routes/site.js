@@ -5,6 +5,7 @@ import {
   createSite,
   deleteSite,
   getSite,
+  getSiteByName,
   getUserSites,
   updateSite,
 } from "../controllers/siteController.js";
@@ -16,11 +17,13 @@ import { updateInfo } from "../controllers/infoController.js";
 const upload = multer();
 const router = express.Router();
 
-router.post("/site", upload.none(), authMiddleware, createSite);
+// router.post("/site", upload.none(), authMiddleware, createSite);
 
 router.post("/site/upload", upload.single("image"), authMiddleware, uploadImage);
 router.post("/site/delete", upload.none(), authMiddleware, deleteImage);
-router.get("/site/:siteId", upload.none(), authMiddleware, getSite);
+router.get("/site/id/:siteId", upload.none(), authMiddleware, getSite);
+router.get("/site/:siteName", upload.none(), getSiteByName);
+
 
 router.put(
   "/site/:siteId",
