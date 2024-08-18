@@ -19,7 +19,6 @@ const SliderEdit: React.FC<Props> = ({
   handleInputChange,
   handleRemoveSlider,
 }) => {
-  // const [imagesUrls, setImagesUrls] = useState<string[]>([]);
   const token = localStorage.getItem("token");
 
   const { id } = useParams();
@@ -41,6 +40,7 @@ const SliderEdit: React.FC<Props> = ({
       }
     });
   }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     maxFiles: 3,

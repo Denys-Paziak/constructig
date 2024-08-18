@@ -9,7 +9,7 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import UserSites from "./components/user-cabinet/UserSites";
 import SiteConstructor from "./components/SiteConstructor";
-import AddSite from "./components/AddSite";
+import UserSite from "./components/user-site/UserSite";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
@@ -59,10 +59,7 @@ function App() {
           path="/site/:id"
           element={isLoggedIn ? <SiteConstructor /> : <Navigate to="/login" />}
         />
-        <Route
-          path="/add-site"
-          element={isLoggedIn ? <AddSite /> : <Navigate to="/login" />}
-        />
+        <Route path="/:siteName" element={<UserSite />} />
         <Route
           path="*"
           element={<Navigate to={isLoggedIn ? "/sites" : "/login"} />}

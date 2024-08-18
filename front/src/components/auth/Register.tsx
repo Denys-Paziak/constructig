@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { register } from "../../services/server";
+import { register } from "../../services/auth/register/register";
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState<string>("");
+  const [company, setCompany] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -11,13 +12,21 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const formData = new FormData();
+
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
-    const data = await register(username, email, password);
-    if (data.ok) {
+    formData.append("username", username);
+    formData.append("company", company);
+    formData.append("email", email);
+    formData.append("password", password);
+
+    const data = await register(formData);
+    if (data.status === 201) {
       alert("Registration successful!");
       navigate("/login");
     } else {
@@ -27,7 +36,7 @@ const Register: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 shape_bg px-4 md:px-0">
-      <div className="bg-white py-12 px-6 md:px-8 rounded-lg shadow-lg max-w-md w-full flex items-center flex-col gap-6">
+      <div className="bg-white py-12 px-6 md:px-8 rounded-lg shadow-lg max-w-[100%] md:max-w-[40%]  w-full flex items-center flex-col gap-6">
         <div className="flex items-center flex-col gap-3">
           <h2 className="text-2xl font-bold text-gray-800 text-center">
             Create an Account
@@ -37,22 +46,41 @@ const Register: React.FC = () => {
           </p>
         </div>
         <form onSubmit={handleSubmit} className="w-full space-y-6">
-          <div>
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Username
-            </label>
-            <input
-              id="username"
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
+          <div className="w-full flex gap-4 flex-col md:flex-row">
+            <div className="w-full">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Username
+              </label>
+              <input
+                id="username"
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="company"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Company name
+              </label>
+              <input
+                id="company"
+                type="text"
+                placeholder="Company"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+            </div>
           </div>
           <div>
             <label

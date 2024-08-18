@@ -1,60 +1,45 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { getUserSites } from "../../services/server";
 import UserCabinetInterface from "./user-cabinet-interface/UserCabinetInterface";
 import UserCabinetInfo from "./user-cabinet-info/UserCabinetInfo";
+import { IGetMe } from "../../services/auth/getMe/getMe.interface";
+import { useEffect, useState } from "react";
+import { getMe } from "../../services/auth/getMe/getMe";
+import Loader from "../loader/Loader";
 
-interface UserSitesProps {
-  onEditSite: (id: number) => void;
-}
+const UserSites = () => {
+  const [userData, setUserData] = useState<IGetMe>();
 
-function UserSites({ onEditSite }: UserSitesProps) {
-  // const [sites, setSites] = useState([]);
-  // const navigate = useNavigate();
+  const getUserData = async () => {
+    const token = localStorage.getItem("token");
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
+    try {
+      if (token) {
+        const response = await getMe(token);
+        setUserData(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  //   getUserSites(token || "")
-  //     .then((data) => {
-  //       setSites(data.sites || []);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching sites:", error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  if (!userData) {
+    return <Loader />;
+  }
 
   return (
-    <div className="w-full py-8 px-4 shape_bg">
+    <div className="w-full min-h-[100vh] py-8 px-4 shape_bg">
       <div className="max-w-[1200px] mx-auto  flex items-center flex-col gap-6">
         <h2 className="text-3xl font-bold text-center text-white">
           Welcome in your Account!
         </h2>
-        <UserCabinetInterface />
-        <UserCabinetInfo onEditSite={onEditSite} />
-        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sites.map((site) => (
-            <div key={site.id} className="bg-white shadow-lg rounded-lg p-6">
-              <h3 className="text-xl font-semibold mb-2">{site.name}</h3>
-              <p className="text-gray-600 mb-4">{site.url}</p>
-              <button
-                onClick={() => navigate(`/site/${site.id}`)} // Навігація на сторінку конструктора
-                className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 w-full"
-              >
-                Edit
-              </button>
-            </div>
-          ))}
-        </div>
-        <button
-          onClick={() => navigate("/add-site")}
-          className="mt-6 py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 block mx-auto"
-        >
-          Add New Site
-        </button> */}
+        <UserCabinetInterface userData={userData} />
+        <UserCabinetInfo userData={userData} />
       </div>
     </div>
   );
-}
+};
 
 export default UserSites;

@@ -34,11 +34,6 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
   setHeaderTextColor,
   headerTextColor,
 }) => {
-  //   const addSliderImage = () => {
-  //     const newImages = [...data[sectionName].images, ""];
-  //     handleInputChange(sectionName, "images", newImages);
-  //   };
-
   const removeSliderImage = (index?: number) => {
     let newImages = [...data[sectionName].images];
 
@@ -46,22 +41,9 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
       newImages.splice(index, 1);
       handleInputChange(sectionName, "images", newImages);
     }
-
-    // console.log(newImages);
-
-    // else {
-    //   newImages = [];
-    //   handleInputChange(sectionName, "images", newImages);
-    // }
   };
 
   return (
-    //     <Global
-    //     setHeaderColorBg={setHeaderColorBg}
-    //     headerColorBg={headerColorBg}
-    //     setHeaderTextColor={setHeaderTextColor}
-    //     headerTextColor={headerTextColor}
-    //   />
     <div className="mb-6">
       <div className="bg-gray-100 rounded-md p-4 w-full flex flex-col gap-4">
         <h2 className="text-2xl font-bold">{title}</h2>

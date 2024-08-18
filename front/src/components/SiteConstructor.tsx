@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getSite, updateSite } from "../services/server";
+import { updateSite } from "../services/server";
 import SectionEditor from "./SectionEditor";
 import Preview from "./Preview";
+import { getEditSite } from "../services/getSite/getSite";
 import Global from "./edit-components/global/Global";
+import Loader from "./loader/Loader";
 
 const SiteConstructor: React.FC = () => {
   const [headerColorBg, setHeaderColorBg] = useState({
@@ -22,18 +24,21 @@ const SiteConstructor: React.FC = () => {
   const [data, setData] = useState<any>(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const getEditSiteData = async () => {
     const token = localStorage.getItem("token");
-    if (id) {
-      getSite(parseInt(id), token || "")
-        .then((response) => {
-          const siteData = response;
-          setData(siteData);
-        })
-        .catch((error) => {
-          console.error("Error fetching site data:", error);
-        });
+
+    if (id && token) {
+      try {
+        const response = await getEditSite(+id, token);
+        setData(response);
+      } catch (error) {
+        console.log(error);
+      }
     }
+  };
+
+  useEffect(() => {
+    getEditSiteData();
   }, [id]);
 
   const handleSave = () => {
@@ -77,12 +82,20 @@ const SiteConstructor: React.FC = () => {
   };
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
     <div className="flex">
       <div className="max-w-[25%] min-w-[25%] h-[100vh] p-4 overflow-y-scroll">
+        <div className="bg-gray-100 rounded-md p-4 w-full flex flex-col gap-4 mb-6">
+          <Global
+            setHeaderColorBg={setHeaderColorBg}
+            headerColorBg={headerColorBg}
+            setHeaderTextColor={setHeaderTextColor}
+            headerTextColor={headerTextColor}
+          />
+        </div>
         <SectionEditor
           title="Header"
           sectionName="header"
@@ -93,7 +106,6 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
-        //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Slider"
@@ -105,7 +117,6 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
-        //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Services"
@@ -117,7 +128,6 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
-        //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Info"
@@ -129,7 +139,6 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
-        //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Socials"
@@ -141,7 +150,6 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
-        //   onFileUpload={handleFileUpload}
         />
         <SectionEditor
           title="Footer"
@@ -153,7 +161,6 @@ const SiteConstructor: React.FC = () => {
           headerColorBg={headerColorBg}
           setHeaderTextColor={setHeaderTextColor}
           headerTextColor={headerTextColor}
-        //   onFileUpload={handleFileUpload}
         />
         <button
           onClick={handleSave}

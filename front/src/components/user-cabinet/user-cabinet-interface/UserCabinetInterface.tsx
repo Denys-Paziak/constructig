@@ -1,31 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { IGetMe } from "../../../services/auth/getMe/getMe.interface";
-import { getMe } from "../../../services/auth/getMe/getMe";
 import QRCode from "react-qr-code";
 import html2canvas from "html2canvas";
 import { useNavigate } from "react-router-dom";
 
-const UserCabinetInterface: React.FC = () => {
-  const [userData, setUserData] = useState<IGetMe>();
+interface Props {
+  userData: IGetMe;
+}
+
+const UserCabinetInterface: React.FC<Props> = ({ userData }) => {
   const qrRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-
-  const getUserData = async () => {
-    const token = localStorage.getItem("token");
-
-    try {
-      if (token) {
-        const response = await getMe(token);
-        setUserData(response);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getUserData();
-  }, []);
 
   const downloadQRCode = async () => {
     if (qrRef.current) {
@@ -48,20 +33,16 @@ const UserCabinetInterface: React.FC = () => {
     navigate("/login");
   };
 
-  if (!userData) {
-    return <p>loading ...</p>;
-  }
-
   return (
-    <div className="w-full bg-white rounded-xl p-6 shadow-lg">
+    <div className="w-full bg-white rounded-xl p-4 md:p-6 shadow-lg">
       <div className="flex items-start flex-col gap-6">
         <h3 className="text-black text-xl font-semibold">
           Hello dear, {userData.name}
         </h3>
-        <div className="w-full flex justify-between">
-          <div className="flex items-start flex-col gap-6">
-            <div className="flex items-center gap-6">
-              <div className="w-36 h-36">
+        <div className="w-full flex md:items-center justify-between flex-col gap-6 md:flex-row md:gap-0">
+          <div className="flex items-start flex-col gap-6 border-b border-blue-300 md:border-none pb-6 md:pb-0">
+            <div className="flex items-start gap-6 flex-col md:flex-row md:items-center">
+              <div className="w-20 h-20 md:w-36 md:h-36">
                 <img
                   className="w-full h-full"
                   src="/src/assets/images/user-icon.svg"
@@ -98,8 +79,8 @@ const UserCabinetInterface: React.FC = () => {
               Sign Out
             </button>
           </div>
-          <div className="flex items-center flex-col gap-3">
-            <div ref={qrRef}>
+          <div className="flex items-center md:items-start flex-col gap-3">
+            <div ref={qrRef} className="mx-auto">
               <QRCode className="w-32 h-32" value={userData.company} />
             </div>
             <button

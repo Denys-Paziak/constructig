@@ -4,6 +4,7 @@ import { Info } from "./info/Info";
 import { Services } from "./services/Services";
 import { Slider } from "./slider/Slider";
 import { Socials } from "./socials/Socials";
+import Loader from "./loader/Loader";
 
 interface PreviewProps {
   data: any;
@@ -19,15 +20,17 @@ const Preview: React.FC<PreviewProps> = ({
   const [screen, setScreen] = useState<"desktop" | "tablet" | "mobile">(
     "desktop"
   );
-  if (!data) return null;
+
+  if (!data) return <Loader />;
 
   return (
     <div className="w-[75%] h-[100vh] overflow-scroll flex items-center flex-col bg-gray-200">
       <div className="w-full bg-white shadow-md flex items-center justify-center gap-6 py-4">
         <div
           onClick={() => setScreen("desktop")}
-          className={`w-8 h-8 p-2 ${screen === "desktop" ? "bg-blue-200" : "bg-gray-200"
-            } shadow-sm rounded-md cursor-pointer`}
+          className={`w-8 h-8 p-2 ${
+            screen === "desktop" ? "bg-blue-200" : "bg-gray-200"
+          } shadow-sm rounded-md cursor-pointer`}
         >
           <img
             className="w-full h-full"
@@ -37,8 +40,9 @@ const Preview: React.FC<PreviewProps> = ({
         </div>
         <div
           onClick={() => setScreen("tablet")}
-          className={`w-8 h-8 p-2 ${screen === "tablet" ? "bg-blue-200" : "bg-gray-200"
-            } shadow-sm rounded-md cursor-pointer`}
+          className={`w-8 h-8 p-2 ${
+            screen === "tablet" ? "bg-blue-200" : "bg-gray-200"
+          } shadow-sm rounded-md cursor-pointer`}
         >
           <img
             className="w-full h-full"
@@ -48,8 +52,9 @@ const Preview: React.FC<PreviewProps> = ({
         </div>
         <div
           onClick={() => setScreen("mobile")}
-          className={`w-8 h-8 p-2 ${screen === "mobile" ? "bg-blue-200" : "bg-gray-200"
-            } shadow-sm rounded-md cursor-pointer`}
+          className={`w-8 h-8 p-2 ${
+            screen === "mobile" ? "bg-blue-200" : "bg-gray-200"
+          } shadow-sm rounded-md cursor-pointer`}
         >
           <img
             className="w-[400px] h-full"
@@ -59,14 +64,15 @@ const Preview: React.FC<PreviewProps> = ({
         </div>
       </div>
       <div
-        className={`py-6 px-4 ${screen === "desktop"
+        className={`py-6 px-4 ${
+          screen === "desktop"
             ? "w-full"
             : screen === "tablet"
-              ? "w-[700px]"
-              : screen === "mobile"
-                ? "w-[375px]"
-                : ""
-          }`}
+            ? "w-[700px]"
+            : screen === "mobile"
+            ? "w-[375px]"
+            : ""
+        }`}
       >
         {data.header?.visible && (
           <Header
@@ -78,9 +84,9 @@ const Preview: React.FC<PreviewProps> = ({
             screen={screen}
           />
         )}
-        {/* {data.slider?.visible && (
-        )} */}
-        <Slider images={data.slider.images || []} backgroundColor="#fff" />
+        {data.slider?.visible && (
+          <Slider images={data.slider.images || []} backgroundColor="#fff" />
+        )}
         {data.services?.visible && (
           <Services services={data.services.cols || []} />
         )}

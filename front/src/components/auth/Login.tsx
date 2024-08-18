@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { login } from "../../services/server";
+import { login } from "../../services/auth/login/login";
 
 interface LoginProps {
   onLogin: () => void;
@@ -13,7 +13,13 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const data = await login(email, password);
+
+    const formData = new FormData();
+
+    formData.append("email", email);
+    formData.append("password", password);
+
+    const data = await login(formData);
 
     if (data.token) {
       localStorage.setItem("token", data.token);

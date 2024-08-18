@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserSites } from "../../../services/server";
+import { IGetMe } from "../../../services/auth/getMe/getMe.interface";
 
 interface Props {
-  onEditSite: (id: number) => void;
+  userData: IGetMe;
 }
 
-const UserCabinetInfo: React.FC<Props> = ({ onEditSite }) => {
+const UserCabinetInfo: React.FC<Props> = ({ userData }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [sites, setSites] = useState([]);
   const navigate = useNavigate();
@@ -79,21 +80,23 @@ const UserCabinetInfo: React.FC<Props> = ({ onEditSite }) => {
                           {site.name}
                         </h3>
                         <p className="text-gray-600 mb-4">{site.url}</p>
-                        <button
-                          onClick={() => navigate(`/site/${site.id}`)}
-                          className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 w-full"
-                        >
-                          Edit
-                        </button>
+                        <div className="w-full flex justify-between gap-4">
+                          <button
+                            onClick={() => navigate(`/${userData.company}`)}
+                            className="w-[50%] py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 block mx-auto"
+                          >
+                            View
+                          </button>
+                          <button
+                            onClick={() => navigate(`/site/${site.id}`)}
+                            className="w-[50%] py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                          >
+                            Edit
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </div>
-                  <button
-                    onClick={() => navigate("/add-site")}
-                    className="mt-12 py-2.5 px-8 bg-green-500 text-white rounded-md hover:bg-green-600 block mx-auto"
-                  >
-                    Add New Site
-                  </button>
                 </div>
               </div>
             )}
