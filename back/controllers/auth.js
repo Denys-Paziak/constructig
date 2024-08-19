@@ -5,6 +5,76 @@ import jwt from "jsonwebtoken";
 
 import dotenv from "dotenv";
 
+
+export const updateUser = async (req, res) => {
+  const connection = mysql.createConnection(dbConfig);
+  const token = req.header("Authorization").replace("Bearer ", "");
+  const decoded = jwt.verify(token, dotenv.config().parsed.JWT_SECRET);
+
+  const { username, email, company, oldPassword, newPassword } = req.body;
+
+  const getUserQuery = "SELECT * FROM users WHERE id = ?";
+  const updateUserQuery = `
+    UPDATE users 
+    SET username = ?, email = ?, company = ?
+    WHERE id = ?
+  `;
+
+  connection.connect((err) => {
+    if (err) {
+      console.error("Помилка підключення до бази даних: " + err.stack);
+      return res.status(500).json({ error: "Помилка підключення до бази даних" });
+    }
+
+    connection.query(getUserQuery, [decoded.id], async (err, results) => {
+      if (err) {
+        console.error("Помилка виконання запиту: " + err.message);
+        return res.status(500).json({ error: "Помилка виконання запиту" });
+      }
+
+      const user = results[0];
+
+      if (oldPassword && newPassword) {
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+          return res.status(401).json({ message: "Невірний старий пароль" });
+        }
+
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+        connection.query(
+          `${updateUserQuery}, password = ? WHERE id = ?`,
+          [username || user.username, email || user.email, company || user.company, hashedNewPassword, decoded.id],
+          (err) => {
+            if (err) {
+              console.error("Помилка оновлення даних: " + err.message);
+              return res.status(500).json({ error: "Помилка оновлення даних" });
+            }
+
+            res.status(200).json({ message: "Дані успішно оновлені" });
+            connection.end();
+          }
+        );
+      } else {
+        connection.query(
+          updateUserQuery,
+          [username || user.username, email || user.email, company || user.company, decoded.id],
+          (err) => {
+            if (err) {
+              console.error("Помилка оновлення даних: " + err.message);
+              return res.status(500).json({ error: "Помилка оновлення даних" });
+            }
+
+            res.status(200).json({ message: "Дані успішно оновлені" });
+            connection.end();
+          }
+        );
+      }
+    });
+  });
+};
+
+
+
 export const login = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
   const { email, password } = req.body;
