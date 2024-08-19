@@ -12,7 +12,7 @@ interface ServicesProps {
 
 export const Services: React.FC<ServicesProps> = ({ services }) => {
     return (
-        <div className="flex justify-around bg-white py-4">
+        <div className="flex justify-around bg-white pt-12">
             {services.map((service, index) => (
                 <a
                     key={index}
@@ -24,7 +24,7 @@ export const Services: React.FC<ServicesProps> = ({ services }) => {
                         alt={service.title}
                         className="h-12 w-12 mb-2"
                     />
-                    <span className="text-sm text-blue-600">{service.title}</span>
+                    <span className="text-sm text-black">{service.title}</span>
                 </a>
             ))}
         </div>

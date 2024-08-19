@@ -5,7 +5,14 @@ import InfoEdit from "./edit-components/info-edit/InfoEdit";
 import SocialsEdit from "./edit-components/socials-edit/SocialsEdit";
 import Toggle from "react-toggle";
 import FooterEdit from "./edit-components/footer-edit/FooterEdit";
-import Global from "./edit-components/global/Global";
+
+
+interface iColor {
+  r: number,
+  g: number,
+  b: number,
+  a: number,
+}
 
 interface SectionEditorProps {
   title: string;
@@ -17,10 +24,10 @@ interface SectionEditorProps {
     field: string,
     value: string | null | any[]
   ) => void;
-  setHeaderColorBg: void;
-  headerColorBg: void;
-  setHeaderTextColor: void;
-  headerTextColor: void;
+  setHeaderColorBg: (color: iColor) => void;
+  headerColorBg: iColor;
+  setHeaderTextColor: (color: iColor) => void;
+  headerTextColor: iColor;
 }
 
 const SectionEditor: React.FC<SectionEditorProps> = ({
@@ -37,7 +44,7 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
   const removeSliderImage = (index?: number) => {
     let newImages = [...data[sectionName].images];
 
-    if (newImages) {
+    if (newImages && index) {
       newImages.splice(index, 1);
       handleInputChange(sectionName, "images", newImages);
     }

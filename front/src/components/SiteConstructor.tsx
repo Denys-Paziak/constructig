@@ -6,17 +6,25 @@ import { getEditSite, updateSite } from "../services/getSite/getSite";
 import Global from "./edit-components/global/Global";
 import Loader from "./loader/Loader";
 
+
+interface iColor {
+  r: number,
+  g: number,
+  b: number,
+  a: number,
+}
+
 const SiteConstructor: React.FC = () => {
-  const [headerColorBg, setHeaderColorBg] = useState({
-    r: 200,
-    g: 150,
-    b: 35,
-    a: 0.5,
-  });
-  const [headerTextColor, setHeaderTextColor] = useState({
+  const [headerColorBg, setHeaderColorBg] = useState<iColor>({
     r: 0,
     g: 0,
     b: 0,
+    a: 1,
+  });
+  const [headerTextColor, setHeaderTextColor] = useState<iColor>({
+    r: 255,
+    g: 255,
+    b: 255,
     a: 1,
   });
   const { id } = useParams<{ id: string }>();
@@ -46,7 +54,7 @@ const SiteConstructor: React.FC = () => {
     const formData = new FormData();
 
     formData.append("data", JSON.stringify(data));
-    formData.append("logo", JSON.stringify(uploadedFile));
+    // formData.append("logo", JSON.stringify(uploadedFile));
 
     if (id && data) {
       updateSite(parseInt(id), formData, token || "")
@@ -171,6 +179,7 @@ const SiteConstructor: React.FC = () => {
         data={data}
         headerColorBg={headerColorBg}
         headerTextColor={headerTextColor}
+        type={"constructor"}
       />
     </div>
   );

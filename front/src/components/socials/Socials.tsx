@@ -12,21 +12,21 @@ interface SocialsProps {
 
 export const Socials: React.FC<SocialsProps> = ({ socials }) => {
     return (
-        <div className="flex justify-around bg-white py-4">
+        <div className="flex justify-around bg-white">
             {socials.map((social, index) => (
                 <a
                     key={index}
                     href={social.link}
-                    className="flex flex-col items-center text-center"
+                    className="flex flex-col items-center text-center socialIcon"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
                     <img
-                        src={social.icon}
-                        alt={social.name}
+                        src={"../" + social.name + ".png"}
+                        alt={social.icon}
                         className="h-12 w-12 mb-2"
                     />
-                    <span className="text-sm text-blue-600">{social.name}</span>
+                    {/* <span className="text-sm text-black">{social.name}</span> */}
                 </a>
             ))}
         </div>

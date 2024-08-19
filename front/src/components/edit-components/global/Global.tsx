@@ -2,11 +2,19 @@ import React from "react";
 import { RgbaColorPicker } from "react-colorful";
 import Button from "../../UI/button/Button";
 
+
+interface iColor {
+  r: number,
+  g: number,
+  b: number,
+  a: number,
+}
+
 interface Props {
-  setHeaderColorBg: (color: string) => void;
-  headerColorBg: void;
-  setHeaderTextColor: (color: string) => void;
-  headerTextColor: void;
+  setHeaderColorBg: (color: iColor) => void;
+  headerColorBg: iColor;
+  setHeaderTextColor: (color: iColor) => void;
+  headerTextColor: iColor;
 }
 
 const Global: React.FC<Props> = ({
@@ -15,7 +23,7 @@ const Global: React.FC<Props> = ({
   setHeaderTextColor,
   headerTextColor,
 }) => {
-  const handleSaveChanges = async () => {};
+  const handleSaveChanges = async () => { };
 
   return (
     <div className="w-full flex flex-col gap-4">
