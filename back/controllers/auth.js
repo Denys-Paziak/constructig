@@ -2,6 +2,10 @@ import mysql from "mysql";
 import dbConfig from "../config/dbConfig.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+<<<<<<< HEAD
+=======
+
+>>>>>>> a158023 (ddd)
 import dotenv from "dotenv";
 
 export const updateUser = async (req, res) => {
