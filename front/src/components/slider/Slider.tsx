@@ -67,8 +67,6 @@ export const Slider: React.FC<SliderProps> = ({
     );
   }
 
-
-
   return (
     <div className="relative">
       <Swiper

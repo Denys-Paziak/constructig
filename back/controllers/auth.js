@@ -5,6 +5,11 @@ import jwt from "jsonwebtoken";
 
 import dotenv from "dotenv";
 
+import mysql from "mysql";
+import dbConfig from "../config/dbConfig.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
 export const updateUser = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
@@ -13,65 +18,69 @@ export const updateUser = async (req, res) => {
 
   const { username, email, company, oldPassword, newPassword } = req.body;
 
-  const getUserQuery = "SELECT * FROM users WHERE id = ?";
-  const updateUserQuery = `
-    UPDATE users 
-    SET username = ?, email = ?, company = ?
-    WHERE id = ?
-  `;
+  let updateFields = [];
+  let updateValues = [];
 
-  connection.connect((err) => {
-    if (err) {
-      console.error("Помилка підключення до бази даних: " + err.stack);
-      return res.status(500).json({ error: "Помилка підключення до бази даних" });
-    }
+  if (username) {
+    updateFields.push("username = ?");
+    updateValues.push(username);
+  }
 
-    connection.query(getUserQuery, [decoded.id], async (err, results) => {
+  if (email) {
+    updateFields.push("email = ?");
+    updateValues.push(email);
+  }
+
+  if (company) {
+    updateFields.push("company = ?");
+    updateValues.push(company);
+  }
+
+  if (oldPassword && newPassword) {
+    connection.query("SELECT password FROM users WHERE id = ?", [decoded.id], async (err, results) => {
       if (err) {
         console.error("Помилка виконання запиту: " + err.message);
         return res.status(500).json({ error: "Помилка виконання запиту" });
       }
 
       const user = results[0];
+      const isMatch = await bcrypt.compare(oldPassword, user.password);
 
-      if (oldPassword && newPassword) {
-        const isMatch = await bcrypt.compare(oldPassword, user.password);
-        if (!isMatch) {
-          return res.status(401).json({ message: "Невірний старий пароль" });
+      if (!isMatch) {
+        return res.status(401).json({ message: "Невірний старий пароль" });
+      }
+
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      updateFields.push("password = ?");
+      updateValues.push(hashedNewPassword);
+
+      finalizeUpdate();
+    });
+  } else {
+    finalizeUpdate();
+  }
+
+  function finalizeUpdate() {
+    if (updateFields.length > 0) {
+      const query = `UPDATE users SET ${updateFields.join(", ")} WHERE id = ?`;
+      updateValues.push(decoded.id);
+
+      connection.query(query, updateValues, (err) => {
+        if (err) {
+          console.error("Помилка оновлення даних: " + err.message);
+          return res.status(500).json({ error: "Помилка оновлення даних" });
         }
 
-        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-        connection.query(
-          `${updateUserQuery}, password = ? WHERE id = ?`,
-          [username || user.username, email || user.email, company || user.company, hashedNewPassword, decoded.id],
-          (err) => {
-            if (err) {
-              console.error("Помилка оновлення даних: " + err.message);
-              return res.status(500).json({ error: "Помилка оновлення даних" });
-            }
-
-            res.status(200).json({ message: "Дані успішно оновлені" });
-            connection.end();
-          }
-        );
-      } else {
-        connection.query(
-          updateUserQuery,
-          [username || user.username, email || user.email, company || user.company, decoded.id],
-          (err) => {
-            if (err) {
-              console.error("Помилка оновлення даних: " + err.message);
-              return res.status(500).json({ error: "Помилка оновлення даних" });
-            }
-
-            res.status(200).json({ message: "Дані успішно оновлені" });
-            connection.end();
-          }
-        );
-      }
-    });
-  });
+        res.status(200).json({ message: "Дані успішно оновлені" });
+        connection.end();
+      });
+    } else {
+      res.status(400).json({ message: "Немає даних для оновлення" });
+      connection.end();
+    }
+  }
 };
+
 
 
 
