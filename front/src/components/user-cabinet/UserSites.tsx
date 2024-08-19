@@ -33,7 +33,7 @@ const UserSites = () => {
     <div className="w-full min-h-[100vh] py-8 px-4 shape_bg">
       <div className="max-w-[1200px] mx-auto  flex items-center flex-col gap-6">
         <h2 className="text-3xl font-bold text-center text-white">
-          Welcome in your Account!
+          Ласкаво просимо до вашого облікового запису!
         </h2>
         <UserCabinetInterface userData={userData} />
         <UserCabinetInfo userData={userData} />

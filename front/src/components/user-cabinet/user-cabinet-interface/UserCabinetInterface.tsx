@@ -37,7 +37,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData }) => {
     <div className="w-full bg-white rounded-xl p-4 md:p-6 shadow-lg">
       <div className="flex items-start flex-col gap-6">
         <h3 className="text-black text-xl font-semibold">
-          Hello dear, {userData.name}
+          Привіт, {userData.name}
         </h3>
         <div className="w-full flex md:items-center justify-between flex-col gap-6 md:flex-row md:gap-0">
           <div className="flex items-start flex-col gap-6 border-b border-blue-300 md:border-none pb-6 md:pb-0">
@@ -55,7 +55,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData }) => {
                 </h4>
                 <div className="flex items-center gap-1">
                   <p className="text-[16px] text-gray-700 text-normal">
-                    Email address:
+                    Email адреса:
                   </p>
                   <span className="text-[16px] text-gray-900 text-normal">
                     {userData.email}
@@ -63,7 +63,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData }) => {
                 </div>
                 <div className="flex items-center gap-1">
                   <p className="text-[16px] text-gray-700 text-normal">
-                    Company:
+                    Компанія:
                   </p>
                   <span className="text-[16px] text-gray-900 text-normal">
                     {userData.company}
@@ -76,7 +76,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData }) => {
               type="button"
               onClick={signOut}
             >
-              Sign Out
+              Вийти
             </button>
           </div>
           <div className="flex items-center md:items-start flex-col gap-3">
@@ -88,7 +88,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData }) => {
               type="button"
               onClick={downloadQRCode}
             >
-              Download QRCode
+              Завантажити QRCode
             </button>
           </div>
         </div>
