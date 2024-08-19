@@ -46,10 +46,17 @@ const SliderEdit: React.FC<Props> = ({
               lastModified: Date.now(),
             });
 
+
             const formData = new FormData();
             formData.append("image", compressedFile);
 
+            console.log("compressedFile")
+            console.log(compressedFile)
+
+
             const response = await uploadImage(formData, token);
+            console.log("response")
+            console.log(response)
             imagesUrls.push(response.url);
           } catch (error) {
             console.error("Error compressing the image:", error);
