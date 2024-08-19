@@ -1,25 +1,137 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IGetMe } from "../../../../services/auth/getMe/getMe.interface";
+import { updateUserData } from "../../../../services/auth/update-data/updateData";
+import { toast } from "react-toastify";
+import { getMe } from "../../../../services/auth/getMe/getMe";
+import { getUserSites } from "../../../../services/getSite/getSite";
 
 interface Props {
   userData: IGetMe;
+  setUserData: (response: any) => void;
+  setSites: (response: any) => void;
 }
 
-const UserCabinetPersonal: React.FC<Props> = ({ userData }) => {
+const UserCabinetPersonal: React.FC<Props> = ({
+  userData,
+  setUserData,
+  setSites,
+}) => {
   const [username, setUsername] = useState<string>("");
   const [company, setCompany] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  // const navigate = useNavigate();
+  const [oldPassword, setOldPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const notifySuccess = (message: string) => {
+    toast.success(message, {
+      autoClose: 1000,
+    });
+  };
+
+  const notifyError = (message: string) => {
+    toast.error(message, {
+      autoClose: 2000,
+    });
+  };
+
+  useEffect(() => {
+    if (userData) {
+      setUsername(userData.name || "");
+      setCompany(userData.company || "");
+      setEmail(userData.email || "");
+    }
+  }, [userData]);
+
+  const getUserData = async (token: string) => {
+    try {
+      if (token) {
+        const response = await getMe(token);
+        setUserData(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getSites = async (token: string) => {
+    try {
+      if (token) {
+        const response = await getUserSites(token);
+        setSites(response.sites);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmitChangeData = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("company", company);
+    formData.append("email", email);
+
+    try {
+      if (token) {
+        const data = await updateUserData(formData, token);
+        notifySuccess(data.message);
+        localStorage.setItem("token", data.token);
+        getUserData(data.token);
+        getSites(data.token);
+      }
+    } catch (error) {
+      console.error(error);
+      notifyError("Щось пішло не так...");
+    }
+  };
+
+  const handleSubmitChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+    formData.append("oldPassword", oldPassword);
+    formData.append("newPassword", newPassword);
+    formData.append("confirmPassword", confirmNewPassword);
+
+    if (newPassword !== confirmNewPassword) {
+      notifyError("Паролі не збігаються");
+      return;
+    }
+
+    try {
+      if (token) {
+        const { status, data } = await updateUserData(formData, token);
+        console.log(status);
+        console.log(data);
+
+        if (status === 200) {
+          notifySuccess(data.message);
+          console.log(data);
+          localStorage.setItem("token", data.token);
+          getUserData(data.token);
+          getSites(data.token);
+        } else {
+          notifyError("Щось пішло не так...");
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      notifyError("Щось пішло не так...");
+    }
   };
 
   return (
     <div className="w-full flex justify-between flex-col md:flex-row gap-6 mt-4">
-      <form className="w-[100%] md:w-[50%] flex flex-col gap-4">
+      <form
+        onSubmit={handleSubmitChangeData}
+        className="w-[100%] md:w-[50%] flex flex-col gap-4"
+      >
         <div className="w-full">
           <label
             htmlFor="username"
@@ -31,7 +143,7 @@ const UserCabinetPersonal: React.FC<Props> = ({ userData }) => {
             id="username"
             type="text"
             placeholder="Username"
-            value={userData.name}
+            value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             required
@@ -48,7 +160,7 @@ const UserCabinetPersonal: React.FC<Props> = ({ userData }) => {
             id="company"
             type="text"
             placeholder="Company"
-            value={userData.company}
+            value={company}
             onChange={(e) => setCompany(e.target.value)}
             className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             required
@@ -65,7 +177,7 @@ const UserCabinetPersonal: React.FC<Props> = ({ userData }) => {
             id="email"
             type="email"
             placeholder="Email"
-            value={userData.email}
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             required
@@ -78,7 +190,10 @@ const UserCabinetPersonal: React.FC<Props> = ({ userData }) => {
           Оновити дані
         </button>
       </form>
-      <form className="w-[100%] md:w-[50%] flex flex-col gap-4">
+      <form
+        onSubmit={handleSubmitChangePassword}
+        className="w-[100%] md:w-[50%] flex flex-col gap-4"
+      >
         <div>
           <label
             htmlFor="oldpassword"
@@ -90,8 +205,8 @@ const UserCabinetPersonal: React.FC<Props> = ({ userData }) => {
             id="oldpassword"
             type="password"
             placeholder="Old password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
             className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             required
           />
@@ -101,14 +216,14 @@ const UserCabinetPersonal: React.FC<Props> = ({ userData }) => {
             htmlFor="password"
             className="block text-sm font-medium text-gray-700"
           >
-            Password
+            New Password
           </label>
           <input
             id="password"
             type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            placeholder="New Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
             className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             required
           />
@@ -118,14 +233,14 @@ const UserCabinetPersonal: React.FC<Props> = ({ userData }) => {
             htmlFor="confirm-password"
             className="block text-sm font-medium text-gray-700"
           >
-            Confirm Password
+            Confirm New Password
           </label>
           <input
             id="confirm-password"
             type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Confirm New Password"
+            value={confirmNewPassword}
+            onChange={(e) => setConfirmNewPassword(e.target.value)}
             className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             required
           />

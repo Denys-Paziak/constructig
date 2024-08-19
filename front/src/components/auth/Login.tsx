@@ -4,7 +4,11 @@ import { login } from "../../services/auth/login/login";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Login: React.FC = () => {
+interface Props {
+  setIsLoggedIn: (value: boolean) => void;
+}
+
+const Login: React.FC<Props> = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
@@ -48,8 +52,9 @@ const Login: React.FC = () => {
 
       if (data.token) {
         localStorage.setItem("token", data.token);
-        navigate("/profile");
         notifySuccess("Login successful!");
+        setIsLoggedIn(true);
+        navigate("/profile");
       } else {
         notifyError("Invalid email or password");
       }

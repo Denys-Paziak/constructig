@@ -7,9 +7,10 @@ import { getUserSites } from "../../../services/getSite/getSite";
 
 interface Props {
   userData: IGetMe;
+  setUserData: (response: any) => void;
 }
 
-const UserCabinetInfo: React.FC<Props> = ({ userData }) => {
+const UserCabinetInfo: React.FC<Props> = ({ userData, setUserData }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [sites, setSites] = useState<any>([]);
   const navigate = useNavigate();
@@ -18,16 +19,21 @@ const UserCabinetInfo: React.FC<Props> = ({ userData }) => {
     setActiveTabIndex(index);
   };
 
-  useEffect(() => {
+  const getSites = async () => {
     const token = localStorage.getItem("token");
 
-    getUserSites(token || "")
-      .then((data) => {
-        setSites(data.sites || []);
-      })
-      .catch((error) => {
-        console.error("Error fetching sites:", error);
-      });
+    try {
+      if (token) {
+        const response = await getUserSites(token);
+        setSites(response.sites);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getSites();
   }, []);
 
   if (!userData) {
@@ -43,25 +49,29 @@ const UserCabinetInfo: React.FC<Props> = ({ userData }) => {
         <div className="w-full">
           <ul className="flex flex-wrap border-b border-gray-200">
             <li
-              className={`mr-4 ${activeTabIndex === 0 ? "bg-gray-100 rounded-md" : "inactive"
-                }`}
+              className={`mr-4 ${
+                activeTabIndex === 0 ? "bg-gray-100 rounded-md" : "inactive"
+              }`}
             >
               <button
                 onClick={() => handleTabClick(0)}
-                className={`inline-block text-blue-600 hover:text-blue-700 hover:bg-gray-50 rounded-t-lg py-4 px-4 text-sm font-medium text-center ${activeTabIndex === 0 ? "bg-gray-100 rounded-md" : ""
-                  }`}
+                className={`inline-block text-blue-600 hover:text-blue-700 hover:bg-gray-50 rounded-t-lg py-4 px-4 text-sm font-medium text-center ${
+                  activeTabIndex === 0 ? "bg-gray-100 rounded-md" : ""
+                }`}
               >
                 Сайти
               </button>
             </li>
             <li
-              className={`mr-2 ${activeTabIndex === 1 ? "bg-gray-100" : "inactive"
-                }`}
+              className={`mr-2 ${
+                activeTabIndex === 1 ? "bg-gray-100" : "inactive"
+              }`}
             >
               <button
                 onClick={() => handleTabClick(1)}
-                className={`inline-block text-blue-600 hover:text-blue-700 hover:bg-gray-50 rounded-t-lg py-4 px-4 text-sm font-medium text-center ${activeTabIndex === 1 ? "bg-gray-100" : ""
-                  }`}
+                className={`inline-block text-blue-600 hover:text-blue-700 hover:bg-gray-50 rounded-t-lg py-4 px-4 text-sm font-medium text-center ${
+                  activeTabIndex === 1 ? "bg-gray-100" : ""
+                }`}
               >
                 Налаштування
               </button>
@@ -80,7 +90,12 @@ const UserCabinetInfo: React.FC<Props> = ({ userData }) => {
                         <h3 className="text-xl font-semibold mb-2">
                           {site.name}
                         </h3>
-                        <a href={"http://localhost:5173/" + site.url} className="block text-white-600 mb-4">{"http://localhost:5173/" + site.url}</a>
+                        <a
+                          href={"http://localhost:5173/" + site.url}
+                          className="block text-white-600 mb-4"
+                        >
+                          {"http://localhost:5173/" + site.url}
+                        </a>
                         <div className="w-full flex justify-between gap-4">
                           <button
                             onClick={() => navigate(`/${userData.company}`)}
@@ -107,7 +122,11 @@ const UserCabinetInfo: React.FC<Props> = ({ userData }) => {
                 <h3 className="text-lg font-semibold">
                   Змінна данних користувача
                 </h3>
-                <UserCabinetPersonal userData={userData} />
+                <UserCabinetPersonal
+                  userData={userData}
+                  setUserData={setUserData}
+                  setSites={setSites}
+                />
               </div>
             )}
           </div>

@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 import { getMe } from "../../services/auth/getMe/getMe";
 import Loader from "../loader/Loader";
 
-const UserSites = () => {
+interface Props {
+  setIsLoggedIn: (value: boolean) => void;
+}
+
+const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   const [userData, setUserData] = useState<IGetMe>();
 
   const getUserData = async () => {
@@ -35,8 +39,11 @@ const UserSites = () => {
         <h2 className="text-3xl font-bold text-center text-white">
           Ласкаво просимо до вашого облікового запису!
         </h2>
-        <UserCabinetInterface userData={userData} />
-        <UserCabinetInfo userData={userData} />
+        <UserCabinetInterface
+          userData={userData}
+          setIsLoggedIn={setIsLoggedIn}
+        />
+        <UserCabinetInfo userData={userData} setUserData={setUserData} />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -13,8 +13,16 @@ import UserSite from "./components/user-site/UserSite";
 import { ToastContainer } from "react-toastify";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [editingSiteId, setEditingSiteId] = useState<number | null>(null);
+
+  const handleLogin = () => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -25,19 +33,35 @@ function App() {
     setEditingSiteId(siteId);
   };
 
+  useEffect(() => {
+    handleLogin();
+  }, []);
+
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            !isLoggedIn ? (
+              <Login onLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/profile" />
+            )
+          }
+        />
         <Route
           path="/register"
-          element={!isLoggedIn ? <Register /> : <Navigate to="/sites" />}
+          element={!isLoggedIn ? <Register /> : <Navigate to="/profile" />}
         />
         <Route
           path="/profile"
           element={
             isLoggedIn ? (
-              <UserSites onEditSite={handleEditSite} />
+              <UserSites
+                onEditSite={handleEditSite}
+                setIsLoggedIn={setIsLoggedIn}
+              />
             ) : (
               <Navigate to="/login" />
             )
@@ -50,7 +74,7 @@ function App() {
         <Route path="/:siteName" element={<UserSite />} />
         <Route
           path="*"
-          element={<Navigate to={isLoggedIn ? "/sites" : "/login"} />}
+          element={<Navigate to={isLoggedIn ? "/profile" : "/login"} />}
         />
       </Routes>
       <ToastContainer />

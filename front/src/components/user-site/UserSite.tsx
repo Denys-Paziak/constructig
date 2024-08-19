@@ -10,7 +10,6 @@ const UserSite: React.FC = () => {
   const getUserSite = async () => {
     try {
       const response = await getSite(siteName!);
-      console.log(response);
       setData(response);
     } catch (error) {
       console.log(error);

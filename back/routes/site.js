@@ -19,11 +19,15 @@ const router = express.Router();
 
 // router.post("/site", upload.none(), authMiddleware, createSite);
 
-router.post("/site/upload", upload.single("image"), authMiddleware, uploadImage);
+router.post(
+  "/site/upload",
+  upload.single("image"),
+  authMiddleware,
+  uploadImage
+);
 router.post("/site/delete", upload.none(), authMiddleware, deleteImage);
 router.get("/site/id/:siteId", upload.none(), authMiddleware, getSite);
 router.get("/site/:siteName", upload.none(), getSiteByName);
-
 
 router.put(
   "/site/:siteId",
@@ -38,19 +42,9 @@ router.put(
   updateHeader
 );
 
-router.put(
-  "/site/slider/:siteId",
-  upload.none(),
-  authMiddleware,
-  updateSlider
-);
+router.put("/site/slider/:siteId", upload.none(), authMiddleware, updateSlider);
 
-router.put(
-  "/site/info/:siteId",
-  upload.none(),
-  authMiddleware,
-  updateInfo
-);
+router.put("/site/info/:siteId", upload.none(), authMiddleware, updateInfo);
 
 router.delete("/site/:siteId", upload.none(), authMiddleware, deleteSite);
 

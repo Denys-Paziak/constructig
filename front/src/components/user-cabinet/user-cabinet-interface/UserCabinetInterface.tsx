@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
   userData: IGetMe;
+  setIsLoggedIn: (value: boolean) => void;
 }
 
-const UserCabinetInterface: React.FC<Props> = ({ userData }) => {
+const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
   const qrRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -29,6 +30,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData }) => {
   };
 
   const signOut = () => {
+    setIsLoggedIn(false);
     localStorage.removeItem("token");
     navigate("/login");
   };
