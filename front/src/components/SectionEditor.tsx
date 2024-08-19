@@ -6,12 +6,11 @@ import SocialsEdit from "./edit-components/socials-edit/SocialsEdit";
 import Toggle from "react-toggle";
 import FooterEdit from "./edit-components/footer-edit/FooterEdit";
 
-
 interface iColor {
-  r: number,
-  g: number,
-  b: number,
-  a: number,
+  r: number;
+  g: number;
+  b: number;
+  a: number;
 }
 
 interface SectionEditorProps {

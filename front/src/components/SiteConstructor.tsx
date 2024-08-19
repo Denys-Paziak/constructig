@@ -101,15 +101,17 @@ const SiteConstructor: React.FC = () => {
       <div className="max-w-[25%] min-w-[25%] h-[100vh] p-4 overflow-y-scroll">
         <div className="accordion-section">
           <h2
-            className={`text-2xl font-bold p-3 bg-blue-500 text-white rounded-md cursor-pointer mb-2 shadow transition-all ${activeSection === "global" ? "rounded-b-none" : ""
-              }`}
+            className={`text-2xl font-bold p-3 bg-blue-500 text-white rounded-md cursor-pointer mb-2 shadow transition-all ${
+              activeSection === "global" ? "rounded-b-none" : ""
+            }`}
             onClick={() => toggleSection("global")}
           >
             Глобальні налаштування
           </h2>
           <div
-            className={`overflow-hidden transition-all ${activeSection === "global" ? "max-h-screen" : "max-h-0"
-              }`}
+            className={`overflow-hidden transition-all ${
+              activeSection === "global" ? "max-h-screen" : "max-h-0"
+            }`}
           >
             {activeSection === "global" && (
               <div className="bg-white rounded-b-md shadow-md">
@@ -126,15 +128,17 @@ const SiteConstructor: React.FC = () => {
 
         <div className="accordion-section">
           <h2
-            className={`text-2xl font-bold p-3 bg-blue-500 text-white rounded-md cursor-pointer mb-2 shadow transition-all ${activeSection === "header" ? "rounded-b-none" : ""
-              }`}
+            className={`text-2xl font-bold p-3 bg-blue-500 text-white rounded-md cursor-pointer mb-2 shadow transition-all ${
+              activeSection === "header" ? "rounded-b-none" : ""
+            }`}
             onClick={() => toggleSection("header")}
           >
             Шапка
           </h2>
           <div
-            className={`overflow-hidden transition-all ${activeSection === "header" ? "max-h-screen" : "max-h-0"
-              }`}
+            className={`overflow-hidden transition-all ${
+              activeSection === "header" ? "max-h-screen" : "max-h-0"
+            }`}
           >
             {activeSection === "header" && (
               <div className="bg-white rounded-b-md  shadow-md">
@@ -156,15 +160,17 @@ const SiteConstructor: React.FC = () => {
 
         <div className="accordion-section">
           <h2
-            className={`text-2xl font-bold p-3 bg-blue-500 text-white rounded-md cursor-pointer mb-2 shadow transition-all ${activeSection === "slider" ? "rounded-b-none" : ""
-              }`}
+            className={`text-2xl font-bold p-3 bg-blue-500 text-white rounded-md cursor-pointer mb-2 shadow transition-all ${
+              activeSection === "slider" ? "rounded-b-none" : ""
+            }`}
             onClick={() => toggleSection("slider")}
           >
             Слайдер
           </h2>
           <div
-            className={`overflow-hidden transition-all ${activeSection === "slider" ? "max-h-screen" : "max-h-0"
-              }`}
+            className={`overflow-hidden transition-all ${
+              activeSection === "slider" ? "max-h-screen" : "max-h-0"
+            }`}
           >
             {activeSection === "slider" && (
               <div className="bg-white rounded-b-md shadow-md">
@@ -186,15 +192,17 @@ const SiteConstructor: React.FC = () => {
 
         <div className="accordion-section">
           <h2
-            className={`text-2xl font-bold p-3 bg-blue-500 text-white rounded-md cursor-pointer mb-2 shadow transition-all ${activeSection === "services" ? "rounded-b-none" : ""
-              }`}
+            className={`text-2xl font-bold p-3 bg-blue-500 text-white rounded-md cursor-pointer mb-2 shadow transition-all ${
+              activeSection === "services" ? "rounded-b-none" : ""
+            }`}
             onClick={() => toggleSection("services")}
           >
             Сервіси
           </h2>
           <div
-            className={`overflow-hidden transition-all ${activeSection === "services" ? "max-h-screen" : "max-h-0"
-              }`}
+            className={`overflow-hidden transition-all ${
+              activeSection === "services" ? "max-h-screen" : "max-h-0"
+            }`}
           >
             {activeSection === "services" && (
               <div className="bg-white rounded-b-md  shadow-md">
@@ -216,15 +224,17 @@ const SiteConstructor: React.FC = () => {
 
         <div className="accordion-section">
           <h2
-            className={`text-2xl font-bold p-3 bg-blue-500 text-white rounded-md cursor-pointer mb-2 shadow transition-all ${activeSection === "info" ? "rounded-b-none" : ""
-              }`}
+            className={`text-2xl font-bold p-3 bg-blue-500 text-white rounded-md cursor-pointer mb-2 shadow transition-all ${
+              activeSection === "info" ? "rounded-b-none" : ""
+            }`}
             onClick={() => toggleSection("info")}
           >
             Інфо
           </h2>
           <div
-            className={`overflow-hidden transition-all ${activeSection === "info" ? "max-h-screen" : "max-h-0"
-              }`}
+            className={`overflow-hidden transition-all ${
+              activeSection === "info" ? "max-h-screen" : "max-h-0"
+            }`}
           >
             {activeSection === "info" && (
               <div className="bg-white rounded-b-md  shadow-md">
@@ -246,15 +256,17 @@ const SiteConstructor: React.FC = () => {
 
         <div className="accordion-section">
           <h2
-            className={`text-2xl font-bold p-3 bg-blue-500 text-white rounded-md cursor-pointer mb-2 shadow transition-all ${activeSection === "socials" ? "rounded-b-none" : ""
-              }`}
+            className={`text-2xl font-bold p-3 bg-blue-500 text-white rounded-md cursor-pointer mb-2 shadow transition-all ${
+              activeSection === "socials" ? "rounded-b-none" : ""
+            }`}
             onClick={() => toggleSection("socials")}
           >
             Соціальні мережі
           </h2>
           <div
-            className={`overflow-hidden transition-all ${activeSection === "socials" ? "max-h-screen" : "max-h-0"
-              }`}
+            className={`overflow-hidden transition-all ${
+              activeSection === "socials" ? "max-h-screen" : "max-h-0"
+            }`}
           >
             {activeSection === "socials" && (
               <div className="bg-white rounded-b-md shadow-md">
@@ -276,15 +288,17 @@ const SiteConstructor: React.FC = () => {
 
         <div className="accordion-section">
           <h2
-            className={`text-2xl font-bold p-3 bg-blue-500 text-white rounded-md cursor-pointer mb-2 shadow transition-all ${activeSection === "footer" ? "rounded-b-none" : ""
-              }`}
+            className={`text-2xl font-bold p-3 bg-blue-500 text-white rounded-md cursor-pointer mb-2 shadow transition-all ${
+              activeSection === "footer" ? "rounded-b-none" : ""
+            }`}
             onClick={() => toggleSection("footer")}
           >
             Підвал
           </h2>
           <div
-            className={`overflow-hidden transition-all ${activeSection === "footer" ? "max-h-screen" : "max-h-0"
-              }`}
+            className={`overflow-hidden transition-all ${
+              activeSection === "footer" ? "max-h-screen" : "max-h-0"
+            }`}
           >
             {activeSection === "footer" && (
               <div className="bg-white rounded-b-md  shadow-md">

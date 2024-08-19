@@ -1,7 +1,10 @@
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { AdminImage } from "../../../utils/dropzone/dropzone";
-import { deleteImage, uploadImage } from "../../../services/upload-images/uploadImages";
+import {
+  deleteImage,
+  uploadImage,
+} from "../../../services/upload-images/uploadImages";
 import Button from "../../UI/button/Button";
 import { updateInfo } from "../../../services/info/info";
 import { useParams } from "react-router-dom";
@@ -9,9 +12,8 @@ import { useParams } from "react-router-dom";
 interface Props {
   data: any;
   sectionName: string;
-  handlerInput: (section: string, field: string, value: string) => void;
+  handlerInput: (section: string, field: string, value: string | null) => void;
 }
-
 
 const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
   const { id } = useParams();
@@ -25,11 +27,11 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
     if (token) {
       updateInfo(id!, formData, token);
     }
-  }
+  };
+
+  const token = localStorage.getItem("token");
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    const token = localStorage.getItem("token");
-
     const formData = new FormData();
     const formDataDelete = new FormData();
 
@@ -41,7 +43,7 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
       const resDelete = await deleteImage(formDataDelete, token);
       handlerInput("info", "image", res.url);
 
-      console.log(resDelete)
+      console.log(resDelete);
     }
 
     handleSaveChanges();
@@ -49,6 +51,19 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+  const deleteImg = async () => {
+    const formData = new FormData();
+
+    formData.append("image", data.info.image);
+
+    try {
+      const resDelete = await deleteImage(formData, token!);
+    } catch (error) {
+      console.log(error);
+    }
+    handlerInput("info", "image", null);
+    handleSaveChanges();
+  };
 
   return (
     <>
@@ -70,10 +85,24 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
               )}
             </AdminImage>
 
-            {data.info.image && <>
-              <img src={data.info.image} alt="" />
-            </>}
-
+            {data.info.image && (
+              <div className="relative">
+                <img src={data.info.image} alt="" />
+                <span
+                  onClick={() => {
+                    deleteImg();
+                    handleSaveChanges();
+                  }}
+                  className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"
+                >
+                  <img
+                    className="w-full"
+                    src="/src/assets/images/trash-icon.svg"
+                    alt="trash icon"
+                  />
+                </span>
+              </div>
+            )}
           </div>
           <div className="w-full flex flex-col gap-2">
             <p>Заголовок:</p>
