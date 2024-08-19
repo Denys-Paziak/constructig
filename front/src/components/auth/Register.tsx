@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { register } from "../../services/auth/register/register";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -10,27 +12,69 @@ const Register: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const navigate = useNavigate();
 
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const notifySuccess = (message: string) => {
+    toast.success(message, {
+      autoClose: 1000,
+    });
+  };
+
+  const notifyError = (message: string) => {
+    toast.error(message, {
+      autoClose: 2000,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formData = new FormData();
-
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+    if (username.length < 3) {
+      notifyError("Username must be at least 3 characters long");
       return;
     }
 
+    if (company.length < 3) {
+      notifyError("Company name must be at least 3 characters long");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      notifyError("Please enter a valid email address");
+      return;
+    }
+
+    if (password.length < 5) {
+      notifyError("Password must be at least 5 characters long");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      notifyError("Passwords do not match");
+      return;
+    }
+
+    const formData = new FormData();
     formData.append("username", username);
     formData.append("company", company);
     formData.append("email", email);
     formData.append("password", password);
 
-    const data = await register(formData);
-    if (data.status === 201) {
-      alert("Registration successful!");
-      navigate("/login");
-    } else {
-      console.log(data);
+    try {
+      const data = await register(formData);
+      if (data.status === 201) {
+        notifySuccess("Registration successful!");
+        navigate("/login");
+      } else {
+        notifyError("Registration failed. Please try again.");
+        console.log(data);
+      }
+    } catch (error) {
+      notifyError("An error occurred. Please try again later.");
+      console.error(error);
     }
   };
 

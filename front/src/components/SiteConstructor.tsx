@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { updateSite } from "../services/server";
 import SectionEditor from "./SectionEditor";
 import Preview from "./Preview";
-import { getEditSite } from "../services/getSite/getSite";
+import { getEditSite, updateSite } from "../services/getSite/getSite";
 import Global from "./edit-components/global/Global";
 import Loader from "./loader/Loader";
 
@@ -53,7 +52,7 @@ const SiteConstructor: React.FC = () => {
       updateSite(parseInt(id), formData, token || "")
         .then(() => {
           alert("Site updated successfully!");
-          navigate("/sites");
+          navigate("/profile");
         })
         .catch((error) => {
           console.error("Error updating site:", error);
@@ -68,7 +67,6 @@ const SiteConstructor: React.FC = () => {
       newData[section][field] = value;
       setData(newData);
     }
-    console.log(value);
   };
 
   const visibleHandler = (name: string, checked: boolean) => {

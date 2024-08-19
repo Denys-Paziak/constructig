@@ -1,32 +1,61 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { login } from "../../services/auth/login/login";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-interface LoginProps {
-  onLogin: () => void;
-}
-
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
+const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
 
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const notifySuccess = (message: string) => {
+    toast.success(message, {
+      autoClose: 1000,
+    });
+  };
+
+  const notifyError = (message: string) => {
+    toast.error(message, {
+      autoClose: 2000,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formData = new FormData();
+    if (!validateEmail(email)) {
+      notifyError("Please enter a valid email address");
+      return;
+    }
 
+    if (password.length === 0) {
+      notifyError("Password cannot be empty");
+      return;
+    }
+
+    const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
 
-    const data = await login(formData);
+    try {
+      const data = await login(formData);
 
-    if (data.token) {
-      localStorage.setItem("token", data.token);
-      onLogin();
-      navigate("/sites");
-    } else {
-      alert("Невірний логін або пароль");
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        navigate("/profile");
+        notifySuccess("Login successful!");
+      } else {
+        notifyError("Invalid email or password");
+      }
+    } catch (error) {
+      notifyError("An error occurred. Please try again later.");
+      console.error(error);
     }
   };
 

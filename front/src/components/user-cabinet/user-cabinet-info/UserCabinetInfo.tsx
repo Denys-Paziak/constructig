@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUserSites } from "../../../services/server";
 import { IGetMe } from "../../../services/auth/getMe/getMe.interface";
+import UserCabinetPersonal from "./user-cabinet-personal/UserCabinetPersonal";
+import Loader from "../../loader/Loader";
+import { getUserSites } from "../../../services/getSite/getSite";
 
 interface Props {
   userData: IGetMe;
@@ -28,8 +30,12 @@ const UserCabinetInfo: React.FC<Props> = ({ userData }) => {
       });
   }, []);
 
+  if (!userData) {
+    return <Loader />;
+  }
+
   return (
-    <div className="w-full bg-white rounded-xl p-6 shadow-lg">
+    <div className="w-full bg-white rounded-xl p-4 md:p-6 shadow-lg">
       <div className="flex items-start flex-col gap-6">
         <div>
           <h3 className="text-black text-xl font-semibold">User Info:</h3>
@@ -103,8 +109,10 @@ const UserCabinetInfo: React.FC<Props> = ({ userData }) => {
 
             {activeTabIndex === 1 && (
               <div>
-                <h3 className="text-lg font-semibold">Settings Content</h3>
-                <div>hello from settings</div>
+                <h3 className="text-lg font-semibold">
+                  Змінна данних користувача
+                </h3>
+                <UserCabinetPersonal userData={userData} />
               </div>
             )}
           </div>

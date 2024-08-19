@@ -10,14 +10,11 @@ import Register from "./components/auth/Register";
 import UserSites from "./components/user-cabinet/UserSites";
 import SiteConstructor from "./components/SiteConstructor";
 import UserSite from "./components/user-site/UserSite";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const [editingSiteId, setEditingSiteId] = useState<number | null>(null);
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -31,22 +28,13 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/login"
-          element={
-            !isLoggedIn ? (
-              <Login onLogin={handleLogin} />
-            ) : (
-              <Navigate to="/sites" />
-            )
-          }
-        />
+        <Route path="/login" element={<Login />} />
         <Route
           path="/register"
           element={!isLoggedIn ? <Register /> : <Navigate to="/sites" />}
         />
         <Route
-          path="/sites"
+          path="/profile"
           element={
             isLoggedIn ? (
               <UserSites onEditSite={handleEditSite} />
@@ -65,6 +53,7 @@ function App() {
           element={<Navigate to={isLoggedIn ? "/sites" : "/login"} />}
         />
       </Routes>
+      <ToastContainer />
     </Router>
   );
 }
