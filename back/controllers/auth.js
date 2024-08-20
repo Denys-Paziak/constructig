@@ -2,10 +2,6 @@ import mysql from "mysql";
 import dbConfig from "../config/dbConfig.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-<<<<<<< HEAD
-=======
-
->>>>>>> a158023 (ddd)
 import dotenv from "dotenv";
 
 export const updateUser = async (req, res) => {
@@ -359,7 +355,7 @@ async function createSite(id, url, name) {
                                 return connection.rollback(() => {
                                   console.error(
                                     "Помилка вставки в таблицю socials: " +
-                                      err.message
+                                    err.message
                                   );
                                 });
                               }
@@ -372,7 +368,7 @@ async function createSite(id, url, name) {
                                     return connection.rollback(() => {
                                       console.error(
                                         "Помилка вставки в таблицю footers: " +
-                                          err.message
+                                        err.message
                                       );
                                     });
                                   }
@@ -382,7 +378,7 @@ async function createSite(id, url, name) {
                                       return connection.rollback(() => {
                                         console.error(
                                           "Помилка коміту транзакції: " +
-                                            err.message
+                                          err.message
                                         );
                                       });
                                     }

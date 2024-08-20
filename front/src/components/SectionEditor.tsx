@@ -52,7 +52,6 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
   return (
     <div className="mb-6">
       <div className="bg-gray-100 rounded-md p-4 w-full flex flex-col gap-4">
-        <h2 className="text-2xl font-bold">{title}</h2>
         <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
           <h4 className="font-semibold text-lg">Відображення блоку</h4>
           <div className="w-full flex items-center justify-between">
