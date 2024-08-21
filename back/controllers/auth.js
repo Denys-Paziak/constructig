@@ -288,9 +288,10 @@ async function createSite(id, url, name) {
           ]);
 
           const defaultCols = JSON.stringify([
-            { image: "default_service.jpg", title: "Service 1" },
-            { image: "default_service.jpg", title: "Service 2" },
-            { image: "default_service.jpg", title: "Service 3" },
+            { image: "", title: "Call" },
+            { image: "", title: "Geo" },
+            { image: "", title: "Menu" },
+            { image: "", title: "News" },
           ]);
 
           connection.query(

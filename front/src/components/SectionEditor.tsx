@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
 import HeaderEdit from "./edit-components/header-edit/HeaderEdit";
 import SliderEdit from "./edit-components/slider-edit/SliderEdit";
 import InfoEdit from "./edit-components/info-edit/InfoEdit";
 import SocialsEdit from "./edit-components/socials-edit/SocialsEdit";
 import Toggle from "react-toggle";
 import FooterEdit from "./edit-components/footer-edit/FooterEdit";
+import ServicesEdit from "./edit-components/services-edit/ServicesEdit";
 
 interface iColor {
   r: number;
@@ -30,15 +30,10 @@ interface SectionEditorProps {
 }
 
 const SectionEditor: React.FC<SectionEditorProps> = ({
-  title,
   sectionName,
   data,
   visibleHandler,
   handleInputChange,
-  setHeaderColorBg,
-  headerColorBg,
-  setHeaderTextColor,
-  headerTextColor,
 }) => {
   const removeSliderImage = (index?: number) => {
     let newImages = [...data[sectionName].images];
@@ -73,6 +68,11 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
           sectionName={sectionName}
           handleInputChange={handleInputChange}
           handleRemoveSlider={removeSliderImage}
+        />
+        <ServicesEdit
+          data={data}
+          sectionName={sectionName}
+          handleInputChange={handleInputChange}
         />
         <InfoEdit
           data={data}

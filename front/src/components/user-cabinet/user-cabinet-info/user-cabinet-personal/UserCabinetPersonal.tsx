@@ -4,6 +4,7 @@ import { updateUserData } from "../../../../services/auth/update-data/updateData
 import { toast } from "react-toastify";
 import { getMe } from "../../../../services/auth/getMe/getMe";
 import { getUserSites } from "../../../../services/getSite/getSite";
+import CreateItem from "../../item/CreateItem";
 
 interface Props {
   userData: IGetMe;
@@ -126,7 +127,7 @@ const UserCabinetPersonal: React.FC<Props> = ({
     }
   };
 
-  return (
+  return (<>
     <div className="w-full flex justify-between flex-col md:flex-row gap-6 mt-4">
       <form
         onSubmit={handleSubmitChangeData}
@@ -253,6 +254,7 @@ const UserCabinetPersonal: React.FC<Props> = ({
         </button>
       </form>
     </div>
+  </>
   );
 };
 
