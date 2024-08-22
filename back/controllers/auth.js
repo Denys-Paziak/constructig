@@ -281,6 +281,8 @@ async function createSite(id, url, name) {
             "INSERT INTO socials (site_id, visible, instagram, facebook, youtube) VALUES (?, ?, ?, ?, ?)";
           const queryInsertFooter =
             "INSERT INTO footers (site_id, visible, work_time, web_link) VALUES (?, ?, ?, ?)";
+          const queryInsertGlobal =
+            "INSERT INTO global (site_id, bg_color, main_text_color, main_color) VALUES (?, ?, ?, ?)";
 
           const defaultMenu = JSON.stringify([
             { link: "/home", text: "Home" },
@@ -293,6 +295,28 @@ async function createSite(id, url, name) {
             { image: "", title: "Menu" },
             { image: "", title: "News" },
           ]);
+
+
+          const bg_color = JSON.stringify({
+            r: 255,
+            g: 255,
+            b: 255,
+            a: 1,
+          });
+
+          const main_text_color = JSON.stringify({
+            r: 255,
+            g: 255,
+            b: 255,
+            a: 1,
+          });
+
+          const main_color = JSON.stringify({
+            r: 0,
+            g: 0,
+            b: 0,
+            a: 1,
+          });
 
           connection.query(
             queryInsertHeader,
@@ -374,18 +398,33 @@ async function createSite(id, url, name) {
                                     });
                                   }
 
-                                  connection.commit((err) => {
-                                    if (err) {
-                                      return connection.rollback(() => {
-                                        console.error(
-                                          "Помилка коміту транзакції: " +
-                                          err.message
-                                        );
+                                  connection.query(
+                                    queryInsertGlobal,
+                                    [siteId, bg_color, main_text_color, main_color],
+                                    (err) => {
+                                      if (err) {
+                                        return connection.rollback(() => {
+                                          console.error(
+                                            "Помилка вставки в таблицю footers: " +
+                                            err.message
+                                          );
+                                        });
+                                      }
+
+                                      connection.commit((err) => {
+                                        if (err) {
+                                          return connection.rollback(() => {
+                                            console.error(
+                                              "Помилка коміту транзакції: " +
+                                              err.message
+                                            );
+                                          });
+                                        }
+
+                                        connection.end();
                                       });
                                     }
-
-                                    connection.end();
-                                  });
+                                  );
                                 }
                               );
                             }

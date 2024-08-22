@@ -49,29 +49,25 @@ const UserCabinetInfo: React.FC<Props> = ({ userData, setUserData }) => {
         <div className="w-full">
           <ul className="flex flex-wrap border-b border-gray-200">
             <li
-              className={`mr-4 ${
-                activeTabIndex === 0 ? "bg-gray-100 rounded-md" : "inactive"
-              }`}
+              className={` ${activeTabIndex === 0 ? "bg-gray-100 rounded-md" : "inactive"
+                }`}
             >
               <button
                 onClick={() => handleTabClick(0)}
-                className={`inline-block text-blue-600 hover:text-blue-700 hover:bg-gray-50 rounded-t-lg py-4 px-4 text-sm font-medium text-center ${
-                  activeTabIndex === 0 ? "bg-gray-100 rounded-md" : ""
-                }`}
+                className={`inline-block text-black  hover:bg-blue-500 hover:text-white rounded-l-lg py-4 px-4 text-sm font-medium text-center ${activeTabIndex === 0 ? "bg-blue-500 text-white" : ""
+                  }`}
               >
                 Сайти
               </button>
             </li>
             <li
-              className={`mr-2 ${
-                activeTabIndex === 1 ? "bg-gray-100" : "inactive"
-              }`}
+              className={`mr-2 ${activeTabIndex === 1 ? "bg-gray-100" : "inactive"
+                }`}
             >
               <button
                 onClick={() => handleTabClick(1)}
-                className={`inline-block text-blue-600 hover:text-blue-700 hover:bg-gray-50 rounded-t-lg py-4 px-4 text-sm font-medium text-center ${
-                  activeTabIndex === 1 ? "bg-gray-100" : ""
-                }`}
+                className={`inline-block text-black hover:bg-blue-500 hover:text-white rounded-r-lg py-4 px-4 text-sm font-medium text-center ${activeTabIndex === 1 ? "bg-blue-500 text-white" : ""
+                  }`}
               >
                 Налаштування
               </button>

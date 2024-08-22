@@ -64,25 +64,19 @@ const SiteConstructor: React.FC = () => {
 
   const handleInputChange = (section: string, field: string, value: any) => {
     if (data) {
-      setData((prevData: any) => ({
-        ...prevData,
-        [section]: {
-          ...prevData[section],
-          [field]: value,
-        },
-      }));
+      const newData = { ...data };
+      newData[section][field] = value;
+      setData(newData);
     }
   };
 
   const visibleHandler = (name: string, checked: boolean) => {
     if (data) {
-      setData((prevData: any) => ({
-        ...prevData,
-        [name]: {
-          ...prevData[name],
-          visible: checked,
-        },
-      }));
+      const newData = { ...data };
+      if (newData[name]) {
+        newData[name].visible = checked || false;
+        setData(newData);
+      }
     }
   };
 
@@ -112,20 +106,18 @@ const SiteConstructor: React.FC = () => {
         {sections.map(({ name, title, component: Component }) => (
           <div key={name} className="accordion-section">
             <div
-              className={` bg-blue-100  py-2 px-4 select-none flex justify-between items-center cursor-pointer transition duration-300 border  border-b-blue-200   ${
-                activeSection === name
-                  ? " bg-blue-500 text-blue-700 font-semibold"
-                  : ""
-              }`}
+              className={` bg-blue-100  py-2 px-4 select-none flex justify-between items-center cursor-pointer transition duration-300 border  border-b-blue-200   ${activeSection === name
+                ? "bg-blue-500 text-white font-semibold"
+                : ""
+                }`}
               onClick={() => toggleSection(name)}
             >
               <p> {title}</p>
 
               <svg
                 data-accordion-icon
-                className={` w-3 h-3 rotate-180 shrink-0  ${
-                  activeSection === name ? "rotate-0" : ""
-                }`}
+                className={` w-3 h-3 rotate-180 shrink-0  ${activeSection === name ? "-rotate-0" : ""
+                  }`}
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -141,9 +133,8 @@ const SiteConstructor: React.FC = () => {
               </svg>
             </div>
             <div
-              className={`overflow-hidden transition-all ${
-                activeSection === name ? "max-h-screen" : "max-h-0"
-              }`}
+              className={`overflow-hidden transition-all ${activeSection === name ? "max-h-auto" : "max-h-0"
+                }`}
             >
               {activeSection === name && (
                 <div className="bg-white rounded-b-md shadow-md">

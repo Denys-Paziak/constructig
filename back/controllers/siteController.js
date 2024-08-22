@@ -217,6 +217,7 @@ export const getSite = async (req, res) => {
             i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
             so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube,
             f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link
+            g.visible AS global_visible,  g.bg_color AS bg_color, g.main_text_color AS main_text_color, g.main_color AS main_color
         FROM sites s
         LEFT JOIN headers h ON s.id = h.site_id
         LEFT JOIN sliders sl ON s.id = sl.site_id
@@ -224,6 +225,7 @@ export const getSite = async (req, res) => {
         LEFT JOIN info i ON s.id = i.site_id
         LEFT JOIN socials so ON s.id = so.site_id
         LEFT JOIN footers f ON s.id = f.site_id
+        LEFT JOIN global g ON s.id = g.site_id
         WHERE s.id = ? AND s.user_id = ?
     `;
 

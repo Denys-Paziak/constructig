@@ -6,6 +6,7 @@ import { updateSliderEdit } from "../../../services/slider/sliderEdit";
 import { useParams } from "react-router-dom";
 import { uploadImage } from "../../../services/upload-images/uploadImages";
 import imageCompression from "browser-image-compression";
+import { image } from "html2canvas/dist/types/css/types/image";
 
 interface Props {
   data: any;
@@ -43,20 +44,26 @@ const SliderEdit: React.FC<Props> = ({
             const compressedFile = await imageCompression(file, options);
 
             const formData = new FormData();
-            formData.append("image", compressedFile);
+            formData.append("image", file);
 
             console.log("compressedFile");
-            console.log(compressedFile);
+            console.log(file);
 
             const response = await uploadImage(formData, token);
             console.log("response");
             console.log(response);
             imagesUrls.push(response.url);
+
           } catch (error) {
             console.error("Error compressing the image:", error);
           }
         }
       }
+
+      handleInputChange("slider", "images", imagesUrls);
+
+      handleSaveChanges();
+
     },
     [handleInputChange, token]
   );

@@ -42,9 +42,12 @@ const HeaderEdit: React.FC<Props> = ({
           const compressedFile = await imageCompression(file, options);
 
           const formDataLogo = new FormData();
-          formDataLogo.append("image", compressedFile);
+          formDataLogo.append("image", file);
 
           const responseLogo = await uploadImage(formDataLogo, token);
+
+
+
           handleInputChange("header", "logo", responseLogo.url);
 
           const formData = new FormData();
