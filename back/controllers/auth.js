@@ -288,9 +288,10 @@ async function createSite(id, url, name) {
           ]);
 
           const defaultCols = JSON.stringify([
-            { image: "default_service.jpg", title: "Service 1" },
-            { image: "default_service.jpg", title: "Service 2" },
-            { image: "default_service.jpg", title: "Service 3" },
+            { image: "", title: "Call" },
+            { image: "", title: "Geo" },
+            { image: "", title: "Menu" },
+            { image: "", title: "News" },
           ]);
 
           connection.query(
@@ -355,7 +356,7 @@ async function createSite(id, url, name) {
                                 return connection.rollback(() => {
                                   console.error(
                                     "Помилка вставки в таблицю socials: " +
-                                      err.message
+                                    err.message
                                   );
                                 });
                               }
@@ -368,7 +369,7 @@ async function createSite(id, url, name) {
                                     return connection.rollback(() => {
                                       console.error(
                                         "Помилка вставки в таблицю footers: " +
-                                          err.message
+                                        err.message
                                       );
                                     });
                                   }
@@ -378,7 +379,7 @@ async function createSite(id, url, name) {
                                       return connection.rollback(() => {
                                         console.error(
                                           "Помилка коміту транзакції: " +
-                                            err.message
+                                          err.message
                                         );
                                       });
                                     }

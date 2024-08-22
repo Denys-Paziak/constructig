@@ -66,7 +66,7 @@ const HeaderEdit: React.FC<Props> = ({
     maxFiles: 1,
   });
 
-  const handleRemoveSlider = async () => {
+  const handleRemoveImage = async () => {
     const token = localStorage.getItem("token");
 
     try {
@@ -117,7 +117,7 @@ const HeaderEdit: React.FC<Props> = ({
               <div className="w-full flex justify-center relative">
                 <img className="w-full" src={data.header.logo} alt="logo" />
                 <span
-                  onClick={handleRemoveSlider}
+                  onClick={handleRemoveImage}
                   className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"
                 >
                   <img
@@ -127,6 +127,12 @@ const HeaderEdit: React.FC<Props> = ({
                   />
                 </span>
               </div>
+            )}
+
+            {!data.header.logo && (
+              <p className="w-full text-sm text-black text-center py-6">
+                Логотипу поки що немає.
+              </p>
             )}
           </div>
         </div>

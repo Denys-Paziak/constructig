@@ -35,12 +35,19 @@ export const createService = async (req, res) => {
     });
 };
 
+
 export const updateService = async (req, res) => {
     const connection = mysql.createConnection(dbConfig);
     const { serviceId } = req.params;
-    const { data } = req.body;
+    const data = JSON.parse(req.body.data);
+    const { visible, cols } = data;
 
-    const query = 'UPDATE services SET data = ? WHERE id = ?';
+
+    console.log(serviceId)
+
+    const colsJson = JSON.stringify(cols);
+
+    const query = 'UPDATE services SET visible = ?, cols = ? WHERE site_id = ?';
 
     connection.connect(err => {
         if (err) {
@@ -48,7 +55,7 @@ export const updateService = async (req, res) => {
             return res.status(500).json({ error: 'Помилка підключення до бази даних' });
         }
 
-        connection.query(query, [JSON.stringify(data), serviceId], (err, results) => {
+        connection.query(query, [visible, colsJson, serviceId], (err, results) => {
             if (err) {
                 console.error('Помилка виконання запиту: ' + err.message);
                 return res.status(500).json({ error: 'Помилка виконання запиту' });

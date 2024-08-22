@@ -8,7 +8,6 @@ export const updateUserData = async (formData: FormData, token: string) => {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(response);
     return { data: response.data, status: response.status };
   } catch (error) {
     console.log(error);

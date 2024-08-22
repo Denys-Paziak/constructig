@@ -8,8 +8,8 @@ interface InfoProps {
 
 export const Info: React.FC<InfoProps> = ({ image, title, text }) => {
   return (
-    <div className="bg-white py-12 flex gap-4">
-      <div className="container mx-auto ">
+    <div className="bg-white pb-24 flex gap-4">
+      <div className="container mx-auto">
         {image ? (
           <div className="flex items-center gap-6">
             <img

@@ -143,7 +143,7 @@ export const createSite = async (req, res) => {
                                 return connection.rollback(() => {
                                   console.error(
                                     "Помилка вставки в таблицю socials: " +
-                                      err.message
+                                    err.message
                                   );
                                   res.status(500).json({
                                     error: "Помилка вставки в таблицю socials",
@@ -159,7 +159,7 @@ export const createSite = async (req, res) => {
                                     return connection.rollback(() => {
                                       console.error(
                                         "Помилка вставки в таблицю footers: " +
-                                          err.message
+                                        err.message
                                       );
                                       res.status(500).json({
                                         error:
@@ -173,7 +173,7 @@ export const createSite = async (req, res) => {
                                       return connection.rollback(() => {
                                         console.error(
                                           "Помилка коміту транзакції: " +
-                                            err.message
+                                          err.message
                                         );
                                         res.status(500).json({
                                           error: "Помилка коміту транзакції",
@@ -289,7 +289,6 @@ export const getSite = async (req, res) => {
         web_link: result.footer_web_link,
       };
 
-      console.log(result);
 
       res.status(200).json({
         site,
@@ -390,8 +389,6 @@ export const getSiteByName = async (req, res) => {
         work_time: result.footer_work_time,
         web_link: result.footer_web_link,
       };
-
-      console.log(result);
 
       res.status(200).json({
         site,

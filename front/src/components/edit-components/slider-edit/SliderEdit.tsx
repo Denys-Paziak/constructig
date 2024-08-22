@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { AdminImage } from "../../../utils/dropzone/dropzone";
 import { useDropzone } from "react-dropzone";
+import Button from "../../UI/button/Button";
 import { updateSliderEdit } from "../../../services/slider/sliderEdit";
 import { useParams } from "react-router-dom";
 import { uploadImage } from "../../../services/upload-images/uploadImages";
@@ -39,36 +40,25 @@ const SliderEdit: React.FC<Props> = ({
               useWebWorker: true,
             };
 
-            const compressedBlob = await imageCompression(file, options);
-
-            const compressedFile = new File([compressedBlob], file.name, {
-              type: file.type,
-              lastModified: Date.now(),
-            });
-
+            const compressedFile = await imageCompression(file, options);
 
             const formData = new FormData();
             formData.append("image", compressedFile);
 
-            console.log("compressedFile")
-            console.log(compressedFile)
-
+            console.log("compressedFile");
+            console.log(compressedFile);
 
             const response = await uploadImage(formData, token);
-            console.log("response")
-            console.log(response)
+            console.log("response");
+            console.log(response);
             imagesUrls.push(response.url);
           } catch (error) {
             console.error("Error compressing the image:", error);
           }
         }
       }
-
-      const updatedImages = [...(data.slider.images || []), ...imagesUrls];
-      handleInputChange("slider", "images", updatedImages);
-      handleSaveChanges();
     },
-    [handleInputChange, token, data.slider.images]
+    [handleInputChange, token]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -80,6 +70,7 @@ const SliderEdit: React.FC<Props> = ({
     try {
       if (token) {
         const formData = new FormData();
+
         formData.append("visible", data.slider.visible);
 
         data.slider.images?.forEach((image: string) => {
@@ -87,6 +78,7 @@ const SliderEdit: React.FC<Props> = ({
         });
 
         const response = await updateSliderEdit(id!, formData, token);
+        handleInputChange("slider", "images", response.updatedFields.images);
         setUploadedSliderImages(null);
       }
     } catch (error) {
@@ -99,12 +91,6 @@ const SliderEdit: React.FC<Props> = ({
       {sectionName === "slider" && (
         <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-4 flex-col">
           <h4 className="font-semibold text-lg">Слайди</h4>
-          {data.slider.images.length === 0 && (
-            <p className="text-sm text-black text-center py-4">
-              Зображень слайдера поки що немає.
-            </p>
-          )}
-
           <AdminImage
             {...getRootProps({
               isdragactive: isDragActive.toString(),
@@ -117,16 +103,20 @@ const SliderEdit: React.FC<Props> = ({
               <p>Перетягніть сюди файли</p>
             )}
           </AdminImage>
+          {uploadedSliderImages?.map(
+            (uploadedSliderImage: File, index: number) => (
+              <p key={index} className="text-sm text-black">
+                {uploadedSliderImage.name}
+              </p>
+            )
+          )}
 
           {data.slider.images &&
             data.slider.images.map((image: string, index: number) => (
               <div key={index} className="w-full flex justify-center relative">
                 <img className="w-full" src={image} alt="slide image" />
                 <span
-                  onClick={() => {
-                    handleRemoveSlider(index);
-                    handleSaveChanges();
-                  }}
+                  onClick={() => handleRemoveSlider(index)}
                   className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"
                 >
                   <img
@@ -137,6 +127,12 @@ const SliderEdit: React.FC<Props> = ({
                 </span>
               </div>
             ))}
+          {data.slider.images.length === 0 && (
+            <p className="w-full text-sm text-black text-center py-6">
+              Зображень слайдера поки що немає.
+            </p>
+          )}
+          <Button handleButtonClick={handleSaveChanges} />
         </div>
       )}
     </>

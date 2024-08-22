@@ -64,7 +64,12 @@ export const Header: React.FC<HeaderProps> = ({
       }}
     >
       <div className="container mx-auto flex justify-between items-center">
-        <div className="logo">
+        <div
+          className="logo"
+          style={{
+            color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+          }}
+        >
           {logo ? <img src={logo} alt="Logo" className="h-8" /> : company}
         </div>
 
@@ -75,9 +80,14 @@ export const Header: React.FC<HeaderProps> = ({
               isMenuOpen ? "active" : ""
             }`}
           >
-            <span className="w-7 h-0.5 rounded-full bg-black ease-in-out duration-300"></span>
-            <span className="w-7 h-0.5 rounded-full bg-black ease-in-out duration-300"></span>
-            <span className="w-7 h-0.5 rounded-full bg-black ease-in-out duration-300"></span>
+            <span
+              className="w-7 h-0.5 rounded-full ease-in-out duration-300"
+              style={{
+                color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+              }}
+            ></span>
+            <span className="w-7 h-0.5 rounded-full ease-in-out duration-300"></span>
+            <span className="w-7 h-0.5 rounded-ful ease-in-out duration-300"></span>
           </div>
         )}
 
@@ -88,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({
               color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
             }}
           >
-            <div ref={googleTranslateRef}>vfdio</div>
+            <div ref={googleTranslateRef}></div>
             {data.slider?.visible && <a href="#slider">slider</a>}
             {data.services?.visible && <a href="#services">services</a>}
             {data.info?.visible && <a href="#info">info</a>}

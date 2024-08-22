@@ -5,6 +5,7 @@ import { Services } from "./services/Services";
 import { Slider } from "./slider/Slider";
 import { Socials } from "./socials/Socials";
 import Loader from "./loader/Loader";
+import { Footer } from "./footer/Footer";
 
 interface PreviewProps {
   data: any;
@@ -119,7 +120,11 @@ const Preview: React.FC<PreviewProps> = ({
             />
           )}
           {data.services?.visible && (
-            <Services services={data.services.cols || []} />
+            <Services
+              services={data.services.cols || []}
+              backgroundColor={headerColorBg}
+              textColor={headerTextColor}
+            />
           )}
           {data.info?.visible && (
             <Info
@@ -147,6 +152,16 @@ const Preview: React.FC<PreviewProps> = ({
                   name: "YouTube",
                 },
               ]}
+            />
+          )}
+          {data.footer?.visible && (
+            <Footer
+              logo={data.header.logo}
+              data={data}
+              company={data.site?.name || ""}
+              footerColorBg={headerColorBg}
+              footerTextColor={headerTextColor}
+              screen={screen}
             />
           )}
         </div>
