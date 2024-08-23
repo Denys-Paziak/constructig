@@ -41,13 +41,11 @@ export const Slider: React.FC<SliderProps> = ({
 
   if (images.length === 0) {
     return (
-      <div className="bg-gray-300 h-[90vh] flex justify-center items-center relative">
+      <div className="bg-gray-300 h-[100vh] flex justify-center items-center relative">
         <Swiper
-          spaceBetween={30}
           centeredSlides={true}
           autoplay={{
             delay: 2500,
-            disableOnInteraction: false,
           }}
           modules={[Pagination]}
           pagination={true}
@@ -56,7 +54,7 @@ export const Slider: React.FC<SliderProps> = ({
         >
           <SwiperSlide>
             <div
-              className="h-full w-full flex justify-center items-center"
+              className="h-full w-full object-cover flex justify-center items-center"
               style={{
                 backgroundColor: `rgba(${backgroundColor.r}, ${
                   backgroundColor.g

@@ -23,10 +23,10 @@ interface SectionEditorProps {
     field: string,
     value: string | null | any[]
   ) => void;
-  setHeaderColorBg: (color: iColor) => void;
-  headerColorBg: iColor;
-  setHeaderTextColor: (color: iColor) => void;
-  headerTextColor: iColor;
+  //   setHeaderColorBg: (color: iColor) => void;
+  //   headerColorBg: iColor;
+  //   setHeaderTextColor: (color: iColor) => void;
+  //   headerTextColor: iColor;
 }
 
 const SectionEditor: React.FC<SectionEditorProps> = ({

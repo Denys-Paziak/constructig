@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { IGetMe } from "../../../services/auth/getMe/getMe.interface";
 import QRCode from "react-qr-code";
 import html2canvas from "html2canvas";
@@ -12,6 +12,7 @@ interface Props {
 const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
   const qrRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const downloadQRCode = async () => {
     if (qrRef.current) {
@@ -35,12 +36,99 @@ const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
     navigate("/login");
   };
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   return (
     <div className="w-full bg-white rounded-xl p-4 md:p-6 shadow-lg">
       <div className="flex items-start flex-col gap-6">
-        <h3 className="text-black text-xl font-semibold">
-          Привіт, {userData.name}
-        </h3>
+        <div className="w-full flex items-start justify-between flex-col md:flex-row md:items-center gap-4 md:gap-0">
+          <h3 className="text-black text-xl font-semibold">
+            Привіт, {userData.name}
+          </h3>
+          <div>
+            <button
+              id="dropdownDefaultButton"
+              data-dropdown-toggle="dropdown"
+              className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              type="button"
+              onClick={toggleDropdown}
+            >
+              Select language
+              <svg
+                className="w-2.5 h-2.5 ms-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 6"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m1 1 4 4 4-4"
+                />
+              </svg>
+            </button>
+
+            {isDropdownOpen && (
+              <div
+                id="dropdown"
+                className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute mt-2"
+              >
+                <ul
+                  className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                  aria-labelledby="dropdownDefaultButton"
+                >
+                  <li>
+                    <a
+                      onClick={toggleDropdown}
+                      href="#"
+                      className="w-full flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      <img
+                        className="w-6"
+                        src="/src/assets/images/uk-flag.svg"
+                        alt="lang icon"
+                      />
+                      English
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      onClick={toggleDropdown}
+                      href="#"
+                      className="w-full flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      <img
+                        className="w-6"
+                        src="/src/assets/images/spain-flag.svg"
+                        alt="lang icon"
+                      />
+                      Spanish
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      onClick={toggleDropdown}
+                      href="#"
+                      className="w-full flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      <img
+                        className="w-6"
+                        src="/src/assets/images/ru-flag.svg"
+                        alt="lang icon"
+                      />
+                      Russian
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
         <div className="w-full flex md:items-center justify-between flex-col gap-6 md:flex-row md:gap-0">
           <div className="flex items-start flex-col gap-6 border-b border-blue-300 md:border-none pb-6 md:pb-0">
             <div className="flex items-start gap-6 flex-col md:flex-row md:items-center">

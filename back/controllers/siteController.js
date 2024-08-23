@@ -143,7 +143,7 @@ export const createSite = async (req, res) => {
                                 return connection.rollback(() => {
                                   console.error(
                                     "Помилка вставки в таблицю socials: " +
-                                    err.message
+                                      err.message
                                   );
                                   res.status(500).json({
                                     error: "Помилка вставки в таблицю socials",
@@ -159,7 +159,7 @@ export const createSite = async (req, res) => {
                                     return connection.rollback(() => {
                                       console.error(
                                         "Помилка вставки в таблицю footers: " +
-                                        err.message
+                                          err.message
                                       );
                                       res.status(500).json({
                                         error:
@@ -173,7 +173,7 @@ export const createSite = async (req, res) => {
                                       return connection.rollback(() => {
                                         console.error(
                                           "Помилка коміту транзакції: " +
-                                          err.message
+                                            err.message
                                         );
                                         res.status(500).json({
                                           error: "Помилка коміту транзакції",
@@ -209,25 +209,25 @@ export const getSite = async (req, res) => {
   const { siteId } = req.params;
 
   const query = `
-        SELECT 
-            s.id AS site_id, s.url AS site_url, s.name AS site_name,
-            h.visible AS header_visible, h.logo AS header_logo, h.menu AS header_menu,
-            sl.visible AS slider_visible, sl.images AS slider_images,
-            se.visible AS services_visible, se.cols AS services_cols,
-            i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
-            so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube,
-            f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link
-            g.visible AS global_visible,  g.bg_color AS bg_color, g.main_text_color AS main_text_color, g.main_color AS main_color
-        FROM sites s
-        LEFT JOIN headers h ON s.id = h.site_id
-        LEFT JOIN sliders sl ON s.id = sl.site_id
-        LEFT JOIN services se ON s.id = se.site_id
-        LEFT JOIN info i ON s.id = i.site_id
-        LEFT JOIN socials so ON s.id = so.site_id
-        LEFT JOIN footers f ON s.id = f.site_id
-        LEFT JOIN global g ON s.id = g.site_id
-        WHERE s.id = ? AND s.user_id = ?
-    `;
+      SELECT 
+          s.id AS site_id, s.url AS site_url, s.name AS site_name,
+          h.visible AS header_visible, h.logo AS header_logo, h.menu AS header_menu,
+          sl.visible AS slider_visible, sl.images AS slider_images,
+          se.visible AS services_visible, se.cols AS services_cols,
+          i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
+          so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube,
+          f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link,
+         g.bg_color AS bg_color, g.main_text_color AS main_text_color, g.main_color AS main_color
+      FROM sites s
+      LEFT JOIN headers h ON s.id = h.site_id
+      LEFT JOIN sliders sl ON s.id = sl.site_id
+      LEFT JOIN services se ON s.id = se.site_id
+      LEFT JOIN info i ON s.id = i.site_id
+      LEFT JOIN socials so ON s.id = so.site_id
+      LEFT JOIN footers f ON s.id = f.site_id
+      LEFT JOIN global g ON s.id = g.site_id
+      WHERE s.id = ? AND s.user_id = ?
+  `;
 
   connection.connect((err) => {
     if (err) {
@@ -290,7 +290,6 @@ export const getSite = async (req, res) => {
         work_time: result.footer_work_time,
         web_link: result.footer_web_link,
       };
-
 
       res.status(200).json({
         site,

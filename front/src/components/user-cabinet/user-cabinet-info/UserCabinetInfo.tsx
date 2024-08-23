@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IGetMe } from "../../../services/auth/getMe/getMe.interface";
-import UserCabinetPersonal from "./user-cabinet-personal/UserCabinetPersonal";
+import UserCabinetPersonal from "./components/user-cabinet-personal/UserCabinetPersonal";
 import Loader from "../../loader/Loader";
 import { getUserSites } from "../../../services/getSite/getSite";
+import UserCabinetCategory from "./components/user-cabinet-category/UserCabinetCategory";
+import UserCabinetProducts from "./components/user-cabinet-products/UserCabinetProducts";
+import UserCabinetNews from "./components/user-cabinet-news/UserCabinetNews";
 
 interface Props {
   userData: IGetMe;
@@ -47,29 +50,75 @@ const UserCabinetInfo: React.FC<Props> = ({ userData, setUserData }) => {
           <h3 className="text-black text-xl font-semibold">Інформація:</h3>
         </div>
         <div className="w-full">
-          <ul className="flex flex-wrap border-b border-gray-200">
+          <ul className="flex border-b border-gray-200 w-full overflow-x-scroll flex-nowrap ">
             <li
-              className={` ${activeTabIndex === 0 ? "bg-gray-100 rounded-md" : "inactive"
-                }`}
+              className={` ${
+                activeTabIndex === 0 ? "bg-gray-100 rounded-md" : "inactive"
+              }`}
             >
               <button
                 onClick={() => handleTabClick(0)}
-                className={`inline-block text-black  hover:bg-blue-500 hover:text-white rounded-l-lg py-4 px-4 text-sm font-medium text-center ${activeTabIndex === 0 ? "bg-blue-500 text-white" : ""
-                  }`}
+                className={`inline-block text-black  hover:bg-blue-500 hover:text-white rounded-l-lg py-4 px-4 text-sm font-medium text-center ${
+                  activeTabIndex === 0 ? "bg-blue-500 text-white" : ""
+                }`}
               >
                 Сайти
               </button>
             </li>
             <li
-              className={`mr-2 ${activeTabIndex === 1 ? "bg-gray-100" : "inactive"
-                }`}
+              className={` ${
+                activeTabIndex === 1 ? "bg-gray-100" : "inactive"
+              }`}
             >
               <button
                 onClick={() => handleTabClick(1)}
-                className={`inline-block text-black hover:bg-blue-500 hover:text-white rounded-r-lg py-4 px-4 text-sm font-medium text-center ${activeTabIndex === 1 ? "bg-blue-500 text-white" : ""
-                  }`}
+                className={`inline-block text-black hover:bg-blue-500 hover:text-white py-4 px-4 text-sm font-medium text-center ${
+                  activeTabIndex === 1 ? "bg-blue-500 text-white" : ""
+                }`}
               >
                 Налаштування
+              </button>
+            </li>
+            <li
+              className={` ${
+                activeTabIndex === 2 ? "bg-gray-100" : "inactive"
+              }`}
+            >
+              <button
+                onClick={() => handleTabClick(2)}
+                className={`inline-block text-black hover:bg-blue-500 hover:text-white py-4 px-4 text-sm font-medium text-center ${
+                  activeTabIndex === 2 ? "bg-blue-500 text-white" : ""
+                }`}
+              >
+                Категорії
+              </button>
+            </li>
+            <li
+              className={` ${
+                activeTabIndex === 3 ? "bg-gray-100" : "inactive"
+              }`}
+            >
+              <button
+                onClick={() => handleTabClick(3)}
+                className={`inline-block text-black hover:bg-blue-500 hover:text-white py-4 px-4 text-sm font-medium text-center ${
+                  activeTabIndex === 3 ? "bg-blue-500 text-white" : ""
+                }`}
+              >
+                Товари
+              </button>
+            </li>
+            <li
+              className={` ${
+                activeTabIndex === 4 ? "bg-gray-100" : "inactive"
+              }`}
+            >
+              <button
+                onClick={() => handleTabClick(4)}
+                className={`inline-block text-black hover:bg-blue-500 hover:text-white rounded-r-lg py-4 px-4 text-sm font-medium text-center ${
+                  activeTabIndex === 4 ? "bg-blue-500 text-white" : ""
+                }`}
+              >
+                Новини
               </button>
             </li>
           </ul>
@@ -123,6 +172,27 @@ const UserCabinetInfo: React.FC<Props> = ({ userData, setUserData }) => {
                   setUserData={setUserData}
                   setSites={setSites}
                 />
+              </div>
+            )}
+
+            {activeTabIndex === 2 && (
+              <div>
+                <h3 className="text-lg font-semibold">Категорії товарів</h3>
+                <UserCabinetCategory />
+              </div>
+            )}
+
+            {activeTabIndex === 3 && (
+              <div>
+                <h3 className="text-lg font-semibold">Товари</h3>
+                <UserCabinetProducts />
+              </div>
+            )}
+
+            {activeTabIndex === 4 && (
+              <div>
+                <h3 className="text-lg font-semibold">Новини</h3>
+                <UserCabinetNews />
               </div>
             )}
           </div>

@@ -15,7 +15,7 @@ const getColor = (props: any) => {
 
 const AdminImage = styled.div`
   width: 100%;
-  padding: 10px 8px 10px 8px;
+  padding: 12px 18px 12px 18px;
   border-width: 1px;
   border-radius: 6px;
   border-color: lightgray;

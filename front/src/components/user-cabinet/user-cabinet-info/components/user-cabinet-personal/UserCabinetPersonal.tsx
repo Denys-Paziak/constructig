@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { IGetMe } from "../../../../services/auth/getMe/getMe.interface";
-import { updateUserData } from "../../../../services/auth/update-data/updateData";
+import { updateUserData } from "../../../../../services/auth/update-data/updateData";
+import { IGetMe } from "../../../../../services/auth/getMe/getMe.interface";
+import { getMe } from "../../../../../services/auth/getMe/getMe";
 import { toast } from "react-toastify";
-import { getMe } from "../../../../services/auth/getMe/getMe";
-import { getUserSites } from "../../../../services/getSite/getSite";
-import CreateItem from "../../item/CreateItem";
+import { getUserSites } from "../../../../../services/getSite/getSite";
 
 interface Props {
   userData: IGetMe;
@@ -66,30 +65,6 @@ const UserCabinetPersonal: React.FC<Props> = ({
     }
   };
 
-  //   const handleSubmitChangeData = async (e: React.FormEvent) => {
-  //     e.preventDefault();
-
-  //     const token = localStorage.getItem("token");
-
-  //     const formData = new FormData();
-  //     formData.append("username", username);
-  //     formData.append("company", company);
-  //     formData.append("email", email);
-
-  //     try {
-  //       if (token) {
-  //         const data = await updateUserData(formData, token);
-  //         notifySuccess(data.message);
-  //         localStorage.setItem("token", data.token);
-  //         getUserData(data.token);
-  //         getSites(data.token);
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //       notifyError("Щось пішло не так...");
-  //     }
-  //   };
-
   const handleSubmitChangeData = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -103,7 +78,6 @@ const UserCabinetPersonal: React.FC<Props> = ({
     try {
       if (token) {
         const data = await updateUserData(formData, token);
-        console.log("data cabinet", data);
 
         if (data && data.data.token) {
           notifySuccess(data.data.message);
@@ -111,12 +85,12 @@ const UserCabinetPersonal: React.FC<Props> = ({
           await getUserData(data.data.token);
           await getSites(data.data.token);
         } else {
-          notifyError("Не вдалося оновити токен. Перевірте відповідь сервера.");
+          notifyError("Щось пішло не так...");
         }
       }
     } catch (error) {
       console.error(error);
-      notifyError("Щось пішло не так...");
+      notifyError("Неправильний старий пароль");
     }
   };
 
@@ -147,6 +121,9 @@ const UserCabinetPersonal: React.FC<Props> = ({
           localStorage.setItem("token", data.token);
           getUserData(data.token);
           getSites(data.token);
+          setOldPassword("");
+          setNewPassword("");
+          setConfirmNewPassword("");
         } else {
           notifyError("Щось пішло не так...");
         }

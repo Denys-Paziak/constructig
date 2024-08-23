@@ -46,8 +46,6 @@ const HeaderEdit: React.FC<Props> = ({
 
           const responseLogo = await uploadImage(formDataLogo, token);
 
-
-
           handleInputChange("header", "logo", responseLogo.url);
 
           const formData = new FormData();

@@ -19,15 +19,15 @@ export const Footer: React.FC<Props> = ({
 }) => {
   return (
     <div
-      className="py-12"
+      className="py-12 container-block"
       style={{
         backgroundColor: `rgba(${footerColorBg.r}, ${footerColorBg.g}, ${footerColorBg.b}, ${footerColorBg.a})`,
       }}
     >
       <div className="container mx-auto w-full flex flex-col gap-6">
-        <div className="w-full flex items-center justify-between pb-6 border-b border-gray-300">
+        <div className="w-full flex items-center justify-between pb-6 border-b border-gray-300 footer-top">
           <div
-            className="w-20"
+            className=""
             style={{
               color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
             }}
@@ -35,7 +35,7 @@ export const Footer: React.FC<Props> = ({
             {logo ? <img src={logo} alt="Logo" className="h-8" /> : company}
           </div>
           <ul
-            className="flex items-center gap-8"
+            className="flex items-center gap-8 footer-menu"
             style={{
               color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
             }}

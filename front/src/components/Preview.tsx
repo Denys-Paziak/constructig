@@ -21,6 +21,8 @@ interface PreviewProps {
     b: number;
     a: number;
   };
+  bodyColorBg: { r: string; g: string; b: string; a: string };
+  bodyTextColor: { r: string; g: string; b: string; a: string };
   type?: string;
 }
 
@@ -28,6 +30,8 @@ const Preview: React.FC<PreviewProps> = ({
   data,
   headerColorBg,
   headerTextColor,
+  bodyColorBg,
+  bodyTextColor,
   type,
 }) => {
   const [screen, setScreen] = useState<"desktop" | "tablet" | "mobile">(
@@ -40,7 +44,7 @@ const Preview: React.FC<PreviewProps> = ({
     <div
       className={`${
         type === "constructor"
-          ? "w-[75%]  h-[100vh] overflow-scroll "
+          ? "w-[75%]  h-[100vh] overflow-scroll edit-site"
           : "w-[100%]"
       } flex items-center flex-col bg-gray-200 `}
     >
@@ -124,6 +128,8 @@ const Preview: React.FC<PreviewProps> = ({
               services={data.services.cols || []}
               backgroundColor={headerColorBg}
               textColor={headerTextColor}
+              bodyColorBg={bodyColorBg}
+              bodyTextColor={bodyTextColor}
             />
           )}
           {data.info?.visible && (
@@ -131,6 +137,8 @@ const Preview: React.FC<PreviewProps> = ({
               image={data.info.image}
               title={data.info.title}
               text={data.info.text}
+              bodyColorBg={bodyColorBg}
+              bodyTextColor={bodyTextColor}
             />
           )}
           {data.socials?.visible && (
@@ -152,6 +160,8 @@ const Preview: React.FC<PreviewProps> = ({
                   name: "YouTube",
                 },
               ]}
+              bodyColorBg={bodyColorBg}
+              bodyTextColor={bodyTextColor}
             />
           )}
           {data.footer?.visible && (
