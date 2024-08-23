@@ -51,6 +51,7 @@ router.put("/site/info/:siteId", upload.none(), authMiddleware, updateInfo);
 router.delete("/site/:siteId", upload.none(), authMiddleware, deleteSite);
 
 router.put("/site/services/:serviceId", upload.none(), authMiddleware, updateService);
+
 router.put("/site/global/:siteId", upload.none(), authMiddleware, updateGlobal);
 
 router.get("/sites", upload.none(), authMiddleware, getUserSites);
