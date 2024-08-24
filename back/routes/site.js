@@ -15,6 +15,7 @@ import { updateInfo } from "../controllers/infoController.js";
 import { updateService } from "../controllers/serviceController.js";
 import { updateGlobal } from "../controllers/globalController.js";
 import { updateSocial } from "../controllers/social.js";
+import { updateFooter } from "../controllers/footerController.js";
 
 const upload = multer();
 const router = express.Router();
@@ -43,11 +44,15 @@ router.put(
   updateHeader
 );
 
+
 router.put("/site/slider/:siteId", upload.none(), authMiddleware, updateSlider);
 
 router.put("/site/info/:siteId", upload.none(), authMiddleware, updateInfo);
 
 router.put("/site/social/:siteId", upload.none(), authMiddleware, updateSocial);
+
+
+router.put("/site/footer/:siteId", upload.none(), authMiddleware, updateFooter);
 
 router.delete("/site/:siteId", upload.none(), authMiddleware, deleteSite);
 

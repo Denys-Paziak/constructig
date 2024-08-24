@@ -280,7 +280,7 @@ async function createSite(id, url, name) {
           const queryInsertSocials =
             "INSERT INTO socials (site_id, visible, instagram, facebook, youtube, messenger, whatsApp, viber, x, tikTok) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
           const queryInsertFooter =
-            "INSERT INTO footers (site_id, visible, work_time, web_link) VALUES (?, ?, ?, ?)";
+            "INSERT INTO footers (site_id, visible, work_time, web_link, first_description, second_description) VALUES (?, ?, ?, ?, ?, ?)";
           const queryInsertGlobal =
             "INSERT INTO global (site_id, main_bg_color, main_text_color, site_bg_color, site_text_color) VALUES (?, ?, ?, ?, ?)";
 
@@ -394,7 +394,7 @@ async function createSite(id, url, name) {
 
                               connection.query(
                                 queryInsertFooter,
-                                [siteId, true, "Mon-Fri 9am-6pm", null],
+                                [siteId, true, "Mon-Fri 9am-6pm", null, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, praesentium amet. Consequuntur iure corporis minus animi, voluptatibus hic modi excepturi corrupti ipsam dolorum itaque sapiente vel dolore fugit error. Aperiam corporis ipsam repellendus non iure rerum praesentium modi laboriosam hic modi excepturi corrupti ipsam dolorum itaque sapiente vel dolore fugit error. Aperiam corporis ipsam repellendus non iure rerum praesentium modi laboriosam", "hic modi excepturi corrupti ipsam dolorum itaque sapiente vel dolore fugit error. Aperiam corporis ipsam repellendus non iure rerum praesentium modi laboriosam re rerum praesentium modi laboriosam"],
                                 (err) => {
                                   if (err) {
                                     return connection.rollback(() => {
