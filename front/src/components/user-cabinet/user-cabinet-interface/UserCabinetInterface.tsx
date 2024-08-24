@@ -3,6 +3,7 @@ import { IGetMe } from "../../../services/auth/getMe/getMe.interface";
 import QRCode from "react-qr-code";
 import html2canvas from "html2canvas";
 import { useNavigate } from "react-router-dom";
+import LanguageSelector from "../../LanguageSelector";
 
 interface Props {
   userData: IGetMe;
@@ -48,30 +49,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
             Привіт, {userData.name}
           </h3>
           <div>
-            <button
-              id="dropdownDefaultButton"
-              data-dropdown-toggle="dropdown"
-              className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              type="button"
-              onClick={toggleDropdown}
-            >
-              Select language
-              <svg
-                className="w-2.5 h-2.5 ms-3"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 10 6"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m1 1 4 4 4-4"
-                />
-              </svg>
-            </button>
+            <LanguageSelector /> {/* Додайте новий компонент для вибору мови */}
 
             {isDropdownOpen && (
               <div

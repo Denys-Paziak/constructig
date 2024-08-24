@@ -14,30 +14,7 @@ interface IColor {
 }
 
 const SiteConstructor: React.FC = () => {
-  const [headerColorBg, setHeaderColorBg] = useState<IColor>({
-    r: 0,
-    g: 0,
-    b: 0,
-    a: 1,
-  });
-  const [headerTextColor, setHeaderTextColor] = useState<IColor>({
-    r: 255,
-    g: 255,
-    b: 255,
-    a: 1,
-  });
-  const [bodyColorBg, setBodyColorBg] = useState<IColor>({
-    r: 255,
-    g: 255,
-    b: 255,
-    a: 1,
-  });
-  const [bodyTextColor, setBodyTextColor] = useState<IColor>({
-    r: 0,
-    g: 0,
-    b: 0,
-    a: 1,
-  });
+
   const { id } = useParams<{ id: string }>();
   const [data, setData] = useState<any>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -66,7 +43,7 @@ const SiteConstructor: React.FC = () => {
       try {
         await updateSite(parseInt(id), formData, token);
         alert("Site updated successfully!");
-        navigate("/profile");
+        // navigate("/profile");
       } catch (error) {
         console.error("Error updating site:", error);
         alert("Failed to update site");
@@ -112,24 +89,24 @@ const SiteConstructor: React.FC = () => {
     { name: "footer", title: "Підвал" },
   ];
 
+  console.log(data.global);
+
   return (
     <div className="flex edit-block">
       <div className="max-w-[25%] min-w-[25%] h-[100vh] overflow-y-scroll edit-sidebar">
         {sections.map(({ name, title, component: Component }) => (
           <div key={name} className="accordion-section">
             <div
-              className={` bg-blue-100  py-2 px-4 select-none flex justify-between items-center cursor-pointer transition duration-300 border  border-b-blue-200   ${
-                activeSection === name ? "text-blue-500 font-semibold" : ""
-              }`}
+              className={` bg-blue-100  py-2 px-4 select-none flex justify-between items-center cursor-pointer transition duration-300 border  border-b-blue-200   ${activeSection === name ? "text-blue-500 font-semibold" : ""
+                }`}
               onClick={() => toggleSection(name)}
             >
               <p> {title}</p>
 
               <svg
                 data-accordion-icon
-                className={` w-3 h-3 rotate-180 shrink-0  ${
-                  activeSection === name ? "rotate-0" : ""
-                }`}
+                className={` w-3 h-3 rotate-180 shrink-0  ${activeSection === name ? "rotate-0" : ""
+                  }`}
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -145,23 +122,15 @@ const SiteConstructor: React.FC = () => {
               </svg>
             </div>
             <div
-              className={`overflow-hidden transition-all ${
-                activeSection === name ? "max-h-auto" : "max-h-0"
-              }`}
+              className={`overflow-hidden transition-all ${activeSection === name ? "max-h-auto" : "max-h-0"
+                }`}
             >
               {activeSection === name && (
                 <div className="bg-white rounded-b-md shadow-md">
                   {Component ? (
                     <Component
                       data={data}
-                      setHeaderColorBg={setHeaderColorBg}
-                      headerColorBg={headerColorBg}
-                      setHeaderTextColor={setHeaderTextColor}
-                      headerTextColor={headerTextColor}
-                      setBodyColorBg={setBodyColorBg}
-                      bodyColorBg={bodyColorBg}
-                      setBodyTextColor={setBodyTextColor}
-                      bodyTextColor={bodyTextColor}
+                      handleInputChange={handleInputChange}
                     />
                   ) : (
                     <SectionEditor
@@ -170,10 +139,10 @@ const SiteConstructor: React.FC = () => {
                       data={data}
                       visibleHandler={visibleHandler}
                       handleInputChange={handleInputChange}
-                      //   setHeaderColorBg={setHeaderColorBg}
-                      //   headerColorBg={headerColorBg}
-                      //   setHeaderTextColor={setHeaderTextColor}
-                      //   headerTextColor={headerTextColor}
+                    //   setHeaderColorBg={setHeaderColorBg}
+                    //   headerColorBg={headerColorBg}
+                    //   setHeaderTextColor={setHeaderTextColor}
+                    //   headerTextColor={headerTextColor}
                     />
                   )}
                 </div>
@@ -184,10 +153,6 @@ const SiteConstructor: React.FC = () => {
       </div>
       <Preview
         data={data}
-        headerColorBg={headerColorBg}
-        headerTextColor={headerTextColor}
-        bodyColorBg={bodyColorBg}
-        bodyTextColor={bodyTextColor}
         type={"constructor"}
       />
     </div>

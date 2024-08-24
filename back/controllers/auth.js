@@ -282,7 +282,7 @@ async function createSite(id, url, name) {
           const queryInsertFooter =
             "INSERT INTO footers (site_id, visible, work_time, web_link) VALUES (?, ?, ?, ?)";
           const queryInsertGlobal =
-            "INSERT INTO global (site_id, bg_color, main_text_color, main_color) VALUES (?, ?, ?, ?)";
+            "INSERT INTO global (site_id, main_bg_color, main_text_color, site_bg_color, site_text_color) VALUES (?, ?, ?, ?, ?)";
 
           const defaultMenu = JSON.stringify([
             { link: "/home", text: "Home" },
@@ -297,7 +297,7 @@ async function createSite(id, url, name) {
           ]);
 
 
-          const bg_color = JSON.stringify({
+          const main_bg_color = JSON.stringify({
             r: 255,
             g: 255,
             b: 255,
@@ -311,7 +311,14 @@ async function createSite(id, url, name) {
             a: 1,
           });
 
-          const main_color = JSON.stringify({
+          const site_bg_color = JSON.stringify({
+            r: 0,
+            g: 0,
+            b: 0,
+            a: 1,
+          });
+
+          const site_text_color = JSON.stringify({
             r: 0,
             g: 0,
             b: 0,
@@ -341,6 +348,9 @@ async function createSite(id, url, name) {
                       );
                     });
                   }
+
+                  console.log("siteId")
+                  console.log(siteId)
 
                   connection.query(
                     queryInsertServices,
@@ -397,15 +407,14 @@ async function createSite(id, url, name) {
                                       );
                                     });
                                   }
-
                                   connection.query(
                                     queryInsertGlobal,
-                                    [siteId, bg_color, main_text_color, main_color],
+                                    [siteId, main_bg_color, main_text_color, site_bg_color, site_text_color],
                                     (err) => {
                                       if (err) {
                                         return connection.rollback(() => {
                                           console.error(
-                                            "Помилка вставки в таблицю footers: " +
+                                            "Помилка вставки в таблицю global: " +
                                             err.message
                                           );
                                         });

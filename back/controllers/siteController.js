@@ -143,7 +143,7 @@ export const createSite = async (req, res) => {
                                 return connection.rollback(() => {
                                   console.error(
                                     "Помилка вставки в таблицю socials: " +
-                                      err.message
+                                    err.message
                                   );
                                   res.status(500).json({
                                     error: "Помилка вставки в таблицю socials",
@@ -159,7 +159,7 @@ export const createSite = async (req, res) => {
                                     return connection.rollback(() => {
                                       console.error(
                                         "Помилка вставки в таблицю footers: " +
-                                          err.message
+                                        err.message
                                       );
                                       res.status(500).json({
                                         error:
@@ -173,7 +173,7 @@ export const createSite = async (req, res) => {
                                       return connection.rollback(() => {
                                         console.error(
                                           "Помилка коміту транзакції: " +
-                                            err.message
+                                          err.message
                                         );
                                         res.status(500).json({
                                           error: "Помилка коміту транзакції",
@@ -217,7 +217,7 @@ export const getSite = async (req, res) => {
           i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
           so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube,
           f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link,
-         g.bg_color AS bg_color, g.main_text_color AS main_text_color, g.main_color AS main_color
+          g.main_bg_color AS main_bg_color, g.main_text_color AS main_text_color, g.site_bg_color AS site_bg_color,  g.site_text_color AS site_text_color
       FROM sites s
       LEFT JOIN headers h ON s.id = h.site_id
       LEFT JOIN sliders sl ON s.id = sl.site_id
@@ -291,6 +291,13 @@ export const getSite = async (req, res) => {
         web_link: result.footer_web_link,
       };
 
+      const global = {
+        main_bg_color: JSON.parse(result.main_bg_color),
+        main_text_color: JSON.parse(result.main_text_color),
+        site_bg_color: JSON.parse(result.site_bg_color),
+        site_text_color: JSON.parse(result.site_text_color)
+      };
+
       res.status(200).json({
         site,
         header,
@@ -299,6 +306,7 @@ export const getSite = async (req, res) => {
         info,
         socials,
         footer,
+        global
       });
 
       connection.end();
@@ -318,7 +326,8 @@ export const getSiteByName = async (req, res) => {
             se.visible AS services_visible, se.cols AS services_cols,
             i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
             so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube,
-            f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link
+            f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link,
+            g.main_bg_color AS main_bg_color, g.main_text_color AS main_text_color, g.site_bg_color AS site_bg_color,  g.site_text_color AS site_text_color
         FROM sites s
         LEFT JOIN headers h ON s.id = h.site_id
         LEFT JOIN sliders sl ON s.id = sl.site_id
@@ -326,6 +335,7 @@ export const getSiteByName = async (req, res) => {
         LEFT JOIN info i ON s.id = i.site_id
         LEFT JOIN socials so ON s.id = so.site_id
         LEFT JOIN footers f ON s.id = f.site_id
+        LEFT JOIN global g ON s.id = g.site_id
         WHERE s.name = ?
     `;
 
@@ -391,6 +401,13 @@ export const getSiteByName = async (req, res) => {
         web_link: result.footer_web_link,
       };
 
+      const global = {
+        main_bg_color: JSON.parse(result.main_bg_color),
+        main_text_color: JSON.parse(result.main_text_color),
+        site_bg_color: JSON.parse(result.site_bg_color),
+        site_text_color: JSON.parse(result.site_text_color)
+      };
+
       res.status(200).json({
         site,
         header,
@@ -399,6 +416,7 @@ export const getSiteByName = async (req, res) => {
         info,
         socials,
         footer,
+        global
       });
 
       connection.end();

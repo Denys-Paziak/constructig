@@ -13,6 +13,7 @@ import UserSite from "./components/user-site/UserSite";
 import { ToastContainer } from "react-toastify";
 
 function App() {
+
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [editingSiteId, setEditingSiteId] = useState<number | null>(null);
 
@@ -69,7 +70,7 @@ function App() {
         />
         <Route
           path="/site/:id"
-          element={isLoggedIn ? <SiteConstructor /> : <Navigate to="/login" />}
+          element={isLoggedIn && <SiteConstructor />}
         />
         <Route path="/:siteName" element={<UserSite />} />
         <Route

@@ -13,26 +13,16 @@ interface iColor {
 
 interface Props {
   data: any;
-  setHeaderColorBg: (color: iColor) => void;
-  headerColorBg: iColor;
-  setHeaderTextColor: (color: iColor) => void;
-  headerTextColor: iColor;
-  setBodyColorBg: (color: iColor) => void;
-  bodyColorBg: iColor;
-  setBodyTextColor: (color: iColor) => void;
-  bodyTextColor: iColor;
+  handleInputChange: (
+    section: string,
+    field: string,
+    value: string | null | any[]
+  ) => void;
 }
 
 const Global: React.FC<Props> = ({
   data,
-  setHeaderColorBg,
-  headerColorBg,
-  setHeaderTextColor,
-  headerTextColor,
-  setBodyColorBg,
-  bodyColorBg,
-  setBodyTextColor,
-  bodyTextColor,
+  handleInputChange
 }) => {
   const { id } = useParams();
 
@@ -41,17 +31,16 @@ const Global: React.FC<Props> = ({
     const token = localStorage.getItem("token");
 
     try {
-      //   if (token) {
-      //     const formData = new FormData();
-      //     formData.append("data", JSON.stringify(data));
-      //     const response = await updateGlobalColors(id!, formData, token);
-      //     console.log(response);
-      //   }
+      if (token) {
+        const formData = new FormData();
+        formData.append("data", JSON.stringify(data.global));
+        const response = await updateGlobalColors(id!, formData, token);
+        console.log(response);
+      }
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <div className="w-full bg-gray-100 flex flex-col gap-4 p-4">
       <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
@@ -60,7 +49,9 @@ const Global: React.FC<Props> = ({
       <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
         <h4 className="font-semibold text-lg">Колір шапки та підвалу</h4>
         <div className="w-full color-picker-block">
-          <RgbaColorPicker color={headerColorBg} onChange={setHeaderColorBg} />
+          <RgbaColorPicker color={data.global.main_bg_color} onChange={(value) => {
+            handleInputChange("global", "main_bg_color", value)
+          }} />
         </div>
       </div>
       <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
@@ -69,24 +60,36 @@ const Global: React.FC<Props> = ({
         </h4>
         <div className="w-full color-picker-block">
           <RgbaColorPicker
-            color={headerTextColor}
-            onChange={setHeaderTextColor}
+            color={data.global.main_text_color}
+            onChange={(value) => {
+              handleInputChange("global", "main_text_color", value)
+            }}
           />
         </div>
       </div>
       <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
         <h4 className="font-semibold text-lg">Колір сайту</h4>
         <div className="w-full color-picker-block">
-          <RgbaColorPicker color={bodyColorBg} onChange={setBodyColorBg} />
+          <RgbaColorPicker color={data.global.site_bg_color}
+            onChange={(value) => {
+              handleInputChange("global", "site_bg_color", value)
+            }}
+          />
         </div>
       </div>
       <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
         <h4 className="font-semibold text-lg">Колір тексту на сайті</h4>
         <div className="w-full color-picker-block">
-          <RgbaColorPicker color={bodyTextColor} onChange={setBodyTextColor} />
+          <RgbaColorPicker color={data.global.site_text_color}
+            onChange={(value) => {
+              handleInputChange("global", "site_text_color", value)
+            }}
+          />
         </div>
       </div>
-      <Button handleButtonClick={handleSaveChanges} />
+      <Button handleButtonClick={handleSaveChanges}
+
+      />
     </div>
   );
 };

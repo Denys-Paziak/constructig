@@ -6,18 +6,22 @@ export const updateGlobal = async (req, res) => {
 
   const data = JSON.parse(req.body.data);
 
+
   const { siteId } = req.params;
-  const { bg_color, main_text_color, main_color } = data;
+  const { main_bg_color, main_text_color, site_bg_color, site_text_color } = data;
+
+  console.log(main_bg_color, main_text_color, site_bg_color, site_text_color)
 
   let params = [
-    JSON.stringify(bg_color),
+    JSON.stringify(main_bg_color),
     JSON.stringify(main_text_color),
-    JSON.stringify(main_color),
+    JSON.stringify(site_bg_color),
+    JSON.stringify(site_text_color),
     siteId,
   ];
 
   const query =
-    "UPDATE global SET  bg_color = ?, main_text_color = ?, main_color = ? WHERE site_id = ?";
+    "UPDATE global SET  main_bg_color = ?, main_text_color = ?, site_bg_color = ?, site_text_color = ? WHERE site_id = ?";
 
   connection.query(query, params, (err, results) => {
     if (err) {
@@ -26,7 +30,7 @@ export const updateGlobal = async (req, res) => {
       return;
     }
 
-    res.status(200).json({ message: "Global updated successfully", url: logo });
+    res.status(200).json({ message: "Global updated successfully" });
   });
 
   connection.end();

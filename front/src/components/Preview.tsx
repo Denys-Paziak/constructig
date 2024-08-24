@@ -9,29 +9,11 @@ import { Footer } from "./footer/Footer";
 
 interface PreviewProps {
   data: any;
-  headerColorBg: {
-    r: number;
-    g: number;
-    b: number;
-    a: number;
-  };
-  headerTextColor: {
-    r: number;
-    g: number;
-    b: number;
-    a: number;
-  };
-  bodyColorBg: { r: string; g: string; b: string; a: string };
-  bodyTextColor: { r: string; g: string; b: string; a: string };
   type?: string;
 }
 
 const Preview: React.FC<PreviewProps> = ({
   data,
-  headerColorBg,
-  headerTextColor,
-  bodyColorBg,
-  bodyTextColor,
   type,
 }) => {
   const [screen, setScreen] = useState<"desktop" | "tablet" | "mobile">(
@@ -42,19 +24,17 @@ const Preview: React.FC<PreviewProps> = ({
 
   return (
     <div
-      className={`${
-        type === "constructor"
-          ? "w-[75%]  h-[100vh] overflow-scroll edit-site"
-          : "w-[100%]"
-      } flex items-center flex-col bg-gray-200 `}
+      className={`${type === "constructor"
+        ? "w-[75%]  h-[100vh] overflow-scroll edit-site"
+        : "w-[100%]"
+        } flex items-center flex-col bg-gray-200 `}
     >
       {type === "constructor" ? (
         <div className="w-full bg-white shadow-md flex items-center justify-center gap-6 py-4 ">
           <div
             onClick={() => setScreen("desktop")}
-            className={`w-8 h-8 p-2 ${
-              screen === "desktop" ? "bg-blue-200" : "bg-gray-200"
-            } shadow-sm rounded-md cursor-pointer`}
+            className={`w-8 h-8 p-2 ${screen === "desktop" ? "bg-blue-200" : "bg-gray-200"
+              } shadow-sm rounded-md cursor-pointer`}
           >
             <img
               className="w-full h-full"
@@ -64,9 +44,8 @@ const Preview: React.FC<PreviewProps> = ({
           </div>
           <div
             onClick={() => setScreen("tablet")}
-            className={`w-8 h-8 p-2 ${
-              screen === "tablet" ? "bg-blue-200" : "bg-gray-200"
-            } shadow-sm rounded-md cursor-pointer`}
+            className={`w-8 h-8 p-2 ${screen === "tablet" ? "bg-blue-200" : "bg-gray-200"
+              } shadow-sm rounded-md cursor-pointer`}
           >
             <img
               className="w-full h-full"
@@ -76,9 +55,8 @@ const Preview: React.FC<PreviewProps> = ({
           </div>
           <div
             onClick={() => setScreen("mobile")}
-            className={`w-8 h-8 p-2 ${
-              screen === "mobile" ? "bg-blue-200" : "bg-gray-200"
-            } shadow-sm rounded-md cursor-pointer`}
+            className={`w-8 h-8 p-2 ${screen === "mobile" ? "bg-blue-200" : "bg-gray-200"
+              } shadow-sm rounded-md cursor-pointer`}
           >
             <img
               className="w-[400px] h-full"
@@ -91,45 +69,43 @@ const Preview: React.FC<PreviewProps> = ({
         <></>
       )}
       <div
-        className={` ${type === "constructor" ? "py-6 px-4" : ""} ${
-          screen === "desktop"
-            ? "w-full"
-            : screen === "tablet"
+        className={` ${type === "constructor" ? "py-6 px-4" : ""} ${screen === "desktop"
+          ? "w-full"
+          : screen === "tablet"
             ? "w-[700px]"
             : screen === "mobile"
-            ? "w-[375px]"
-            : ""
-        }`}
+              ? "w-[375px]"
+              : ""
+          }`}
       >
         <div
-          className={`${
-            type === "constructor" ? "rounded-xl overflow-hidden" : ""
-          }`}
+          className={`${type === "constructor" ? "rounded-xl overflow-hidden" : ""
+            }`}
         >
           {data.header?.visible && (
             <Header
               logo={data.header.logo}
               data={data}
               company={data.site?.name || ""}
-              headerColorBg={headerColorBg}
-              headerTextColor={headerTextColor}
+              headerColorBg={data.global.main_bg_color}
+              headerTextColor={data.global.main_text_color}
               screen={screen}
             />
           )}
           {data.slider?.visible && (
             <Slider
               images={data.slider.images || []}
-              backgroundColor={headerColorBg}
-              textColor={headerTextColor}
+              backgroundColor={data.global.main_bg_color}
+              textColor={data.global.main_text_color}
             />
           )}
           {data.services?.visible && (
             <Services
               services={data.services.cols || []}
-              backgroundColor={headerColorBg}
-              textColor={headerTextColor}
-              bodyColorBg={bodyColorBg}
-              bodyTextColor={bodyTextColor}
+              backgroundColor={data.global.main_bg_color}
+              textColor={data.global.main_text_color}
+              bodyColorBg={data.global.site_bg_color}
+              bodyTextColor={data.global.site_text_color}
             />
           )}
           {data.info?.visible && (
@@ -137,8 +113,8 @@ const Preview: React.FC<PreviewProps> = ({
               image={data.info.image}
               title={data.info.title}
               text={data.info.text}
-              bodyColorBg={bodyColorBg}
-              bodyTextColor={bodyTextColor}
+              bodyColorBg={data.global.site_bg_color}
+              bodyTextColor={data.global.site_text_color}
             />
           )}
           {data.socials?.visible && (
@@ -160,8 +136,8 @@ const Preview: React.FC<PreviewProps> = ({
                   name: "YouTube",
                 },
               ]}
-              bodyColorBg={bodyColorBg}
-              bodyTextColor={bodyTextColor}
+              bodyColorBg={data.global.site_bg_color}
+              bodyTextColor={data.global.site_text_color}
             />
           )}
           {data.footer?.visible && (
@@ -169,8 +145,8 @@ const Preview: React.FC<PreviewProps> = ({
               logo={data.header.logo}
               data={data}
               company={data.site?.name || ""}
-              footerColorBg={headerColorBg}
-              footerTextColor={headerTextColor}
+              footerColorBg={data.global.main_bg_color}
+              footerTextColor={data.global.main_text_color}
               screen={screen}
             />
           )}
