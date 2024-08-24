@@ -2,7 +2,6 @@ import express from "express";
 import multer from "multer";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import {
-  createSite,
   deleteSite,
   getSite,
   getSiteByName,
