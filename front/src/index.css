@@ -38,10 +38,23 @@ body {
 
 .socialIcon img {
   transition: 0.6s;
+  color: rgb(17, 17, 17);
 }
 
 .socialIcon:hover img {
   transform: scale(1.1);
+}
+
+body {
+  position: static !important;
+}
+
+.skiptranslate {
+  display: none !important;
+}
+
+.swiper-pagination-bullet-active {
+  color: white !important;
 }
 
 @media (max-width: 1100px) {
@@ -65,7 +78,7 @@ body {
     gap: 20px;
   }
 
-  .services-blocks>a {
+  .services-blocks > a {
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -75,23 +88,23 @@ body {
     gap: 4px;
   }
 
-  .services-blocks>a>img {
+  .services-blocks > a > img {
     width: 60%;
     height: 100%;
   }
 
-  .services-blocks>a>span {
+  .services-blocks > a > span {
     font-size: 16px;
   }
 }
 
 @media (max-width: 768px) {
-  .services-blocks>a {
+  .services-blocks > a {
     width: 120px;
     height: 120px;
   }
 
-  .services-blocks>a>img,
+  .services-blocks > a > img,
   svg {
     min-height: 100%;
   }
@@ -110,7 +123,7 @@ body {
 }
 
 @media (max-width: 560px) {
-  .services-blocks>a {
+  .services-blocks > a {
     width: 80px;
     height: 80px;
     padding: 0;

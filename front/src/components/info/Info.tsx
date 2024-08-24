@@ -4,8 +4,8 @@ interface InfoProps {
   image: string | null;
   title: string;
   text: string;
-  bodyColorBg: { r: string; g: string; b: string; a: string };
-  bodyTextColor: { r: string; g: string; b: string; a: string };
+  bodyColorBg: { r: any; g: any; b: any; a: any };
+  bodyTextColor: { r: any; g: any; b: any; a: any };
 }
 
 export const Info: React.FC<InfoProps> = ({
@@ -51,7 +51,9 @@ export const Info: React.FC<InfoProps> = ({
                 <p
                   className="mt-4"
                   style={{
-                    color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
+                    color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${
+                      bodyTextColor.b
+                    }, ${bodyTextColor.a / 1.4})`,
                   }}
                 >
                   {text}
@@ -59,14 +61,33 @@ export const Info: React.FC<InfoProps> = ({
               </div>
             </div>
           ) : (
-            <>
+            <div className="flex items-center gap-6 md:flex-row flex-col">
+              <img
+                src="/src/assets/images/default.svg"
+                alt={title}
+                className="w-[100%] md:w-[50%] object-cover rounded-lg"
+              />
               <div className="w-[100%] text-center">
-                <h3 className="text-4xl font-semibold text-gray-800">
+                <h3
+                  className="text-4xl font-semibold"
+                  style={{
+                    color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
+                  }}
+                >
                   {title}
                 </h3>
-                <p className="text-gray-600 mt-4">{text}</p>
+                <p
+                  className=" mt-4"
+                  style={{
+                    color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${
+                      bodyTextColor.b
+                    }, ${bodyTextColor.a / 1.4})`,
+                  }}
+                >
+                  {text}
+                </p>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>

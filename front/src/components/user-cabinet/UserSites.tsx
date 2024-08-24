@@ -35,13 +35,16 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   }
 
   return (
-    <div className="w-full min-h-screen py-8 px-4 bg-gradient-to-r from-blue-500 to-teal-400">
-      <div className="max-w-[1200px] mx-auto flex flex-col items-center gap-8 p-6 bg-white shadow-lg rounded-lg">
-        <h2 className="text-2xl md:text-4xl font-extrabold text-center text-gray-800">
+    <div className="w-full min-h-screen py-8 px-4 bg-gradient-to-r bg-blue-500">
+      <div className="max-w-[1200px] mx-auto flex flex-col items-center gap-8 p-6 rounded-lg">
+        <h2 className="text-2xl md:text-4xl font-extrabold text-center text-white">
           Ласкаво просимо до вашого облікового запису!
         </h2>
 
-        <UserCabinetInterface userData={userData} setIsLoggedIn={setIsLoggedIn} />
+        <UserCabinetInterface
+          userData={userData}
+          setIsLoggedIn={setIsLoggedIn}
+        />
         <UserCabinetInfo userData={userData} setUserData={setUserData} />
       </div>
     </div>

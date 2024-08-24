@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../../UI/button/Button";
 
 interface Props {
   data: any;
@@ -7,6 +8,8 @@ interface Props {
 }
 
 const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
+  const handleSaveChanges = () => {};
+
   return (
     <>
       {sectionName === "socials" && (
@@ -110,6 +113,9 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
               }
               className="p-2 border border-gray-300 rounded-md"
             />
+          </div>
+          <div className="w-full mt-4">
+            <Button handleButtonClick={handleSaveChanges} />
           </div>
         </div>
       )}

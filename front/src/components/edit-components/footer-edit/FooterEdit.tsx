@@ -12,7 +12,7 @@ const FooterEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
       {sectionName === "footer" && (
         <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-4 flex-col">
           <div className="w-full flex flex-col gap-2">
-            <p>Текст вебсайту:</p>
+            {/* <p>Текст вебсайту:</p>
             <input
               type="text"
               placeholder="Текст вебсайту"
@@ -21,7 +21,7 @@ const FooterEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
                 handlerInput(sectionName, "web_text", e.target.value)
               }
               className="p-2 border border-gray-300 rounded-md"
-            />
+            /> */}
             <p>Посилання на вебсайт:</p>
             <input
               type="text"
