@@ -124,19 +124,36 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
             <Socials
               socials={[
                 {
-                  icon: "path_to_instagram_icon",
                   link: data.socials.instagram,
                   name: "Instagram",
                 },
                 {
-                  icon: "path_to_facebook_icon",
                   link: data.socials.facebook,
                   name: "Facebook",
                 },
                 {
-                  icon: "path_to_youtube_icon",
                   link: data.socials.youtube,
                   name: "YouTube",
+                },
+                {
+                  link: data.socials.messenger,
+                  name: "Messenger",
+                },
+                {
+                  link: data.socials.whatsApp,
+                  name: "WhatsApp",
+                },
+                {
+                  link: data.socials.viber,
+                  name: "Viber",
+                },
+                {
+                  link: data.socials.x,
+                  name: "X",
+                },
+                {
+                  link: data.socials.tikTok,
+                  name: "TikTok",
                 },
               ]}
               bodyColorBg={data.global.site_bg_color}

@@ -12,7 +12,7 @@ interface Props {
 const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
   const { id } = useParams();
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     const token = localStorage.getItem("token");
 
     try {
@@ -20,9 +20,10 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
         const formData = new FormData();
 
         console.log(data.socials);
-        formData.append("data", data.socials);
+        formData.append("data", JSON.stringify(data.socials));
 
-        // const response = updateSocials(id!, formData, token)
+        const response = await updateSocials(id!, formData, token);
+        console.log(response);
       }
     } catch (error) {
       console.log(error);
@@ -76,13 +77,13 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             />
           </div>
           <div className="w-full flex flex-col gap-2">
-            <p>Messanger:</p>
+            <p>Messenger:</p>
             <input
               type="text"
-              placeholder="Messanger"
-              value={data[sectionName]?.messanger || ""}
+              placeholder="Messenger"
+              value={data[sectionName]?.messenger || ""}
               onChange={(e) =>
-                handlerInput(sectionName, "messanger", e.target.value)
+                handlerInput(sectionName, "messenger", e.target.value)
               }
               className="p-2 border border-gray-300 rounded-md"
             />

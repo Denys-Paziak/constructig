@@ -1,7 +1,6 @@
 import React from "react";
 
 interface SocialItem {
-  icon: string;
   link: string;
   name: string;
 }
@@ -33,30 +32,32 @@ export const Socials: React.FC<SocialsProps> = ({
         >
           Contact us
         </h2>
-        <div className="w-full flex justify-between ">
-          {socials.map((social, index) => (
-            <a
-              key={index}
-              href={social.link}
-              className="flex flex-col items-center text-center gap-2 socialIcon"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src={"../" + social.name + ".png"}
-                alt={social.icon}
-                className="h-12 w-12 mb-2"
-              />
-              <span
-                className="text-sm"
-                style={{
-                  color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
-                }}
+        <div className="w-full flex justify-between">
+          {socials.map((social, index) =>
+            social.link !== null ? (
+              <a
+                key={index}
+                href={social.link}
+                className="flex flex-col items-center text-center gap-2 socialIcon"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                {social.name}
-              </span>
-            </a>
-          ))}
+                <img
+                  src={"../" + social.name + ".png"}
+                  alt={social.name}
+                  className="h-12 w-12 mb-2"
+                />
+                <span
+                  className="text-sm"
+                  style={{
+                    color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
+                  }}
+                >
+                  {social.name}
+                </span>
+              </a>
+            ) : null
+          )}
         </div>
       </div>
     </div>

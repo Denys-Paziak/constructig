@@ -286,7 +286,6 @@ export const getSite = async (req, res) => {
         messenger: result.socials_messenger,
         whatsApp: result.socials_whatsApp,
         viber: result.socials_viber,
-        test: "sgs",
         x: result.socials_x,
         tikTok: result.socials_tikTok,
       };

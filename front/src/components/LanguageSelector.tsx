@@ -14,7 +14,7 @@ const LanguageSelector: React.FC = () => {
     window.googleTranslateElementInit = () => {
       new window.google.translate.TranslateElement(
         {
-          autoDisplay: true, // Вмикаємо автоматичне визначення мови
+          autoDisplay: true,
         },
         "google_translate_element"
       );
@@ -26,12 +26,13 @@ const LanguageSelector: React.FC = () => {
   }, []);
 
   const languages = [
-    { code: "en", name: "Англійська" },
-    { code: "uk", name: "Українська" },
-    { code: "pl", name: "Польська" },
-    { code: "de", name: "Німецька" },
-    { code: "fr", name: "Французька" },
-    { code: "es", name: "Іспанська" },
+    { code: "en", name: "English", flag_url: "/src/assets/images/uk-flag.svg" },
+    { code: "ru", name: "Russian", flag_url: "/src/assets/images/ru-flag.svg" },
+    {
+      code: "es",
+      name: "Spanish",
+      flag_url: "/src/assets/images/spain-flag.svg",
+    },
   ];
 
   const handleLanguageChange = (code: string) => {
@@ -43,7 +44,7 @@ const LanguageSelector: React.FC = () => {
       translateSelect.value = code;
       translateSelect.dispatchEvent(new Event("change"));
     }
-    setIsOpen(false); // Закриваємо меню після вибору
+    setIsOpen(false);
   };
 
   return (
@@ -86,7 +87,6 @@ const LanguageSelector: React.FC = () => {
         </div>
       )}
 
-      {/* Прихований контейнер для віджета Google Translate */}
       <div id="google_translate_element" style={{ display: "none" }}></div>
     </div>
   );

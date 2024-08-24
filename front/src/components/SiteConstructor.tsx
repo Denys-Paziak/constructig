@@ -53,7 +53,7 @@ const SiteConstructor: React.FC = () => {
   const handleInputChange = (section: string, field: string, value: any) => {
     if (data) {
       const newData = { ...data };
-      newData[section][field] = value;
+      newData[section][field] = value === "" ? null : value;
       setData(newData);
     }
   };
@@ -87,8 +87,6 @@ const SiteConstructor: React.FC = () => {
     { name: "socials", title: "Соціальні мережі" },
     { name: "footer", title: "Підвал" },
   ];
-
-  console.log(data);
 
   return (
     <div className="flex edit-block">
