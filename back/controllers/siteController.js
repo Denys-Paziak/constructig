@@ -215,7 +215,7 @@ export const getSite = async (req, res) => {
           sl.visible AS slider_visible, sl.images AS slider_images,
           se.visible AS services_visible, se.cols AS services_cols,
           i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
-          so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube, so.messenger AS socials_messenger, so.whatsApp AS socials_whatsApp, so.viber AS viber, so.x AS x, so.tikTok AS tikTok,
+          so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube, so.messenger AS socials_messenger, so.whatsApp AS socials_whatsApp, so.viber AS socials_viber, so.x AS socials_x, so.tikTok AS socials_tikTok,
           f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link,
           g.main_bg_color AS main_bg_color, g.main_text_color AS main_text_color, g.site_bg_color AS site_bg_color,  g.site_text_color AS site_text_color
       FROM sites s
@@ -331,7 +331,7 @@ export const getSiteByName = async (req, res) => {
             sl.visible AS slider_visible, sl.images AS slider_images,
             se.visible AS services_visible, se.cols AS services_cols,
             i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
-            so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube, so.messenger AS socials_messenger, so.whatsApp AS socials_whatsApp, so.viber AS viber, so.x AS x, so.tikTok AS tikTok,
+            so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube, so.messenger AS socials_messenger, so.whatsApp AS socials_whatsApp, so.viber AS socials_viber, so.x AS socials_x, so.tikTok AS socials_tikTok,
             f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link,
             g.main_bg_color AS main_bg_color, g.main_text_color AS main_text_color, g.site_bg_color AS site_bg_color,  g.site_text_color AS site_text_color
         FROM sites s
