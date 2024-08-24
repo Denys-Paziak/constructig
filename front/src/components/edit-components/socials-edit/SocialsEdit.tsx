@@ -1,5 +1,7 @@
 import React from "react";
 import Button from "../../UI/button/Button";
+import { updateSocials } from "../../../services/socials/socials";
+import { useParams } from "react-router-dom";
 
 interface Props {
   data: any;
@@ -8,7 +10,24 @@ interface Props {
 }
 
 const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
-  const handleSaveChanges = () => {};
+  const { id } = useParams();
+
+  const handleSaveChanges = () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      if (token) {
+        const formData = new FormData();
+
+        console.log(data.socials);
+        formData.append("data", data.socials);
+
+        // const response = updateSocials(id!, formData, token)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -61,7 +80,7 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             <input
               type="text"
               placeholder="Messanger"
-              value={data[sectionName]?.youtube || ""}
+              value={data[sectionName]?.messanger || ""}
               onChange={(e) =>
                 handlerInput(sectionName, "messanger", e.target.value)
               }
@@ -73,9 +92,9 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             <input
               type="text"
               placeholder="WhatsApp"
-              value={data[sectionName]?.youtube || ""}
+              value={data[sectionName]?.whatsApp || ""}
               onChange={(e) =>
-                handlerInput(sectionName, "whatsapp", e.target.value)
+                handlerInput(sectionName, "whatsApp", e.target.value)
               }
               className="p-2 border border-gray-300 rounded-md"
             />
@@ -85,7 +104,7 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             <input
               type="text"
               placeholder="Viber"
-              value={data[sectionName]?.youtube || ""}
+              value={data[sectionName]?.viber || ""}
               onChange={(e) =>
                 handlerInput(sectionName, "viber", e.target.value)
               }
@@ -97,7 +116,7 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             <input
               type="text"
               placeholder="X"
-              value={data[sectionName]?.youtube || ""}
+              value={data[sectionName]?.x || ""}
               onChange={(e) => handlerInput(sectionName, "x", e.target.value)}
               className="p-2 border border-gray-300 rounded-md"
             />
@@ -107,9 +126,9 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             <input
               type="text"
               placeholder="TikTok"
-              value={data[sectionName]?.youtube || ""}
+              value={data[sectionName]?.tikTok || ""}
               onChange={(e) =>
-                handlerInput(sectionName, "tiktok", e.target.value)
+                handlerInput(sectionName, "tikTok", e.target.value)
               }
               className="p-2 border border-gray-300 rounded-md"
             />

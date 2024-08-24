@@ -143,7 +143,7 @@ export const createSite = async (req, res) => {
                                 return connection.rollback(() => {
                                   console.error(
                                     "Помилка вставки в таблицю socials: " +
-                                    err.message
+                                      err.message
                                   );
                                   res.status(500).json({
                                     error: "Помилка вставки в таблицю socials",
@@ -159,7 +159,7 @@ export const createSite = async (req, res) => {
                                     return connection.rollback(() => {
                                       console.error(
                                         "Помилка вставки в таблицю footers: " +
-                                        err.message
+                                          err.message
                                       );
                                       res.status(500).json({
                                         error:
@@ -173,7 +173,7 @@ export const createSite = async (req, res) => {
                                       return connection.rollback(() => {
                                         console.error(
                                           "Помилка коміту транзакції: " +
-                                          err.message
+                                            err.message
                                         );
                                         res.status(500).json({
                                           error: "Помилка коміту транзакції",
@@ -286,6 +286,7 @@ export const getSite = async (req, res) => {
         messenger: result.socials_messenger,
         whatsApp: result.socials_whatsApp,
         viber: result.socials_viber,
+        test: "sgs",
         x: result.socials_x,
         tikTok: result.socials_tikTok,
       };
@@ -300,7 +301,7 @@ export const getSite = async (req, res) => {
         main_bg_color: JSON.parse(result.main_bg_color),
         main_text_color: JSON.parse(result.main_text_color),
         site_bg_color: JSON.parse(result.site_bg_color),
-        site_text_color: JSON.parse(result.site_text_color)
+        site_text_color: JSON.parse(result.site_text_color),
       };
 
       res.status(200).json({
@@ -311,7 +312,7 @@ export const getSite = async (req, res) => {
         info,
         socials,
         footer,
-        global
+        global,
       });
 
       connection.end();
@@ -415,7 +416,7 @@ export const getSiteByName = async (req, res) => {
         main_bg_color: JSON.parse(result.main_bg_color),
         main_text_color: JSON.parse(result.main_text_color),
         site_bg_color: JSON.parse(result.site_bg_color),
-        site_text_color: JSON.parse(result.site_text_color)
+        site_text_color: JSON.parse(result.site_text_color),
       };
 
       res.status(200).json({
@@ -426,7 +427,7 @@ export const getSiteByName = async (req, res) => {
         info,
         socials,
         footer,
-        global
+        global,
       });
 
       connection.end();

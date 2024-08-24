@@ -54,7 +54,7 @@ body {
 }
 
 .swiper-pagination-bullet-active {
-  color: white !important;
+  background-color: white !important;
 }
 
 @media (max-width: 1100px) {
