@@ -278,7 +278,7 @@ async function createSite(id, url, name) {
           const queryInsertInfo =
             "INSERT INTO info (site_id, visible, image, title, text) VALUES (?, ?, ?, ?, ?)";
           const queryInsertSocials =
-            "INSERT INTO socials (site_id, visible, instagram, facebook, youtube) VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO socials (site_id, visible, instagram, facebook, youtube, messenger, whatsApp, viber, x, tikTok) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
           const queryInsertFooter =
             "INSERT INTO footers (site_id, visible, work_time, web_link) VALUES (?, ?, ?, ?)";
           const queryInsertGlobal =
@@ -298,9 +298,9 @@ async function createSite(id, url, name) {
 
 
           const main_bg_color = JSON.stringify({
-            r: 255,
-            g: 255,
-            b: 255,
+            r: 20,
+            g: 20,
+            b: 20,
             a: 1,
           });
 
@@ -319,9 +319,9 @@ async function createSite(id, url, name) {
           });
 
           const site_text_color = JSON.stringify({
-            r: 0,
-            g: 0,
-            b: 0,
+            r: 255,
+            g: 255,
+            b: 255,
             a: 1,
           });
 
@@ -348,9 +348,6 @@ async function createSite(id, url, name) {
                       );
                     });
                   }
-
-                  console.log("siteId")
-                  console.log(siteId)
 
                   connection.query(
                     queryInsertServices,
@@ -384,7 +381,7 @@ async function createSite(id, url, name) {
 
                           connection.query(
                             queryInsertSocials,
-                            [siteId, true, null, null, null],
+                            [siteId, true, null, null, null, null, null, null, null, null,],
                             (err) => {
                               if (err) {
                                 return connection.rollback(() => {

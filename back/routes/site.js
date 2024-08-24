@@ -15,11 +15,11 @@ import { deleteImage, uploadImage } from "../controllers/upload.js";
 import { updateInfo } from "../controllers/infoController.js";
 import { updateService } from "../controllers/serviceController.js";
 import { updateGlobal } from "../controllers/globalController.js";
+import { updateSocial } from "../controllers/social.js";
 
 const upload = multer();
 const router = express.Router();
 
-// router.post("/site", upload.none(), authMiddleware, createSite);
 
 router.post(
   "/site/upload",
@@ -47,6 +47,8 @@ router.put(
 router.put("/site/slider/:siteId", upload.none(), authMiddleware, updateSlider);
 
 router.put("/site/info/:siteId", upload.none(), authMiddleware, updateInfo);
+
+router.put("/site/social/:siteId", upload.none(), authMiddleware, updateSocial);
 
 router.delete("/site/:siteId", upload.none(), authMiddleware, deleteSite);
 
