@@ -18,6 +18,7 @@ export const Socials: React.FC<SocialsProps> = ({
 }) => {
   return (
     <div
+      id="contact"
       className="flex justify-around pb-24 container-block"
       style={{
         background: `rgba(${bodyColorBg.r}, ${bodyColorBg.g}, ${bodyColorBg.b}, ${bodyColorBg.a})`,

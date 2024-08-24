@@ -23,6 +23,7 @@ export const Services: React.FC<ServicesProps> = ({
 }) => {
   return (
     <div
+      id="services"
       className=" py-24"
       style={{
         background: `rgba(${bodyColorBg.r}, ${bodyColorBg.g}, ${bodyColorBg.b}, ${bodyColorBg.a})`,

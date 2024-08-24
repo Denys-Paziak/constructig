@@ -41,7 +41,10 @@ export const Slider: React.FC<SliderProps> = ({
 
   if (images.length === 0) {
     return (
-      <div className="bg-gray-300 h-[100vh] flex justify-center items-center relative">
+      <div
+        id="slider"
+        className="bg-gray-300 h-[100vh] flex justify-center items-center relative"
+      >
         <Swiper
           centeredSlides={true}
           autoplay={{
@@ -66,7 +69,7 @@ export const Slider: React.FC<SliderProps> = ({
           </SwiperSlide>
           <SwiperSlide>
             <div
-              className="h-full w-full flex justify-center items-center"
+              className="h-full w-full flex justify-center items-center object-cover"
               style={{
                 backgroundColor: `rgba(${backgroundColor.r}, ${
                   backgroundColor.g
@@ -78,7 +81,7 @@ export const Slider: React.FC<SliderProps> = ({
           </SwiperSlide>
           <SwiperSlide>
             <div
-              className="h-full w-full flex justify-center items-center"
+              className="h-full w-full flex justify-center items-center object-cover"
               style={{
                 backgroundColor: `rgba(${backgroundColor.r}, ${
                   backgroundColor.g
@@ -96,7 +99,6 @@ export const Slider: React.FC<SliderProps> = ({
   return (
     <div className="relative">
       <Swiper
-        spaceBetween={30}
         centeredSlides={true}
         autoplay={{
           delay: 2500,
@@ -109,12 +111,12 @@ export const Slider: React.FC<SliderProps> = ({
       >
         {images &&
           images.map((image, index) => (
-            <SwiperSlide key={index}>
-              <div className="h-full w-full flex justify-center items-center">
+            <SwiperSlide className="w-full h-full" key={index}>
+              <div className="h-full w-full flex justify-center items-center object-cover">
                 <img
                   src={image}
                   alt={`Slide ${index + 1}`}
-                  className="object-cover h-full w-full"
+                  className="object-cover object-center h-[100vh] w-full"
                 />
               </div>
             </SwiperSlide>

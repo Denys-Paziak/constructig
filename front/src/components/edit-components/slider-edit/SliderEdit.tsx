@@ -6,7 +6,7 @@ import { updateSliderEdit } from "../../../services/slider/sliderEdit";
 import { useParams } from "react-router-dom";
 import { uploadImage } from "../../../services/upload-images/uploadImages";
 import imageCompression from "browser-image-compression";
-import { image } from "html2canvas/dist/types/css/types/image";
+import { notify } from "../../../helpers/helper";
 
 interface Props {
   data: any;
@@ -41,19 +41,21 @@ const SliderEdit: React.FC<Props> = ({
               useWebWorker: true,
             };
 
-            const compressedFile = await imageCompression(file, options);
+            const compressedBlob = await imageCompression(file, options);
+
+            const compressedFile = new File([compressedBlob], file.name, {
+              type: file.type,
+              lastModified: Date.now(),
+            });
 
             const formData = new FormData();
-            formData.append("image", file);
+            formData.append("image", compressedFile);
 
             console.log("compressedFile");
             console.log(file);
 
             const response = await uploadImage(formData, token);
-            console.log("response");
-            console.log(response);
             imagesUrls.push(response.url);
-
           } catch (error) {
             console.error("Error compressing the image:", error);
           }
@@ -63,7 +65,6 @@ const SliderEdit: React.FC<Props> = ({
       handleInputChange("slider", "images", imagesUrls);
 
       handleSaveChanges();
-
     },
     [handleInputChange, token]
   );
@@ -86,6 +87,7 @@ const SliderEdit: React.FC<Props> = ({
 
         const response = await updateSliderEdit(id!, formData, token);
         handleInputChange("slider", "images", response.updatedFields.images);
+        notify(response.message);
         setUploadedSliderImages(null);
       }
     } catch (error) {

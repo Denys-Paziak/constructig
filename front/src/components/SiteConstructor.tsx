@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, NavLink } from "react-router-dom";
 import SectionEditor from "./SectionEditor";
 import Preview from "./Preview";
 import { getEditSite, updateSite } from "../services/getSite/getSite";
@@ -42,7 +42,6 @@ const SiteConstructor: React.FC = () => {
       try {
         await updateSite(parseInt(id), formData, token);
         alert("Site updated successfully!");
-        // navigate("/profile");
       } catch (error) {
         console.error("Error updating site:", error);
         alert("Failed to update site");
@@ -77,6 +76,8 @@ const SiteConstructor: React.FC = () => {
   if (!data) {
     return <Loader />;
   }
+
+  console.log(data);
 
   const sections = [
     { name: "global", title: "Глобальні налаштування", component: Global },
@@ -139,10 +140,6 @@ const SiteConstructor: React.FC = () => {
                       data={data}
                       visibleHandler={visibleHandler}
                       handleInputChange={handleInputChange}
-                      //   setHeaderColorBg={setHeaderColorBg}
-                      //   headerColorBg={headerColorBg}
-                      //   setHeaderTextColor={setHeaderTextColor}
-                      //   headerTextColor={headerTextColor}
                     />
                   )}
                 </div>
@@ -150,6 +147,14 @@ const SiteConstructor: React.FC = () => {
             </div>
           </div>
         ))}
+        <div className="w-full px-4">
+          <NavLink
+            to={"/profile"}
+            className="w-full block mt-4 text-center py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Go to Profile
+          </NavLink>
+        </div>
       </div>
       <Preview data={data} type={"constructor"} />
     </div>

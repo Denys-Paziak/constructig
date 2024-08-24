@@ -8,6 +8,7 @@ import {
   uploadImage,
 } from "../../../services/upload-images/uploadImages";
 import imageCompression from "browser-image-compression";
+import { notify } from "../../../helpers/helper";
 
 interface Props {
   data: any;
@@ -53,6 +54,7 @@ const HeaderEdit: React.FC<Props> = ({
           formData.append("logo", data.header.logo);
 
           const response = await updateHeaderEdit(id!, formData, token);
+          notify(response.message);
           handleInputChange("header", "logo", response.url);
         } catch (error) {
           console.error("Error compressing the image:", error);

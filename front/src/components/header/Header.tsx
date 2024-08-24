@@ -42,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({
     >
       <div className="container mx-auto flex justify-between items-center container-block">
         <div
-          className="logo"
+          className="logo notranslate"
           style={{
             color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
           }}
@@ -68,10 +68,18 @@ export const Header: React.FC<HeaderProps> = ({
             color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
           }}
         >
-          {data.slider?.visible && <a href="#slider">slider</a>}
-          {data.services?.visible && <a href="#services">services</a>}
-          {data.info?.visible && <a href="#info">info</a>}
-          {data.socials?.visible && <a href="#socials">socials</a>}
+          {data.slider?.visible && (
+            <a href="#slider">{data.header.menu[0].text}</a>
+          )}
+          {data.services?.visible && (
+            <a href="#services">{data.header.menu[1].text}</a>
+          )}
+          {data.info?.visible && (
+            <a href="#about">{data.header.menu[2].text}</a>
+          )}
+          {data.socials?.visible && (
+            <a href="#contact">{data.header.menu[3].text}</a>
+          )}
         </div>
       </div>
 

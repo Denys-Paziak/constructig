@@ -8,6 +8,7 @@ import {
 import Button from "../../UI/button/Button";
 import { updateInfo } from "../../../services/info/info";
 import { useParams } from "react-router-dom";
+import { notify } from "../../../helpers/helper";
 
 interface Props {
   data: any;
@@ -18,14 +19,19 @@ interface Props {
 const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
   const { id } = useParams();
 
-  const handleSaveChanges = () => {
-    const token = localStorage.getItem("token");
+  const handleSaveChanges = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-    const formData = new FormData();
-    formData.append("data", JSON.stringify(data.info));
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(data.info));
 
-    if (token) {
-      updateInfo(id!, formData, token);
+      if (token) {
+        const response = await updateInfo(id!, formData, token);
+        notify(response.message);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

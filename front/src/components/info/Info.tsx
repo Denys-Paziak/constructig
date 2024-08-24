@@ -17,6 +17,7 @@ export const Info: React.FC<InfoProps> = ({
 }) => {
   return (
     <div
+      id="about"
       className="pb-24 flex gap-4"
       style={{
         background: `rgba(${bodyColorBg.r}, ${bodyColorBg.g}, ${bodyColorBg.b}, ${bodyColorBg.a})`,

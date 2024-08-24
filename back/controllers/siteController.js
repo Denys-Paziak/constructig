@@ -294,8 +294,8 @@ export const getSite = async (req, res) => {
         visible: result.footer_visible,
         work_time: result.footer_work_time,
         web_link: result.footer_web_link,
-        first_description: results.first_description,
-        second_description: results.second_description,
+        first_description: result.first_description,
+        second_description: result.second_description,
       };
 
       const global = {
@@ -411,8 +411,8 @@ export const getSiteByName = async (req, res) => {
         visible: result.footer_visible,
         work_time: result.footer_work_time,
         web_link: result.footer_web_link,
-        first_description: results.first_description,
-        second_description: results.second_description,
+        first_description: result.first_description,
+        second_description: result.second_description,
       };
 
       const global = {

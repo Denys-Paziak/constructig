@@ -27,7 +27,7 @@ export const Footer: React.FC<Props> = ({
       <div className="container mx-auto w-full flex flex-col gap-6">
         <div className="w-full flex items-center justify-between pb-6 border-b footer-top">
           <div
-            className=""
+            className="notranslate"
             style={{
               color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
               borderColor: `rgba(${footerColorBg.r}, ${footerColorBg.g}, ${footerColorBg.b}, ${footerColorBg.a})`,
@@ -41,31 +41,18 @@ export const Footer: React.FC<Props> = ({
               color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
             }}
           >
-            <li className="list-none">
-              <a href="#" className="text-md">
-                item 1
-              </a>
-            </li>
-            <li className="list-none">
-              <a href="#" className="text-md">
-                item 2
-              </a>
-            </li>
-            <li className="list-none">
-              <a href="#" className="text-md">
-                item 3
-              </a>
-            </li>
-            <li className="list-none">
-              <a href="#" className="text-md">
-                item 4
-              </a>
-            </li>
-            <li className="list-none">
-              <a href="#" className="text-md">
-                item 5
-              </a>
-            </li>
+            {data.slider?.visible && (
+              <a href="#slider">{data.header.menu[0].text}</a>
+            )}
+            {data.services?.visible && (
+              <a href="#services">{data.header.menu[1].text}</a>
+            )}
+            {data.info?.visible && (
+              <a href="#about">{data.header.menu[2].text}</a>
+            )}
+            {data.socials?.visible && (
+              <a href="#contact">{data.header.menu[3].text}</a>
+            )}
           </ul>
           <div>
             <a
@@ -73,7 +60,7 @@ export const Footer: React.FC<Props> = ({
                 color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
               }}
               className="text-lg text-black hover:text-blue-500"
-              href="https://google.com"
+              href={data.footer.web_link}
             >
               My website
             </a>
@@ -86,14 +73,7 @@ export const Footer: React.FC<Props> = ({
             }}
             className="text-sm text-black"
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi,
-            praesentium amet. Consequuntur iure corporis minus animi,
-            voluptatibus hic modi excepturi corrupti ipsam dolorum itaque
-            sapiente vel dolore fugit error. Aperiam corporis ipsam repellendus
-            non iure rerum praesentium modi laboriosam hic modi excepturi
-            corrupti ipsam dolorum itaque sapiente vel dolore fugit error.
-            Aperiam corporis ipsam repellendus non iure rerum praesentium modi
-            laboriosam
+            {data.footer.first_description}
           </p>
           <p
             style={{
@@ -101,9 +81,7 @@ export const Footer: React.FC<Props> = ({
             }}
             className="text-sm text-black"
           >
-            hic modi excepturi corrupti ipsam dolorum itaque sapiente vel dolore
-            fugit error. Aperiam corporis ipsam repellendus non iure rerum
-            praesentium modi laboriosam re rerum praesentium modi laboriosam
+            {data.footer.second_description}
           </p>
         </div>
       </div>

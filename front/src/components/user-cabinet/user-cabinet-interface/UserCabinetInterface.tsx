@@ -46,10 +46,10 @@ const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
       <div className="flex items-start flex-col gap-6">
         <div className="w-full flex items-start justify-between flex-col md:flex-row md:items-center gap-4 md:gap-0">
           <h3 className="text-black text-xl font-semibold">
-            Привіт, {userData.name}
+            Привіт, <span className="notranslate">{userData.name}</span>
           </h3>
           <div>
-            <LanguageSelector /> {/* Додайте новий компонент для вибору мови */}
+            <LanguageSelector />
 
             {isDropdownOpen && (
               <div
@@ -118,14 +118,14 @@ const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
                 />
               </div>
               <div>
-                <h4 className="text-black text-[22px] font-medium">
+                <h4 className="text-black text-[22px] font-medium notranslate">
                   {userData.name}
                 </h4>
                 <div className="flex items-center gap-1">
                   <p className="text-[16px] text-gray-700 text-normal">
                     Email адреса:
                   </p>
-                  <span className="text-[16px] text-gray-900 text-normal">
+                  <span className="text-[16px] text-gray-900 text-normal notranslate">
                     {userData.email}
                   </span>
                 </div>
@@ -133,7 +133,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
                   <p className="text-[16px] text-gray-700 text-normal">
                     Компанія:
                   </p>
-                  <span className="text-[16px] text-gray-900 text-normal">
+                  <span className="text-[16px] text-gray-900 text-normal notranslate">
                     {userData.company}
                   </span>
                 </div>

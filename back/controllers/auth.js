@@ -285,8 +285,10 @@ async function createSite(id, url, name) {
             "INSERT INTO global (site_id, main_bg_color, main_text_color, site_bg_color, site_text_color) VALUES (?, ?, ?, ?, ?)";
 
           const defaultMenu = JSON.stringify([
-            { link: "/home", text: "Home" },
-            { link: "/about", text: "About Us" },
+            { link: "#slider", text: "Home" },
+            { link: "#services", text: "Services" },
+            { link: "#about", text: "About Us" },
+            { link: "#contact", text: "Contact Us" },
           ]);
 
           const defaultCols = JSON.stringify([
@@ -295,7 +297,6 @@ async function createSite(id, url, name) {
             { image: "", title: "Menu" },
             { image: "", title: "News" },
           ]);
-
 
           const main_bg_color = JSON.stringify({
             r: 20,
@@ -381,38 +382,62 @@ async function createSite(id, url, name) {
 
                           connection.query(
                             queryInsertSocials,
-                            [siteId, true, null, null, null, null, null, null, null, null,],
+                            [
+                              siteId,
+                              true,
+                              "https://instagram.com",
+                              "https://facebook.com",
+                              null,
+                              null,
+                              "https://whatsapp.com",
+                              null,
+                              "https://x.com",
+                              null,
+                            ],
                             (err) => {
                               if (err) {
                                 return connection.rollback(() => {
                                   console.error(
                                     "Помилка вставки в таблицю socials: " +
-                                    err.message
+                                      err.message
                                   );
                                 });
                               }
 
                               connection.query(
                                 queryInsertFooter,
-                                [siteId, true, "Mon-Fri 9am-6pm", null, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, praesentium amet. Consequuntur iure corporis minus animi, voluptatibus hic modi excepturi corrupti ipsam dolorum itaque sapiente vel dolore fugit error. Aperiam corporis ipsam repellendus non iure rerum praesentium modi laboriosam hic modi excepturi corrupti ipsam dolorum itaque sapiente vel dolore fugit error. Aperiam corporis ipsam repellendus non iure rerum praesentium modi laboriosam", "hic modi excepturi corrupti ipsam dolorum itaque sapiente vel dolore fugit error. Aperiam corporis ipsam repellendus non iure rerum praesentium modi laboriosam re rerum praesentium modi laboriosam"],
+                                [
+                                  siteId,
+                                  true,
+                                  "Mon-Fri 9am-6pm",
+                                  null,
+                                  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, praesentium amet. Consequuntur iure corporis minus animi, voluptatibus hic modi excepturi corrupti ipsam dolorum itaque sapiente vel dolore fugit error. Aperiam corporis ipsam repellendus non iure rerum praesentium modi laboriosam hic modi excepturi corrupti ipsam dolorum itaque sapiente vel dolore fugit error. Aperiam corporis ipsam repellendus non iure rerum praesentium modi laboriosam",
+                                  "hic modi excepturi corrupti ipsam dolorum itaque sapiente vel dolore fugit error. Aperiam corporis ipsam repellendus non iure rerum praesentium modi laboriosam re rerum praesentium modi laboriosam",
+                                ],
                                 (err) => {
                                   if (err) {
                                     return connection.rollback(() => {
                                       console.error(
                                         "Помилка вставки в таблицю footers: " +
-                                        err.message
+                                          err.message
                                       );
                                     });
                                   }
                                   connection.query(
                                     queryInsertGlobal,
-                                    [siteId, main_bg_color, main_text_color, site_bg_color, site_text_color],
+                                    [
+                                      siteId,
+                                      main_bg_color,
+                                      main_text_color,
+                                      site_bg_color,
+                                      site_text_color,
+                                    ],
                                     (err) => {
                                       if (err) {
                                         return connection.rollback(() => {
                                           console.error(
                                             "Помилка вставки в таблицю global: " +
-                                            err.message
+                                              err.message
                                           );
                                         });
                                       }
@@ -422,7 +447,7 @@ async function createSite(id, url, name) {
                                           return connection.rollback(() => {
                                             console.error(
                                               "Помилка коміту транзакції: " +
-                                              err.message
+                                                err.message
                                             );
                                           });
                                         }

@@ -8,6 +8,7 @@ import {
 import Button from "../../UI/button/Button";
 import { useParams } from "react-router-dom";
 import { updateServices } from "../../../services/services/services";
+import { notify } from "../../../helpers/helper";
 
 interface Service {
   image: string;
@@ -28,15 +29,18 @@ const ServicesEdit: React.FC<Props> = ({
   const { id } = useParams();
   const token = localStorage.getItem("token");
 
-  const handleSaveChanges = () => {
-    const formData = new FormData();
+  const handleSaveChanges = async () => {
+    try {
+      const formData = new FormData();
 
-    formData.append("data", JSON.stringify(data.services));
+      formData.append("data", JSON.stringify(data.services));
 
-    console.log(JSON.stringify(data.services));
-
-    if (token) {
-      updateServices(id!, formData, token);
+      if (token) {
+        const response = await updateServices(id!, formData, token);
+        notify(response.message);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
