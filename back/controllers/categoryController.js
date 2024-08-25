@@ -17,7 +17,7 @@ export const createCategory = async (req, res) => {
 
     let params = [name, resUpload.url, siteId];
 
-    const query = "INSERT INTO categories (name, image) VALUES (?, ?, ?) WHERE site_id = ?";
+    const query = "INSERT INTO categories (name, image, siteId) VALUES (?, ?, ?)";
 
     connection.query(query, params, (err, results) => {
         if (err) {
