@@ -233,8 +233,12 @@ export const getSite = async (req, res) => {
       SELECT id, name FROM categories WHERE site_id = ?
   `;
 
+  // Оновлений запит для отримання items з іменем категорії
   const itemsQuery = `
-      SELECT * FROM items WHERE site_id = ?
+      SELECT i.id, i.name, i.description, i.price, c.name AS category_name
+      FROM items i
+      LEFT JOIN categories c ON i.category_id = c.id
+      WHERE i.site_id = ?
   `;
 
   const newsQuery = `
@@ -326,7 +330,7 @@ export const getSite = async (req, res) => {
 
         global.categories = categoriesResults;
 
-        // Виконуємо запит для отримання продуктів (items)
+        // Виконуємо запит для отримання продуктів (items) з категорією
         connection.query(itemsQuery, [siteId], (err, itemsResults) => {
           if (err) {
             console.error("Помилка виконання запиту до продуктів: " + err.message);
@@ -363,6 +367,7 @@ export const getSite = async (req, res) => {
     });
   });
 };
+
 
 
 export const getSiteByName = async (req, res) => {
