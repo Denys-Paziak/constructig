@@ -62,6 +62,6 @@ router.put("/site/global/:siteId", upload.none(), authMiddleware, updateGlobal);
 
 router.get("/sites", upload.none(), authMiddleware, getUserSites);
 
-router.post("/category/:siteId", upload.none(), authMiddleware, createCategory);
+router.post("/category/:siteId", upload.single("image"), authMiddleware, createCategory);
 
 export default router;

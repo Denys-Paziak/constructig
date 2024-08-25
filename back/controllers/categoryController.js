@@ -1,5 +1,6 @@
 import mysql from "mysql";
 import dbConfig from "../config/dbConfig.js";
+import { uploadImageServer } from "./upload.js";
 
 const connection = mysql.createConnection(dbConfig);
 
@@ -8,9 +9,13 @@ export const createCategory = async (req, res) => {
 
     const data = JSON.parse(req.body.data);
     const { siteId } = req.params;
-    const { name, image } = data;
+    const { name } = data;
 
-    let params = [name, image, siteId];
+
+    const image = req.body.image;
+    const resUpload = await uploadImageServer(image);
+
+    let params = [name, resUpload.url, siteId];
 
     const query = "INSERT INTO categories (name, image) VALUES (?, ?, ?) WHERE site_id = ?";
 

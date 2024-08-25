@@ -14,3 +14,11 @@ export const deleteImage = async (req, res) => {
 
   return res.status(200).json({ url });
 };
+
+
+
+export const uploadImageServer = async (image) => {
+  const url = await uploadFile(image);
+  return res.status(200).json({ url });
+};
+
