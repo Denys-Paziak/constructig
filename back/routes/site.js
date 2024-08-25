@@ -17,6 +17,7 @@ import { updateGlobal } from "../controllers/globalController.js";
 import { updateSocial } from "../controllers/social.js";
 import { updateFooter } from "../controllers/footerController.js";
 import { createCategory } from "../controllers/categoryController.js";
+import { createItem } from "../controllers/itemController.js";
 
 const upload = multer();
 const router = express.Router();
@@ -63,5 +64,7 @@ router.put("/site/global/:siteId", upload.none(), authMiddleware, updateGlobal);
 router.get("/sites", upload.none(), authMiddleware, getUserSites);
 
 router.post("/category/:siteId", upload.single("image"), authMiddleware, createCategory);
+
+router.post("/item/:siteId", upload.single("image"), authMiddleware, createItem);
 
 export default router;
