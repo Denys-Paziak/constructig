@@ -14,7 +14,7 @@ export const updateHeader = async (req, res) => {
   let params = [visible, logo, JSON.stringify(menu), siteId];
 
   const query =
-    "UPDATE headers SET visible = ?, logo = ?, menu = ? WHERE site_id = ?";
+    "INSERT INTO categories (name, image_url, site_id) VALUES (?, ?, ?)";
 
   connection.query(query, params, (err, results) => {
     if (err) {
