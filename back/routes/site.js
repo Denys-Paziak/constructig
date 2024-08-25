@@ -18,6 +18,7 @@ import { updateSocial } from "../controllers/social.js";
 import { updateFooter } from "../controllers/footerController.js";
 import { createCategory } from "../controllers/categoryController.js";
 import { createItem } from "../controllers/itemController.js";
+import { createNews } from "../controllers/newsController.js";
 
 const upload = multer();
 const router = express.Router();
@@ -66,5 +67,7 @@ router.get("/sites", upload.none(), authMiddleware, getUserSites);
 router.post("/category/:siteId", upload.single("image"), authMiddleware, createCategory);
 
 router.post("/item/:siteId", upload.single("image"), authMiddleware, createItem);
+
+router.post("/news/:siteId", upload.single("image"), authMiddleware, createNews);
 
 export default router;
