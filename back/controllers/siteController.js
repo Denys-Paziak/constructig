@@ -235,7 +235,7 @@ export const getSite = async (req, res) => {
 
   // Оновлений запит для отримання items з іменем категорії
   const itemsQuery = `
-      SELECT i.id, i.name, i.description, i.price, c.name AS category_name
+      SELECT i.id, i.name, i.description, i.price,i.image, c.name AS category_name
       FROM items i
       LEFT JOIN categories c ON i.category_id = c.id
       WHERE i.site_id = ?
