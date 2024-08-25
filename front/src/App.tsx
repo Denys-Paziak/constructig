@@ -68,11 +68,14 @@ function App() {
             )
           }
         />
+
         <Route
           path="/site/:id"
           element={isLoggedIn && <SiteConstructor />}
         />
+
         <Route path="/:siteName" element={<UserSite />} />
+
         <Route
           path="*"
           element={<Navigate to={isLoggedIn ? "/profile" : "/login"} />}

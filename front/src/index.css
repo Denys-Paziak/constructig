@@ -78,36 +78,21 @@ body {
     gap: 20px;
   }
 
-  .services-blocks > a {
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: 160px;
-    gap: 4px;
-  }
 
-  .services-blocks > a > img {
+  .services-blocks>a>img {
     width: 60%;
     height: 100%;
   }
 
-  .services-blocks > a > span {
+  .services-blocks>a>span {
     font-size: 16px;
   }
 }
 
 @media (max-width: 768px) {
-  .services-blocks > a {
-    width: 120px;
-    height: 120px;
-  }
 
-  .services-blocks > a > img,
-  svg {
-    min-height: 100%;
-  }
+
+
 
   .footer-top {
     flex-direction: column;
@@ -123,10 +108,7 @@ body {
 }
 
 @media (max-width: 560px) {
-  .services-blocks > a {
-    width: 80px;
-    height: 80px;
-    padding: 0;
+  .services-blocks>a {
     gap: 2px;
   }
 

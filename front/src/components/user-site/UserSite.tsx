@@ -4,8 +4,11 @@ import { getSite } from "../../services/getSite/getSite";
 import Preview from "../Preview";
 
 const UserSite: React.FC = () => {
+
   const [data, setData] = useState<any>();
   const { siteName } = useParams();
+
+  console.log("data");
 
   const getUserSite = async () => {
     try {
@@ -17,8 +20,12 @@ const UserSite: React.FC = () => {
   };
 
   useEffect(() => {
+
     getUserSite();
   }, []);
+
+
+
 
   return (
     <Preview

@@ -11,7 +11,8 @@ interface ServicesProps {
   backgroundColor?: any;
   textColor?: any;
   bodyColorBg: { r: string; g: string; b: string; a: string };
-  bodyTextColor: { r: string; g: string; b: string; a: string };
+  bodyTextColor: { r: number; g: number; b: number; a: number };
+  screen: any
 }
 
 export const Services: React.FC<ServicesProps> = ({
@@ -20,7 +21,10 @@ export const Services: React.FC<ServicesProps> = ({
   textColor,
   bodyColorBg,
   bodyTextColor,
+  screen
 }) => {
+
+  console.log(screen)
   return (
     <div
       id="services"
@@ -39,12 +43,15 @@ export const Services: React.FC<ServicesProps> = ({
           >
             Services
           </h2>
-          <div className="w-full flex justify-between px-0 services-blocks">
+          <div className={`grid gap-6  px-0 services-blocks w-full ${screen == "desktop" && ' grid-cols-1 md:grid-cols-2 lg:grid-cols-4 '} ${screen == "tablet" && ' grid-cols-2'} ${screen == "mobile" && ' grid-cols-1'}`}>
             {services.map((service, index) => (
               <a
                 key={index}
                 href={service.link}
-                className="bg-blue-400 w-[22%] rounded-lg py-10 px-4 flex flex-col items-center text-center gap-4 cursor-pointer hover:bg-blue-500 transition-all duration-300"
+                className=" w-[100%] rounded-lg py-10 px-4 flex flex-col items-center text-center gap-4 cursor-pointer hover:bg-blue-500 transition-all duration-300"
+                style={{
+                  background: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a / 4})`,
+                }}
               >
                 {service.image.length > 0 ? (
                   <img
