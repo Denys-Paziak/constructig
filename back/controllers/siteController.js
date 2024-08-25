@@ -230,7 +230,15 @@ export const getSite = async (req, res) => {
   `;
 
   const categoriesQuery = `
-      SELECT id, name, image FROM categories WHERE site_id = ?
+      SELECT id, name FROM categories WHERE site_id = ?
+  `;
+
+  const itemsQuery = `
+      SELECT * FROM items WHERE site_id = ?
+  `;
+
+  const newsQuery = `
+      SELECT * FROM news WHERE site_id = ?
   `;
 
   connection.connect((err) => {
@@ -316,22 +324,41 @@ export const getSite = async (req, res) => {
           return res.status(500).json({ error: "Помилка виконання запиту до категорій" });
         }
 
-        // Додаємо категорії до об'єкта global
         global.categories = categoriesResults;
 
-        // Формуємо відповідь з додаванням категорій в global
-        res.status(200).json({
-          site,
-          header,
-          slider,
-          services,
-          info,
-          socials,
-          footer,
-          global,
-        });
+        // Виконуємо запит для отримання продуктів (items)
+        connection.query(itemsQuery, [siteId], (err, itemsResults) => {
+          if (err) {
+            console.error("Помилка виконання запиту до продуктів: " + err.message);
+            return res.status(500).json({ error: "Помилка виконання запиту до продуктів" });
+          }
 
-        connection.end();
+          global.items = itemsResults;
+
+          // Виконуємо запит для отримання новин (news)
+          connection.query(newsQuery, [siteId], (err, newsResults) => {
+            if (err) {
+              console.error("Помилка виконання запиту до новин: " + err.message);
+              return res.status(500).json({ error: "Помилка виконання запиту до новин" });
+            }
+
+            global.news = newsResults;
+
+            // Формуємо відповідь з додаванням категорій, продуктів і новин в global
+            res.status(200).json({
+              site,
+              header,
+              slider,
+              services,
+              info,
+              socials,
+              footer,
+              global,
+            });
+
+            connection.end();
+          });
+        });
       });
     });
   });
