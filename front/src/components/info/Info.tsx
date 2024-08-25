@@ -63,7 +63,7 @@ export const Info: React.FC<InfoProps> = ({
               </div>
             </div>
           ) : (
-            <div className={`flex ${screen == "desktop" && "flex-col lg:flex-row"}  ${screen == "tablet" && "flex-col"} ${screen == "mobile" && "flex-col"}`}>
+            <div className={`flex items-center ${screen == "desktop" && "flex-col lg:flex-row"}  ${screen == "tablet" && "flex-col"} ${screen == "mobile" && "flex-col"}`}>
               <svg
                 viewBox="0 0 24 24"
                 fill="none"

@@ -110,21 +110,7 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const lines = document.querySelectorAll('.animated-line');
 
-            lines.forEach((line, index) => {
-                gsap.set(line, { strokeDashoffset: 10000 });
-
-                gsap.to(line, {
-                    duration: 20,
-                    strokeDashoffset: 2000,
-                    ease: "none", // Лінійна анімація
-                    repeat: -1,  // Зациклити анімацію
-                    delay: index * (Math.random(0, 10) * 10)
-                });
-            });
-        });
     </script>
 </body>
 
