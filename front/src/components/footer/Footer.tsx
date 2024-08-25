@@ -25,14 +25,16 @@ export const Footer: React.FC<Props> = ({
       }}
     >
       <div className="container mx-auto w-full flex flex-col gap-6">
-        <div className="w-full flex items-center justify-between pb-6 border-b footer-top">
-          <div
-            className="notranslate"
-            style={{
-              color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
-              borderColor: `rgba(${footerColorBg.r}, ${footerColorBg.g}, ${footerColorBg.b}, ${footerColorBg.a})`,
-            }}
-          >
+        <div
+          className="w-full flex items-center justify-between pb-6 footer-top"
+          style={{
+            color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
+            borderBottomWidth: "1px",
+            borderStyle: "solid",
+            borderColor: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
+          }}
+        >
+          <div className="notranslate">
             {logo ? <img src={logo} alt="Logo" className="h-8" /> : company}
           </div>
           <ul
