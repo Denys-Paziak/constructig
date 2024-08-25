@@ -4,12 +4,18 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   background-color: #fff !important;
 }
 
 .container {
-  padding: 0 50px;
+  padding: 0 20px;
 }
 
 .react-colorful {
@@ -73,27 +79,12 @@ body {
 }
 
 @media (max-width: 880px) {
-  .services-blocks {
-    width: 100%;
-    gap: 20px;
-  }
-
-
-  .services-blocks>a>img {
-    width: 60%;
-    height: 100%;
-  }
-
-  .services-blocks>a>span {
+  .services-blocks > a > span {
     font-size: 16px;
   }
 }
 
 @media (max-width: 768px) {
-
-
-
-
   .footer-top {
     flex-direction: column;
     gap: 30px;
@@ -108,14 +99,8 @@ body {
 }
 
 @media (max-width: 560px) {
-  .services-blocks>a {
+  .services-blocks > a {
     gap: 2px;
-  }
-
-  .services-blocks img,
-  svg {
-    max-width: 36px;
-    max-height: 36px !important;
   }
 
   .footer-menu {

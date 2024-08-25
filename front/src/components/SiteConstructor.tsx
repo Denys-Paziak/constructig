@@ -77,8 +77,6 @@ const SiteConstructor: React.FC = () => {
     return <Loader />;
   }
 
-  console.log(data);
-
   const sections = [
     { name: "global", title: "Глобальні налаштування", component: Global },
     { name: "header", title: "Шапка" },
@@ -147,7 +145,7 @@ const SiteConstructor: React.FC = () => {
             </div>
           </div>
         ))}
-        <div className="w-full px-4">
+        <div className="w-full px-4 pb-6">
           <NavLink
             to={"/profile"}
             className="w-full block mt-4 text-center py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"

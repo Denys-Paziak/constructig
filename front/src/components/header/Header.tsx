@@ -7,6 +7,7 @@ interface HeaderProps {
   headerColorBg: { r: string; g: string; b: string; a: string };
   headerTextColor: { r: string; g: string; b: string; a: string };
   screen: string;
+  onMenuToggle?: (isOpen: boolean) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -15,11 +16,17 @@ export const Header: React.FC<HeaderProps> = ({
   company,
   headerColorBg,
   headerTextColor,
+  screen,
+  onMenuToggle,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    const newMenuState = !isMenuOpen;
+    setIsMenuOpen(newMenuState);
+    if (onMenuToggle) {
+      onMenuToggle(newMenuState);
+    }
   };
 
   useEffect(() => {
@@ -50,20 +57,42 @@ export const Header: React.FC<HeaderProps> = ({
           {logo ? <img src={logo} alt="Logo" className="h-8" /> : company}
         </div>
 
-        <div className="block lg:hidden" onClick={toggleMenu}>
+        <div
+          className={`${screen === "desktop" && "lg:hidden"} ${
+            screen === "tablet" && "visible"
+          } block`}
+          onClick={toggleMenu}
+        >
           <div
             className={`flex items-center flex-col gap-1.5 cursor-pointer burger-menu ${
               isMenuOpen ? "active" : ""
             }`}
           >
-            <span className="w-7 h-0.5 rounded-full ease-in-out duration-300 bg-current"></span>
-            <span className="w-7 h-0.5 rounded-full ease-in-out duration-300 bg-current"></span>
-            <span className="w-7 h-0.5 rounded-full ease-in-out duration-300 bg-current"></span>
+            <span
+              className="w-7 h-0.5 rounded-full ease-in-out duration-300 bg-current"
+              style={{
+                background: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+              }}
+            ></span>
+            <span
+              className="w-7 h-0.5 rounded-full ease-in-out duration-300 bg-current"
+              style={{
+                background: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+              }}
+            ></span>
+            <span
+              className="w-7 h-0.5 rounded-full ease-in-out duration-300 bg-current"
+              style={{
+                background: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+              }}
+            ></span>
           </div>
         </div>
 
         <div
-          className="hidden lg:flex items-center gap-6 h-full"
+          className={`${screen === "desktop" && "lg:flex"} ${
+            screen === "tablet" && "hidden"
+          } hidden  items-center gap-6 h-full`}
           style={{
             color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
           }}
@@ -85,7 +114,9 @@ export const Header: React.FC<HeaderProps> = ({
 
       {isMenuOpen && (
         <div
-          className="lg:hidden absolute top-[60px] right-0 w-full h-[calc(100vh-60px)] flex flex-col items-center justify-center gap-6 z-50"
+          className={`${
+            screen === "desktop" && "lg:hidden"
+          } absolute top-[60px] right-0 w-full h-[calc(100vh-60px)] flex flex-col items-center justify-center gap-6 z-50`}
           style={{
             backgroundColor: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${headerColorBg.b}, ${headerColorBg.a})`,
           }}

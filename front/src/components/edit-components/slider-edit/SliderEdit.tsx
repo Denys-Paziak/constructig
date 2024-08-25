@@ -4,7 +4,10 @@ import { useDropzone } from "react-dropzone";
 import Button from "../../UI/button/Button";
 import { updateSliderEdit } from "../../../services/slider/sliderEdit";
 import { useParams } from "react-router-dom";
-import { uploadImage } from "../../../services/upload-images/uploadImages";
+import {
+  deleteImage,
+  uploadImage,
+} from "../../../services/upload-images/uploadImages";
 import imageCompression from "browser-image-compression";
 import { notify } from "../../../helpers/helper";
 
@@ -12,14 +15,12 @@ interface Props {
   data: any;
   sectionName: string;
   handleInputChange: (section: string, field: string, value: any) => void;
-  handleRemoveSlider: (index?: number) => void;
 }
 
 const SliderEdit: React.FC<Props> = ({
   data,
   sectionName,
   handleInputChange,
-  handleRemoveSlider,
 }) => {
   const token = localStorage.getItem("token");
 
@@ -74,6 +75,26 @@ const SliderEdit: React.FC<Props> = ({
     maxFiles: 3,
   });
 
+  const removeSliderImage = async (index?: number) => {
+    console.log("index", index);
+    let newImages: any[] | any = [...data[sectionName].images];
+
+    console.log("newImages not sliced", newImages);
+    if (newImages.length > 1) {
+      console.log("enter");
+      if (newImages) {
+        newImages.splice(index, 1);
+        console.log(newImages);
+      }
+    } else {
+      newImages = null;
+    }
+    const responseDelete = await deleteImage(data.slider.images[index], token);
+
+    handleInputChange(sectionName, "images", newImages);
+    handleSaveChanges();
+  };
+
   const handleSaveChanges = async () => {
     try {
       if (token) {
@@ -125,7 +146,7 @@ const SliderEdit: React.FC<Props> = ({
               <div key={index} className="w-full flex justify-center relative">
                 <img className="w-full" src={image} alt="slide image" />
                 <span
-                  onClick={() => handleRemoveSlider(index)}
+                  onClick={() => removeSliderImage(index)}
                   className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"
                 >
                   <img
@@ -136,7 +157,7 @@ const SliderEdit: React.FC<Props> = ({
                 </span>
               </div>
             ))}
-          {data.slider.images.length === 0 && (
+          {data.slider.images && (
             <p className="w-full text-sm text-black text-center py-6">
               Зображень слайдера поки що немає.
             </p>

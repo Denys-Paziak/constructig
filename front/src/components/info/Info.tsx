@@ -6,7 +6,7 @@ interface InfoProps {
   text: string;
   bodyColorBg: { r: any; g: any; b: any; a: any };
   bodyTextColor: { r: any; g: any; b: any; a: any };
-  screen: string
+  screen: string;
 }
 
 export const Info: React.FC<InfoProps> = ({
@@ -15,7 +15,7 @@ export const Info: React.FC<InfoProps> = ({
   text,
   bodyColorBg,
   bodyTextColor,
-  screen
+  screen,
 }) => {
   return (
     <div
@@ -36,7 +36,11 @@ export const Info: React.FC<InfoProps> = ({
             About us
           </h2>
           {image ? (
-            <div className={`flex ${screen == "desktop" && "flex-col lg:flex-row"}  ${screen == "tablet" && "flex-col"} ${screen == "mobile" && "flex-col"}`}>
+            <div
+              className={`flex items-center gap-10 ${screen == "desktop" && "flex-col lg:flex-row"
+                }  ${screen == "tablet" && "flex-col"} ${screen == "mobile" && "flex-col"
+                }`}
+            >
               <img
                 src={image}
                 alt={title}
@@ -63,7 +67,11 @@ export const Info: React.FC<InfoProps> = ({
               </div>
             </div>
           ) : (
-            <div className={`flex items-center ${screen == "desktop" && "flex-col lg:flex-row"}  ${screen == "tablet" && "flex-col"} ${screen == "mobile" && "flex-col"}`}>
+            <div
+              className={`flex items-center ${screen == "desktop" && "flex-col lg:flex-row"
+                }  ${screen == "tablet" && "flex-col"} ${screen == "mobile" && "flex-col"
+                }`}
+            >
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -72,7 +80,8 @@ export const Info: React.FC<InfoProps> = ({
               >
                 <path
                   d="M7 3C4.23858 3 2 5.23858 2 8V16C2 18.7614 4.23858 21 7 21H17C19.7614 21 22 18.7614 22 16V8C22 5.23858 19.7614 3 17 3H7Z"
-                  fill={`rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a / 4})`}
+                  fill={`rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b
+                    }, ${bodyTextColor.a / 4})`}
                 />
                 <path
                   d="M19.8918 16.8014L17.8945 14.2809C16.9457 13.0835 15.2487 12.7904 13.9532 13.6001L13.1168 14.1228C12.6581 14.4095 12.0547 14.2795 11.7547 13.8295L10.3177 11.6741C9.20539 10.0056 6.80071 9.8771 5.51693 11.4176L4 13.238V16C4 17.6569 5.34315 19 7 19H17C18.3793 19 19.5412 18.0691 19.8918 16.8014Z"

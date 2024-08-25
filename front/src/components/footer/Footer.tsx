@@ -26,7 +26,11 @@ export const Footer: React.FC<Props> = ({
     >
       <div className="container mx-auto w-full flex flex-col gap-6">
         <div
-          className={`w-full flex items-center justify-between pb-6 footer-top ${screen == "desktop" && " flex-col lg:flex-row "} ${screen == "tablet" && "flex-col gap-12"} ${screen == "mobile" && "flex-col gap-12"}`}
+          className={`w-full flex items-center justify-between pb-6 footer-top ${
+            screen == "desktop" && " flex-col lg:flex-row "
+          } ${screen == "tablet" && "flex-col gap-12"} ${
+            screen == "mobile" && "flex-col gap-12"
+          }`}
           style={{
             color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
             borderBottomWidth: "1px",
@@ -38,7 +42,11 @@ export const Footer: React.FC<Props> = ({
             {logo ? <img src={logo} alt="Logo" className="h-8" /> : company}
           </div>
           <ul
-            className={`flex items-center gap-8 footer-menu ${screen == "desktop" && " flex-col lg:flex-row "} ${screen == "tablet" && "flex-col"} ${screen == "mobile" && "flex-col"}`}
+            className={`flex items-center gap-8 footer-menu ${
+              screen == "desktop" && " flex-col lg:flex-row "
+            } ${screen == "tablet" && "flex-col"} ${
+              screen == "mobile" && "flex-col"
+            }`}
             style={{
               color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
             }}
@@ -73,7 +81,7 @@ export const Footer: React.FC<Props> = ({
             style={{
               color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
             }}
-            className="text-sm text-black"
+            className="text-sm text-black text-center"
           >
             {data.footer.first_description}
           </p>
@@ -81,7 +89,7 @@ export const Footer: React.FC<Props> = ({
             style={{
               color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
             }}
-            className="text-sm text-black"
+            className="text-sm text-black text-center"
           >
             {data.footer.second_description}
           </p>
