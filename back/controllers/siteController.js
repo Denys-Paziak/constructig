@@ -374,7 +374,7 @@ export const getSiteByName = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
   const { siteName } = req.params;
 
-  const query = `
+  const siteQuery = `
         SELECT 
             s.id AS site_id, s.url AS site_url, s.name AS site_name,
             h.visible AS header_visible, h.logo AS header_logo, h.menu AS header_menu,
@@ -382,8 +382,8 @@ export const getSiteByName = async (req, res) => {
             se.visible AS services_visible, se.cols AS services_cols,
             i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
             so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube, so.messenger AS socials_messenger, so.whatsApp AS socials_whatsApp, so.viber AS socials_viber, so.x AS socials_x, so.tikTok AS socials_tikTok,
-              f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link, f.first_description AS first_description, f.second_description AS second_description,
-            g.main_bg_color AS main_bg_color, g.main_text_color AS main_text_color, g.site_bg_color AS site_bg_color,  g.site_text_color AS site_text_color
+            f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link, f.first_description AS first_description, f.second_description AS second_description,
+            g.main_bg_color AS main_bg_color, g.main_text_color AS main_text_color, g.site_bg_color AS site_bg_color, g.site_text_color AS site_text_color
         FROM sites s
         LEFT JOIN headers h ON s.id = h.site_id
         LEFT JOIN sliders sl ON s.id = sl.site_id
@@ -395,6 +395,21 @@ export const getSiteByName = async (req, res) => {
         WHERE s.name = ?
     `;
 
+  const categoriesQuery = `
+      SELECT id, name FROM categories WHERE site_id = ?
+  `;
+
+  const itemsQuery = `
+      SELECT i.id, i.name, i.description, i.price, i.image, c.name AS category_name
+      FROM items i
+      LEFT JOIN categories c ON i.category_id = c.id
+      WHERE i.site_id = ?
+  `;
+
+  const newsQuery = `
+      SELECT * FROM news WHERE site_id = ?
+  `;
+
   connection.connect((err) => {
     if (err) {
       console.error("Помилка підключення до бази даних: " + err.stack);
@@ -403,7 +418,7 @@ export const getSiteByName = async (req, res) => {
         .json({ error: "Помилка підключення до бази даних" });
     }
 
-    connection.query(query, [siteName], (err, results) => {
+    connection.query(siteQuery, [siteName], (err, results) => {
       if (err) {
         console.error("Помилка виконання запиту: " + err.message);
         return res.status(500).json({ error: "Помилка виконання запиту" });
@@ -414,6 +429,7 @@ export const getSiteByName = async (req, res) => {
       }
 
       const result = results[0];
+      const siteId = result.site_id;
 
       const site = {
         id: result.site_id,
@@ -464,28 +480,60 @@ export const getSiteByName = async (req, res) => {
         second_description: result.second_description,
       };
 
-      const global = {
+      let global = {
         main_bg_color: JSON.parse(result.main_bg_color),
         main_text_color: JSON.parse(result.main_text_color),
         site_bg_color: JSON.parse(result.site_bg_color),
         site_text_color: JSON.parse(result.site_text_color),
       };
 
-      res.status(200).json({
-        site,
-        header,
-        slider,
-        services,
-        info,
-        socials,
-        footer,
-        global,
-      });
+      // Виконуємо запит для отримання категорій
+      connection.query(categoriesQuery, [siteId], (err, categoriesResults) => {
+        if (err) {
+          console.error("Помилка виконання запиту до категорій: " + err.message);
+          return res.status(500).json({ error: "Помилка виконання запиту до категорій" });
+        }
 
-      connection.end();
+        global.categories = categoriesResults;
+
+        // Виконуємо запит для отримання продуктів (items) з категорією
+        connection.query(itemsQuery, [siteId], (err, itemsResults) => {
+          if (err) {
+            console.error("Помилка виконання запиту до продуктів: " + err.message);
+            return res.status(500).json({ error: "Помилка виконання запиту до продуктів" });
+          }
+
+          global.items = itemsResults;
+
+          // Виконуємо запит для отримання новин (news)
+          connection.query(newsQuery, [siteId], (err, newsResults) => {
+            if (err) {
+              console.error("Помилка виконання запиту до новин: " + err.message);
+              return res.status(500).json({ error: "Помилка виконання запиту до новин" });
+            }
+
+            global.news = newsResults;
+
+            // Формуємо відповідь з додаванням категорій, продуктів і новин в global
+            res.status(200).json({
+              site,
+              header,
+              slider,
+              services,
+              info,
+              socials,
+              footer,
+              global,
+            });
+
+            connection.end();
+          });
+        });
+      });
     });
   });
 };
+
 
 export const updateSite = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
