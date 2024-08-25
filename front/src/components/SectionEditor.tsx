@@ -23,10 +23,6 @@ interface SectionEditorProps {
     field: string,
     value: string | null | any[]
   ) => void;
-  //   setHeaderColorBg: (color: iColor) => void;
-  //   headerColorBg: iColor;
-  //   setHeaderTextColor: (color: iColor) => void;
-  //   headerTextColor: iColor;
 }
 
 const SectionEditor: React.FC<SectionEditorProps> = ({
@@ -36,12 +32,20 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
   handleInputChange,
 }) => {
   const removeSliderImage = (index?: number) => {
-    let newImages = [...data[sectionName].images];
+    console.log("index", index);
+    let newImages: any[] | any = [...data[sectionName].images];
 
-    if (newImages && index) {
-      newImages.splice(index, 1);
-      handleInputChange(sectionName, "images", newImages);
+    console.log("newImages not sliced", newImages);
+    if (newImages.length > 1) {
+      console.log("enter");
+      if (newImages) {
+        newImages.splice(index, 1);
+        console.log(newImages);
+      }
+    } else {
+      newImages = null;
     }
+    handleInputChange(sectionName, "images", newImages);
   };
 
   return (

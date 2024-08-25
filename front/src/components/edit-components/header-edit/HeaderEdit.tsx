@@ -9,6 +9,7 @@ import {
 } from "../../../services/upload-images/uploadImages";
 import imageCompression from "browser-image-compression";
 import { notify } from "../../../helpers/helper";
+import Button from "../../UI/button/Button";
 
 interface Props {
   data: any;
@@ -40,10 +41,15 @@ const HeaderEdit: React.FC<Props> = ({
         };
 
         try {
-          const compressedFile = await imageCompression(file, options);
+          const compressedBlob = await imageCompression(file, options);
+
+          const compressedFile = new File([compressedBlob], file.name, {
+            type: file.type,
+            lastModified: Date.now(),
+          });
 
           const formDataLogo = new FormData();
-          formDataLogo.append("image", file);
+          formDataLogo.append("image", compressedFile);
 
           const responseLogo = await uploadImage(formDataLogo, token);
 
@@ -70,24 +76,19 @@ const HeaderEdit: React.FC<Props> = ({
   });
 
   const handleRemoveImage = async () => {
-    const token = localStorage.getItem("token");
-
     try {
       if (token && typeof data.header.logo === "string") {
+        const responseDelete = await deleteImage(data.header.logo, token);
+        console.log(responseDelete);
+
+        handleInputChange("header", "logo", null);
+
         const formData = new FormData();
+        formData.append("data", JSON.stringify(data.header));
+        formData.append("logo", data.header.logo);
 
-        const regex = /amazonaws\.com\/(.*)$/;
-        const match = data.header.logo.match(regex);
-
-        if (match && match[1]) {
-          formData.append("image", match[1]);
-
-          const response = await deleteImage(formData, token);
-          console.log(response);
-          handleInputChange("header", "logo", null);
-        } else {
-          console.log("Logo URL does not match the expected pattern.");
-        }
+        const response = await updateHeaderEdit(id!, formData, token);
+        notify(response.message);
       } else {
         console.log("Token is missing or logo is not a string.");
       }
@@ -96,13 +97,75 @@ const HeaderEdit: React.FC<Props> = ({
     }
   };
 
+  const handleSaveChanges = async () => {
+    if (token) {
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(data.header));
+      formData.append("logo", data.header.logo);
+
+      const response = await updateHeaderEdit(id!, formData, token);
+      notify(response.message);
+    }
+  };
+
+  const editMenu = (index: number, value: string) => {
+    const newMenu = [...data.header.menu];
+
+    newMenu[index].text = value;
+
+    handleInputChange("header", "menu", newMenu);
+  };
+
   return (
     <>
       {sectionName === "header" && (
         <div className="w-full flex flex-col gap-4">
           <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
             <h4 className="font-semibold text-lg">Логотип сайту</h4>
-            <div className="w-full flex items-start flex-col gap-2">
+            <div className="w-full flex flex-col gap-4">
+              <div className="w-full flex flex-col gap-2">
+                <p>Пункт меню 1:</p>
+                <input
+                  type="text"
+                  placeholder="Пункт меню 1"
+                  value={data[sectionName]?.menu[0].text || ""}
+                  onChange={(e) => editMenu(0, e.target.value)}
+                  className="p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="w-full flex flex-col gap-2">
+                <p>Пункт меню 2:</p>
+                <input
+                  type="text"
+                  placeholder="Пункт меню 2"
+                  value={data[sectionName]?.menu[1].text || ""}
+                  onChange={(e) => editMenu(1, e.target.value)}
+                  className="p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="w-full flex flex-col gap-2">
+                <p>Пункт меню 3:</p>
+                <input
+                  type="text"
+                  placeholder="Пункт меню 3"
+                  value={data[sectionName]?.menu[2].text || ""}
+                  onChange={(e) => editMenu(2, e.target.value)}
+                  className="p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="w-full flex flex-col gap-2">
+                <p>Пункт меню 4:</p>
+                <input
+                  type="text"
+                  placeholder="Пункт меню 4"
+                  value={data[sectionName]?.menu[3].text || ""}
+                  onChange={(e) => editMenu(3, e.target.value)}
+                  className="p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+            </div>
+            <div className="w-full flex mt-4 items-start flex-col gap-2">
+              <p>Логотип:</p>
               <AdminImage
                 {...getRootProps({
                   isdragactive: isDragActive.toString(),
@@ -137,6 +200,10 @@ const HeaderEdit: React.FC<Props> = ({
                 Логотипу поки що немає.
               </p>
             )}
+
+            <div className="w-full mt-4">
+              <Button handleButtonClick={handleSaveChanges} />
+            </div>
           </div>
         </div>
       )}

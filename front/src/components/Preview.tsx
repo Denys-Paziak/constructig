@@ -16,22 +16,31 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   const [screen, setScreen] = useState<"desktop" | "tablet" | "mobile">(
     "desktop"
   );
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleMenuToggle = (isOpen: boolean) => {
+    setIsMenuOpen((isOpen) => !isOpen);
+  };
 
   if (!data) return <Loader />;
 
   return (
     <div
-      className={`${type === "constructor"
-        ? "w-[75%]  h-[100vh] overflow-scroll edit-site"
-        : "w-[100%]"
-        } flex items-center flex-col bg-gray-200 `}
+      className={`${
+        type === "constructor"
+          ? `w-[75%] h-[100vh] ${
+              isMenuOpen ? "overflow-hidden" : "overflow-scroll"
+            } edit-site `
+          : "w-[100%]"
+      } flex items-center flex-col bg-gray-200`}
     >
       {type === "constructor" ? (
         <div className="w-full bg-white shadow-md flex items-center justify-center gap-6 py-4 ">
           <div
             onClick={() => setScreen("desktop")}
-            className={`w-8 h-8 p-2 ${screen === "desktop" ? "bg-blue-200" : "bg-gray-200"
-              } shadow-sm rounded-md cursor-pointer`}
+            className={`w-8 h-8 p-2 ${
+              screen === "desktop" ? "bg-blue-200" : "bg-gray-200"
+            } shadow-sm rounded-md cursor-pointer`}
           >
             <img
               className="w-full h-full"
@@ -41,8 +50,9 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
           </div>
           <div
             onClick={() => setScreen("tablet")}
-            className={`w-8 h-8 p-2 ${screen === "tablet" ? "bg-blue-200" : "bg-gray-200"
-              } shadow-sm rounded-md cursor-pointer`}
+            className={`w-8 h-8 p-2 ${
+              screen === "tablet" ? "bg-blue-200" : "bg-gray-200"
+            } shadow-sm rounded-md cursor-pointer`}
           >
             <img
               className="w-full h-full"
@@ -52,8 +62,9 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
           </div>
           <div
             onClick={() => setScreen("mobile")}
-            className={`w-8 h-8 p-2 ${screen === "mobile" ? "bg-blue-200" : "bg-gray-200"
-              } shadow-sm rounded-md cursor-pointer`}
+            className={`w-8 h-8 p-2 ${
+              screen === "mobile" ? "bg-blue-200" : "bg-gray-200"
+            } shadow-sm rounded-md cursor-pointer`}
           >
             <img
               className="w-[400px] h-full"
@@ -66,18 +77,20 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
         <></>
       )}
       <div
-        className={` ${type === "constructor" ? "py-6 px-4" : ""} ${screen === "desktop"
-          ? "w-full"
-          : screen === "tablet"
-            ? "w-[700px]"
+        className={` ${type === "constructor" ? "py-6 px-4" : ""} ${
+          screen === "desktop"
+            ? "w-full"
+            : screen === "tablet"
+            ? "w-[600px]"
             : screen === "mobile"
-              ? "w-[375px]"
-              : ""
-          }`}
+            ? "w-[375px]"
+            : ""
+        }`}
       >
         <div
-          className={`${type === "constructor" ? "rounded-xl overflow-hidden" : ""
-            }`}
+          className={`${
+            type === "constructor" ? "rounded-xl overflow-hidden" : ""
+          }`}
         >
           {data.header?.visible && (
             <Header
@@ -87,6 +100,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               headerColorBg={data.global.main_bg_color}
               headerTextColor={data.global.main_text_color}
               screen={screen}
+              onMenuToggle={handleMenuToggle}
             />
           )}
           {data.slider?.visible && (
