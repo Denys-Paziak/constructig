@@ -35,6 +35,8 @@ const UserCabinetInfo: React.FC<Props> = ({ userData, setUserData }) => {
     }
   };
 
+  console.log(sites);
+
   useEffect(() => {
     getSites();
   }, []);
@@ -178,7 +180,7 @@ const UserCabinetInfo: React.FC<Props> = ({ userData, setUserData }) => {
             {activeTabIndex === 2 && (
               <div>
                 <h3 className="text-lg font-semibold">Категорії товарів</h3>
-                <UserCabinetCategory />
+                <UserCabinetCategory sites={sites} />
               </div>
             )}
 

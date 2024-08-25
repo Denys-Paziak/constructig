@@ -9,7 +9,11 @@ import {
   getAllCategories,
 } from "../../../../../services/categories/category";
 
-const UserCabinetCategory: React.FC = () => {
+interface Props {
+  sites: any;
+}
+
+const UserCabinetCategory: React.FC<Props> = ({ sites }) => {
   const [isCategoriesFormOpen, setCategoriesFormOpen] = useState(true);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const navigate = useNavigate();
@@ -49,6 +53,8 @@ const UserCabinetCategory: React.FC = () => {
     }
   };
 
+  console.log(sites);
+
   return (
     <div className="w-full py-4 md:py-6 flex flex-col gap-10">
       <div className="flex flex-col items-center">
@@ -64,6 +70,7 @@ const UserCabinetCategory: React.FC = () => {
         {!isCategoriesFormOpen && (
           <UserCabinetCategoryForm
             getAll={getAll}
+            sites={sites}
             toggleCategoriesForm={handleCategoriesForm}
             key={"uniq1"}
           />

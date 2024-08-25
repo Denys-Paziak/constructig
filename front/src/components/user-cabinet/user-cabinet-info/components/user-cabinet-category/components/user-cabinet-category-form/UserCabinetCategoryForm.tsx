@@ -4,19 +4,22 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { createCategory } from "../../../../../../../services/categories/category";
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
+import { useParams } from "react-router-dom";
 
 interface Props {
   toggleCategoriesForm: () => void;
   getAll: () => void;
+  sites: any;
 }
 
 interface FormValues {
-  category: string;
+  name: string;
 }
 
 const UserCabinetCategoryForm: React.FC<Props> = ({
   toggleCategoriesForm,
   getAll,
+  sites,
 }) => {
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
@@ -53,11 +56,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
     accept: acceptType,
   });
 
-  //   const handleAddDescription = () => {
-  //     const currentDescriptions = getValues("descriptions");
-  //     const updatedDescriptions = [...currentDescriptions, ""];
-  //     reset({ descriptions: updatedDescriptions });
-  //   };
+  console.log(sites);
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
@@ -69,7 +68,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
     });
 
     if (mainImage) {
-      formData.append("image_url", mainImage);
+      formData.append("image", mainImage);
     }
 
     const token = localStorage.getItem("token");
@@ -77,20 +76,20 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
 
     if (token) {
       try {
-        const response = await createCategory(formData, token);
+        const response = await createCategory(sites[0].id!, formData, token);
         notify(response.message);
         getAll();
         reset();
         toggleCategoriesForm();
         setMainImagePreview(null);
       } catch (error) {
-        console.error("Error creating blog:", error);
-        notify("Щось пішло не так...");
+        console.error("Error creating category:", error);
+        notify("Something went wrong");
       } finally {
         setIsLoading(false);
       }
     } else {
-      notify("Авторизуйтеся будь ласка!");
+      notify("Authorizate please!");
       setIsLoading(false);
     }
   };
@@ -129,35 +128,20 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
           </div>
         )}
       </div>
-      {/* <div className={styles.admin__block_control}>
-        <label htmlFor="blog_language" className={styles.admin__control_label}>
-          Оберіть мову
-        </label>
-        <select
-          className={styles.admin__control_field}
-          {...register("blog_language", {
-            required: `Це поле обов'язкове!`,
-          })}
-        >
-          <option value="en">Англ</option>
-          <option value="de">Нім</option>
-          <option value="ru">Рос</option>
-        </select>
-      </div> */}
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
-        <label htmlFor="title" className="text-sm font-semibold">
+        <label htmlFor="name" className="text-sm font-semibold">
           Назва категорії
         </label>
         <input
           type="text"
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          style={errors["category"] ? { border: "1px solid #EB001B" } : {}}
+          style={errors["name"] ? { border: "1px solid #EB001B" } : {}}
           placeholder="Назва категорії"
-          {...register("category", { required: `Це поле обов'язкове!` })}
+          {...register("name", { required: `Це поле обов'язкове!` })}
         />
-        {errors["category"] && (
+        {errors["name"] && (
           <span className="text-md text-red-500 font-light">
-            {errors["category"]?.message as string}
+            {errors["name"]?.message as string}
           </span>
         )}
       </div>

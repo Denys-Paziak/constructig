@@ -43,28 +43,13 @@ export const getCategoryByIdLang = async (
   }
 };
 
-export const createCategory = async (formData: FormData, token: string) => {
-  try {
-    const response = await axios.post("/blogs", formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
-
-export const createCategoryLang = async (
+export const createCategory = async (
+  siteId: string,
   formData: FormData,
-  token: string,
-  langID: string
+  token: string
 ) => {
   try {
-    const response = await axios.post(`/blogs/${langID}`, formData, {
+    const response = await axios.post(`/category/${siteId}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
