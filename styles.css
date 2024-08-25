@@ -1,0 +1,46 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #000;
+    /* Темний фон */
+}
+
+.grid-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-svg {
+    width: 80%;
+    height: 80%;
+}
+
+.grid-svg line {
+    stroke: rgba(255, 255, 255, 0.2);
+    /* Білі лінії з прозорістю 0.2 */
+    stroke-width: 0.5;
+}
+
+.drop {
+    fill: green;
+    animation: fall 5s linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        cy: 0%;
+        opacity: 1;
+    }
+
+    100% {
+        cy: 100%;
+        opacity: 0;
+    }
+}
