@@ -8,11 +8,11 @@ export const createCategory = async (req, res) => {
 
     const data = JSON.parse(req.body.data);
     const { siteId } = req.params;
-    const { name, image_url } = data;
+    const { name, image } = data;
 
-    let params = [name, image_url, siteId];
+    let params = [name, image, siteId];
 
-    const query = "INSERT INTO categories (name, image_url) VALUES (?, ?, ?) WHERE site_id = ?";
+    const query = "INSERT INTO categories (name, image) VALUES (?, ?, ?) WHERE site_id = ?";
 
     connection.query(query, params, (err, results) => {
         if (err) {
