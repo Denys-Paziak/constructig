@@ -143,7 +143,7 @@ export const createSite = async (req, res) => {
                                 return connection.rollback(() => {
                                   console.error(
                                     "Помилка вставки в таблицю socials: " +
-                                      err.message
+                                    err.message
                                   );
                                   res.status(500).json({
                                     error: "Помилка вставки в таблицю socials",
@@ -159,7 +159,7 @@ export const createSite = async (req, res) => {
                                     return connection.rollback(() => {
                                       console.error(
                                         "Помилка вставки в таблицю footers: " +
-                                          err.message
+                                        err.message
                                       );
                                       res.status(500).json({
                                         error:
@@ -173,7 +173,7 @@ export const createSite = async (req, res) => {
                                       return connection.rollback(() => {
                                         console.error(
                                           "Помилка коміту транзакції: " +
-                                            err.message
+                                          err.message
                                         );
                                         res.status(500).json({
                                           error: "Помилка коміту транзакції",
@@ -208,7 +208,7 @@ export const getSite = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
   const { siteId } = req.params;
 
-  const query = `
+  const siteQuery = `
       SELECT 
           s.id AS site_id, s.url AS site_url, s.name AS site_name,
           h.visible AS header_visible, h.logo AS header_logo, h.menu AS header_menu,
@@ -229,6 +229,10 @@ export const getSite = async (req, res) => {
       WHERE s.id = ? AND s.user_id = ?
   `;
 
+  const categoriesQuery = `
+      SELECT id, name, image FROM categories WHERE site_id = ?
+  `;
+
   connection.connect((err) => {
     if (err) {
       console.error("Помилка підключення до бази даних: " + err.stack);
@@ -237,17 +241,17 @@ export const getSite = async (req, res) => {
         .json({ error: "Помилка підключення до бази даних" });
     }
 
-    connection.query(query, [siteId, req.user.id], (err, results) => {
+    connection.query(siteQuery, [siteId, req.user.id], (err, siteResults) => {
       if (err) {
         console.error("Помилка виконання запиту: " + err.message);
         return res.status(500).json({ error: "Помилка виконання запиту" });
       }
 
-      if (results.length === 0) {
+      if (siteResults.length === 0) {
         return res.status(404).json({ message: "Лендінг не знайдено" });
       }
 
-      const result = results[0];
+      const result = siteResults[0];
 
       const site = {
         id: result.site_id,
@@ -298,28 +302,41 @@ export const getSite = async (req, res) => {
         second_description: result.second_description,
       };
 
-      const global = {
+      let global = {
         main_bg_color: JSON.parse(result.main_bg_color),
         main_text_color: JSON.parse(result.main_text_color),
         site_bg_color: JSON.parse(result.site_bg_color),
         site_text_color: JSON.parse(result.site_text_color),
       };
 
-      res.status(200).json({
-        site,
-        header,
-        slider,
-        services,
-        info,
-        socials,
-        footer,
-        global,
-      });
+      // Виконуємо запит для отримання категорій
+      connection.query(categoriesQuery, [siteId], (err, categoriesResults) => {
+        if (err) {
+          console.error("Помилка виконання запиту до категорій: " + err.message);
+          return res.status(500).json({ error: "Помилка виконання запиту до категорій" });
+        }
 
-      connection.end();
+        // Додаємо категорії до об'єкта global
+        global.categories = categoriesResults;
+
+        // Формуємо відповідь з додаванням категорій в global
+        res.status(200).json({
+          site,
+          header,
+          slider,
+          services,
+          info,
+          socials,
+          footer,
+          global,
+        });
+
+        connection.end();
+      });
     });
   });
 };
+
 
 export const getSiteByName = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
