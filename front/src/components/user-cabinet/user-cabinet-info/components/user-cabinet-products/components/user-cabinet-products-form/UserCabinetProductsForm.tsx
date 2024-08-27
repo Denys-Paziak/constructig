@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Accept, useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -10,6 +10,7 @@ interface Props {
   toggleProductsForm: () => void;
   data: any;
   sites: any;
+  fetchData: any
 }
 
 interface FormValues {
@@ -23,6 +24,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
   toggleProductsForm,
   data,
   sites,
+  fetchData
 }) => {
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
@@ -48,6 +50,11 @@ const UserCabinetProductsForm: React.FC<Props> = ({
     setMainImage(file);
     setMainImagePreview(URL.createObjectURL(file));
   }, []);
+
+
+  useEffect(() => {
+    setActiveCategoryId(data.global.categories[0].id);
+  });
 
   const {
     getRootProps: getMainRootProps,
@@ -96,6 +103,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
         reset();
         toggleProductsForm();
         setMainImagePreview(null);
+        fetchData();
       } catch (error) {
         console.error("Error creating product:", error);
         notify("Something went wrong...");

@@ -16,9 +16,9 @@ import { updateService } from "../controllers/serviceController.js";
 import { updateGlobal } from "../controllers/globalController.js";
 import { updateSocial } from "../controllers/social.js";
 import { updateFooter } from "../controllers/footerController.js";
-import { createCategory } from "../controllers/categoryController.js";
-import { createItem } from "../controllers/itemController.js";
-import { createNews } from "../controllers/newsController.js";
+import { createCategory, deleteCategory } from "../controllers/categoryController.js";
+import { createItem, deleteItem } from "../controllers/itemController.js";
+import { createNews, deleteNews } from "../controllers/newsController.js";
 
 const upload = multer();
 const router = express.Router();
@@ -66,8 +66,16 @@ router.get("/sites", upload.none(), authMiddleware, getUserSites);
 
 router.post("/category/:siteId", upload.single("image"), authMiddleware, createCategory);
 
+router.delete("/deleteCategory/:categoryId", upload.none(), authMiddleware, deleteCategory);
+
+
+
 router.post("/item/:siteId", upload.single("image"), authMiddleware, createItem);
+router.delete("/deleteItem/:itemId", upload.none(), authMiddleware, deleteItem);
+
 
 router.post("/news/:siteId", upload.single("image"), authMiddleware, createNews);
+router.delete("/deleteNews/:newsId", upload.none(), authMiddleware, deleteNews);
+
 
 export default router;

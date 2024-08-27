@@ -9,9 +9,10 @@ import UserCabinetProductsTable from "./components/user-cabinet-products-table/U
 interface Props {
   data: any;
   sites: any;
+  fetchData: any
 }
 
-const UserCabinetProducts: React.FC<Props> = ({ data, sites }) => {
+const UserCabinetProducts: React.FC<Props> = ({ data, sites, fetchData }) => {
   const [isProductsFormOpen, setProductsFormOpen] = useState(true);
   const navigate = useNavigate();
 
@@ -36,6 +37,7 @@ const UserCabinetProducts: React.FC<Props> = ({ data, sites }) => {
       if (token) {
         const response = await deleteProduct(id, token);
         notify(response.message);
+        fetchData();
       }
     }
   };
@@ -60,6 +62,7 @@ const UserCabinetProducts: React.FC<Props> = ({ data, sites }) => {
             sites={sites}
             toggleProductsForm={handleProductsForm}
             key={"uniq1"}
+            fetchData={fetchData}
           />
         )}
       </div>

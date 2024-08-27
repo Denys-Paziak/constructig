@@ -32,3 +32,27 @@ export const createNews = async (req, res) => {
         });
     });
 };
+
+export const deleteNews = (req, res) => {
+    const connection = mysql.createConnection(dbConfig);
+    const { newsId } = req.params;
+
+    const query = 'DELETE FROM news WHERE id = ?';
+
+    connection.connect(err => {
+        if (err) {
+            console.error('Помилка підключення до бази даних: ' + err.stack);
+            return res.status(500).json({ error: 'Помилка підключення до бази даних' });
+        }
+
+        connection.query(query, [newsId], (err, results) => {
+            if (err) {
+                console.error('Помилка виконання запиту: ' + err.message);
+                return res.status(500).json({ error: 'Помилка виконання запиту' });
+            }
+
+            res.status(200).json({ message: 'Новину успішно видалено!' });
+            connection.end();
+        });
+    });
+};

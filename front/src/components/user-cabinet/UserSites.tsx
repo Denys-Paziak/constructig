@@ -31,11 +31,12 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
 
   const fetchData = async () => {
     const token = localStorage.getItem("token");
-    console.log(sites);
-    if (sites[0].id && token) {
+    console.log("fetchData");
+
+    if (sites.length > 0 && token) {
       try {
         const response = await getEditSite(+sites[0].id, token);
-        setData(response);
+        setData({ ...response });
       } catch (error) {
         console.log(error);
       }
@@ -60,6 +61,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
       await getSites();
     };
     fetch();
+
   }, []);
 
   useEffect(() => {
@@ -78,16 +80,24 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
           Welcome to your account!
         </h2>
 
-        <UserCabinetInterface
-          userData={userData}
-          setIsLoggedIn={setIsLoggedIn}
-        />
-        <UserCabinetInfo
-          data={data}
-          sites={sites}
-          userData={userData}
-          setUserData={setUserData}
-        />
+        {
+
+          data ? <>
+            <UserCabinetInterface
+              userData={userData}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+            <UserCabinetInfo
+              data={data}
+              sites={sites}
+              userData={userData}
+              setUserData={setUserData}
+              fetchData={fetchData}
+            />
+          </> : <Loader />
+        }
+
+
       </div>
     </div>
   );

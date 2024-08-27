@@ -102,7 +102,7 @@ export const updateProduct = async (
 
 export const deleteProduct = async (id: number, token: string) => {
   try {
-    const { data } = await axios.delete(`/blogs/${id}`, {
+    const { data } = await axios.delete(`/deleteItem/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",

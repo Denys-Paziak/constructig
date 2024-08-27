@@ -7,8 +7,8 @@ import { useForm } from "react-hook-form";
 
 interface Props {
   toggleNewsForm: () => void;
-  getAll: () => void;
   sites: any;
+  fetchData: any
 }
 
 interface FormValues {
@@ -18,8 +18,8 @@ interface FormValues {
 
 const UserCabinetNewsForm: React.FC<Props> = ({
   toggleNewsForm,
-  getAll,
   sites,
+  fetchData
 }) => {
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
@@ -76,10 +76,10 @@ const UserCabinetNewsForm: React.FC<Props> = ({
       try {
         const response = await createNew(sites[0].id, formData, token);
         notify(response.message);
-        getAll();
         reset();
         toggleNewsForm();
         setMainImagePreview(null);
+        fetchData();
       } catch (error) {
         console.error("Error creating new:", error);
         notify("Something went wrong");

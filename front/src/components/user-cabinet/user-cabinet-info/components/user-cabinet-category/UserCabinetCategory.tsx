@@ -12,9 +12,10 @@ import {
 interface Props {
   sites: any;
   data: any;
+  fetchData: any
 }
 
-const UserCabinetCategory: React.FC<Props> = ({ sites, data }) => {
+const UserCabinetCategory: React.FC<Props> = ({ sites, data, fetchData }) => {
   const [isCategoriesFormOpen, setCategoriesFormOpen] = useState(true);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const navigate = useNavigate();
@@ -26,9 +27,6 @@ const UserCabinetCategory: React.FC<Props> = ({ sites, data }) => {
     setCategories(categoriesData);
   };
 
-  useEffect(() => {
-    // getAll();
-  }, []);
 
   const handleCategoriesForm = () => {
     setCategoriesFormOpen((prevState) => !prevState);
@@ -49,7 +47,7 @@ const UserCabinetCategory: React.FC<Props> = ({ sites, data }) => {
       if (token) {
         const response = await deleteCategory(id, token);
         notify(response.message);
-        getAll();
+        fetchData();
       }
     }
   };
@@ -72,12 +70,12 @@ const UserCabinetCategory: React.FC<Props> = ({ sites, data }) => {
             sites={sites}
             toggleCategoriesForm={handleCategoriesForm}
             key={"uniq1"}
+            fetchData={fetchData}
           />
         )}
       </div>
       <UserCabinetCategoryTable
         data={data}
-        categories={categories}
         handleEditCategory={onEditCategory}
         handleDeleteCategory={onDeleteCategory}
         key={"uniq1"}

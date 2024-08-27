@@ -99,7 +99,7 @@ export const updateNew = async (
 
 export const deleteNew = async (id: number, token: string) => {
   try {
-    const { data } = await axios.delete(`/blogs/${id}`, {
+    const { data } = await axios.delete(`/deleteNews/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",

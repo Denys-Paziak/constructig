@@ -102,78 +102,80 @@ const ServicesEdit: React.FC<Props> = ({
 
   return (
     <div className="bg-white  p-3">
-      <div className="w-full flex flex-col gap-3">
-        <div className="w-full flex flex-col gap-2">
-          <p>Phone number for call service:</p>
-          <input
-            type="text"
-            placeholder="Phone number"
-            className="p-2 border border-gray-300 rounded-md"
-          />
-        </div>
-        <div className="w-full flex flex-col gap-2">
-          <p>Link on map for map service:</p>
-          <input
-            type="text"
-            placeholder="Link on map"
-            className="p-2 border border-gray-300 rounded-md"
-          />
-        </div>
-      </div>
       {sectionName === "services" && (
-        <div className="w-full mt-6 rounded-md shadow-md flex items-start gap-4 flex-col">
-          {data.services.cols.map((service: Service, index: number) => {
-            const { getRootProps, getInputProps, isDragActive } = useDropzone({
-              onDrop: (acceptedFiles) => onDrop(index, acceptedFiles),
-              multiple: false,
-            });
+        <>
+          <div className="w-full flex flex-col gap-3">
+            <div className="w-full flex flex-col gap-2">
+              <p>Phone number for call service:</p>
+              <input
+                type="text"
+                placeholder="Phone number"
+                className="p-2 border border-gray-300 rounded-md"
+              />
+            </div>
+            <div className="w-full flex flex-col gap-2">
+              <p>Link on map for map service:</p>
+              <input
+                type="text"
+                placeholder="Link on map"
+                className="p-2 border border-gray-300 rounded-md"
+              />
+            </div>
+          </div>
+          <div className="w-full mt-6 rounded-md shadow-md flex items-start gap-4 flex-col">
+            {data.services.cols.map((service: Service, index: number) => {
+              const { getRootProps, getInputProps, isDragActive } = useDropzone({
+                onDrop: (acceptedFiles) => onDrop(index, acceptedFiles),
+                multiple: false,
+              });
 
-            return (
-              <div key={index} className="w-full flex flex-col gap-2">
-                <input
-                  type="text"
-                  placeholder="Заголовок"
-                  value={service.title}
-                  onChange={(e) => handleTitleChange(index, e.target.value)}
-                  className="p-2 border text-sm border-gray-300 rounded-md"
-                />
-                <div className="w-full flex items-center gap-4 relative">
-                  <div {...getRootProps()} className="w-full">
-                    <AdminImage>
-                      <input {...getInputProps()} />
-                      {service.image ? (
+              return (
+                <div key={index} className="w-full flex flex-col gap-2">
+                  <input
+                    type="text"
+                    placeholder="Заголовок"
+                    value={service.title}
+                    onChange={(e) => handleTitleChange(index, e.target.value)}
+                    className="p-2 border text-sm border-gray-300 rounded-md"
+                  />
+                  <div className="w-full flex items-center gap-4 relative">
+                    <div {...getRootProps()} className="w-full">
+                      <AdminImage>
+                        <input {...getInputProps()} />
+                        {service.image ? (
+                          <img
+                            src={service.image}
+                            alt={`service-${index}`}
+                            className="w-24 h-24 object-cover rounded-md"
+                          />
+                        ) : (
+                          <p>
+                            {isDragActive
+                              ? "Перетягніть сюди файли..."
+                              : "Перетягніть сюди файли"}
+                          </p>
+                        )}
+                      </AdminImage>
+                    </div>
+                    {service.image && (
+                      <span
+                        onClick={() => deleteImg(index)}
+                        className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"
+                      >
                         <img
-                          src={service.image}
-                          alt={`service-${index}`}
-                          className="w-24 h-24 object-cover rounded-md"
+                          className="w-full"
+                          src="/src/assets/images/trash-icon.svg"
+                          alt="trash icon"
                         />
-                      ) : (
-                        <p>
-                          {isDragActive
-                            ? "Перетягніть сюди файли..."
-                            : "Перетягніть сюди файли"}
-                        </p>
-                      )}
-                    </AdminImage>
+                      </span>
+                    )}
                   </div>
-                  {service.image && (
-                    <span
-                      onClick={() => deleteImg(index)}
-                      className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"
-                    >
-                      <img
-                        className="w-full"
-                        src="/src/assets/images/trash-icon.svg"
-                        alt="trash icon"
-                      />
-                    </span>
-                  )}
                 </div>
-              </div>
-            );
-          })}
-          <Button handleButtonClick={handleSaveChanges} />
-        </div>
+              );
+            })}
+            <Button handleButtonClick={handleSaveChanges} />
+          </div>
+        </>
       )}
     </div>
   );

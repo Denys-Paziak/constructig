@@ -81,9 +81,9 @@ export const updateCategory = async (
   }
 };
 
-export const deleteCategory = async (id: string, token: string) => {
+export const deleteCategory = async (id: number, token: string) => {
   try {
-    const { data } = await axios.delete(`/blogs/${id}`, {
+    const { data } = await axios.delete(`/deleteCategory/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",

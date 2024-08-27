@@ -230,19 +230,18 @@ export const getSite = async (req, res) => {
   `;
 
   const categoriesQuery = `
-      SELECT id, name FROM categories WHERE site_id = ?
+      SELECT * FROM categories WHERE site_id = ? ORDER BY id DESC
   `;
 
-  // Оновлений запит для отримання items з іменем категорії
   const itemsQuery = `
       SELECT i.id, i.name, i.description, i.price,i.image, c.name AS category_name
       FROM items i
       LEFT JOIN categories c ON i.category_id = c.id
-      WHERE i.site_id = ?
+      WHERE i.site_id = ? ORDER BY id DESC
   `;
 
   const newsQuery = `
-      SELECT * FROM news WHERE site_id = ?
+      SELECT * FROM news WHERE site_id = ? ORDER BY id DESC
   `;
 
   connection.connect((err) => {

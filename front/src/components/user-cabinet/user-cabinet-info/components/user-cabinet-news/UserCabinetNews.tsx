@@ -9,9 +9,10 @@ import { deleteNew, getAllNews } from "../../../../../services/news/news";
 interface Props {
   data: any;
   sites: any;
+  fetchData: any
 }
 
-const UserCabinetNews: React.FC<Props> = ({ data, sites }) => {
+const UserCabinetNews: React.FC<Props> = ({ data, sites, fetchData }) => {
   const [isNewsFormOpen, setNewsFormOpen] = useState(true);
   // const [news, setNews] = useState<INew[]>([]);
   const navigate = useNavigate();
@@ -44,9 +45,10 @@ const UserCabinetNews: React.FC<Props> = ({ data, sites }) => {
       const token = localStorage.getItem("token");
 
       if (token) {
+        console.log("id", id)
         const response = await deleteNew(id, token);
         notify(response.message);
-        getAll();
+        fetchData();
       }
     }
   };
@@ -66,16 +68,16 @@ const UserCabinetNews: React.FC<Props> = ({ data, sites }) => {
         {!isNewsFormOpen && (
           <UserCabinetNewsForm
             sites={sites}
-            getAll={getAll}
             toggleNewsForm={handleNewsForm}
             key={"uniq1"}
+            fetchData={fetchData}
           />
         )}
       </div>
       <UserCabinetNewsTable
         data={data}
-        handleEditProduct={onEditProduct}
-        handleDeleteProduct={onDeleteProduct}
+        handleEditNew={onEditProduct}
+        handleDeleteNew={onDeleteProduct}
         key={"uniq1"}
       />
     </div>

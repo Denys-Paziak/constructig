@@ -10,6 +10,7 @@ interface Props {
   toggleCategoriesForm: () => void;
   getAll: () => void;
   sites: any;
+  fetchData: any
 }
 
 interface FormValues {
@@ -20,6 +21,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
   toggleCategoriesForm,
   getAll,
   sites,
+  fetchData
 }) => {
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
@@ -82,6 +84,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
         reset();
         toggleCategoriesForm();
         setMainImagePreview(null);
+        fetchData();
       } catch (error) {
         console.error("Error creating category:", error);
         notify("Something went wrong");

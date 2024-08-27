@@ -1,5 +1,4 @@
 import React from "react";
-
 interface ServiceItem {
   image: string;
   title: string;
@@ -14,6 +13,7 @@ interface ServicesProps {
   bodyTextColor: { r: number; g: number; b: number; a: number };
   screen: any;
   data: any;
+  onServiceClick?: (index: number) => void; // Додано зворотний виклик
 }
 
 export const Services: React.FC<ServicesProps> = ({
@@ -24,11 +24,12 @@ export const Services: React.FC<ServicesProps> = ({
   bodyTextColor,
   screen,
   data,
+  onServiceClick, // Додано зворотний виклик
 }) => {
   return (
     <div
       id="services"
-      className=" py-24"
+      className="py-24"
       style={{
         background: `rgba(${bodyColorBg.r}, ${bodyColorBg.g}, ${bodyColorBg.b}, ${bodyColorBg.a})`,
       }}
@@ -44,22 +45,23 @@ export const Services: React.FC<ServicesProps> = ({
             {data.header.menu[1].text}
           </h2>
           <div
-            className={`grid gap-6  px-0 services-blocks w-full ${
-              screen == "desktop" &&
-              " grid-cols-1 md:grid-cols-2 lg:grid-cols-4 "
-            } ${screen == "tablet" && " grid-cols-2"} ${
-              screen == "mobile" && " grid-cols-1"
-            }`}
+            className={`grid gap-6  px-0 services-blocks w-full ${screen == "desktop" &&
+              "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+              } ${screen == "tablet" && "grid-cols-2"} ${screen == "mobile" && "grid-cols-1"
+              }`}
           >
             {services.map((service, index) => (
               <a
                 key={index}
                 href={service.link}
-                className=" w-[100%] rounded-lg py-10 px-4 flex flex-col items-center text-center gap-4 cursor-pointer hover:bg-blue-500 transition-all duration-300"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onServiceClick?.(index); // Викликаємо зворотний виклик при натисканні
+                }}
+                className="w-[100%] rounded-lg py-10 px-4 flex flex-col items-center text-center gap-4 cursor-pointer hover:bg-blue-500 transition-all duration-300"
                 style={{
-                  background: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${
-                    bodyTextColor.b
-                  }, ${bodyTextColor.a / 4})`,
+                  background: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b
+                    }, ${bodyTextColor.a / 4})`,
                 }}
               >
                 {service.image.length > 0 ? (
@@ -101,5 +103,3 @@ export const Services: React.FC<ServicesProps> = ({
     </div>
   );
 };
-
-export default Services;

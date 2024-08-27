@@ -1,5 +1,6 @@
 import React from "react";
 import { ICategory } from "../../../../../../../services/categories/category.interface";
+import { deleteCategory } from "../../../../../../../services/categories/category";
 
 interface Props {
   handleEditCategory: (category: ICategory) => void;
