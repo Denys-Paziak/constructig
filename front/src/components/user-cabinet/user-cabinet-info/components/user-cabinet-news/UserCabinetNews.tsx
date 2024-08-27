@@ -6,21 +6,26 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { deleteNew, getAllNews } from "../../../../../services/news/news";
 
-const UserCabinetNews: React.FC = () => {
+interface Props {
+  data: any;
+  sites: any;
+}
+
+const UserCabinetNews: React.FC<Props> = ({ data, sites }) => {
   const [isNewsFormOpen, setNewsFormOpen] = useState(true);
-  const [news, setNews] = useState<INew[]>([]);
+  // const [news, setNews] = useState<INew[]>([]);
   const navigate = useNavigate();
 
   const notify = (message: string) => toast(message);
 
-  const getAll = async () => {
-    const newsData = await getAllNews();
-    setNews(newsData);
-  };
+  // const getAll = async () => {
+  //   const newsData = await getAllNews();
+  //   setNews(newsData);
+  // };
 
-  useEffect(() => {
-    // getAll();
-  }, []);
+  // useEffect(() => {
+  //   // getAll();
+  // }, []);
 
   const handleNewsForm = () => {
     setNewsFormOpen((prevState) => !prevState);
@@ -55,11 +60,12 @@ const UserCabinetNews: React.FC = () => {
             className="py-3 px-8 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             type="button"
           >
-            Додати новину
+            Add new
           </button>
         )}
         {!isNewsFormOpen && (
           <UserCabinetNewsForm
+            sites={sites}
             getAll={getAll}
             toggleNewsForm={handleNewsForm}
             key={"uniq1"}
@@ -67,7 +73,7 @@ const UserCabinetNews: React.FC = () => {
         )}
       </div>
       <UserCabinetNewsTable
-        news={news}
+        data={data}
         handleEditProduct={onEditProduct}
         handleDeleteProduct={onDeleteProduct}
         key={"uniq1"}

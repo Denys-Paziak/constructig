@@ -120,7 +120,7 @@ const SliderEdit: React.FC<Props> = ({
     <>
       {sectionName === "slider" && (
         <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-4 flex-col">
-          <h4 className="font-semibold text-lg">Слайди</h4>
+          <h4 className="font-semibold text-lg">Slides</h4>
           <AdminImage
             {...getRootProps({
               isdragactive: isDragActive.toString(),
@@ -128,9 +128,9 @@ const SliderEdit: React.FC<Props> = ({
           >
             <input {...getInputProps()} />
             {isDragActive ? (
-              <p>Перетягніть сюди файли...</p>
+              <p>Drag and drop files here</p>
             ) : (
-              <p>Перетягніть сюди файли</p>
+              <p>Drag and drop files here</p>
             )}
           </AdminImage>
           {uploadedSliderImages?.map(
@@ -157,9 +157,9 @@ const SliderEdit: React.FC<Props> = ({
                 </span>
               </div>
             ))}
-          {data.slider.images && (
+          {data.slider.images && data.slider.images.length > 0 && (
             <p className="w-full text-sm text-black text-center py-6">
-              Зображень слайдера поки що немає.
+              There are no images of the slider yet.
             </p>
           )}
           <Button handleButtonClick={handleSaveChanges} />

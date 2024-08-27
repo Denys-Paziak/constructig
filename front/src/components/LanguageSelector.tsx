@@ -52,7 +52,7 @@ const LanguageSelector: React.FC = () => {
       <div>
         <button
           type="button"
-          onClick={() => setIsOpen(!isOpen)} // Перемикаємо видимість списку
+          onClick={() => setIsOpen(!isOpen)}
           className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 focus:outline-none"
           id="options-menu"
           aria-haspopup="true"
@@ -60,7 +60,7 @@ const LanguageSelector: React.FC = () => {
         >
           {selectedLanguage
             ? languages.find((lang) => lang.code === selectedLanguage)?.name
-            : "Виберіть мову"}
+            : "Choose language"}
         </button>
       </div>
 

@@ -101,9 +101,27 @@ const ServicesEdit: React.FC<Props> = ({
   };
 
   return (
-    <>
+    <div className="bg-white  p-3">
+      <div className="w-full flex flex-col gap-3">
+        <div className="w-full flex flex-col gap-2">
+          <p>Phone number for call service:</p>
+          <input
+            type="text"
+            placeholder="Phone number"
+            className="p-2 border border-gray-300 rounded-md"
+          />
+        </div>
+        <div className="w-full flex flex-col gap-2">
+          <p>Link on map for map service:</p>
+          <input
+            type="text"
+            placeholder="Link on map"
+            className="p-2 border border-gray-300 rounded-md"
+          />
+        </div>
+      </div>
       {sectionName === "services" && (
-        <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-4 flex-col">
+        <div className="w-full mt-6 rounded-md shadow-md flex items-start gap-4 flex-col">
           {data.services.cols.map((service: Service, index: number) => {
             const { getRootProps, getInputProps, isDragActive } = useDropzone({
               onDrop: (acceptedFiles) => onDrop(index, acceptedFiles),
@@ -157,7 +175,7 @@ const ServicesEdit: React.FC<Props> = ({
           <Button handleButtonClick={handleSaveChanges} />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

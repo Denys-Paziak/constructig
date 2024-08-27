@@ -43,9 +43,13 @@ export const getProductByIdLang = async (
   }
 };
 
-export const createProduct = async (formData: FormData, token: string) => {
+export const createProduct = async (
+  siteId: string,
+  formData: FormData,
+  token: string
+) => {
   try {
-    const response = await axios.post("/blogs", formData, {
+    const response = await axios.post(`/item/${siteId}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",

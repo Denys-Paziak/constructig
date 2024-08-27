@@ -24,6 +24,8 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
 
   if (!data) return <Loader />;
 
+  console.log(data);
+
   return (
     <div
       className={`${
@@ -112,6 +114,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
           )}
           {data.services?.visible && (
             <Services
+              data={data}
               services={data.services.cols || []}
               backgroundColor={data.global.main_bg_color}
               textColor={data.global.main_text_color}
@@ -122,6 +125,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
           )}
           {data.info?.visible && (
             <Info
+              data={data}
               image={data.info.image}
               title={data.info.title}
               text={data.info.text}
@@ -132,6 +136,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
           )}
           {data.socials?.visible && (
             <Socials
+              data={data}
               screen={screen}
               socials={[
                 {

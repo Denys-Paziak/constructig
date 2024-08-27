@@ -46,7 +46,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
       <div className="flex items-start flex-col gap-6">
         <div className="w-full flex items-start justify-between flex-col md:flex-row md:items-center gap-4 md:gap-0">
           <h3 className="text-black text-xl font-semibold">
-            Привіт, <span className="notranslate">{userData.name}</span>
+            Hello, <span className="notranslate">{userData.name}</span>
           </h3>
           <div>
             <LanguageSelector />
@@ -123,7 +123,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
                 </h4>
                 <div className="flex items-center gap-1">
                   <p className="text-[16px] text-gray-700 text-normal">
-                    Email адреса:
+                    Email address:
                   </p>
                   <span className="text-[16px] text-gray-900 text-normal notranslate">
                     {userData.email}
@@ -131,7 +131,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
                 </div>
                 <div className="flex items-center gap-1">
                   <p className="text-[16px] text-gray-700 text-normal">
-                    Компанія:
+                    Company:
                   </p>
                   <span className="text-[16px] text-gray-900 text-normal notranslate">
                     {userData.company}
@@ -144,7 +144,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
               type="button"
               onClick={signOut}
             >
-              Вийти
+              Sign Out
             </button>
           </div>
           <div className="flex items-center md:items-start flex-col gap-3">
@@ -156,7 +156,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
               type="button"
               onClick={downloadQRCode}
             >
-              Завантажити QRCode
+              Download QRCode
             </button>
           </div>
         </div>

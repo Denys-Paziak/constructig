@@ -31,30 +31,13 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
   visibleHandler,
   handleInputChange,
 }) => {
-  const removeSliderImage = (index?: number) => {
-    console.log("index", index);
-    let newImages: any[] | any = [...data[sectionName].images];
-
-    console.log("newImages not sliced", newImages);
-    if (newImages.length > 1) {
-      console.log("enter");
-      if (newImages) {
-        newImages.splice(index, 1);
-        console.log(newImages);
-      }
-    } else {
-      newImages = null;
-    }
-    handleInputChange(sectionName, "images", newImages);
-  };
-
   return (
     <div className="">
       <div className="bg-gray-100 rounded-md p-4 w-full flex flex-col gap-4">
         <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
-          <h4 className="font-semibold text-lg">Відображення блоку</h4>
+          <h4 className="font-semibold text-lg">Displaying a block</h4>
           <div className="w-full flex items-center justify-between">
-            <p>Сховати/Показати:</p>
+            <p>Hide/Show:</p>
             <Toggle
               defaultChecked={true}
               icons={false}
@@ -71,7 +54,6 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
           data={data}
           sectionName={sectionName}
           handleInputChange={handleInputChange}
-          handleRemoveSlider={removeSliderImage}
         />
         <ServicesEdit
           data={data}

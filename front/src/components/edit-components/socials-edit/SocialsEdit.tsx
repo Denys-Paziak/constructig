@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../../UI/button/Button";
 import { updateSocials } from "../../../services/socials/socials";
 import { useParams } from "react-router-dom";
+import { notify } from "../../../helpers/helper";
 
 interface Props {
   data: any;
@@ -23,7 +24,7 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
         formData.append("data", JSON.stringify(data.socials));
 
         const response = await updateSocials(id!, formData, token);
-        console.log(response);
+        notify(response.message);
       }
     } catch (error) {
       console.log(error);
@@ -36,8 +37,8 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
         <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
           <div className="w-full border-b border-gray-400 pb-2">
             <p className="text-sm font-normal text-blue-500">
-              !Для того щоб відобразити соц. мережу потрібно вставити посилання
-              на неї.
+              To display a social network, you need to insert a link to it to
+              it.
             </p>
           </div>
           <div className="w-full flex flex-col gap-2">

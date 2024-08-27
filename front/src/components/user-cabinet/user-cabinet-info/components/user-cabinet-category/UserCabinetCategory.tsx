@@ -11,9 +11,10 @@ import {
 
 interface Props {
   sites: any;
+  data: any;
 }
 
-const UserCabinetCategory: React.FC<Props> = ({ sites }) => {
+const UserCabinetCategory: React.FC<Props> = ({ sites, data }) => {
   const [isCategoriesFormOpen, setCategoriesFormOpen] = useState(true);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const navigate = useNavigate();
@@ -53,8 +54,6 @@ const UserCabinetCategory: React.FC<Props> = ({ sites }) => {
     }
   };
 
-  console.log(sites);
-
   return (
     <div className="w-full py-4 md:py-6 flex flex-col gap-10">
       <div className="flex flex-col items-center">
@@ -64,7 +63,7 @@ const UserCabinetCategory: React.FC<Props> = ({ sites }) => {
             className="py-3 px-8 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             type="button"
           >
-            Додати категорію
+            Add category
           </button>
         )}
         {!isCategoriesFormOpen && (
@@ -77,6 +76,7 @@ const UserCabinetCategory: React.FC<Props> = ({ sites }) => {
         )}
       </div>
       <UserCabinetCategoryTable
+        data={data}
         categories={categories}
         handleEditCategory={onEditCategory}
         handleDeleteCategory={onDeleteCategory}

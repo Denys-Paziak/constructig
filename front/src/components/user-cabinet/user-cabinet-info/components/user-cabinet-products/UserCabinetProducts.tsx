@@ -1,29 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { IProduct } from "../../../../../services/products/products.interface";
-import {
-  deleteProduct,
-  getAllProducts,
-} from "../../../../../services/products/products";
+import { deleteProduct } from "../../../../../services/products/products";
 import UserCabinetProductsForm from "./components/user-cabinet-products-form/UserCabinetProductsForm";
 import UserCabinetProductsTable from "./components/user-cabinet-products-table/UserCabinetProductsTable";
 
-const UserCabinetProducts = () => {
+interface Props {
+  data: any;
+  sites: any;
+}
+
+const UserCabinetProducts: React.FC<Props> = ({ data, sites }) => {
   const [isProductsFormOpen, setProductsFormOpen] = useState(true);
-  const [products, setProducts] = useState<IProduct[]>([]);
   const navigate = useNavigate();
 
   const notify = (message: string) => toast(message);
-
-  const getAll = async () => {
-    const productsData = await getAllProducts();
-    setProducts(productsData);
-  };
-
-  useEffect(() => {
-    // getAll();
-  }, []);
 
   const handleProductsForm = () => {
     setProductsFormOpen((prevState) => !prevState);
@@ -35,7 +27,7 @@ const UserCabinetProducts = () => {
 
   const onDeleteProduct = async (id: number) => {
     const confirmation = window.confirm(
-      "Ви впевнені, що хочете видалити цей блог?"
+      "Are you sure you want to remove this product?"
     );
 
     if (confirmation) {
@@ -44,10 +36,11 @@ const UserCabinetProducts = () => {
       if (token) {
         const response = await deleteProduct(id, token);
         notify(response.message);
-        getAll();
       }
     }
   };
+
+  console.log("data products", data);
 
   return (
     <div className="w-full py-4 md:py-6 flex flex-col gap-10">
@@ -58,19 +51,20 @@ const UserCabinetProducts = () => {
             className="py-3 px-8 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             type="button"
           >
-            Додати товар
+            Add product
           </button>
         )}
         {!isProductsFormOpen && (
           <UserCabinetProductsForm
-            getAll={getAll}
+            data={data}
+            sites={sites}
             toggleProductsForm={handleProductsForm}
             key={"uniq1"}
           />
         )}
       </div>
       <UserCabinetProductsTable
-        products={products}
+        data={data}
         handleEditProduct={onEditProduct}
         handleDeleteProduct={onDeleteProduct}
         key={"uniq1"}

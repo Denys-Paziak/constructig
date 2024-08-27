@@ -89,7 +89,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
         setIsLoading(false);
       }
     } else {
-      notify("Authorizate please!");
+      notify("Please log in!");
       setIsLoading(false);
     }
   };
@@ -101,7 +101,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
     >
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="image" className="text-sm font-semibold">
-          Зображення категорії
+          Category Image
         </label>
         <AdminImage
           {...getMainRootProps({
@@ -113,9 +113,9 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
         >
           <input {...getMainInputProps()} />
           {isMainDragActive ? (
-            <p>Перетягніть сюди файли ...</p>
+            <p>Drag and drop files here</p>
           ) : (
-            <p>Перетягніть сюди файли</p>
+            <p>Drag and drop files here</p>
           )}
         </AdminImage>
         {mainImagePreview && (
@@ -130,13 +130,13 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
       </div>
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="name" className="text-sm font-semibold">
-          Назва категорії
+          Name
         </label>
         <input
           type="text"
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           style={errors["name"] ? { border: "1px solid #EB001B" } : {}}
-          placeholder="Назва категорії"
+          placeholder="Name"
           {...register("name", { required: `Це поле обов'язкове!` })}
         />
         {errors["name"] && (
@@ -151,7 +151,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
           type="submit"
           disabled={isLoading || !isValid}
         >
-          {isLoading ? "Загрузка..." : "Підтвердити"}
+          {isLoading ? "Loading..." : "Confirm"}
         </button>
         <button
           onClick={toggleCategoriesForm}
@@ -159,7 +159,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
           type="button"
           disabled={isLoading}
         >
-          Скасувати
+          Cancel
         </button>
       </div>
     </form>

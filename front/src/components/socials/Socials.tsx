@@ -8,15 +8,17 @@ interface SocialItem {
 interface SocialsProps {
   socials: SocialItem[];
   bodyColorBg: { r: string; g: string; b: string; a: string };
-  bodyTextColor: { r: string; g: string; b: string; a: string }
-  screen: string
+  bodyTextColor: { r: string; g: string; b: string; a: string };
+  screen: string;
+  data: any;
 }
 
 export const Socials: React.FC<SocialsProps> = ({
   socials,
   bodyColorBg,
   bodyTextColor,
-  screen
+  screen,
+  data,
 }) => {
   return (
     <div
@@ -33,9 +35,15 @@ export const Socials: React.FC<SocialsProps> = ({
             color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
           }}
         >
-          Contact us
+          {data.header.menu[3].text}
         </h2>
-        <div className={`w-full flex justify-between ${screen == 'desctop' && 'flex flex-col lg:flex-row'} ${screen == 'tablet' && 'flex-col gap-6'} ${screen == 'mobile' && 'flex-col gap-6'}`}>
+        <div
+          className={`w-full flex justify-between ${
+            screen == "desctop" && "flex flex-col lg:flex-row"
+          } ${screen == "tablet" && "flex-col gap-6"} ${
+            screen == "mobile" && "flex-col gap-6"
+          }`}
+        >
           {socials.map((social, index) =>
             social.link !== null ? (
               <a

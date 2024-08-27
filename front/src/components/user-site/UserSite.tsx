@@ -4,7 +4,6 @@ import { getSite } from "../../services/getSite/getSite";
 import Preview from "../Preview";
 
 const UserSite: React.FC = () => {
-
   const [data, setData] = useState<any>();
   const { siteName } = useParams();
 
@@ -20,18 +19,10 @@ const UserSite: React.FC = () => {
   };
 
   useEffect(() => {
-
     getUserSite();
   }, []);
 
-
-
-
-  return (
-    <Preview
-      data={data!}
-    />
-  );
+  return <Preview data={data!} />;
 };
 
 export default UserSite;

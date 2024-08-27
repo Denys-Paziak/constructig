@@ -13,6 +13,7 @@ interface ServicesProps {
   bodyColorBg: { r: string; g: string; b: string; a: string };
   bodyTextColor: { r: number; g: number; b: number; a: number };
   screen: any;
+  data: any;
 }
 
 export const Services: React.FC<ServicesProps> = ({
@@ -22,6 +23,7 @@ export const Services: React.FC<ServicesProps> = ({
   bodyColorBg,
   bodyTextColor,
   screen,
+  data,
 }) => {
   return (
     <div
@@ -39,7 +41,7 @@ export const Services: React.FC<ServicesProps> = ({
               color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
             }}
           >
-            Services
+            {data.header.menu[1].text}
           </h2>
           <div
             className={`grid gap-6  px-0 services-blocks w-full ${
@@ -64,7 +66,7 @@ export const Services: React.FC<ServicesProps> = ({
                   <img
                     src={service.image}
                     alt={service.title}
-                    className="h-12 w-12 mb-2"
+                    className="h-12 w-12 mb-2 rounded-md"
                   />
                 ) : (
                   <svg

@@ -78,13 +78,13 @@ const SiteConstructor: React.FC = () => {
   }
 
   const sections = [
-    { name: "global", title: "Глобальні налаштування", component: Global },
-    { name: "header", title: "Шапка" },
-    { name: "slider", title: "Слайдер" },
-    { name: "services", title: "Сервіси" },
-    { name: "info", title: "Інфо" },
-    { name: "socials", title: "Соціальні мережі" },
-    { name: "footer", title: "Підвал" },
+    { name: "global", title: "Global settings", component: Global },
+    { name: "header", title: "Header" },
+    { name: "slider", title: "Slider" },
+    { name: "services", title: "Services" },
+    { name: "info", title: "Info" },
+    { name: "socials", title: "Social networks" },
+    { name: "footer", title: "Footer" },
   ];
 
   return (
@@ -98,7 +98,7 @@ const SiteConstructor: React.FC = () => {
               }`}
               onClick={() => toggleSection(name)}
             >
-              <p> {title}</p>
+              <p className="notranslate">{title}</p>
 
               <svg
                 data-accordion-icon

@@ -11,39 +11,29 @@ import UserCabinetNews from "./components/user-cabinet-news/UserCabinetNews";
 interface Props {
   userData: IGetMe;
   setUserData: (response: any) => void;
+  sites: any;
+  data: any;
 }
 
-const UserCabinetInfo: React.FC<Props> = ({ userData, setUserData }) => {
+const UserCabinetInfo: React.FC<Props> = ({
+  userData,
+  setUserData,
+  sites,
+  data,
+}) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const [sites, setSites] = useState<any>([]);
+  const [sitesAll, setSitesAll] = useState<any>([]);
   const navigate = useNavigate();
 
   const handleTabClick = (index: number) => {
     setActiveTabIndex(index);
   };
 
-  const getSites = async () => {
-    const token = localStorage.getItem("token");
-
-    try {
-      if (token) {
-        const response = await getUserSites(token);
-        setSites(response.sites);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  console.log(sites);
-
-  useEffect(() => {
-    getSites();
-  }, []);
-
   if (!userData) {
     return <Loader />;
   }
+
+  console.log("cabinet info", data);
 
   return (
     <div className="w-full bg-white rounded-xl p-4 md:p-6 shadow-lg">
@@ -64,7 +54,7 @@ const UserCabinetInfo: React.FC<Props> = ({ userData, setUserData }) => {
                   activeTabIndex === 0 ? "bg-blue-500 text-white" : ""
                 }`}
               >
-                Сайти
+                Sites
               </button>
             </li>
             <li
@@ -78,7 +68,7 @@ const UserCabinetInfo: React.FC<Props> = ({ userData, setUserData }) => {
                   activeTabIndex === 1 ? "bg-blue-500 text-white" : ""
                 }`}
               >
-                Налаштування
+                Settings
               </button>
             </li>
             <li
@@ -92,7 +82,7 @@ const UserCabinetInfo: React.FC<Props> = ({ userData, setUserData }) => {
                   activeTabIndex === 2 ? "bg-blue-500 text-white" : ""
                 }`}
               >
-                Категорії
+                Categories
               </button>
             </li>
             <li
@@ -106,7 +96,7 @@ const UserCabinetInfo: React.FC<Props> = ({ userData, setUserData }) => {
                   activeTabIndex === 3 ? "bg-blue-500 text-white" : ""
                 }`}
               >
-                Товари
+                Goods
               </button>
             </li>
             <li
@@ -120,7 +110,7 @@ const UserCabinetInfo: React.FC<Props> = ({ userData, setUserData }) => {
                   activeTabIndex === 4 ? "bg-blue-500 text-white" : ""
                 }`}
               >
-                Новини
+                News
               </button>
             </li>
           </ul>
@@ -148,13 +138,13 @@ const UserCabinetInfo: React.FC<Props> = ({ userData, setUserData }) => {
                             onClick={() => navigate(`/${userData.company}`)}
                             className="w-[50%] py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 block mx-auto"
                           >
-                            Переглянути
+                            View
                           </button>
                           <button
                             onClick={() => navigate(`/site/${site.id}`)}
                             className="w-[50%] py-2 px-4 bg-white text-black rounded-md hover:bg-gray-100"
                           >
-                            Редагувати
+                            Edit
                           </button>
                         </div>
                       </div>
@@ -166,35 +156,33 @@ const UserCabinetInfo: React.FC<Props> = ({ userData, setUserData }) => {
 
             {activeTabIndex === 1 && (
               <div>
-                <h3 className="text-lg font-semibold">
-                  Змінна данних користувача
-                </h3>
+                <h3 className="text-lg font-semibold">User data</h3>
                 <UserCabinetPersonal
                   userData={userData}
                   setUserData={setUserData}
-                  setSites={setSites}
+                  setSites={setSitesAll}
                 />
               </div>
             )}
 
             {activeTabIndex === 2 && (
               <div>
-                <h3 className="text-lg font-semibold">Категорії товарів</h3>
-                <UserCabinetCategory sites={sites} />
+                <h3 className="text-lg font-semibold">Product categories</h3>
+                <UserCabinetCategory sites={sites} data={data} />
               </div>
             )}
 
             {activeTabIndex === 3 && (
               <div>
-                <h3 className="text-lg font-semibold">Товари</h3>
-                <UserCabinetProducts />
+                <h3 className="text-lg font-semibold">Goods</h3>
+                <UserCabinetProducts sites={sites} data={data} />
               </div>
             )}
 
             {activeTabIndex === 4 && (
               <div>
-                <h3 className="text-lg font-semibold">Новини</h3>
-                <UserCabinetNews />
+                <h3 className="text-lg font-semibold">News</h3>
+                <UserCabinetNews sites={sites} data={data} />
               </div>
             )}
           </div>

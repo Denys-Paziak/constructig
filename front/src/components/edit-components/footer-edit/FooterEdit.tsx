@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../../UI/button/Button";
 import { useParams } from "react-router-dom";
 import { updateFooter } from "../../../services/footer/footer";
+import { notify } from "../../../helpers/helper";
 
 interface Props {
   data: any;
@@ -23,7 +24,7 @@ const FooterEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
         formData.append("data", JSON.stringify(data.footer));
 
         const response = await updateFooter(id!, formData, token);
-        console.log(response);
+        notify(response.message);
       }
     } catch (error) {
       console.log(error);
@@ -36,10 +37,10 @@ const FooterEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
         <>
           <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-4 flex-col">
             <div className="w-full flex flex-col gap-2">
-              <p>Посилання на вебсайт:</p>
+              <p>Link to the website:</p>
               <input
                 type="text"
-                placeholder="Посилання на вебсайт"
+                placeholder="Link to the website"
                 value={data[sectionName]?.web_link || ""}
                 onChange={(e) =>
                   handlerInput(sectionName, "web_link", e.target.value)
@@ -48,10 +49,10 @@ const FooterEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
               />
             </div>
             <div className="w-full flex flex-col gap-2">
-              <p>Перший текст опис:</p>
+              <p>First text description:</p>
               <input
                 type="text"
-                placeholder="Перший текст опис:"
+                placeholder="First text description"
                 value={data[sectionName]?.first_description || ""}
                 onChange={(e) =>
                   handlerInput(sectionName, "first_description", e.target.value)
@@ -60,10 +61,10 @@ const FooterEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
               />
             </div>
             <div className="w-full flex flex-col gap-2">
-              <p>Другий текст опис:</p>
+              <p>Second text description</p>
               <input
                 type="text"
-                placeholder="Другий текст опис:"
+                placeholder="Second text description"
                 value={data[sectionName]?.second_description || ""}
                 onChange={(e) =>
                   handlerInput(

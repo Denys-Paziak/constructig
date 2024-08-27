@@ -75,9 +75,9 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
     <>
       {sectionName === "info" && (
         <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-4 flex-col">
-          <h4 className="font-semibold text-lg">Наповнення контенту</h4>
+          <h4 className="font-semibold text-lg">Filling the content</h4>
           <div className="w-full flex flex-col gap-2">
-            <p>Картинка:</p>
+            <p>Image:</p>
             <AdminImage
               {...getRootProps({
                 isdragactive: isDragActive.toString(),
@@ -85,9 +85,9 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             >
               <input {...getInputProps()} />
               {isDragActive ? (
-                <p>Перетягніть сюди файли...</p>
+                <p>Drag and drop files here</p>
               ) : (
-                <p>Перетягніть сюди файли</p>
+                <p>Drag and drop files here</p>
               )}
             </AdminImage>
 
@@ -111,10 +111,10 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             )}
           </div>
           <div className="w-full flex flex-col gap-2">
-            <p>Заголовок:</p>
+            <p>Title:</p>
             <input
               type="text"
-              placeholder="Заголовок"
+              placeholder="Title"
               value={data[sectionName]?.title || ""}
               onChange={(e) =>
                 handlerInput(sectionName, "title", e.target.value)
@@ -123,9 +123,9 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             />
           </div>
           <div className="w-full flex flex-col gap-2">
-            <p>Текст:</p>
+            <p>Text:</p>
             <textarea
-              placeholder="Текст"
+              placeholder="Text"
               value={data[sectionName]?.text || ""}
               onChange={(e) =>
                 handlerInput(sectionName, "text", e.target.value)
@@ -133,7 +133,6 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
               className="h-36 p-2 text-sm border border-gray-300 rounded-md resize-none"
             />
           </div>
-
           <Button handleButtonClick={handleSaveChanges} />
         </div>
       )}

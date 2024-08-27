@@ -8,14 +8,19 @@ import { useForm } from "react-hook-form";
 interface Props {
   toggleNewsForm: () => void;
   getAll: () => void;
+  sites: any;
 }
 
 interface FormValues {
   title: string;
-  text: string;
+  content: string;
 }
 
-const UserCabinetNewsForm: React.FC<Props> = ({ toggleNewsForm, getAll }) => {
+const UserCabinetNewsForm: React.FC<Props> = ({
+  toggleNewsForm,
+  getAll,
+  sites,
+}) => {
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -61,7 +66,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({ toggleNewsForm, getAll }) => {
     });
 
     if (mainImage) {
-      formData.append("image_url", mainImage);
+      formData.append("image", mainImage);
     }
 
     const token = localStorage.getItem("token");
@@ -69,20 +74,20 @@ const UserCabinetNewsForm: React.FC<Props> = ({ toggleNewsForm, getAll }) => {
 
     if (token) {
       try {
-        const response = await createNew(formData, token);
+        const response = await createNew(sites[0].id, formData, token);
         notify(response.message);
         getAll();
         reset();
         toggleNewsForm();
         setMainImagePreview(null);
       } catch (error) {
-        console.error("Error creating blog:", error);
-        notify("Щось пішло не так...");
+        console.error("Error creating new:", error);
+        notify("Something went wrong");
       } finally {
         setIsLoading(false);
       }
     } else {
-      notify("Авторизуйтеся будь ласка!");
+      notify("Please log in!");
       setIsLoading(false);
     }
   };
@@ -94,7 +99,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({ toggleNewsForm, getAll }) => {
     >
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="image" className="text-sm font-semibold">
-          Зображення новини
+          Image of the news
         </label>
         <AdminImage
           {...getMainRootProps({
@@ -106,9 +111,9 @@ const UserCabinetNewsForm: React.FC<Props> = ({ toggleNewsForm, getAll }) => {
         >
           <input {...getMainInputProps()} />
           {isMainDragActive ? (
-            <p>Перетягніть сюди файли ...</p>
+            <p>Drag and drop files here</p>
           ) : (
-            <p>Перетягніть сюди файли</p>
+            <p>Drag and drop files here</p>
           )}
         </AdminImage>
         {mainImagePreview && (
@@ -123,13 +128,13 @@ const UserCabinetNewsForm: React.FC<Props> = ({ toggleNewsForm, getAll }) => {
       </div>
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="title" className="text-sm font-semibold">
-          Заголовок
+          Title
         </label>
         <input
           type="text"
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           style={errors["title"] ? { border: "1px solid #EB001B" } : {}}
-          placeholder="Заголовок"
+          placeholder="Title"
           {...register("title", { required: `Це поле обов'язкове!` })}
         />
         {errors["title"] && (
@@ -139,19 +144,19 @@ const UserCabinetNewsForm: React.FC<Props> = ({ toggleNewsForm, getAll }) => {
         )}
       </div>
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
-        <label htmlFor="text" className="text-sm font-semibold">
-          Опис
+        <label htmlFor="content" className="text-sm font-semibold">
+          Description
         </label>
         <input
           type="text"
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          style={errors["text"] ? { border: "1px solid #EB001B" } : {}}
-          placeholder="Опис"
-          {...register("text", { required: `Це поле обов'язкове!` })}
+          style={errors["content"] ? { border: "1px solid #EB001B" } : {}}
+          placeholder="Description"
+          {...register("content", { required: `Це поле обов'язкове!` })}
         />
-        {errors["text"] && (
+        {errors["content"] && (
           <span className="text-md text-red-500 font-light">
-            {errors["text"]?.message as string}
+            {errors["content"]?.message as string}
           </span>
         )}
       </div>
@@ -161,7 +166,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({ toggleNewsForm, getAll }) => {
           type="submit"
           disabled={isLoading || !isValid}
         >
-          {isLoading ? "Загрузка..." : "Підтвердити"}
+          {isLoading ? "Loading..." : "Confirm"}
         </button>
         <button
           onClick={toggleNewsForm}
@@ -169,7 +174,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({ toggleNewsForm, getAll }) => {
           type="button"
           disabled={isLoading}
         >
-          Скасувати
+          Cancel
         </button>
       </div>
     </form>

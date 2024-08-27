@@ -40,9 +40,13 @@ export const getNewByIdLang = async (langID: string, blog_language: string) => {
   }
 };
 
-export const createNew = async (formData: FormData, token: string) => {
+export const createNew = async (
+  siteId: string,
+  formData: FormData,
+  token: string
+) => {
   try {
-    const response = await axios.post("/blogs", formData, {
+    const response = await axios.post(`/news/${siteId}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",

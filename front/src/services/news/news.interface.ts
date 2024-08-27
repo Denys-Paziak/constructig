@@ -1,6 +1,6 @@
 export interface INew {
   id: number;
-  image_url: string;
+  image: string;
   title: string;
-  text: string;
+  content: string;
 }

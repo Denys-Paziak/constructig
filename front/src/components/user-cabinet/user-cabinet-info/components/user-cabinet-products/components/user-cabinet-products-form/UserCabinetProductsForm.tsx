@@ -4,22 +4,25 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { createProduct } from "../../../../../../../services/products/products";
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
+import { ICategory } from "../../../../../../../services/categories/category.interface";
 
 interface Props {
   toggleProductsForm: () => void;
-  getAll: () => void;
+  data: any;
+  sites: any;
 }
 
 interface FormValues {
   category: string;
-  title: string;
-  text: string;
+  name: string;
+  description: string;
   price: string;
 }
 
 const UserCabinetProductsForm: React.FC<Props> = ({
   toggleProductsForm,
-  getAll,
+  data,
+  sites,
 }) => {
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
@@ -32,6 +35,9 @@ const UserCabinetProductsForm: React.FC<Props> = ({
   } = useForm<FormValues>({
     mode: "onChange",
   });
+  const [activeCategoryId, setActiveCategoryId] = useState<
+    string | undefined
+  >();
 
   const acceptType: Accept = {
     "image/*": [".jpeg", ".jpg", ".png", ".gif"],
@@ -56,8 +62,17 @@ const UserCabinetProductsForm: React.FC<Props> = ({
     accept: acceptType,
   });
 
+  const handleCategoryChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedCategoryId = event.target.value;
+    setActiveCategoryId(selectedCategoryId);
+  };
+
   const onSubmit = async (data: any) => {
     setIsLoading(true);
+
+    console.log(activeCategoryId);
 
     const formData = new FormData();
 
@@ -66,28 +81,29 @@ const UserCabinetProductsForm: React.FC<Props> = ({
     });
 
     if (mainImage) {
-      formData.append("image_url", mainImage);
+      formData.append("image", mainImage);
     }
+
+    formData.append("categoryId", activeCategoryId || "");
 
     const token = localStorage.getItem("token");
     const notify = (message: string) => toast(message);
 
     if (token) {
       try {
-        const response = await createProduct(formData, token);
+        const response = await createProduct(+sites[0].id, formData, token);
         notify(response.message);
-        getAll();
         reset();
         toggleProductsForm();
         setMainImagePreview(null);
       } catch (error) {
-        console.error("Error creating blog:", error);
-        notify("Щось пішло не так...");
+        console.error("Error creating product:", error);
+        notify("Something went wrong...");
       } finally {
         setIsLoading(false);
       }
     } else {
-      notify("Авторизуйтеся будь ласка!");
+      notify("Please log in!");
       setIsLoading(false);
     }
   };
@@ -99,7 +115,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
     >
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="image" className="text-sm font-semibold">
-          Зображення товару
+          Product image
         </label>
         <AdminImage
           {...getMainRootProps({
@@ -111,9 +127,9 @@ const UserCabinetProductsForm: React.FC<Props> = ({
         >
           <input {...getMainInputProps()} />
           {isMainDragActive ? (
-            <p>Перетягніть сюди файли ...</p>
+            <p>Drag and drop files here</p>
           ) : (
-            <p>Перетягніть сюди файли</p>
+            <p>Drag and drop files here</p>
           )}
         </AdminImage>
         {mainImagePreview && (
@@ -128,15 +144,20 @@ const UserCabinetProductsForm: React.FC<Props> = ({
       </div>
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="category" className="text-sm font-semibold">
-          Назва категорії
+          Category name
         </label>
-        <input
-          type="text"
+        <select
+          onChange={handleCategoryChange}
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          style={errors["category"] ? { border: "1px solid #EB001B" } : {}}
-          placeholder="Назва категорії"
-          {...register("category", { required: `Це поле обов'язкове!` })}
-        />
+          value={activeCategoryId}
+        >
+          {data.global.categories.map((category: ICategory, index: number) => (
+            <option value={category.id} key={index}>
+              {" "}
+              {category.name}
+            </option>
+          ))}
+        </select>
         {errors["category"] && (
           <span className="text-md text-red-500 font-light">
             {errors["category"]?.message as string}
@@ -144,48 +165,48 @@ const UserCabinetProductsForm: React.FC<Props> = ({
         )}
       </div>
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
-        <label htmlFor="title" className="text-sm font-semibold">
-          Назва
+        <label htmlFor="name" className="text-sm font-semibold">
+          Name
         </label>
         <input
           type="text"
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          style={errors["title"] ? { border: "1px solid #EB001B" } : {}}
-          placeholder="Назва"
-          {...register("title", { required: `Це поле обов'язкове!` })}
+          style={errors["name"] ? { border: "1px solid #EB001B" } : {}}
+          placeholder="Name"
+          {...register("name", { required: `Це поле обов'язкове!` })}
         />
-        {errors["title"] && (
+        {errors["name"] && (
           <span className="text-md text-red-500 font-light">
-            {errors["title"]?.message as string}
+            {errors["name"]?.message as string}
           </span>
         )}
       </div>
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
-        <label htmlFor="text" className="text-sm font-semibold">
-          Опис
+        <label htmlFor="description" className="text-sm font-semibold">
+          Description
         </label>
         <input
           type="text"
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          style={errors["text"] ? { border: "1px solid #EB001B" } : {}}
-          placeholder="Опис"
-          {...register("text", { required: `Це поле обов'язкове!` })}
+          style={errors["description"] ? { border: "1px solid #EB001B" } : {}}
+          placeholder="Description"
+          {...register("description", { required: `Це поле обов'язкове!` })}
         />
-        {errors["text"] && (
+        {errors["description"] && (
           <span className="text-md text-red-500 font-light">
-            {errors["text"]?.message as string}
+            {errors["description"]?.message as string}
           </span>
         )}
       </div>
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="price" className="text-sm font-semibold">
-          Ціна
+          Price
         </label>
         <input
           type="text"
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           style={errors["price"] ? { border: "1px solid #EB001B" } : {}}
-          placeholder="Ціна"
+          placeholder="Price"
           {...register("price", { required: `Це поле обов'язкове!` })}
         />
         {errors["price"] && (
@@ -200,7 +221,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
           type="submit"
           disabled={isLoading || !isValid}
         >
-          {isLoading ? "Загрузка..." : "Підтвердити"}
+          {isLoading ? "Loading..." : "Confirm"}
         </button>
         <button
           onClick={toggleProductsForm}
@@ -208,7 +229,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
           type="button"
           disabled={isLoading}
         >
-          Скасувати
+          Cancel
         </button>
       </div>
     </form>
