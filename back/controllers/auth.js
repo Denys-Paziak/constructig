@@ -292,8 +292,8 @@ async function createSite(id, url, name) {
           ]);
 
           const defaultCols = JSON.stringify([
-            { image: "", title: "Call" },
-            { image: "", title: "Geo" },
+            { image: "", title: "Call", phone: null },
+            { image: "", title: "Geo", link: null },
             { image: "", title: "Menu" },
             { image: "", title: "News" },
           ]);
@@ -399,7 +399,7 @@ async function createSite(id, url, name) {
                                 return connection.rollback(() => {
                                   console.error(
                                     "Помилка вставки в таблицю socials: " +
-                                      err.message
+                                    err.message
                                   );
                                 });
                               }
@@ -419,7 +419,7 @@ async function createSite(id, url, name) {
                                     return connection.rollback(() => {
                                       console.error(
                                         "Помилка вставки в таблицю footers: " +
-                                          err.message
+                                        err.message
                                       );
                                     });
                                   }
@@ -437,7 +437,7 @@ async function createSite(id, url, name) {
                                         return connection.rollback(() => {
                                           console.error(
                                             "Помилка вставки в таблицю global: " +
-                                              err.message
+                                            err.message
                                           );
                                         });
                                       }
@@ -447,7 +447,7 @@ async function createSite(id, url, name) {
                                           return connection.rollback(() => {
                                             console.error(
                                               "Помилка коміту транзакції: " +
-                                                err.message
+                                              err.message
                                             );
                                           });
                                         }
