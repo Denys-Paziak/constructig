@@ -18,7 +18,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
     "desktop"
   );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showProducts, setShowProducts] = useState(false); // Стан для відображення продуктів
+  const [showProducts, setShowProducts] = useState(false);
 
   const handleMenuToggle = (isOpen: boolean) => {
     setIsMenuOpen((isOpen) => !isOpen);
@@ -27,13 +27,13 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   const handleServiceClick = (index: number) => {
     if (index === 2) {
       setShowProducts(true);
-      document.body.style.overflow = "hidden"; // Забороняємо прокручування сторінки
+      document.body.style.overflow = "hidden";
     }
   };
 
   const handleCloseProducts = () => {
     setShowProducts(false);
-    document.body.style.overflow = "auto"; // Відновлюємо прокручування сторінки
+    document.body.style.overflow = "auto";
   };
 
   if (!data) return <Loader />;
