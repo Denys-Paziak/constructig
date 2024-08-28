@@ -61,7 +61,6 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
       await getSites();
     };
     fetch();
-
   }, []);
 
   useEffect(() => {
@@ -80,9 +79,8 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
           Welcome to your account!
         </h2>
 
-        {
-
-          data ? <>
+        {data ? (
+          <>
             <UserCabinetInterface
               userData={userData}
               setIsLoggedIn={setIsLoggedIn}
@@ -94,10 +92,10 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
               setUserData={setUserData}
               fetchData={fetchData}
             />
-          </> : <Loader />
-        }
-
-
+          </>
+        ) : (
+          <Loader />
+        )}
       </div>
     </div>
   );

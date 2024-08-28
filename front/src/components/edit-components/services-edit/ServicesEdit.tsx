@@ -101,9 +101,9 @@ const ServicesEdit: React.FC<Props> = ({
   };
 
   return (
-    <div className="bg-white  p-3">
+    <>
       {sectionName === "services" && (
-        <>
+        <div className="bg-white  p-3">
           <div className="w-full flex flex-col gap-3">
             <div className="w-full flex flex-col gap-2">
               <p>Phone number for call service:</p>
@@ -124,10 +124,12 @@ const ServicesEdit: React.FC<Props> = ({
           </div>
           <div className="w-full mt-6 rounded-md shadow-md flex items-start gap-4 flex-col">
             {data.services.cols.map((service: Service, index: number) => {
-              const { getRootProps, getInputProps, isDragActive } = useDropzone({
-                onDrop: (acceptedFiles) => onDrop(index, acceptedFiles),
-                multiple: false,
-              });
+              const { getRootProps, getInputProps, isDragActive } = useDropzone(
+                {
+                  onDrop: (acceptedFiles) => onDrop(index, acceptedFiles),
+                  multiple: false,
+                }
+              );
 
               return (
                 <div key={index} className="w-full flex flex-col gap-2">
@@ -151,8 +153,8 @@ const ServicesEdit: React.FC<Props> = ({
                         ) : (
                           <p>
                             {isDragActive
-                              ? "Перетягніть сюди файли..."
-                              : "Перетягніть сюди файли"}
+                              ? "Drag and drop files here"
+                              : "Drag and drop files here"}
                           </p>
                         )}
                       </AdminImage>
@@ -175,9 +177,9 @@ const ServicesEdit: React.FC<Props> = ({
             })}
             <Button handleButtonClick={handleSaveChanges} />
           </div>
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

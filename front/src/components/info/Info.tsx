@@ -39,7 +39,7 @@ export const Info: React.FC<InfoProps> = ({
           </h2>
           {image ? (
             <div
-              className={`flex items-center gap-10 ${
+              className={`flex items-center gap-6 ${
                 screen == "desktop" && "flex-col lg:flex-row"
               }  ${screen == "tablet" && "flex-col"} ${
                 screen == "mobile" && "flex-col"
@@ -48,14 +48,16 @@ export const Info: React.FC<InfoProps> = ({
               <img
                 src={image}
                 alt={title}
-                className={`${screen === "tablet" && "w-[100%]"} ${
+                className={`${screen === "desktop" && "w-[100%] lg:w-[50%]"} ${
+                  screen === "tablet" && "w-[100%]"
+                } ${
                   screen === "mobile" && "w-[100%]"
-                } w-[100%] object-cover rounded-lg md:w-[50%] `}
+                } w-[100%] object-cover rounded-lg  `}
               />
               <div
-                className={`${
+                className={`${screen === "desktop" && "w-[100%] lg:w-[50%]"} ${
                   screen === "tablet" && "w-[100%]"
-                } w-[100%] md:w-[50%]`}
+                } w-[100%]`}
               >
                 <h3
                   className="text-2xl font-semibold"
