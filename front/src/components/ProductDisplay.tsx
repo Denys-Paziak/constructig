@@ -31,7 +31,7 @@ const ProductDisplay: React.FC<Props> = ({ data }) => {
       ? data.items.filter((item) => item.category_name === selectedCategory)
       : [];
 
-  console.log(data.categories);
+  console.log(data);
 
   return (
     <div className="container mx-auto p-4">

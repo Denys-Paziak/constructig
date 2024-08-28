@@ -18,7 +18,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
     "desktop"
   );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showProducts, setShowProducts] = useState(false); // Стан для відображення продуктів
+  const [showProducts, setShowProducts] = useState(false);
 
   const handleMenuToggle = (isOpen: boolean) => {
     setIsMenuOpen((isOpen) => !isOpen);

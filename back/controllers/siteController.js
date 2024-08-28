@@ -395,7 +395,7 @@ export const getSiteByName = async (req, res) => {
     `;
 
   const categoriesQuery = `
-      SELECT id, name FROM categories WHERE site_id = ?
+      SELECT * FROM categories WHERE site_id = ?
   `;
 
   const itemsQuery = `
