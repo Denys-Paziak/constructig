@@ -73,3 +73,44 @@ export const getCategoryById = (req, res) => {
 
   connection.end();
 };
+
+export const updateCategory = async (req, res) => {
+  const connection = mysql.createConnection(dbConfig);
+  const { categoryId } = req.params;
+  const { name } = req.body;
+
+  let image = req.file;
+  let resUpload = null;
+
+  if (image) {
+    resUpload = await uploadImageServer(image);
+  }
+
+  let query = "UPDATE categories SET name = ?";
+  let params = [name];
+
+  if (resUpload) {
+    query += ", image = ?";
+    params.push(resUpload);
+  }
+
+  query += " WHERE id = ?";
+  params.push(categoryId);
+
+  connection.query(query, params, (err, results) => {
+    if (err) {
+      console.error("Error updating category", err);
+      res.status(500).json({ error: "Error updating category" });
+      return;
+    }
+
+    if (results.affectedRows === 0) {
+      res.status(404).json({ error: "Category not found" });
+      return;
+    }
+
+    res.status(200).json({ message: "Category updated successfully" });
+  });
+
+  connection.end();
+};
