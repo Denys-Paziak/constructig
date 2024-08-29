@@ -49,18 +49,49 @@ export const deleteCategory = (req, res) => {
   connection.end();
 };
 
+export const getCategoryById = (req, res) => {
+  const connection = mysql.createConnection(dbConfig);
+
+  const { categoryId } = req.params;
+
+  const query = "SELECT * FROM categories WHERE id = ?";
+
+  connection.query(query, [categoryId], (err, results) => {
+    if (err) {
+      console.error("Error retrieving category", err);
+      res.status(500).json({ error: "Error retrieving category" });
+      return;
+    }
+
+    if (results.length === 0) {
+      res.status(404).json({ error: "Category not found" });
+      return;
+    }
+
+    res.status(200).json(results[0]);
+  });
+
+  connection.end();
+};
+
+
 export const updateCategory = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
 
   const { categoryId } = req.params;
   const { name } = req.body;
+
   const image = req.file;
+  let resUpload = null;
+
+  if (image) {
+    resUpload = await uploadImageServer(image);
+  }
 
   let query = "UPDATE categories SET name = ?";
   let params = [name];
 
-  if (image) {
-    const resUpload = await uploadImageServer(image);
+  if (resUpload) {
     query += ", image = ?";
     params.push(resUpload);
   }
@@ -72,6 +103,11 @@ export const updateCategory = async (req, res) => {
     if (err) {
       console.error("Error updating category", err);
       res.status(500).json({ error: "Error updating category" });
+      return;
+    }
+
+    if (results.affectedRows === 0) {
+      res.status(404).json({ error: "Category not found" });
       return;
     }
 

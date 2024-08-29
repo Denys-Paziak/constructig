@@ -16,7 +16,7 @@ import { updateService } from "../controllers/serviceController.js";
 import { updateGlobal } from "../controllers/globalController.js";
 import { updateSocial } from "../controllers/social.js";
 import { updateFooter } from "../controllers/footerController.js";
-import { createCategory, deleteCategory } from "../controllers/categoryController.js";
+import { createCategory, deleteCategory, getCategoryById, updateCategory } from "../controllers/categoryController.js";
 import { createItem, deleteItem } from "../controllers/itemController.js";
 import { createNews, deleteNews } from "../controllers/newsController.js";
 
@@ -65,6 +65,8 @@ router.put("/site/global/:siteId", upload.none(), authMiddleware, updateGlobal);
 router.get("/sites", upload.none(), authMiddleware, getUserSites);
 
 router.post("/category/:siteId", upload.single("image"), authMiddleware, createCategory);
+router.post("/category/get/:categoryId", upload.none(), authMiddleware, getCategoryById);
+router.post("/category/update/:categoryId", upload.none(), authMiddleware, updateCategory);
 
 router.delete("/deleteCategory/:categoryId", upload.none(), authMiddleware, deleteCategory);
 
