@@ -72,8 +72,8 @@ router.delete("/deleteCategory/:categoryId", upload.none(), authMiddleware, dele
 
 router.post("/item/:siteId", upload.single("image"), authMiddleware, createItem);
 router.delete("/deleteItem/:itemId", upload.none(), authMiddleware, deleteItem);
-router.get("/category/get/:itemId", upload.none(), authMiddleware, getItemById);
-router.post("/category/update/:itemId", upload.single("image"), authMiddleware, updateItem);
+router.get("/item/get/:itemId", upload.none(), authMiddleware, getItemById);
+router.post("/item/update/:itemId", upload.single("image"), authMiddleware, updateItem);
 
 
 router.post("/news/:siteId", upload.single("image"), authMiddleware, createNews);
