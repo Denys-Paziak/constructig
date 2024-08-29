@@ -77,27 +77,11 @@ export const getCategoryById = (req, res) => {
 
 export const updateCategory = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
-
   const { categoryId } = req.params;
-  const { name } = req.body;
+  const { name, image } = req.body;
 
-  const image = req.file;
-  let resUpload = null;
-
-  if (image) {
-    resUpload = await uploadImageServer(image);
-  }
-
-  let query = "UPDATE categories SET name = ?";
-  let params = [name];
-
-  if (resUpload) {
-    query += ", image = ?";
-    params.push(resUpload);
-  }
-
-  query += " WHERE id = ?";
-  params.push(categoryId);
+  let query = "UPDATE categories SET name = ?, image = ?,  WHERE id = ?";
+  let params = [name, image, categoryId];
 
   connection.query(query, params, (err, results) => {
     if (err) {
