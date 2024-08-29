@@ -55,15 +55,14 @@ export const deleteItem = (req, res) => {
         });
     });
 };
-
 export const updateItem = async (req, res) => {
     const connection = mysql.createConnection(dbConfig);
 
     const { itemId } = req.params;
-    const { categoryId, name, description, price } = req.body;
+    const { name, description, price } = req.body;
 
-    let query = "UPDATE items SET category_id = ?, name = ?, description = ?, price = ?";
-    let params = [categoryId, name, description, price];
+    let query = "UPDATE items SET name = ?, description = ?, price = ?";
+    let params = [name, description, price];
 
     if (req.file) {
         const resUpload = await uploadImageServer(req.file);
@@ -95,6 +94,7 @@ export const updateItem = async (req, res) => {
         });
     });
 };
+
 
 export const getItemById = (req, res) => {
     const connection = mysql.createConnection(dbConfig);
