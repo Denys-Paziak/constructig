@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import { ICategory } from "../../../../../../../services/categories/category.interface";
 import { getCategoryById } from "../../../../../../../services/categories/category";
+import { deleteImage } from "../../../../../../../services/upload-images/uploadImages";
 
 const UserCabinetProductsUpdate: React.FC = () => {
   const [productImages, setProductImages] = useState<File[]>([]);
@@ -61,21 +62,18 @@ const UserCabinetProductsUpdate: React.FC = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log(token);
 
     const getEditedProduct = async () => {
       if (token) {
         try {
-          const editedProduct: IProduct = await getCategoryById(id!, token);
-
+          const editedProduct: IProduct = await getProductById(id!, token);
           setEditProduct(editedProduct);
 
           if (editedProduct) {
             const updatedObject = {
-              image_url: editedProduct.image,
+              image: editedProduct.image,
               name: editedProduct.name,
               description: editedProduct.description,
-              // category_name: editedProduct.category_name,
               price: editedProduct.price,
             };
             reset(updatedObject);
@@ -86,13 +84,23 @@ const UserCabinetProductsUpdate: React.FC = () => {
       }
     };
 
-    // getEditedProduct();
+    getEditedProduct();
   }, [id, reset]);
 
   const notify = (message: string) => toast(message);
 
   const onSubmit = async (data: any) => {
+    const token = localStorage.getItem("token");
     setIsLoading(true);
+
+    try {
+      if (token) {
+        const response = await deleteImage(editProduct!.image, token);
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
     const formData = new FormData();
 
@@ -102,11 +110,9 @@ const UserCabinetProductsUpdate: React.FC = () => {
 
     if (productImages.length > 0) {
       productImages.forEach((file) => {
-        formData.append("image_url", file);
+        formData.append("image", file);
       });
     }
-
-    const token = localStorage.getItem("token");
 
     if (token) {
       try {

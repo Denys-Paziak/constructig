@@ -2,7 +2,7 @@ import axios from "../../utils/axios/axios";
 
 export const getAllProducts = async () => {
   try {
-    const { data } = await axios.get("/products");
+    const { data } = await axios.get("/item");
     return data;
   } catch (error) {
     console.log(error);
@@ -12,7 +12,7 @@ export const getAllProducts = async () => {
 
 export const getProductById = async (id: string, token: string) => {
   try {
-    const { data } = await axios.get(`/product/get/${id}`, {
+    const { data } = await axios.get(`/item/get/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -49,7 +49,7 @@ export const updateProduct = async (
   token: string
 ) => {
   try {
-    const { data } = await axios.post(`/product/update/${id}`, updatedProduct, {
+    const { data } = await axios.post(`/item/update/${id}`, updatedProduct, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",

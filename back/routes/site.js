@@ -22,7 +22,12 @@ import {
   getCategoryById,
   updateCategory,
 } from "../controllers/categoryController.js";
-import { createItem, deleteItem } from "../controllers/itemController.js";
+import {
+  createItem,
+  deleteItem,
+  getItemById,
+  updateItem,
+} from "../controllers/itemController.js";
 import { createNews, deleteNews } from "../controllers/newsController.js";
 
 const upload = multer();
@@ -105,6 +110,13 @@ router.post(
   createItem
 );
 router.delete("/deleteItem/:itemId", upload.none(), authMiddleware, deleteItem);
+router.get("/item/get/:itemId", upload.none(), authMiddleware, getItemById);
+router.post(
+  "/item/update/:itemId",
+  upload.single("image"),
+  authMiddleware,
+  updateItem
+);
 
 router.post(
   "/news/:siteId",
