@@ -17,7 +17,7 @@ import { updateGlobal } from "../controllers/globalController.js";
 import { updateSocial } from "../controllers/social.js";
 import { updateFooter } from "../controllers/footerController.js";
 import { createCategory, deleteCategory, getCategoryById, updateCategory } from "../controllers/categoryController.js";
-import { createItem, deleteItem } from "../controllers/itemController.js";
+import { createItem, deleteItem, getItemById, updateItem } from "../controllers/itemController.js";
 import { createNews, deleteNews } from "../controllers/newsController.js";
 
 const upload = multer();
@@ -70,10 +70,10 @@ router.post("/category/update/:categoryId", upload.single("image"), authMiddlewa
 
 router.delete("/deleteCategory/:categoryId", upload.none(), authMiddleware, deleteCategory);
 
-
-
 router.post("/item/:siteId", upload.single("image"), authMiddleware, createItem);
 router.delete("/deleteItem/:itemId", upload.none(), authMiddleware, deleteItem);
+router.get("/category/get/:itemId", upload.none(), authMiddleware, getItemById);
+router.post("/category/update/:itemId", upload.single("image"), authMiddleware, updateItem);
 
 
 router.post("/news/:siteId", upload.single("image"), authMiddleware, createNews);
