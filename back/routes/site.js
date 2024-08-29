@@ -78,7 +78,7 @@ router.post(
   authMiddleware,
   createCategory
 );
-router.post(
+router.get(
   "/category/get/:categoryId",
   upload.none(),
   authMiddleware,

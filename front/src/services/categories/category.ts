@@ -44,17 +44,21 @@ export const createCategory = async (
 };
 
 export const updateCategory = async (
-  updatedBlog: FormData,
+  updatedCategory: FormData,
   id: string,
   token: string
 ) => {
   try {
-    const { data } = await axios.patch(`/blogs/${id}`, updatedBlog, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const { data } = await axios.post(
+      `/category/update/${id}`,
+      updatedCategory,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     return data;
   } catch (error) {
     console.log(error);

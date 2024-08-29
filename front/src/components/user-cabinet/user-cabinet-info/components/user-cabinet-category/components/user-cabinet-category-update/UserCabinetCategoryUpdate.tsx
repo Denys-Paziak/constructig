@@ -9,6 +9,7 @@ import {
 } from "../../../../../../../services/categories/category";
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import { toast } from "react-toastify";
+import { deleteImage } from "../../../../../../../services/upload-images/uploadImages";
 
 const UserCabinetCategoryUpdate: React.FC = () => {
   const [categoryImages, setCategoryImages] = useState<File[]>([]);
@@ -88,7 +89,17 @@ const UserCabinetCategoryUpdate: React.FC = () => {
   const notify = (message: string) => toast(message);
 
   const onSubmit = async (data: any) => {
+    const token = localStorage.getItem("token");
     setIsLoading(true);
+
+    try {
+      if (token) {
+        const response = await deleteImage(editCategory!.image, token);
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
     const formData = new FormData();
 
@@ -98,11 +109,9 @@ const UserCabinetCategoryUpdate: React.FC = () => {
 
     if (categoryImages.length > 0) {
       categoryImages.forEach((file) => {
-        formData.append("image_url", file);
+        formData.append("image", file);
       });
     }
-
-    const token = localStorage.getItem("token");
 
     if (token) {
       try {

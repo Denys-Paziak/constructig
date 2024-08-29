@@ -2,7 +2,7 @@ import axios from "../../utils/axios/axios";
 
 export const getAllNews = async () => {
   try {
-    const { data } = await axios.get("/blogs");
+    const { data } = await axios.get("/news");
     return data;
   } catch (error) {
     console.log(error);
@@ -10,29 +10,13 @@ export const getAllNews = async () => {
   }
 };
 
-export const getAllNewsByLang = async (lang: string) => {
+export const getNewById = async (id: string, token: string) => {
   try {
-    const { data } = await axios.get(`/blogs/lang/${lang}`);
-    return data;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
-
-export const getNewById = async (id: string) => {
-  try {
-    const { data } = await axios.get(`/blogs/${id}`);
-    return data;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
-
-export const getNewByIdLang = async (langID: string, blog_language: string) => {
-  try {
-    const { data } = await axios.get(`/blogs/${langID}/${blog_language}`);
+    const { data } = await axios.get(`/news/get/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return data;
   } catch (error) {
     console.log(error);
@@ -59,32 +43,13 @@ export const createNew = async (
   }
 };
 
-export const createNewLang = async (
-  formData: FormData,
-  token: string,
-  langID: string
-) => {
-  try {
-    const response = await axios.post(`/blogs/${langID}`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
-
 export const updateNew = async (
-  updatedBlog: FormData,
+  updatedNew: FormData,
   id: string,
   token: string
 ) => {
   try {
-    const { data } = await axios.patch(`/blogs/${id}`, updatedBlog, {
+    const { data } = await axios.post(`/news/update/${id}`, updatedNew, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
