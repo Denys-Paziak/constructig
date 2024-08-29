@@ -80,7 +80,7 @@ export const createNewLang = async (
 
 export const updateNew = async (
   updatedBlog: FormData,
-  id: number,
+  id: string,
   token: string
 ) => {
   try {

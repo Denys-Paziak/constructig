@@ -10,32 +10,9 @@ export const getAllCategories = async () => {
   }
 };
 
-export const getAllCategoriesByLang = async (lang: string) => {
-  try {
-    const { data } = await axios.get(`/blogs/lang/${lang}`);
-    return data;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
-
 export const getCategoryById = async (id: string) => {
   try {
-    const { data } = await axios.get(`/blogs/${id}`);
-    return data;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
-
-export const getCategoryByIdLang = async (
-  langID: string,
-  blog_language: string
-) => {
-  try {
-    const { data } = await axios.get(`/blogs/${langID}/${blog_language}`);
+    const { data } = await axios.get(`/category/${id}`);
     return data;
   } catch (error) {
     console.log(error);

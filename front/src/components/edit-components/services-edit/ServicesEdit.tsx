@@ -77,12 +77,15 @@ const ServicesEdit: React.FC<Props> = ({
   );
 
   const deleteImg = async (index: number) => {
-    const formData = new FormData();
-    formData.append("image", data.services.cols[index].image);
+    // const formData = new FormData();
+    // formData.append("image", data.services.cols[index].image);
+
+    // const responseDelete = await deleteImage(data.header.logo, token);
+    //     console.log(responseDelete);
 
     try {
       if (token) {
-        await deleteImage(formData, token);
+        await deleteImage(data.services.cols[index].image, token);
         const updatedServices = [...data.services.cols];
         updatedServices[index].image = "";
         handleInputChange("services", "cols", updatedServices);
@@ -100,6 +103,18 @@ const ServicesEdit: React.FC<Props> = ({
     handleInputChange("services", "cols", updatedServices);
   };
 
+  const handlePhoneChange = (index: number, newValue: string) => {
+    const updatedServices = [...data.services.cols];
+    updatedServices[index] = { ...updatedServices[index], phone: newValue };
+    handleInputChange("services", "cols", updatedServices);
+  };
+
+  const handleMapsChange = (index: number, newValue: string) => {
+    const updatedServices = [...data.services.cols];
+    updatedServices[index] = { ...updatedServices[index], link: newValue };
+    handleInputChange("services", "cols", updatedServices);
+  };
+
   return (
     <>
       {sectionName === "services" && (
@@ -110,6 +125,8 @@ const ServicesEdit: React.FC<Props> = ({
               <input
                 type="text"
                 placeholder="Phone number"
+                value={data.services.cols[0].phone}
+                onChange={(e) => handlePhoneChange(0, e.target.value)}
                 className="p-2 border border-gray-300 rounded-md"
               />
             </div>
@@ -118,6 +135,8 @@ const ServicesEdit: React.FC<Props> = ({
               <input
                 type="text"
                 placeholder="Link on map"
+                value={data.services.cols[1].link}
+                onChange={(e) => handleMapsChange(1, e.target.value)}
                 className="p-2 border border-gray-300 rounded-md"
               />
             </div>

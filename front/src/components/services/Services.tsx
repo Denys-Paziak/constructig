@@ -1,8 +1,10 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 interface ServiceItem {
   image: string;
   title: string;
   link: string;
+  phone: string;
 }
 
 interface ServicesProps {
@@ -45,23 +47,31 @@ export const Services: React.FC<ServicesProps> = ({
             {data.header.menu[1].text}
           </h2>
           <div
-            className={`grid gap-6  px-0 services-blocks w-full ${screen == "desktop" &&
-              "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
-              } ${screen == "tablet" && "grid-cols-2"} ${screen == "mobile" && "grid-cols-1"
-              }`}
+            className={`grid gap-6  px-0 services-blocks w-full ${
+              screen == "desktop" && "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+            } ${screen == "tablet" && "grid-cols-2"} ${
+              screen == "mobile" && "grid-cols-1"
+            }`}
           >
             {services.map((service, index) => (
-              <a
+              <NavLink
                 key={index}
-                href={service.link}
-                onClick={(e) => {
-                  e.preventDefault();
-                  onServiceClick?.(index); // Викликаємо зворотний виклик при натисканні
+                target={index === 0 ? "_blank" : index === 1 ? "_blank" : ""}
+                to={
+                  index === 0
+                    ? `${"tel:" + service.phone}`
+                    : index === 1
+                    ? service.link
+                    : "#"
+                }
+                onClick={() => {
+                  onServiceClick?.(index);
                 }}
                 className="w-[100%] rounded-lg py-10 px-4 flex flex-col items-center text-center gap-4 cursor-pointer hover:bg-blue-500 transition-all duration-300"
                 style={{
-                  background: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b
-                    }, ${bodyTextColor.a / 4})`,
+                  background: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${
+                    bodyTextColor.b
+                  }, ${bodyTextColor.a / 4})`,
                 }}
               >
                 {service.image.length > 0 ? (
@@ -95,7 +105,7 @@ export const Services: React.FC<ServicesProps> = ({
                 <span className="text-lg text-white text-md">
                   {service.title}
                 </span>
-              </a>
+              </NavLink>
             ))}
           </div>
         </div>

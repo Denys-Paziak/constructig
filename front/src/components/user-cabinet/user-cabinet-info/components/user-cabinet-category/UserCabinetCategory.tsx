@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import UserCabinetCategoryTable from "./components/user-cabinet-category-table/UserCabinetCategoryTable";
 import UserCabinetCategoryForm from "./components/user-cabinet-category-form/UserCabinetCategoryForm";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ import {
 interface Props {
   sites: any;
   data: any;
-  fetchData: any
+  fetchData: any;
 }
 
 const UserCabinetCategory: React.FC<Props> = ({ sites, data, fetchData }) => {
@@ -27,18 +27,17 @@ const UserCabinetCategory: React.FC<Props> = ({ sites, data, fetchData }) => {
     setCategories(categoriesData);
   };
 
-
   const handleCategoriesForm = () => {
     setCategoriesFormOpen((prevState) => !prevState);
   };
 
   const onEditCategory = (category: ICategory) => {
-    navigate(`/admin-blog-update/${category.id}`);
+    navigate(`/category-update/${category.id}`);
   };
 
   const onDeleteCategory = async (id: number) => {
     const confirmation = window.confirm(
-      "Ви впевнені, що хочете видалити цей блог?"
+      "Are you sure you want to remove this category?"
     );
 
     if (confirmation) {

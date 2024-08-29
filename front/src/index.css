@@ -62,6 +62,12 @@ body {
 .swiper-pagination-bullet-active {
   background-color: white !important;
 }
+.close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10001;
+}
 
 @media (max-width: 1100px) {
   .edit-block {

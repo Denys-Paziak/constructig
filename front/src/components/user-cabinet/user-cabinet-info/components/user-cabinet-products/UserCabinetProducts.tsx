@@ -9,7 +9,7 @@ import UserCabinetProductsTable from "./components/user-cabinet-products-table/U
 interface Props {
   data: any;
   sites: any;
-  fetchData: any
+  fetchData: any;
 }
 
 const UserCabinetProducts: React.FC<Props> = ({ data, sites, fetchData }) => {
@@ -23,7 +23,7 @@ const UserCabinetProducts: React.FC<Props> = ({ data, sites, fetchData }) => {
   };
 
   const onEditProduct = (category: IProduct) => {
-    navigate(`/admin-blog-update/${category.id}`);
+    navigate(`/product-update/${category.id}`);
   };
 
   const onDeleteProduct = async (id: number) => {

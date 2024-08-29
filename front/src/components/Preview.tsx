@@ -7,6 +7,7 @@ import { Socials } from "./socials/Socials";
 import Loader from "./loader/Loader";
 import { Footer } from "./footer/Footer";
 import ProductDisplay from "./ProductDisplay";
+import NewsDisplay from "./NewsDisplay";
 
 interface PreviewProps {
   data: any;
@@ -19,6 +20,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showProducts, setShowProducts] = useState(false);
+  const [showNews, setShowNews] = useState(false);
 
   const handleMenuToggle = (isOpen: boolean) => {
     setIsMenuOpen((isOpen) => !isOpen);
@@ -27,11 +29,22 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   const handleServiceClick = (index: number) => {
     if (index === 2) {
       setShowProducts(true);
+      setShowNews(false);
+      return;
+    }
+    if (index === 3) {
+      setShowNews(true);
+      setShowProducts(false);
+      return;
     }
   };
 
   const handleCloseProducts = () => {
     setShowProducts(false);
+  };
+
+  const handleCloseNews = () => {
+    setShowNews(false);
   };
 
   if (!data) return <Loader />;
@@ -135,15 +148,52 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
             />
           )}
           {showProducts && (
-            <div className=" w-[100%] top-0 bg-white z-50 overflow-auto">
-              <div className="relative">
+            <div
+              className="w-[100%] top-0 z-50 overflow-auto px-6 pb-24"
+              style={{
+                background: `rgba(${data.global.site_bg_color.r}, ${data.global.site_bg_color.g}, ${data.global.site_bg_color.b}, ${data.global.site_bg_color.a})`,
+              }}
+            >
+              <div className="container mx-auto pt-16 flex flex-col items-end gap-4">
                 <button
                   onClick={handleCloseProducts}
-                  className="absolute top-4 right-4 bg-red-500 text-white rounded-full p-2 z-50"
+                  className="bg-red-500 z-[100001] rounded-md py-2 px-4"
+                  style={{
+                    color: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
+                  }}
                 >
                   Close
                 </button>
-                <ProductDisplay data={data.global} />
+                <ProductDisplay
+                  data={data.global}
+                  bodyColorBg={data.global.site_bg_color}
+                  bodyTextColor={data.global.site_text_color}
+                />
+              </div>
+            </div>
+          )}
+          {showNews && (
+            <div
+              className="w-[100%] top-0 z-50 overflow-auto px-6 pb-24"
+              style={{
+                background: `rgba(${data.global.site_bg_color.r}, ${data.global.site_bg_color.g}, ${data.global.site_bg_color.b}, ${data.global.site_bg_color.a})`,
+              }}
+            >
+              <div className="container mx-auto pt-16 flex flex-col items-end gap-4">
+                <button
+                  onClick={handleCloseNews}
+                  className="bg-red-500 z-[100001] rounded-md py-2 px-4"
+                  style={{
+                    color: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
+                  }}
+                >
+                  Close
+                </button>
+                <NewsDisplay
+                  data={data.global}
+                  bodyColorBg={data.global.site_bg_color}
+                  bodyTextColor={data.global.site_text_color}
+                />
               </div>
             </div>
           )}

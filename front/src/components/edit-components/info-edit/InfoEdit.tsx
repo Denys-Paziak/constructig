@@ -58,12 +58,8 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const deleteImg = async () => {
-    const formData = new FormData();
-
-    formData.append("image", data.info.image);
-
     try {
-      const resDelete = await deleteImage(formData, token!);
+      const resDelete = await deleteImage(data.info.image, token!);
     } catch (error) {
       console.log(error);
     }

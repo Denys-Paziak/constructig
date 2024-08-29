@@ -9,7 +9,7 @@ import { deleteNew, getAllNews } from "../../../../../services/news/news";
 interface Props {
   data: any;
   sites: any;
-  fetchData: any
+  fetchData: any;
 }
 
 const UserCabinetNews: React.FC<Props> = ({ data, sites, fetchData }) => {
@@ -33,19 +33,19 @@ const UserCabinetNews: React.FC<Props> = ({ data, sites, fetchData }) => {
   };
 
   const onEditProduct = (oneNew: INew) => {
-    navigate(`/admin-blog-update/${oneNew.id}`);
+    navigate(`/new-update/${oneNew.id}`);
   };
 
   const onDeleteProduct = async (id: number) => {
     const confirmation = window.confirm(
-      "Ви впевнені, що хочете видалити цей блог?"
+      "Are you sure you want to remove this new?"
     );
 
     if (confirmation) {
       const token = localStorage.getItem("token");
 
       if (token) {
-        console.log("id", id)
+        console.log("id", id);
         const response = await deleteNew(id, token);
         notify(response.message);
         fetchData();
