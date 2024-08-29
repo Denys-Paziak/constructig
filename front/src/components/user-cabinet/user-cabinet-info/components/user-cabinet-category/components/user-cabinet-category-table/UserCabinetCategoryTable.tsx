@@ -1,6 +1,5 @@
 import React from "react";
 import { ICategory } from "../../../../../../../services/categories/category.interface";
-import { deleteCategory } from "../../../../../../../services/categories/category";
 
 interface Props {
   handleEditCategory: (category: ICategory) => void;
@@ -65,7 +64,7 @@ const UserCabinetCategoryTable: React.FC<Props> = ({
         </table>
       ) : (
         <p className="py-14 text-md font-medium text-black text-center">
-          Категорій ще немає, додайте одну щоб побачити її тут...
+          There are no categories yet, add one to see it here...
         </p>
       )}
     </div>

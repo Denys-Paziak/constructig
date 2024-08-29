@@ -82,7 +82,7 @@ const UserCabinetProductsTable: React.FC<Props> = ({
         </table>
       ) : (
         <p className="py-14 text-md font-medium text-black text-center">
-          Товарів ще немає, додайте одного щоб побачити його тут...
+          There are no products yet, add one to see it here...
         </p>
       )}
     </div>

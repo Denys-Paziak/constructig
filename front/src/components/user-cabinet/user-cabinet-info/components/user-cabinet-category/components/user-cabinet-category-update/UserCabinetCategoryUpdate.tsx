@@ -61,20 +61,24 @@ const UserCabinetCategoryUpdate: React.FC = () => {
   });
 
   useEffect(() => {
-    const getEditedCategory = async () => {
-      try {
-        const editedCategory: ICategory = await getCategoryById(id!);
-        setEditCategory(editedCategory);
+    const token = localStorage.getItem("token");
 
-        if (editedCategory) {
-          const updatedObject = {
-            image_url: editedCategory.image,
-            name_ua: editedCategory.name,
-          };
-          reset(updatedObject);
+    const getEditedCategory = async () => {
+      if (token) {
+        try {
+          const editedCategory: ICategory = await getCategoryById(id!, token);
+          setEditCategory(editedCategory);
+
+          if (editedCategory) {
+            const updatedObject = {
+              image_url: editedCategory.image,
+              name: editedCategory.name,
+            };
+            reset(updatedObject);
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
     };
 

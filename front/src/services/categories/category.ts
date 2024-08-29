@@ -10,9 +10,13 @@ export const getAllCategories = async () => {
   }
 };
 
-export const getCategoryById = async (id: string) => {
+export const getCategoryById = async (id: string, token: string) => {
   try {
-    const { data } = await axios.get(`/category/${id}`);
+    const { data } = await axios.get(`/category/get/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return data;
   } catch (error) {
     console.log(error);

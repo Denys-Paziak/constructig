@@ -10,6 +10,7 @@ import {
 import { toast } from "react-toastify";
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import { ICategory } from "../../../../../../../services/categories/category.interface";
+import { getCategoryById } from "../../../../../../../services/categories/category";
 
 const UserCabinetProductsUpdate: React.FC = () => {
   const [productImages, setProductImages] = useState<File[]>([]);
@@ -59,27 +60,33 @@ const UserCabinetProductsUpdate: React.FC = () => {
   });
 
   useEffect(() => {
-    const getEditedProduct = async () => {
-      try {
-        const editedProduct: IProduct = await getProductById(id!);
-        setEditProduct(editedProduct);
+    const token = localStorage.getItem("token");
+    console.log(token);
 
-        if (editedProduct) {
-          const updatedObject = {
-            image_url: editedProduct.image,
-            name: editedProduct.name,
-            description: editedProduct.description,
-            // category_name: editedProduct.category_name,
-            price: editedProduct.price,
-          };
-          reset(updatedObject);
+    const getEditedProduct = async () => {
+      if (token) {
+        try {
+          const editedProduct: IProduct = await getCategoryById(id!, token);
+
+          setEditProduct(editedProduct);
+
+          if (editedProduct) {
+            const updatedObject = {
+              image_url: editedProduct.image,
+              name: editedProduct.name,
+              description: editedProduct.description,
+              // category_name: editedProduct.category_name,
+              price: editedProduct.price,
+            };
+            reset(updatedObject);
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
     };
 
-    getEditedProduct();
+    // getEditedProduct();
   }, [id, reset]);
 
   const notify = (message: string) => toast(message);

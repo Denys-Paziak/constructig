@@ -70,7 +70,7 @@ const UserCabinetNewsTable: React.FC<Props> = ({
         </table>
       ) : (
         <p className="py-14 text-md font-medium text-black text-center">
-          Новин ще немає, додайте одну щоб побачити її тут...
+          No news yet, add one to see it here...
         </p>
       )}
     </div>

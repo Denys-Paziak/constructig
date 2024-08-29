@@ -27,6 +27,8 @@ const UserCabinetCategory: React.FC<Props> = ({ sites, data, fetchData }) => {
     setCategories(categoriesData);
   };
 
+  console.log(data);
+
   const handleCategoriesForm = () => {
     setCategoriesFormOpen((prevState) => !prevState);
   };
