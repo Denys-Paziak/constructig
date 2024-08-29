@@ -66,7 +66,7 @@ router.get("/sites", upload.none(), authMiddleware, getUserSites);
 
 router.post("/category/:siteId", upload.single("image"), authMiddleware, createCategory);
 router.post("/category/get/:categoryId", upload.none(), authMiddleware, getCategoryById);
-router.post("/category/update/:categoryId", upload.none(), authMiddleware, updateCategory);
+router.post("/category/update/:categoryId", upload.single("image"), authMiddleware, updateCategory);
 
 router.delete("/deleteCategory/:categoryId", upload.none(), authMiddleware, deleteCategory);
 
