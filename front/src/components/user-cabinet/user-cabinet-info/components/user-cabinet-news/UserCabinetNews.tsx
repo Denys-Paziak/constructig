@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import UserCabinetNewsForm from "./components/user-cabinet-news-form/UserCabinetNewsForm";
 import UserCabinetNewsTable from "./components/user-cabinet-news-table/UserCabinetNewsTable";
 import { INew } from "../../../../../services/news/news.interface";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { deleteNew, getAllNews } from "../../../../../services/news/news";
+import { deleteNew } from "../../../../../services/news/news";
 
 interface Props {
   data: any;
@@ -14,19 +14,9 @@ interface Props {
 
 const UserCabinetNews: React.FC<Props> = ({ data, sites, fetchData }) => {
   const [isNewsFormOpen, setNewsFormOpen] = useState(true);
-  // const [news, setNews] = useState<INew[]>([]);
   const navigate = useNavigate();
 
   const notify = (message: string) => toast(message);
-
-  // const getAll = async () => {
-  //   const newsData = await getAllNews();
-  //   setNews(newsData);
-  // };
-
-  // useEffect(() => {
-  //   // getAll();
-  // }, []);
 
   const handleNewsForm = () => {
     setNewsFormOpen((prevState) => !prevState);

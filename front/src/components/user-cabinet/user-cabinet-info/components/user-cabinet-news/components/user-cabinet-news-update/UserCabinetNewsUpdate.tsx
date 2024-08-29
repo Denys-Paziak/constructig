@@ -6,6 +6,7 @@ import { Accept, useDropzone } from "react-dropzone";
 import { getNewById, updateNew } from "../../../../../../../services/news/news";
 import { toast } from "react-toastify";
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
+import { deleteImage } from "../../../../../../../services/upload-images/uploadImages";
 
 const UserCabinetNewsUpdate = () => {
   const [newImages, setNewImages] = useState<File[]>([]);
@@ -55,21 +56,25 @@ const UserCabinetNewsUpdate = () => {
   });
 
   useEffect(() => {
-    const getEditedNew = async () => {
-      try {
-        const editedNew: INew = await getNewById(id!);
-        setEditNew(editedNew);
+    const token = localStorage.getItem("token");
 
-        if (editedNew) {
-          const updatedObject = {
-            image_url: editedNew.image,
-            title: editedNew.title,
-            content: editedNew.content,
-          };
-          reset(updatedObject);
+    const getEditedNew = async () => {
+      if (token) {
+        try {
+          const editedNew: INew = await getNewById(id!, token);
+          setEditNew(editedNew);
+
+          if (editedNew) {
+            const updatedObject = {
+              image: editedNew.image,
+              title: editedNew.title,
+              content: editedNew.content,
+            };
+            reset(updatedObject);
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
     };
 
@@ -79,7 +84,17 @@ const UserCabinetNewsUpdate = () => {
   const notify = (message: string) => toast(message);
 
   const onSubmit = async (data: any) => {
+    const token = localStorage.getItem("token");
     setIsLoading(true);
+
+    try {
+      if (token) {
+        const response = await deleteImage(editNew!.image, token);
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
     const formData = new FormData();
 
@@ -89,11 +104,9 @@ const UserCabinetNewsUpdate = () => {
 
     if (newImages.length > 0) {
       newImages.forEach((file) => {
-        formData.append("image_url", file);
+        formData.append("image", file);
       });
     }
-
-    const token = localStorage.getItem("token");
 
     if (token) {
       try {
