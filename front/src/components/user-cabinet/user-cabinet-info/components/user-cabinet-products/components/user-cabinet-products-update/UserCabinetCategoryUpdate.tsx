@@ -7,11 +7,9 @@ import {
   getProductById,
   updateProduct,
 } from "../../../../../../../services/products/products";
-import { toast } from "react-toastify";
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
-import { ICategory } from "../../../../../../../services/categories/category.interface";
-import { getCategoryById } from "../../../../../../../services/categories/category";
 import { deleteImage } from "../../../../../../../services/upload-images/uploadImages";
+import { notify, notifyError } from "../../../../../../../helpers/helper";
 
 const UserCabinetProductsUpdate: React.FC = () => {
   const [productImages, setProductImages] = useState<File[]>([]);
@@ -87,8 +85,6 @@ const UserCabinetProductsUpdate: React.FC = () => {
     getEditedProduct();
   }, [id, reset]);
 
-  const notify = (message: string) => toast(message);
-
   const onSubmit = async (data: any) => {
     const token = localStorage.getItem("token");
     setIsLoading(true);
@@ -122,6 +118,7 @@ const UserCabinetProductsUpdate: React.FC = () => {
         reset();
       } catch (error) {
         console.log(error);
+        notifyError("Something went wrong...");
       }
     }
   };

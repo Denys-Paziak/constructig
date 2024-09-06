@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { IProduct } from "../../../../../services/products/products.interface";
 import { deleteProduct } from "../../../../../services/products/products";
 import UserCabinetProductsForm from "./components/user-cabinet-products-form/UserCabinetProductsForm";
 import UserCabinetProductsTable from "./components/user-cabinet-products-table/UserCabinetProductsTable";
+import { notify } from "../../../../../helpers/helper";
 
 interface Props {
   data: any;
@@ -15,8 +15,6 @@ interface Props {
 const UserCabinetProducts: React.FC<Props> = ({ data, sites, fetchData }) => {
   const [isProductsFormOpen, setProductsFormOpen] = useState(true);
   const navigate = useNavigate();
-
-  const notify = (message: string) => toast(message);
 
   const handleProductsForm = () => {
     setProductsFormOpen((prevState) => !prevState);
@@ -41,8 +39,6 @@ const UserCabinetProducts: React.FC<Props> = ({ data, sites, fetchData }) => {
       }
     }
   };
-
-  console.log("data products", data);
 
   return (
     <div className="w-full py-4 md:py-6 flex flex-col gap-10">

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { AdminImage } from "../../../utils/dropzone/dropzone";
 import {
@@ -9,10 +9,14 @@ import Button from "../../UI/button/Button";
 import { useParams } from "react-router-dom";
 import { updateServices } from "../../../services/services/services";
 import { notify } from "../../../helpers/helper";
+import imageCompression from "browser-image-compression";
+import Loader from "../../loader/Loader";
 
 interface Service {
   image: string;
   title: string;
+  phone?: string;
+  link?: string;
 }
 
 interface Props {
@@ -28,33 +32,59 @@ const ServicesEdit: React.FC<Props> = ({
 }) => {
   const { id } = useParams();
   const token = localStorage.getItem("token");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSaveChanges = async () => {
     try {
+      setIsLoading(true);
       const formData = new FormData();
 
       formData.append("data", JSON.stringify(data.services));
 
       if (token) {
         const response = await updateServices(id!, formData, token);
-        notify(response.message);
+        notify(response.data.message);
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const onDrop = useCallback(
     async (index: number, acceptedFiles: File[]) => {
-      const formData = new FormData();
-      formData.append("image", acceptedFiles[0]);
-
-      const formDataDelete = new FormData();
-      formDataDelete.append("image", data.services.cols[index].image);
-
       if (token) {
+        setIsLoading(true);
+
         try {
+          const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+          };
+
+          const compressedBlob = await imageCompression(
+            acceptedFiles[0],
+            options
+          );
+
+          const compressedFile = new File(
+            [compressedBlob],
+            acceptedFiles[0].name,
+            {
+              type: acceptedFiles[0].type,
+              lastModified: Date.now(),
+            }
+          );
+
+          const formData = new FormData();
+          formData.append("image", compressedFile);
+
           const res = await uploadImage(formData, token);
+
+          const formDataDelete = new FormData();
+          formDataDelete.append("image", data.services.cols[index].image);
 
           if (data.services.cols[index].image.length > 0) {
             await deleteImage(formDataDelete, token);
@@ -70,6 +100,8 @@ const ServicesEdit: React.FC<Props> = ({
           handleSaveChanges();
         } catch (error) {
           console.error("Error uploading or deleting image:", error);
+        } finally {
+          setIsLoading(false);
         }
       }
     },
@@ -77,12 +109,6 @@ const ServicesEdit: React.FC<Props> = ({
   );
 
   const deleteImg = async (index: number) => {
-    // const formData = new FormData();
-    // formData.append("image", data.services.cols[index].image);
-
-    // const responseDelete = await deleteImage(data.header.logo, token);
-    //     console.log(responseDelete);
-
     try {
       if (token) {
         await deleteImage(data.services.cols[index].image, token);
@@ -117,8 +143,9 @@ const ServicesEdit: React.FC<Props> = ({
 
   return (
     <>
+      {isLoading && <Loader />}
       {sectionName === "services" && (
-        <div className="bg-white  p-3">
+        <div className="bg-white p-3">
           <div className="w-full flex flex-col gap-3">
             <div className="w-full flex flex-col gap-2">
               <p>Phone number for call service:</p>

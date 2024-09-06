@@ -10,6 +10,7 @@ import {
 } from "../../../services/upload-images/uploadImages";
 import imageCompression from "browser-image-compression";
 import { notify } from "../../../helpers/helper";
+import Loader from "../../loader/Loader";
 
 interface Props {
   data: any;
@@ -23,6 +24,7 @@ const SliderEdit: React.FC<Props> = ({
   handleInputChange,
 }) => {
   const token = localStorage.getItem("token");
+  const [isLoading, setIsLoading] = useState(false);
 
   const { id } = useParams();
   const [uploadedSliderImages, setUploadedSliderImages] = useState<
@@ -35,6 +37,8 @@ const SliderEdit: React.FC<Props> = ({
 
       for (const file of acceptedFiles) {
         if (token) {
+          setIsLoading(true);
+
           try {
             const options = {
               maxSizeMB: 1,
@@ -52,13 +56,12 @@ const SliderEdit: React.FC<Props> = ({
             const formData = new FormData();
             formData.append("image", compressedFile);
 
-            console.log("compressedFile");
-            console.log(file);
-
             const response = await uploadImage(formData, token);
             imagesUrls.push(response.url);
           } catch (error) {
             console.error("Error compressing the image:", error);
+          } finally {
+            setIsLoading(false);
           }
         }
       }
@@ -76,15 +79,11 @@ const SliderEdit: React.FC<Props> = ({
   });
 
   const removeSliderImage = async (index?: number) => {
-    console.log("index", index);
     let newImages: any[] | any = [...data[sectionName].images];
 
-    console.log("newImages not sliced", newImages);
     if (newImages.length > 1) {
-      console.log("enter");
       if (newImages) {
         newImages.splice(index, 1);
-        console.log(newImages);
       }
     } else {
       newImages = null;
@@ -110,11 +109,16 @@ const SliderEdit: React.FC<Props> = ({
         handleInputChange("slider", "images", response.updatedFields.images);
         notify(response.message);
         setUploadedSliderImages(null);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -157,7 +161,7 @@ const SliderEdit: React.FC<Props> = ({
                 </span>
               </div>
             ))}
-          {data.slider.images && data.slider.images.length > 0 && (
+          {data.slider.images === null && (
             <p className="w-full text-sm text-black text-center py-6">
               There are no images of the slider yet.
             </p>

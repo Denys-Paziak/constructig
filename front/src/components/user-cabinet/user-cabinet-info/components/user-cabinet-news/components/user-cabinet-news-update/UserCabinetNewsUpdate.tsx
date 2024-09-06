@@ -4,9 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Accept, useDropzone } from "react-dropzone";
 import { getNewById, updateNew } from "../../../../../../../services/news/news";
-import { toast } from "react-toastify";
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import { deleteImage } from "../../../../../../../services/upload-images/uploadImages";
+import { notify, notifyError } from "../../../../../../../helpers/helper";
 
 const UserCabinetNewsUpdate = () => {
   const [newImages, setNewImages] = useState<File[]>([]);
@@ -81,8 +81,6 @@ const UserCabinetNewsUpdate = () => {
     getEditedNew();
   }, [id, reset]);
 
-  const notify = (message: string) => toast(message);
-
   const onSubmit = async (data: any) => {
     const token = localStorage.getItem("token");
     setIsLoading(true);
@@ -116,6 +114,7 @@ const UserCabinetNewsUpdate = () => {
         reset();
       } catch (error) {
         console.log(error);
+        notifyError("Something went wrong...");
       }
     }
   };

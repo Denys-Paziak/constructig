@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { AdminImage } from "../../../utils/dropzone/dropzone";
 import {
@@ -9,6 +9,8 @@ import Button from "../../UI/button/Button";
 import { updateInfo } from "../../../services/info/info";
 import { useParams } from "react-router-dom";
 import { notify } from "../../../helpers/helper";
+import imageCompression from "browser-image-compression";
+import Loader from "../../loader/Loader";
 
 interface Props {
   data: any;
@@ -18,6 +20,7 @@ interface Props {
 
 const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSaveChanges = async () => {
     try {
@@ -29,6 +32,7 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
       if (token) {
         const response = await updateInfo(id!, formData, token);
         notify(response.message);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log(error);
@@ -38,18 +42,46 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
   const token = localStorage.getItem("token");
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    const formData = new FormData();
-    const formDataDelete = new FormData();
-
-    formData.append("image", acceptedFiles[0]);
-    formDataDelete.append("image", data.info.image);
-
     if (token) {
-      const res = await uploadImage(formData, token);
-      const resDelete = await deleteImage(formDataDelete, token);
-      handlerInput("info", "image", res.url);
+      setIsLoading(true);
 
-      console.log(resDelete);
+      try {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1920,
+          useWebWorker: true,
+        };
+
+        const compressedBlob = await imageCompression(
+          acceptedFiles[0],
+          options
+        );
+
+        const compressedFile = new File(
+          [compressedBlob],
+          acceptedFiles[0].name,
+          {
+            type: acceptedFiles[0].type,
+            lastModified: Date.now(),
+          }
+        );
+
+        const formData = new FormData();
+        formData.append("image", compressedFile);
+
+        const res = await uploadImage(formData, token);
+
+        const formDataDelete = new FormData();
+        formDataDelete.append("image", data.info.image);
+
+        const resDelete = await deleteImage(formDataDelete, token);
+
+        handlerInput("info", "image", res.url);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     handleSaveChanges();
@@ -66,6 +98,10 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
     handlerInput("info", "image", null);
     handleSaveChanges();
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -93,7 +129,6 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
                 <span
                   onClick={() => {
                     deleteImg();
-                    handleSaveChanges();
                   }}
                   className="absolute w-6 h-6 rounded-full bg-blue-300 p-1.5 right-[-8px] top-[-8px] cursor-pointer"
                 >

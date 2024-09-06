@@ -28,7 +28,12 @@ import {
   getItemById,
   updateItem,
 } from "../controllers/itemController.js";
-import { createNews, deleteNews } from "../controllers/newsController.js";
+import {
+  createNews,
+  deleteNews,
+  getNewsById,
+  updateNews,
+} from "../controllers/newsController.js";
 
 const upload = multer();
 const router = express.Router();
@@ -125,5 +130,12 @@ router.post(
   createNews
 );
 router.delete("/deleteNews/:newsId", upload.none(), authMiddleware, deleteNews);
+router.get("/news/get/:newsId", upload.none(), authMiddleware, getNewsById);
+router.post(
+  "/news/update/:newsId",
+  upload.single("image"),
+  authMiddleware,
+  updateNews
+);
 
 export default router;

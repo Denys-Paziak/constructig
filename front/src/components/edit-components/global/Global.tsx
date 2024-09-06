@@ -3,6 +3,7 @@ import { RgbaColorPicker } from "react-colorful";
 import Button from "../../UI/button/Button";
 import { updateGlobalColors } from "../../../services/global/global";
 import { useParams } from "react-router-dom";
+import { notify } from "../../../helpers/helper";
 
 interface iColor {
   r: number;
@@ -32,7 +33,7 @@ const Global: React.FC<Props> = ({ data, handleInputChange }) => {
         const formData = new FormData();
         formData.append("data", JSON.stringify(data.global));
         const response = await updateGlobalColors(id!, formData, token);
-        console.log(response);
+        notify(response.message);
       }
     } catch (error) {
       console.log(error);

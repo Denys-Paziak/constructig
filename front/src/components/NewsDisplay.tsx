@@ -43,7 +43,7 @@ const NewsDisplay: React.FC<Props> = ({ data, bodyColorBg, bodyTextColor }) => {
             <img
               src={oneNew.image}
               alt={oneNew.title}
-              className="w-full h-auto object-cover rounded-lg mr-4"
+              className="w-full h-[260px] md:h-[400px] object-cover rounded-lg mr-4"
             />
             <h3
               className="text-xl font-semibold"

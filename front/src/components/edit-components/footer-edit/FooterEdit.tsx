@@ -20,7 +20,6 @@ const FooterEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
       if (token) {
         const formData = new FormData();
 
-        console.log(data.footer);
         formData.append("data", JSON.stringify(data.footer));
 
         const response = await updateFooter(id!, formData, token);

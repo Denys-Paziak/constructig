@@ -8,6 +8,7 @@ import {
   deleteCategory,
   getAllCategories,
 } from "../../../../../services/categories/category";
+import { notify } from "../../../../../helpers/helper";
 
 interface Props {
   sites: any;
@@ -20,14 +21,10 @@ const UserCabinetCategory: React.FC<Props> = ({ sites, data, fetchData }) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const navigate = useNavigate();
 
-  const notify = (message: string) => toast(message);
-
   const getAll = async () => {
     const categoriesData = await getAllCategories();
     setCategories(categoriesData);
   };
-
-  console.log(data);
 
   const handleCategoriesForm = () => {
     setCategoriesFormOpen((prevState) => !prevState);

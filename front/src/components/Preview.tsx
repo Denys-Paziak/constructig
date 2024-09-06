@@ -49,6 +49,8 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
 
   if (!data) return <Loader />;
 
+  console.log(data);
+
   return (
     <div
       className={`${
@@ -149,7 +151,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
           )}
           {showProducts && (
             <div
-              className="w-[100%] top-0 z-50 overflow-auto px-6 pb-24"
+              className="w-[100%] top-0 z-50 overflow-auto px-4 md:px-0 pb-24"
               style={{
                 background: `rgba(${data.global.site_bg_color.r}, ${data.global.site_bg_color.g}, ${data.global.site_bg_color.b}, ${data.global.site_bg_color.a})`,
               }}
@@ -174,7 +176,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
           )}
           {showNews && (
             <div
-              className="w-[100%] top-0 z-50 overflow-auto px-6 pb-24"
+              className="w-[100%] top-0 z-50 overflow-auto px-4 md:px-0 pb-24"
               style={{
                 background: `rgba(${data.global.site_bg_color.r}, ${data.global.site_bg_color.g}, ${data.global.site_bg_color.b}, ${data.global.site_bg_color.a})`,
               }}

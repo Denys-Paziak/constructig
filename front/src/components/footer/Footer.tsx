@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 interface Props {
   logo: string | null;
@@ -65,15 +66,16 @@ export const Footer: React.FC<Props> = ({
             )}
           </ul>
           <div>
-            <a
+            <NavLink
+              target={data.footer.web_link && "_blank"}
+              to={data.footer.web_link && data.footer.web_link}
               style={{
                 color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
               }}
               className="text-lg text-black hover:text-blue-500"
-              href={data.footer.web_link}
             >
               My website
-            </a>
+            </NavLink>
           </div>
         </div>
         <div className="w-full flex flex-col gap-4">

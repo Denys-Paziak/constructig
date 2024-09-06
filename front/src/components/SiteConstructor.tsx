@@ -36,9 +36,12 @@ const SiteConstructor: React.FC = () => {
 
   const handleSave = async () => {
     const token = localStorage.getItem("token");
+
     if (id && data && token) {
       const formData = new FormData();
+
       formData.append("data", JSON.stringify(data));
+
       try {
         await updateSite(parseInt(id), formData, token);
         alert("Site updated successfully!");
@@ -76,8 +79,6 @@ const SiteConstructor: React.FC = () => {
   if (!data) {
     return <Loader />;
   }
-
-  console.log(data);
 
   const sections = [
     { name: "global", title: "Global settings", component: Global },

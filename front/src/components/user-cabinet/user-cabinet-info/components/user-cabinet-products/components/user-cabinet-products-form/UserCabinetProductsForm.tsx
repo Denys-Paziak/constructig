@@ -1,16 +1,17 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Accept, useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import { createProduct } from "../../../../../../../services/products/products";
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import { ICategory } from "../../../../../../../services/categories/category.interface";
+import imageCompression from "browser-image-compression";
+import { notify, notifyError } from "../../../../../../../helpers/helper";
 
 interface Props {
   toggleProductsForm: () => void;
   data: any;
   sites: any;
-  fetchData: any
+  fetchData: any;
 }
 
 interface FormValues {
@@ -24,7 +25,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
   toggleProductsForm,
   data,
   sites,
-  fetchData
+  fetchData,
 }) => {
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
@@ -45,16 +46,29 @@ const UserCabinetProductsForm: React.FC<Props> = ({
     "image/*": [".jpeg", ".jpg", ".png", ".gif"],
   };
 
-  const onDropMainImage = useCallback((acceptedFiles: File[]) => {
+  const onDropMainImage = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
-    setMainImage(file);
-    setMainImagePreview(URL.createObjectURL(file));
-  }, []);
 
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+
+    const compressedBlob = await imageCompression(file, options);
+
+    const compressedFile = new File([compressedBlob], file.name, {
+      type: file.type,
+      lastModified: Date.now(),
+    });
+
+    setMainImage(compressedFile);
+    setMainImagePreview(URL.createObjectURL(compressedFile));
+  }, []);
 
   useEffect(() => {
     setActiveCategoryId(data.global.categories[0].id);
-  });
+  }, []);
 
   const {
     getRootProps: getMainRootProps,
@@ -79,8 +93,6 @@ const UserCabinetProductsForm: React.FC<Props> = ({
   const onSubmit = async (data: any) => {
     setIsLoading(true);
 
-    console.log(activeCategoryId);
-
     const formData = new FormData();
 
     Object.keys(data).forEach((key) => {
@@ -94,7 +106,6 @@ const UserCabinetProductsForm: React.FC<Props> = ({
     formData.append("categoryId", activeCategoryId || "");
 
     const token = localStorage.getItem("token");
-    const notify = (message: string) => toast(message);
 
     if (token) {
       try {
@@ -106,12 +117,12 @@ const UserCabinetProductsForm: React.FC<Props> = ({
         fetchData();
       } catch (error) {
         console.error("Error creating product:", error);
-        notify("Something went wrong...");
+        notifyError("Something went wrong...");
       } finally {
         setIsLoading(false);
       }
     } else {
-      notify("Please log in!");
+      notifyError("Please re-log in!");
       setIsLoading(false);
     }
   };

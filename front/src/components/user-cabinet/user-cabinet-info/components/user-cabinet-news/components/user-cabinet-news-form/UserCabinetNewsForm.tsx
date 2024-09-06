@@ -4,11 +4,13 @@ import { createNew } from "../../../../../../../services/news/news";
 import { toast } from "react-toastify";
 import { Accept, useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
+import imageCompression from "browser-image-compression";
+import { notify, notifyError } from "../../../../../../../helpers/helper";
 
 interface Props {
   toggleNewsForm: () => void;
   sites: any;
-  fetchData: any
+  fetchData: any;
 }
 
 interface FormValues {
@@ -19,7 +21,7 @@ interface FormValues {
 const UserCabinetNewsForm: React.FC<Props> = ({
   toggleNewsForm,
   sites,
-  fetchData
+  fetchData,
 }) => {
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
@@ -37,10 +39,24 @@ const UserCabinetNewsForm: React.FC<Props> = ({
     "image/*": [".jpeg", ".jpg", ".png", ".gif"],
   };
 
-  const onDropMainImage = useCallback((acceptedFiles: File[]) => {
+  const onDropMainImage = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
-    setMainImage(file);
-    setMainImagePreview(URL.createObjectURL(file));
+
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+
+    const compressedBlob = await imageCompression(file, options);
+
+    const compressedFile = new File([compressedBlob], file.name, {
+      type: file.type,
+      lastModified: Date.now(),
+    });
+
+    setMainImage(compressedFile);
+    setMainImagePreview(URL.createObjectURL(compressedFile));
   }, []);
 
   const {
@@ -70,7 +86,6 @@ const UserCabinetNewsForm: React.FC<Props> = ({
     }
 
     const token = localStorage.getItem("token");
-    const notify = (message: string) => toast(message);
 
     if (token) {
       try {
@@ -82,12 +97,12 @@ const UserCabinetNewsForm: React.FC<Props> = ({
         fetchData();
       } catch (error) {
         console.error("Error creating new:", error);
-        notify("Something went wrong");
+        notifyError("Something went wrong");
       } finally {
         setIsLoading(false);
       }
     } else {
-      notify("Please log in!");
+      notifyError("Please log in!");
       setIsLoading(false);
     }
   };

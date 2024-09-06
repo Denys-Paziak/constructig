@@ -8,8 +8,8 @@ import {
   updateCategory,
 } from "../../../../../../../services/categories/category";
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
-import { toast } from "react-toastify";
 import { deleteImage } from "../../../../../../../services/upload-images/uploadImages";
+import { notify, notifyError } from "../../../../../../../helpers/helper";
 
 const UserCabinetCategoryUpdate: React.FC = () => {
   const [categoryImages, setCategoryImages] = useState<File[]>([]);
@@ -86,8 +86,6 @@ const UserCabinetCategoryUpdate: React.FC = () => {
     getEditedCategory();
   }, [id, reset]);
 
-  const notify = (message: string) => toast(message);
-
   const onSubmit = async (data: any) => {
     const token = localStorage.getItem("token");
     setIsLoading(true);
@@ -121,6 +119,7 @@ const UserCabinetCategoryUpdate: React.FC = () => {
         reset();
       } catch (error) {
         console.log(error);
+        notifyError("Something went wrong...");
       }
     }
   };
