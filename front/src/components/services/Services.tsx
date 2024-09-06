@@ -15,7 +15,7 @@ interface ServicesProps {
   bodyTextColor: { r: number; g: number; b: number; a: number };
   screen: any;
   data: any;
-  onServiceClick?: (index: number) => void; // Додано зворотний виклик
+  onServiceClick?: (index: number) => void;
 }
 
 export const Services: React.FC<ServicesProps> = ({
@@ -26,7 +26,7 @@ export const Services: React.FC<ServicesProps> = ({
   bodyTextColor,
   screen,
   data,
-  onServiceClick, // Додано зворотний виклик
+  onServiceClick,
 }) => {
   return (
     <div
@@ -47,7 +47,7 @@ export const Services: React.FC<ServicesProps> = ({
             {data.header.menu[1].text}
           </h2>
           <div
-            className={`grid gap-6  px-0 services-blocks w-full ${
+            className={`grid gap-6 pt-2 px-0 services-blocks w-full ${
               screen == "desktop" && "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
             } ${screen == "tablet" && "grid-cols-2"} ${
               screen == "mobile" && "grid-cols-1"
