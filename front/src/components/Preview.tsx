@@ -8,6 +8,7 @@ import Loader from "./loader/Loader";
 import { Footer } from "./footer/Footer";
 import ProductDisplay from "./ProductDisplay";
 import NewsDisplay from "./NewsDisplay";
+import TopLine from "./top-line/TopLine";
 
 interface PreviewProps {
   data: any;
@@ -119,6 +120,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
             type === "constructor" ? "rounded-xl overflow-hidden" : ""
           }`}
         >
+          <TopLine />
           {data.header?.visible && (
             <Header
               logo={data.header.logo}
@@ -144,6 +146,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               backgroundColor={data.global.main_bg_color}
               textColor={data.global.main_text_color}
               bodyColorBg={data.global.site_bg_color}
+              headerColorBg={data.global.main_bg_color}
               bodyTextColor={data.global.site_text_color}
               screen={screen}
               onServiceClick={handleServiceClick}
@@ -159,16 +162,32 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               <div className="container mx-auto pt-16 flex flex-col items-end gap-4">
                 <button
                   onClick={handleCloseProducts}
-                  className="bg-red-500 z-[100001] rounded-md py-2 px-4"
+                  className="bg-red-transparent flex items-center gap-4 z-[100001] border-b py-2 px-4 button-close"
                   style={{
                     color: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
+                    borderColor: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
                   }}
                 >
-                  Close
+                  <span className="hidden md:block">Close</span>
+                  <svg
+                    width="10"
+                    height="9"
+                    viewBox="0 0 10 9"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1 0.5L9 8.5M9 0.5L1 8.5"
+                      stroke-linecap="round"
+                      style={{
+                        stroke: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
+                      }}
+                    />
+                  </svg>
                 </button>
                 <ProductDisplay
                   data={data.global}
                   bodyColorBg={data.global.site_bg_color}
+                  headerColorBg={data.global.main_bg_color}
                   bodyTextColor={data.global.site_text_color}
                 />
               </div>
@@ -184,16 +203,32 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               <div className="container mx-auto pt-16 flex flex-col items-end gap-4">
                 <button
                   onClick={handleCloseNews}
-                  className="bg-red-500 z-[100001] rounded-md py-2 px-4"
+                  className="bg-red-transparent flex items-center gap-4 z-[100001] border-b py-2 px-4 button-close"
                   style={{
                     color: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
+                    borderColor: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
                   }}
                 >
-                  Close
+                  <span className="hidden md:block">Close</span>
+                  <svg
+                    width="10"
+                    height="9"
+                    viewBox="0 0 10 9"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1 0.5L9 8.5M9 0.5L1 8.5"
+                      stroke-linecap="round"
+                      style={{
+                        stroke: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
+                      }}
+                    />
+                  </svg>
                 </button>
                 <NewsDisplay
                   data={data.global}
                   bodyColorBg={data.global.site_bg_color}
+                  headerColorBg={data.global.main_bg_color}
                   bodyTextColor={data.global.site_text_color}
                 />
               </div>
@@ -205,6 +240,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               image={data.info.image}
               title={data.info.title}
               text={data.info.text}
+              backgroundColor={data.global.main_bg_color}
               bodyColorBg={data.global.site_bg_color}
               bodyTextColor={data.global.site_text_color}
               screen={screen}

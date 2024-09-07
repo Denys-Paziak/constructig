@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IGetMe } from "../../../services/auth/getMe/getMe.interface";
 import UserCabinetPersonal from "./components/user-cabinet-personal/UserCabinetPersonal";
 import Loader from "../../loader/Loader";
-import { getUserSites } from "../../../services/getSite/getSite";
 import UserCabinetCategory from "./components/user-cabinet-category/UserCabinetCategory";
 import UserCabinetProducts from "./components/user-cabinet-products/UserCabinetProducts";
 import UserCabinetNews from "./components/user-cabinet-news/UserCabinetNews";
@@ -110,7 +109,7 @@ const UserCabinetInfo: React.FC<Props> = ({
                   activeTabIndex === 4 ? "bg-blue-500 text-white" : ""
                 }`}
               >
-                News
+                Events
               </button>
             </li>
           </ul>
@@ -189,7 +188,7 @@ const UserCabinetInfo: React.FC<Props> = ({
 
             {activeTabIndex === 4 && (
               <div>
-                <h3 className="text-lg font-semibold">News</h3>
+                <h3 className="text-lg font-semibold">Events</h3>
                 <UserCabinetNews
                   sites={sites}
                   data={data}

@@ -84,10 +84,21 @@ body {
   }
 }
 
+@media (min-width: 768px) {
+  .category-top {
+    background: none !important;
+  }
+}
+
 @media (max-width: 768px) {
   .footer-top {
     flex-direction: column;
     gap: 30px;
+  }
+  .button-close {
+    border-bottom: none;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }
 

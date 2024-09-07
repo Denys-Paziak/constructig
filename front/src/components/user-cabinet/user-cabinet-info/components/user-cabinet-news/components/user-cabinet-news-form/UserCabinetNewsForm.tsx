@@ -114,7 +114,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({
     >
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="image" className="text-sm font-semibold">
-          Image of the news
+          Image of the event
         </label>
         <AdminImage
           {...getMainRootProps({

@@ -12,6 +12,7 @@ interface ServicesProps {
   backgroundColor?: any;
   textColor?: any;
   bodyColorBg: { r: string; g: string; b: string; a: string };
+  headerColorBg: { r: string; g: string; b: string; a: string };
   bodyTextColor: { r: number; g: number; b: number; a: number };
   screen: any;
   data: any;
@@ -23,6 +24,7 @@ export const Services: React.FC<ServicesProps> = ({
   backgroundColor,
   textColor,
   bodyColorBg,
+  headerColorBg,
   bodyTextColor,
   screen,
   data,
@@ -47,7 +49,7 @@ export const Services: React.FC<ServicesProps> = ({
             {data.header.menu[1].text}
           </h2>
           <div
-            className={`grid gap-6 pt-2 px-0 services-blocks w-full ${
+            className={`grid gap-6 px-0 services-blocks w-full ${
               screen == "desktop" && "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
             } ${screen == "tablet" && "grid-cols-2"} ${
               screen == "mobile" && "grid-cols-1"
@@ -67,11 +69,11 @@ export const Services: React.FC<ServicesProps> = ({
                 onClick={() => {
                   onServiceClick?.(index);
                 }}
-                className="w-[100%] rounded-lg py-10 px-4 flex flex-col items-center text-center gap-4 cursor-pointer hover:bg-blue-500 transition-all duration-300"
+                className="w-[100%] rounded-[40px] py-10 px-4 flex flex-col items-center text-center gap-4 cursor-pointer transition-all duration-300"
                 style={{
-                  background: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${
-                    bodyTextColor.b
-                  }, ${bodyTextColor.a / 4})`,
+                  background: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${
+                    headerColorBg.b
+                  }, ${+headerColorBg.a / 1.1})`,
                 }}
               >
                 {service.image.length > 0 ? (
