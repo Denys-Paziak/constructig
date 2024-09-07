@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import LanguageSelector from "../LanguageSelector.tsx";
 
 interface HeaderProps {
   logo: string | null;
@@ -109,7 +110,14 @@ export const Header: React.FC<HeaderProps> = ({
           {data.socials?.visible && (
             <a href="#contact">{data.header.menu[3].text}</a>
           )}
+
         </div>
+        <div className={"hidden lg:block"}>
+          <LanguageSelector />
+        </div>
+
+
+
       </div>
 
       {isMenuOpen && (
@@ -164,7 +172,9 @@ export const Header: React.FC<HeaderProps> = ({
             >
               socials
             </a>
+
           )}
+          <LanguageSelector />
         </div>
       )}
     </div>
