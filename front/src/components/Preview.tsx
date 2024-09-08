@@ -9,6 +9,7 @@ import { Footer } from "./footer/Footer";
 import ProductDisplay from "./ProductDisplay";
 import NewsDisplay from "./NewsDisplay";
 import TopLine from "./top-line/TopLine";
+import Baner from "./baner/Baner.tsx";
 
 interface PreviewProps {
   data: any;
@@ -139,6 +140,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               textColor={data.global.main_text_color}
             />
           )}
+          <Baner bodyColorBg={data.global.site_bg_color}/>
           {data.services?.visible && (
             <Services
               data={data}

@@ -49,10 +49,10 @@ export const Services: React.FC<ServicesProps> = ({
             {data.header.menu[1].text}
           </h2>
           <div
-            className={`grid gap-6 px-0 services-blocks w-full ${
+            className={`flex flex-wrap justify-center gap-[15px]  md:justify-between px-0 services-blocks w-full ${
               screen == "desktop" && "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
-            } ${screen == "tablet" && "grid-cols-2"} ${
-              screen == "mobile" && "grid-cols-1"
+            } ${screen == "tablet" && " grid-cols-2"} ${
+              screen == "mobile" && " grid-cols-1"
             }`}
           >
             {services.map((service, index) => (
@@ -69,7 +69,7 @@ export const Services: React.FC<ServicesProps> = ({
                 onClick={() => {
                   onServiceClick?.(index);
                 }}
-                className="w-[100%] rounded-[40px] py-10 px-4 flex flex-col items-center text-center gap-4 cursor-pointer transition-all duration-300"
+                className="w-[160px] h-[160px]  rounded-[40px] py-10 px-4 flex flex-col items-center text-center gap-4 cursor-pointer transition-all duration-300"
                 style={{
                   background: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${
                     headerColorBg.b
