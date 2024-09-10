@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Header } from "./header/Header";
 import { Info } from "./info/Info";
 import { Services } from "./services/Services";
@@ -24,7 +24,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   const [showProducts, setShowProducts] = useState(false);
   const [showNews, setShowNews] = useState(false);
 
-  const handleMenuToggle = (isOpen: boolean) => {
+  const handleMenuToggle = () => {
     setIsMenuOpen((isOpen) => !isOpen);
   };
 

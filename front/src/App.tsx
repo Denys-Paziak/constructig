@@ -18,7 +18,7 @@ import UserCabinetProductsUpdate
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [editingSiteId, setEditingSiteId] = useState<number | null>(null);
+  // const [editingSiteId, setEditingSiteId] = useState<number | null>(null);
 
   const handleLogin = (): void => {
     const token = localStorage.getItem("token");
@@ -28,9 +28,9 @@ function App() {
     }
   };
 
-  const handleEditSite = (siteId: number): void => {
-    setEditingSiteId(siteId);
-  };
+  // const handleEditSite = (siteId: number): void => {
+  //   setEditingSiteId(siteId);
+  // };
 
   useEffect(() => {
     handleLogin();
@@ -43,7 +43,7 @@ function App() {
               path="/login"
               element={
                 !isLoggedIn ? (
-                    <Login onLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} />
+                    <Login  setIsLoggedIn={setIsLoggedIn} />
                 ) : (
                     <Navigate to="/profile" />
                 )
@@ -58,7 +58,7 @@ function App() {
               element={
                 isLoggedIn ? (
                     <UserSites
-                        onEditSite={handleEditSite}
+                        // onEditSite={handleEditSite}
                         setIsLoggedIn={setIsLoggedIn}
                     />
                 ) : (

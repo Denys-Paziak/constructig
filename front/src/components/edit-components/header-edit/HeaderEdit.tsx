@@ -122,7 +122,7 @@ const HeaderEdit: React.FC<Props> = ({
 
     newMenu[index].text = value;
 
-    handleInputChange("header", "menu", newMenu);
+    handleInputChange("header", "menu", newMenu + "");
   };
 
   if (isLoading) {

@@ -15,7 +15,7 @@ export const uploadImage = async (formData: FormData, token: string) => {
   }
 };
 
-export const deleteImage = async (name: string, token: string) => {
+export const deleteImage = async (name: any, token: string) => {
   try {
     const formData = new FormData();
 

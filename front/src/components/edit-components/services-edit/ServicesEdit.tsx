@@ -42,7 +42,7 @@ const ServicesEdit: React.FC<Props> = ({
       formData.append("data", JSON.stringify(data.services));
 
       if (token) {
-        const response = await updateServices(id!, formData, token);
+        const response: any = await updateServices(id!, formData, token);
         notify(response.data.message);
       }
     } catch (error) {
