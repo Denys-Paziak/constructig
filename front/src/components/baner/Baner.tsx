@@ -4,7 +4,6 @@ interface Props {
 }
 
 
-
 const Baner = ({bodyColorBg}: Props) => {
     return (
         <div

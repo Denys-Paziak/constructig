@@ -3,18 +3,18 @@ import { updateUserData } from "../../../../../services/auth/update-data/updateD
 import { IGetMe } from "../../../../../services/auth/getMe/getMe.interface";
 import { getMe } from "../../../../../services/auth/getMe/getMe";
 import { toast } from "react-toastify";
-import { getUserSites } from "../../../../../services/getSite/getSite";
+// import { getUserSites } from "../../../../../services/getSite/getSite";
 
 interface Props {
   userData: IGetMe;
   setUserData: (response: any) => void;
-  setSites: (response: any) => void;
+  // setSites: (response: any) => void;
 }
 
 const UserCabinetPersonal: React.FC<Props> = ({
   userData,
   setUserData,
-  setSites,
+  // setSites,
 }) => {
   const [username, setUsername] = useState<string>("");
   const [company, setCompany] = useState<string>("");
@@ -57,8 +57,8 @@ const UserCabinetPersonal: React.FC<Props> = ({
   const getSites = async (token: string) => {
     try {
       if (token) {
-        const response = await getUserSites(token);
-        setSites(response.sites);
+        // const response = await getUserSites(token);
+        // setSites(response.sites);
       }
     } catch (error) {
       console.log(error);

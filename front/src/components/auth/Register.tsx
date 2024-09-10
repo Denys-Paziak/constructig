@@ -64,13 +64,13 @@ const Register: React.FC = () => {
     formData.append("password", password);
 
     try {
-      const data = await register(formData);
-      if (data.status === 201) {
+      const response: any = await register(formData);  // Axios response
+      if (response.status === 201) {
         notifySuccess("Registration successful!");
         navigate("/login");
       } else {
         notifyError("Registration failed. Please try again.");
-        console.log(data);
+        console.log(response.data); // Log the actual response data if registration fails
       }
     } catch (error) {
       notifyError("An error occurred. Please try again later.");

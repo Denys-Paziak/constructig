@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import UserCabinetCategoryTable from "./components/user-cabinet-category-table/UserCabinetCategoryTable";
 import UserCabinetCategoryForm from "./components/user-cabinet-category-form/UserCabinetCategoryForm";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { ICategory } from "../../../../../services/categories/category.interface";
 import {
   deleteCategory,
-  getAllCategories,
 } from "../../../../../services/categories/category";
 import { notify } from "../../../../../helpers/helper";
 
@@ -18,12 +16,12 @@ interface Props {
 
 const UserCabinetCategory: React.FC<Props> = ({ sites, data, fetchData }) => {
   const [isCategoriesFormOpen, setCategoriesFormOpen] = useState(true);
-  const [categories, setCategories] = useState<ICategory[]>([]);
+  // const [categories, setCategories] = useState<ICategory[]>([]);
   const navigate = useNavigate();
 
   const getAll = async () => {
-    const categoriesData = await getAllCategories();
-    setCategories(categoriesData);
+    // const categoriesData = await getAllCategories();
+    // setCategories(categoriesData);
   };
 
   const handleCategoriesForm = () => {

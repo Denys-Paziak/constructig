@@ -1,5 +1,21 @@
 import React, { useState, useEffect } from "react";
 
+declare global {
+  interface Window {
+    googleTranslateElementInit: () => void;
+  }
+}
+
+declare global {
+  interface Window {
+    google: {
+      translate: {
+        TranslateElement: new (options: any, elementId: string) => void;
+      };
+    };
+  }
+}
+
 const LanguageSelector: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -11,14 +27,14 @@ const LanguageSelector: React.FC = () => {
     script.async = true;
     document.body.appendChild(script);
 
-    window.googleTranslateElementInit = () => {
-      new window.google.translate.TranslateElement(
-        {
-          autoDisplay: true,
-        },
-        "google_translate_element"
-      );
-    };
+    if (typeof window !== "undefined" && window.googleTranslateElementInit) {
+      window.googleTranslateElementInit = () => {
+        new window.google.translate.TranslateElement(
+            { pageLanguage: 'en' },
+            'google_translate_element'
+        );
+      };
+    }
 
     return () => {
       document.body.removeChild(script);
