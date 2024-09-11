@@ -110,14 +110,10 @@ export const Header: React.FC<HeaderProps> = ({
           {data.socials?.visible && (
             <a href="#contact">{data.header.menu[3].text}</a>
           )}
-
         </div>
         <div className={"hidden lg:block"}>
           <LanguageSelector />
         </div>
-
-
-
       </div>
 
       {isMenuOpen && (
@@ -172,9 +168,8 @@ export const Header: React.FC<HeaderProps> = ({
             >
               socials
             </a>
-
           )}
-          <LanguageSelector />
+          <LanguageSelector headerTextColor={headerTextColor} />
         </div>
       )}
     </div>

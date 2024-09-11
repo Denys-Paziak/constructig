@@ -48,7 +48,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
           <h3 className="text-black text-xl font-semibold">
             Hello, <span className="notranslate">{userData.name}</span>
           </h3>
-          <div>
+          <div className="language-block">
             <LanguageSelector />
 
             {isDropdownOpen && (

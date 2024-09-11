@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import { Pagination } from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 
 interface SliderProps {
   images: string[];
@@ -49,8 +49,9 @@ export const Slider: React.FC<SliderProps> = ({
           centeredSlides={true}
           autoplay={{
             delay: 2500,
+            disableOnInteraction: false,
           }}
-          modules={[Pagination]}
+          modules={[Pagination, Autoplay]}
           pagination={true}
           navigation={true}
           className="h-full"

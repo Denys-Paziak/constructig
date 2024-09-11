@@ -57,44 +57,62 @@ const ProductDisplay: React.FC<Props> = ({
             }, ${bodyTextColor.a / 4})`,
           }}
         >
-          {data.categories.map((category) => (
-            <div
-              key={category.id}
-              onClick={() => setSelectedCategory(category.name)}
-              className="cursor-pointer relative flex items-center rounded-lg shadow-lg transition duration-300"
-              style={{
-                background: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${
-                  headerColorBg.b
-                }, ${+headerColorBg.a / 1.1})`,
-              }}
-            >
-              <img
-                src={category.image}
-                alt={category.name}
-                className="w-full md:w-[50%] h-[320px] object-cover rounded-lg md:rounded-s-lg"
-              />
+          {data.categories.length > 0 ? (
+            data.categories.map((category) => (
               <div
-                className="w-full absolute md:static top-0 left-0 right-0 py-3 md:py-0 rounded-t-lg md:rounded-none md:w-[50%] md:bg-none flex items-center justify-center category-top"
+                key={category.id}
+                onClick={() => setSelectedCategory(category.name)}
+                className="cursor-pointer relative flex items-center rounded-lg shadow-lg transition duration-300 category-item"
                 style={{
                   background: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${
                     headerColorBg.b
-                  }, ${+headerColorBg.a})`,
+                  }, ${+headerColorBg.a / 1.1})`,
                 }}
               >
-                <h3
-                  className="text-2xl md:text-4xl font-bold opacity-[80%]"
+                <img
+                  src={category.image}
+                  alt={category.name}
+                  className="w-full md:w-[50%] h-[320px] object-cover"
+                />
+                <div
+                  className="w-full absolute md:static top-0 left-0 right-0 py-3 md:py-0 rounded-t-lg md:rounded-none md:w-[50%] md:bg-none flex items-center justify-center category-top"
                   style={{
-                    color: `rgba(${bodyColorBg.r}, ${bodyColorBg.g}, ${bodyColorBg.b}, ${bodyColorBg.a})`,
+                    background: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${
+                      headerColorBg.b
+                    }, ${+headerColorBg.a})`,
                   }}
                 >
-                  {category.name}
-                </h3>
+                  <h3
+                    className="text-2xl md:text-4xl font-bold opacity-[80%]"
+                    style={{
+                      color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
+                    }}
+                  >
+                    {category.name}
+                  </h3>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p
+              className="text-center py-8"
+              style={{
+                color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
+              }}
+            >
+              No items found in this category.
+            </p>
+          )}
         </div>
       ) : (
-        <div className="p-4 relative">
+        <div
+          className="p-4 relative rounded-lg"
+          style={{
+            background: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${
+              bodyTextColor.b
+            }, ${bodyTextColor.a / 4})`,
+          }}
+        >
           <button
             onClick={() => setSelectedCategory(null)}
             className="mb-4 absolute top-[-30px] text-sm md:text-md md:top-[-35px] left-0"
@@ -117,7 +135,7 @@ const ProductDisplay: React.FC<Props> = ({
               filteredItems.map((item) => (
                 <div
                   key={item.id}
-                  className="w-full flex flex-col-reverse md:flex-row rounded-lg shadow-lg"
+                  className="w-full flex flex-col-reverse md:flex-row rounded-lg shadow-lg product-item"
                   style={{
                     background: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${
                       headerColorBg.b
@@ -129,7 +147,8 @@ const ProductDisplay: React.FC<Props> = ({
                       <h4
                         className="text-lg font-semibold"
                         style={{
-                          color: `rgba(${bodyColorBg.r}, ${bodyColorBg.g}, ${bodyColorBg.b}, ${bodyColorBg.a})`,
+                          color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
+                          minWidth: " fit-content",
                         }}
                       >
                         {item.name}
@@ -137,13 +156,13 @@ const ProductDisplay: React.FC<Props> = ({
                       <span
                         className="hidden md:block w-full h-[1px] opacity-[50%]"
                         style={{
-                          background: `rgba(${bodyColorBg.r}, ${bodyColorBg.g}, ${bodyColorBg.b}, ${bodyColorBg.a})`,
+                          background: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
                         }}
                       ></span>
                       <p
                         className="text-lg font-bold"
                         style={{
-                          color: `rgba(${bodyColorBg.r}, ${bodyColorBg.g}, ${bodyColorBg.b}, ${bodyColorBg.a})`,
+                          color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
                         }}
                       >
                         ${item.price}
@@ -152,7 +171,7 @@ const ProductDisplay: React.FC<Props> = ({
                     <p
                       className="text-lg opacity-[80%]"
                       style={{
-                        color: `rgba(${bodyColorBg.r}, ${bodyColorBg.g}, ${bodyColorBg.b}, ${bodyColorBg.a})`,
+                        color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
                       }}
                     >
                       {item.description}
@@ -161,7 +180,7 @@ const ProductDisplay: React.FC<Props> = ({
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-full md:w-[50%] h-[320px] object-cover rounded-t-lg md:rounded-e-lg"
+                    className="w-full md:w-[50%] h-[320px] object-cover"
                   />
                 </div>
               ))

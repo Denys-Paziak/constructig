@@ -85,12 +85,12 @@ const UserCabinetPersonal: React.FC<Props> = ({
           await getUserData(data.data.token);
           await getSites(data.data.token);
         } else {
-          notifyError("Щось пішло не так...");
+          notifyError("Something went wrong...");
         }
       }
     } catch (error) {
       console.error(error);
-      notifyError("Неправильний старий пароль");
+      notifyError("Incorrect old password");
     }
   };
 
@@ -105,7 +105,7 @@ const UserCabinetPersonal: React.FC<Props> = ({
     formData.append("confirmPassword", confirmNewPassword);
 
     if (newPassword !== confirmNewPassword) {
-      notifyError("Паролі не збігаються");
+      notifyError("Passwords do not match");
       return;
     }
 
@@ -125,12 +125,12 @@ const UserCabinetPersonal: React.FC<Props> = ({
           setNewPassword("");
           setConfirmNewPassword("");
         } else {
-          notifyError("Щось пішло не так...");
+          notifyError("Something went wrong...");
         }
       }
     } catch (error) {
       console.error(error);
-      notifyError("Щось пішло не так...");
+      notifyError("Something went wrong...");
     }
   };
 
@@ -196,7 +196,7 @@ const UserCabinetPersonal: React.FC<Props> = ({
             type="submit"
             className="w-full py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            Оновити дані
+            Update data
           </button>
         </form>
         <form
@@ -258,7 +258,7 @@ const UserCabinetPersonal: React.FC<Props> = ({
             type="submit"
             className="w-full py-2.5 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 block"
           >
-            Оновити пароль
+            Update password
           </button>
         </form>
       </div>

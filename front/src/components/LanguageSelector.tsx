@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-const LanguageSelector: React.FC = () => {
+interface Props {
+  headerTextColor?: { r: string; g: string; b: string; a: string };
+}
+
+const LanguageSelector: React.FC<Props> = ({ headerTextColor }) => {
   const [selectedLanguage, setSelectedLanguage] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -53,14 +57,37 @@ const LanguageSelector: React.FC = () => {
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 focus:outline-none"
+          className="flex items-center gap-2 justify-center w-full rounded-md shadow-sm px-4 py-2 bg-transparent text-white text-sm font-medium focus:outline-none"
           id="options-menu"
           aria-haspopup="true"
           aria-expanded={isOpen}
+          style={{
+            color: `${
+              headerTextColor
+                ? `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`
+                : "white"
+            }`,
+          }}
         >
           {selectedLanguage
             ? languages.find((lang) => lang.code === selectedLanguage)?.name
-            : "Choose language"}
+            : "English"}
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-4 h-4"
+          >
+            <path
+              d="M19 9L12 16L5 9"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </button>
       </div>
 

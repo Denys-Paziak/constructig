@@ -56,7 +56,7 @@ const NewsDisplay: React.FC<Props> = ({
                 <h3
                   className="text-xl font-semibold"
                   style={{
-                    color: `rgba(${bodyColorBg.r}, ${bodyColorBg.g}, ${bodyColorBg.b}, ${bodyColorBg.a})`,
+                    color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
                   }}
                 >
                   {oneNew.title}
@@ -64,7 +64,7 @@ const NewsDisplay: React.FC<Props> = ({
                 <p
                   className="text-md h-[180px] overflow-scroll md:overflow-visible md:h-auto opacity-[80%]"
                   style={{
-                    color: `rgba(${bodyColorBg.r}, ${bodyColorBg.g}, ${bodyColorBg.b}, ${bodyColorBg.a})`,
+                    color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
                   }}
                 >
                   {oneNew.content}
@@ -79,7 +79,7 @@ const NewsDisplay: React.FC<Props> = ({
               color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
             }}
           >
-            No items found in this category.
+            No news found.
           </p>
         )}
       </div>

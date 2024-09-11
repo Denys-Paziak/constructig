@@ -20,7 +20,6 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
       if (token) {
         const formData = new FormData();
 
-        console.log(data.socials);
         formData.append("data", JSON.stringify(data.socials));
 
         const response = await updateSocials(id!, formData, token);

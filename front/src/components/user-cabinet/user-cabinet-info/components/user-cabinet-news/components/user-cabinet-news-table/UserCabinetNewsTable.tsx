@@ -39,7 +39,7 @@ const UserCabinetNewsTable: React.FC<Props> = ({
                   <img
                     src={oneNew.image}
                     alt="category img"
-                    className="w-[160px] h-[160px] mx-auto"
+                    className="min-w-[160px] h-[160px] mx-auto"
                   />
                 </td>
                 <td className="p-4 notranslate border border-border-gray text-sm font-light leading-[16px] text-black text-center">
