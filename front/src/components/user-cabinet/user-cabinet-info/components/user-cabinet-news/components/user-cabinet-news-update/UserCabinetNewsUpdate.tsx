@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { INew } from "../../../../../../../services/news/news.interface";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";

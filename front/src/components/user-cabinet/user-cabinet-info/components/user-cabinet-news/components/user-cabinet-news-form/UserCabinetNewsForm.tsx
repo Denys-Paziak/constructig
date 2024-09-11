@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import { createNew } from "../../../../../../../services/news/news";
-import { toast } from "react-toastify";
 import { Accept, useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import imageCompression from "browser-image-compression";

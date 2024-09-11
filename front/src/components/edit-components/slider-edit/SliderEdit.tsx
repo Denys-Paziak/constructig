@@ -88,7 +88,10 @@ const SliderEdit: React.FC<Props> = ({
     } else {
       newImages = null;
     }
-    const responseDelete = await deleteImage(data.slider.images[index], token);
+
+    if (token && index) {
+       await deleteImage(data.slider.images[index], token);
+    }
 
     handleInputChange(sectionName, "images", newImages);
     handleSaveChanges();

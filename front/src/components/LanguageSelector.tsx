@@ -1,10 +1,30 @@
 import React, { useState, useEffect } from "react";
 
+<<<<<<< HEAD
 interface Props {
   headerTextColor?: { r: string; g: string; b: string; a: string };
 }
 
 const LanguageSelector: React.FC<Props> = ({ headerTextColor }) => {
+=======
+declare global {
+  interface Window {
+    googleTranslateElementInit: () => void;
+  }
+}
+
+declare global {
+  interface Window {
+    google: {
+      translate: {
+        TranslateElement: new (options: any, elementId: string) => void;
+      };
+    };
+  }
+}
+
+const LanguageSelector: React.FC = () => {
+>>>>>>> bca7062481f49d3b56c20e642115223c2d3aa7c9
   const [selectedLanguage, setSelectedLanguage] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -15,14 +35,14 @@ const LanguageSelector: React.FC<Props> = ({ headerTextColor }) => {
     script.async = true;
     document.body.appendChild(script);
 
-    window.googleTranslateElementInit = () => {
-      new window.google.translate.TranslateElement(
-        {
-          autoDisplay: true,
-        },
-        "google_translate_element"
-      );
-    };
+    if (typeof window !== "undefined" && window.googleTranslateElementInit) {
+      window.googleTranslateElementInit = () => {
+        new window.google.translate.TranslateElement(
+            { pageLanguage: 'en' },
+            'google_translate_element'
+        );
+      };
+    }
 
     return () => {
       document.body.removeChild(script);

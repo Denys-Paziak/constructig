@@ -23,7 +23,7 @@ const UserCabinetInfo: React.FC<Props> = ({
   fetchData,
 }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const [sitesAll, setSitesAll] = useState<any>([]);
+  // const [sitesAll, setSitesAll] = useState<any>([]);
   const navigate = useNavigate();
 
   const handleTabClick = (index: number) => {
@@ -159,7 +159,7 @@ const UserCabinetInfo: React.FC<Props> = ({
                 <UserCabinetPersonal
                   userData={userData}
                   setUserData={setUserData}
-                  setSites={setSitesAll}
+                  // setSites={setSitesAll}
                 />
               </div>
             )}

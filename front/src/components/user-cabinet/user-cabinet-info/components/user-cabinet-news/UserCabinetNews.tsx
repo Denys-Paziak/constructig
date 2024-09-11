@@ -3,7 +3,6 @@ import UserCabinetNewsForm from "./components/user-cabinet-news-form/UserCabinet
 import UserCabinetNewsTable from "./components/user-cabinet-news-table/UserCabinetNewsTable";
 import { INew } from "../../../../../services/news/news.interface";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { deleteNew } from "../../../../../services/news/news";
 import { notify } from "../../../../../helpers/helper";
 

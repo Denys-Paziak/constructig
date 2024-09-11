@@ -84,7 +84,7 @@ const HeaderEdit: React.FC<Props> = ({
     try {
       setIsLoading(true);
       if (token && typeof data.header.logo === "string") {
-        const responseDelete = await deleteImage(data.header.logo, token);
+        await deleteImage(data.header.logo, token);
 
         handleInputChange("header", "logo", null);
 
@@ -122,7 +122,7 @@ const HeaderEdit: React.FC<Props> = ({
 
     newMenu[index].text = value;
 
-    handleInputChange("header", "menu", newMenu);
+    handleInputChange("header", "menu", newMenu + "");
   };
 
   if (isLoading) {

@@ -1,7 +1,7 @@
 import React from "react";
 
 interface Props {
-  handleButtonClick: () => void;
+  handleButtonClick: any;
 }
 
 const Button: React.FC<Props> = ({ handleButtonClick }) => {

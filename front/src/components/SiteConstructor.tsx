@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, NavLink } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import SectionEditor from "./SectionEditor";
 import Preview from "./Preview";
-import { getEditSite, updateSite } from "../services/getSite/getSite";
+import { getEditSite } from "../services/getSite/getSite";
 import Global from "./edit-components/global/Global";
 import Loader from "./loader/Loader";
 
-interface IColor {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-}
+
 
 const SiteConstructor: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [data, setData] = useState<any>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,23 +29,23 @@ const SiteConstructor: React.FC = () => {
     fetchData();
   }, [id]);
 
-  const handleSave = async () => {
-    const token = localStorage.getItem("token");
-
-    if (id && data && token) {
-      const formData = new FormData();
-
-      formData.append("data", JSON.stringify(data));
-
-      try {
-        await updateSite(parseInt(id), formData, token);
-        alert("Site updated successfully!");
-      } catch (error) {
-        console.error("Error updating site:", error);
-        alert("Failed to update site");
-      }
-    }
-  };
+  // const handleSave = async () => {
+  //   const token = localStorage.getItem("token");
+  //
+  //   if (id && data && token) {
+  //     const formData = new FormData();
+  //
+  //     formData.append("data", JSON.stringify(data));
+  //
+  //     try {
+  //       await updateSite(parseInt(id), formData, token);
+  //       alert("Site updated successfully!");
+  //     } catch (error) {
+  //       console.error("Error updating site:", error);
+  //       alert("Failed to update site");
+  //     }
+  //   }
+  // };
 
   const handleInputChange = (section: string, field: string, value: any) => {
     if (data) {

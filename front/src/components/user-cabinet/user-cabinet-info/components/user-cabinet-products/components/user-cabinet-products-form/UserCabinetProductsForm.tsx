@@ -109,8 +109,9 @@ const UserCabinetProductsForm: React.FC<Props> = ({
 
     if (token) {
       try {
-        const response = await createProduct(+sites[0].id, formData, token);
+        const response = await createProduct(String(+sites[0].id), formData, token);
         notify(response.message);
+
         reset();
         toggleProductsForm();
         setMainImagePreview(null);

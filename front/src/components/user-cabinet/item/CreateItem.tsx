@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import { uploadImage } from "../../../services/upload-images/uploadImages";
@@ -16,7 +16,7 @@ const CreateItem = () => {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
 
-    const onDrop = async (acceptedFiles) => {
+    const onDrop = async (acceptedFiles: any) => {
         const formData = new FormData();
         formData.append("image", acceptedFiles[0]);
 
@@ -35,7 +35,7 @@ const CreateItem = () => {
         multiple: false,
     });
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
 
         if (!name || !description || !price || !image || !categoryId || !siteId) {
@@ -151,7 +151,7 @@ const CreateItem = () => {
                         />
                     )}
                 </div>
-                <Button handleButtonClick={handleSubmit} text="Create Item" />
+                <Button handleButtonClick={handleSubmit} />
             </form>
         </div>
     );

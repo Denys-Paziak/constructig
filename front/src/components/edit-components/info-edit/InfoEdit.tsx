@@ -74,7 +74,8 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
         const formDataDelete = new FormData();
         formDataDelete.append("image", data.info.image);
 
-        const resDelete = await deleteImage(formDataDelete, token);
+        await deleteImage(formDataDelete, token);
+
 
         handlerInput("info", "image", res.url);
       } catch (error) {
@@ -91,7 +92,7 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
 
   const deleteImg = async () => {
     try {
-      const resDelete = await deleteImage(data.info.image, token!);
+       await deleteImage(data.info.image, token!);
     } catch (error) {
       console.log(error);
     }

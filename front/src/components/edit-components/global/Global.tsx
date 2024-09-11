@@ -5,12 +5,6 @@ import { updateGlobalColors } from "../../../services/global/global";
 import { useParams } from "react-router-dom";
 import { notify } from "../../../helpers/helper";
 
-interface iColor {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-}
 
 interface Props {
   data: any;
@@ -49,7 +43,7 @@ const Global: React.FC<Props> = ({ data, handleInputChange }) => {
         <div className="w-full color-picker-block">
           <RgbaColorPicker
             color={data.global.main_bg_color}
-            onChange={(value) => {
+            onChange={(value: any) => {
               handleInputChange("global", "main_bg_color", value);
             }}
           />
@@ -62,7 +56,7 @@ const Global: React.FC<Props> = ({ data, handleInputChange }) => {
         <div className="w-full color-picker-block">
           <RgbaColorPicker
             color={data.global.main_text_color}
-            onChange={(value) => {
+            onChange={(value: any) => {
               handleInputChange("global", "main_text_color", value);
             }}
           />
@@ -73,7 +67,7 @@ const Global: React.FC<Props> = ({ data, handleInputChange }) => {
         <div className="w-full color-picker-block">
           <RgbaColorPicker
             color={data.global.site_bg_color}
-            onChange={(value) => {
+            onChange={(value: any) => {
               handleInputChange("global", "site_bg_color", value);
             }}
           />
@@ -84,7 +78,7 @@ const Global: React.FC<Props> = ({ data, handleInputChange }) => {
         <div className="w-full color-picker-block">
           <RgbaColorPicker
             color={data.global.site_text_color}
-            onChange={(value) => {
+            onChange={(value: any) => {
               handleInputChange("global", "site_text_color", value);
             }}
           />

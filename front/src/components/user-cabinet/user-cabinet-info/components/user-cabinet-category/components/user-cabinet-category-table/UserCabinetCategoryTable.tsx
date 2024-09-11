@@ -30,7 +30,7 @@ const UserCabinetCategoryTable: React.FC<Props> = ({
             </tr>
           </thead>
           <tbody>
-            {data.global.categories.map((category: ICategory, index) => (
+            {data.global.categories.map((category: ICategory, index: number) => (
               <tr key={index} className="w-full">
                 <td className="p-4 notranslate border border-border-gray text-sm font-light leading-[16px] text-black text-center">
                   <img

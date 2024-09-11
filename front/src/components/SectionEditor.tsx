@@ -6,12 +6,6 @@ import Toggle from "react-toggle";
 import FooterEdit from "./edit-components/footer-edit/FooterEdit";
 import ServicesEdit from "./edit-components/services-edit/ServicesEdit";
 
-interface iColor {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-}
 
 interface SectionEditorProps {
   title: string;
