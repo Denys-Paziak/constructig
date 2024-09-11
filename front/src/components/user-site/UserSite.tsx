@@ -7,8 +7,6 @@ const UserSite: React.FC = () => {
   const [data, setData] = useState<any>();
   const { siteName } = useParams();
 
-  console.log("data");
-
   const getUserSite = async () => {
     try {
       const response = await getSite(siteName!);

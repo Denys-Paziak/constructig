@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from "react";
 
-declare global {
-  interface Window {
-    googleTranslateElementInit: () => void;
-  }
+interface Props {
+  headerTextColor?: { r: string; g: string; b: string; a: string };
 }
 
+// Оголосимо властивості в глобальному об'єкті для TypeScript
 declare global {
   interface Window {
-    google: {
+    googleTranslateElementInit?: () => void;
+    google?: {
       translate: {
-        TranslateElement: new (options: any, elementId: string) => void;
+        TranslateElement: new (options: object, element: string) => void;
       };
     };
   }
 }
 
-const LanguageSelector: React.FC = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("");
+const LanguageSelector: React.FC<Props> = ({ headerTextColor }) => {
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("en");
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -27,14 +27,14 @@ const LanguageSelector: React.FC = () => {
     script.async = true;
     document.body.appendChild(script);
 
-    if (typeof window !== "undefined" && window.googleTranslateElementInit) {
-      window.googleTranslateElementInit = () => {
+    window.googleTranslateElementInit = () => {
+      if (window.google && window.google.translate) {
         new window.google.translate.TranslateElement(
           { pageLanguage: "en" },
           "google_translate_element"
         );
-      };
-    }
+      }
+    };
 
     return () => {
       document.body.removeChild(script);
@@ -95,9 +95,9 @@ const LanguageSelector: React.FC = () => {
             <path
               d="M19 9L12 16L5 9"
               stroke="white"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </button>

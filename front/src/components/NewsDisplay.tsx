@@ -11,7 +11,6 @@ interface Props {
 
 const NewsDisplay: React.FC<Props> = ({
   data,
-  bodyColorBg,
   headerColorBg,
   bodyTextColor,
 }) => {

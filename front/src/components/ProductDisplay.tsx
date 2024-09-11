@@ -28,7 +28,6 @@ interface Props {
 
 const ProductDisplay: React.FC<Props> = ({
   data,
-  bodyColorBg,
   headerColorBg,
   bodyTextColor,
 }) => {

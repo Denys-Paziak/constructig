@@ -51,8 +51,6 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
 
   if (!data) return <Loader />;
 
-  console.log(data);
-
   return (
     <div
       className={`${
@@ -140,7 +138,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               textColor={data.global.main_text_color}
             />
           )}
-          <Baner bodyColorBg={data.global.site_bg_color}/>
+          <Baner bodyColorBg={data.global.site_bg_color} />
           {data.services?.visible && (
             <Services
               data={data}
