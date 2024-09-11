@@ -4,7 +4,6 @@ import UserCabinetInfo from "./user-cabinet-info/UserCabinetInfo";
 import { IGetMe } from "../../services/auth/getMe/getMe.interface";
 import { getMe } from "../../services/auth/getMe/getMe";
 import Loader from "../loader/Loader";
-// import LanguageSelector from "../LanguageSelector";
 import { getEditSite, getUserSites } from "../../services/getSite/getSite";
 
 interface Props {
