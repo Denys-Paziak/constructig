@@ -66,16 +66,29 @@ const SliderEdit: React.FC<Props> = ({
         }
       }
 
-      handleInputChange("slider", "images", imagesUrls);
+      if (!data.slider.images) {
+        console.log("first image")
+        handleInputChange("slider", "images", imagesUrls);
+        handleSaveChanges();
+      }else {
+        console.log("add image")
+        let newArr = data.slider.images.concat(imagesUrls);
 
-      handleSaveChanges();
+        if (newArr.length > 5) {
+          newArr.splice(0,5)
+        }
+
+        handleInputChange("slider", "images", newArr);
+        handleSaveChanges();
+      }
+
     },
     [handleInputChange, token]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    maxFiles: 3,
+    maxFiles: 5,
   });
 
   const removeSliderImage = async (index?: number) => {
@@ -128,18 +141,19 @@ const SliderEdit: React.FC<Props> = ({
       {sectionName === "slider" && (
         <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-4 flex-col">
           <h4 className="font-semibold text-lg">Slides</h4>
-          <AdminImage
-            {...getRootProps({
-              isdragactive: isDragActive.toString(),
-            })}
+           <AdminImage
+              {...getRootProps({
+                isdragactive: isDragActive.toString(),
+              })}
           >
             <input {...getInputProps()} />
             {isDragActive ? (
-              <p>Drag and drop files here</p>
+                <p>Drag and drop files here</p>
             ) : (
-              <p>Drag and drop files here</p>
+                <p>Drag and drop files here</p>
             )}
           </AdminImage>
+
           {uploadedSliderImages?.map(
             (uploadedSliderImage: File, index: number) => (
               <p key={index} className="text-sm text-black">
