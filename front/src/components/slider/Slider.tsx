@@ -43,7 +43,7 @@ export const Slider: React.FC<SliderProps> = ({
     return (
       <div
         id="slider"
-        className="bg-gray-300 h-[100vh] flex justify-center items-center relative"
+        className="container mx-auto h-[60vh] flex justify-center items-center relative"
       >
         <Swiper
           centeredSlides={true}
