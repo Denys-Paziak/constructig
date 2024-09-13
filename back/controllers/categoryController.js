@@ -8,13 +8,17 @@ export const createCategory = async (req, res) => {
   const { name } = req.body;
   const { siteId } = req.params;
 
-  const image = req.file;
-  const resUpload = await uploadImageServer(image);
+  let params = [name,  siteId];
+  let query = "INSERT INTO categories (name,  site_id) VALUES (?,  ?)";
 
-  let params = [name, resUpload, siteId];
+  if (req.file) {
+    const image = req.file;
+    const resUpload = await uploadImageServer(image);
 
-  const query =
-    "INSERT INTO categories (name, image, site_id) VALUES (?, ?, ?)";
+     params = [name, resUpload, siteId];
+     query =
+        "INSERT INTO categories (name, image, site_id) VALUES (?, ?, ?)";
+  }
 
   connection.query(query, params, (err, results) => {
     if (err) {

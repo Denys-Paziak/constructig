@@ -6,12 +6,19 @@ export const createItem = async (req, res) => {
     const connection = mysql.createConnection(dbConfig);
     const { siteId } = req.params;
 
-    const image = req.file;
-    const resUpload = await uploadImageServer(image);
 
     const { categoryId, name, description, price } = req.body;
 
-    const query = 'INSERT INTO items (category_id, name, description, price, image, site_id) VALUES (?, ?, ?, ?, ?, ?)';
+    let query = 'INSERT INTO items (category_id, name, description, price, site_id) VALUES ( ?, ?, ?, ?, ?)';
+    let params = [categoryId, name, description, price, siteId]
+
+    if (req.file) {
+        const image = req.file;
+        const resUpload = await uploadImageServer(image);
+        query = 'INSERT INTO items (category_id, name, description, price, image, site_id) VALUES (?, ?, ?, ?, ?, ?)';
+        params = [categoryId, name, description, price, resUpload, siteId];
+    }
+
 
     connection.connect(err => {
         if (err) {
@@ -19,7 +26,7 @@ export const createItem = async (req, res) => {
             return res.status(500).json({ error: 'Помилка підключення до бази даних' });
         }
 
-        connection.query(query, [categoryId, name, description, price, resUpload, siteId], (err, results) => {
+        connection.query(query, params, (err, results) => {
             if (err) {
                 console.error('Помилка виконання запиту: ' + err.message);
                 return res.status(500).json({ error: 'Помилка виконання запиту' });

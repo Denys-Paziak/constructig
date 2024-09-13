@@ -46,14 +46,18 @@ const NewsDisplay: React.FC<Props> = ({
                 }, ${+headerColorBg.a / 1.1})`,
               }}
             >
-              <img
-                src={oneNew.image}
-                alt={oneNew.title}
-                className="w-full md:w-[50%] min-h-full object-cover rounded-t-lg md:rounded-lg"
-              />
-              <div className="w-full md:w-[50%] flex flex-col gap-[12px] md:gap-[20px] p-[12px] md:p-[40px]">
-                <h3
-                  className="text-xl font-semibold"
+                <div  className="w-full md:w-[50%] min-h-full  rounded-t-lg md:rounded-lg">
+                    {oneNew.image && <img
+                        src={oneNew.image}
+                        alt={oneNew.title}
+                        className="w-full md:w-[50%] min-h-full object-contain rounded-t-lg md:rounded-lg"
+                    />}
+                </div>
+
+
+                <div className="w-full md:w-[50%] flex flex-col gap-[12px] md:gap-[20px] p-[12px] md:p-[40px]">
+                    <h3
+                        className="text-xl font-semibold"
                   style={{
                     color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
                   }}

@@ -36,11 +36,11 @@ const UserCabinetNewsTable: React.FC<Props> = ({
             {data.global.news.map((oneNew: INew, index: number) => (
               <tr key={index} className="w-full">
                 <td className="p-4 notranslate border border-border-gray text-sm font-light leading-[16px] text-black text-center">
-                  <img
-                    src={oneNew.image}
-                    alt="category img"
-                    className="min-w-[160px] h-[160px] mx-auto"
-                  />
+                  {oneNew.image && <img
+                      src={oneNew.image}
+                      alt="category img"
+                      className="h-[160px] mx-auto"
+                  />}
                 </td>
                 <td className="p-4 notranslate border border-border-gray text-sm font-light leading-[16px] text-black text-center">
                   {oneNew.title}

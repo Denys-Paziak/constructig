@@ -68,13 +68,17 @@ const ProductDisplay: React.FC<Props> = ({
                   }, ${+headerColorBg.a / 1.1})`,
                 }}
               >
-                <img
-                  src={category.image}
-                  alt={category.name}
-                  className="w-full md:w-[50%] h-[320px] object-cover"
-                />
+                <div   className="w-full md:w-[50%] h-[320px]">
+                  {category.image && <img
+                      src={category.image}
+                      alt={category.name}
+                      className="w-full md:w-[50%] h-[320px] object-contain"
+                  />}
+
+                </div>
+
                 <div
-                  className="w-full absolute md:static top-0 left-0 right-0 py-3 md:py-0 rounded-t-lg md:rounded-none md:w-[50%] md:bg-none flex items-center justify-center category-top"
+                    className="w-full absolute md:static top-0 left-0 right-0 py-3 md:py-0 rounded-t-lg md:rounded-none md:w-[50%] md:bg-none flex items-center justify-center category-top"
                   style={{
                     background: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${
                       headerColorBg.b
@@ -176,18 +180,21 @@ const ProductDisplay: React.FC<Props> = ({
                       {item.description}
                     </p>
                   </div>
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full md:w-[50%] h-[320px] object-cover"
-                  />
+                  <div className={"w-full md:w-[50%] h-[320px]"}>
+                    {item.image && <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full md:w-[50%] h-[320px] object-contain"
+                    />}
+                  </div>
+
                 </div>
               ))
             ) : (
-              <p
-                className="text-center py-8"
-                style={{
-                  color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
+                <p
+                    className="text-center py-8"
+                    style={{
+                      color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
                 }}
               >
                 No items found in this category.

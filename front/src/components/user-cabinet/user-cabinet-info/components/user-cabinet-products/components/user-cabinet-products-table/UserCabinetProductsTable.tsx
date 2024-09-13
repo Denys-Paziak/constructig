@@ -42,14 +42,16 @@ const UserCabinetProductsTable: React.FC<Props> = ({
             {data.global.items.map((product: IProduct, index: number) => (
               <tr key={index} className="w-full">
                 <td className="p-4 notranslate border border-border-gray text-sm font-light leading-[16px] text-black text-center">
-                  <img
-                    src={product.image}
-                    alt="category img"
-                    className="h-[160px] mx-auto"
-                  />
+
+
+                  {product.image && <img
+                      src={product.image}
+                      alt="category img"
+                      className="h-[160px] mx-auto"
+                  />}
                 </td>
                 <td className="p-4 notranslate border border-border-gray text-sm font-light leading-[16px] text-black text-center">
-                  {product.category_name}
+                {product.category_name}
                 </td>
                 <td className="p-4 notranslate border border-border-gray text-sm font-light leading-[16px] text-black text-center">
                   {product.name}
