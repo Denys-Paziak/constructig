@@ -135,7 +135,7 @@ const ProductDisplay: React.FC<Props> = ({
               filteredItems.map((item) => (
                 <div
                   key={item.id}
-                  className="w-full flex flex-row-reverse md:flex-row rounded-lg shadow-lg product-item"
+                  className="w-full flex flex-row-reverse md:flex-row rounded-md shadow-lg product-item"
                   style={{
                     background: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${
                       headerColorBg.b
@@ -178,7 +178,18 @@ const ProductDisplay: React.FC<Props> = ({
                     </p>
                   </div>
                   <div
-                    className={"w-[30%] md:w-[50%] min-h-[120px] md:h-[320px]"}
+                    className={
+                      "w-[30%] md:w-[50%] min-h-[120px] md:h-[320px] no-image-border"
+                    }
+                    style={
+                      !item.image
+                        ? {
+                            backgroundColor: `rgba(${headerColorBg.r}, ${
+                              headerColorBg.g
+                            }, ${headerColorBg.b}, ${headerColorBg.a / 1})`,
+                          }
+                        : {}
+                    }
                   >
                     {item.image && (
                       <img

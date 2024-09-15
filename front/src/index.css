@@ -105,6 +105,12 @@ body {
   .category-top {
     background: none !important;
   }
+  .no-image-border {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -124,6 +130,10 @@ body {
   }
   .category-item img {
     border-radius: 0.5rem;
+  }
+  .no-image-border {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
   }
   .no-bg-color {
     background-color: none !important;
