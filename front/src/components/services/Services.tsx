@@ -49,7 +49,7 @@ export const Services: React.FC<ServicesProps> = ({
             {data.header.menu[1].text}
           </h2>
           <div
-            className={`flex flex-wrap justify-center gap-[15px]  md:justify-between px-0 services-blocks w-full ${
+            className={`flex justify-between gap-[15px]  md:justify-between px-0 services-blocks w-full ${
               screen == "desktop" && "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
             } ${screen == "tablet" && " grid-cols-2"} ${
               screen == "mobile" && " grid-cols-1"
@@ -69,7 +69,7 @@ export const Services: React.FC<ServicesProps> = ({
                 onClick={() => {
                   onServiceClick?.(index);
                 }}
-                className="w-[160px] h-[160px]  rounded-[40px] py-10 px-4 flex flex-col items-center text-center gap-4 cursor-pointer transition-all duration-300"
+                className="w-[60px] h-[60px] md:w-[160px] md:h-[160px] rounded-[10px] md:rounded-[40px] md:py-10 md:px-4 flex flex-col items-center justify-between py-[6px] text-center gap-1 md:gap-2 cursor-pointer transition-all duration-300"
                 style={{
                   background: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${
                     headerColorBg.b
@@ -77,15 +77,18 @@ export const Services: React.FC<ServicesProps> = ({
                 }}
               >
                 {service.image.length > 0 ? (
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="h-12 w-12 mb-2 rounded-md"
-                  />
+                  <div className="w-[30px] h-[30px]">
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className="h-full w-full object-cover rounded-sm"
+                    />
+                  </div>
                 ) : (
                   <svg
-                    width="50px"
-                    height="50px"
+                    className="md:w-[50px] md:h-[50px] w-[20px] h-[20px]"
+                    width="10px"
+                    height="10px"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
