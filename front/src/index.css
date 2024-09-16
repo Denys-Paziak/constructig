@@ -59,6 +59,26 @@ body {
   position: static !important;
 }
 
+
+.hoverImg {
+  overflow: hidden;
+}
+
+.hoverImg img{
+ transition: 0.6s;
+}
+
+.hoverImg .img_w {
+  overflow: hidden;
+}
+
+
+.hoverImg:hover img{
+  scale: 1.1;
+}
+
+
+
 .skiptranslate {
   display: none !important;
 }
@@ -97,7 +117,7 @@ body {
 
 @media (max-width: 880px) {
   .services-blocks > a > span {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
