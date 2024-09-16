@@ -76,7 +76,6 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
 
         await deleteImage(formDataDelete, token);
 
-
         handlerInput("info", "image", res.url);
       } catch (error) {
         console.log(error);
@@ -92,7 +91,7 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
 
   const deleteImg = async () => {
     try {
-       await deleteImage(data.info.image, token!);
+      await deleteImage(data.info.image, token!);
     } catch (error) {
       console.log(error);
     }
@@ -135,7 +134,7 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
                 >
                   <img
                     className="w-full"
-                    src="/src/assets/images/trash-icon.svg"
+                    src="../trash-icon.svg"
                     alt="trash icon"
                   />
                 </span>

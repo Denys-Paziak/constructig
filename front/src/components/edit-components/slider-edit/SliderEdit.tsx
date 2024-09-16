@@ -67,21 +67,20 @@ const SliderEdit: React.FC<Props> = ({
       }
 
       if (!data.slider.images) {
-        console.log("first image")
+        console.log("first image");
         handleInputChange("slider", "images", imagesUrls);
         handleSaveChanges();
-      }else {
-        console.log("add image")
+      } else {
+        console.log("add image");
         let newArr = data.slider.images.concat(imagesUrls);
 
         if (newArr.length > 5) {
-          newArr.splice(0,5)
+          newArr.splice(0, 5);
         }
 
         handleInputChange("slider", "images", newArr);
         handleSaveChanges();
       }
-
     },
     [handleInputChange, token]
   );
@@ -103,7 +102,7 @@ const SliderEdit: React.FC<Props> = ({
     }
 
     if (token && index) {
-       await deleteImage(data.slider.images[index], token);
+      await deleteImage(data.slider.images[index], token);
     }
 
     handleInputChange(sectionName, "images", newImages);
@@ -141,16 +140,16 @@ const SliderEdit: React.FC<Props> = ({
       {sectionName === "slider" && (
         <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-4 flex-col">
           <h4 className="font-semibold text-lg">Slides</h4>
-           <AdminImage
-              {...getRootProps({
-                isdragactive: isDragActive.toString(),
-              })}
+          <AdminImage
+            {...getRootProps({
+              isdragactive: isDragActive.toString(),
+            })}
           >
             <input {...getInputProps()} />
             {isDragActive ? (
-                <p>Drag and drop files here</p>
+              <p>Drag and drop files here</p>
             ) : (
-                <p>Drag and drop files here</p>
+              <p>Drag and drop files here</p>
             )}
           </AdminImage>
 
@@ -172,7 +171,7 @@ const SliderEdit: React.FC<Props> = ({
                 >
                   <img
                     className="w-full"
-                    src="/src/assets/images/trash-icon.svg"
+                    src="../trash-icon.svg"
                     alt="trash icon"
                   />
                 </span>

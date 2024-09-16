@@ -71,7 +71,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
           >
             <img
               className="w-full h-full"
-              src="/src/assets/images/desktop-icon.svg"
+              src="../desktop-icon.svg"
               alt="desktop icon"
             />
           </div>
@@ -83,7 +83,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
           >
             <img
               className="w-full h-full"
-              src="/src/assets/images/tablet-icon.svg"
+              src="../tablet-icon.svg"
               alt="desktop icon"
             />
           </div>
@@ -95,7 +95,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
           >
             <img
               className="w-[400px] h-full"
-              src="/src/assets/images/mobile-icon.svg"
+              src="../mobile-icon.svg"
               alt="desktop icon"
             />
           </div>

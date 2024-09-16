@@ -201,7 +201,7 @@ const HeaderEdit: React.FC<Props> = ({
                 >
                   <img
                     className="w-full"
-                    src="/src/assets/images/trash-icon.svg"
+                    src="../trash-icon.svg"
                     alt="trash icon"
                   />
                 </span>

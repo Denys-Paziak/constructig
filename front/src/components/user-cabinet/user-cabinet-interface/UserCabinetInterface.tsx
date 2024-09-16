@@ -113,7 +113,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
               <div className="w-20 h-20 md:w-36 md:h-36">
                 <img
                   className="w-full h-full"
-                  src="/src/assets/images/user-icon.svg"
+                  src="..//user-icon.svg"
                   alt="user icon"
                 />
               </div>
