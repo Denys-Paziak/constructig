@@ -39,14 +39,14 @@ const NewsDisplay: React.FC<Props> = ({
           data.news.map((oneNew: INew) => (
             <div
               key={oneNew.id}
-              className="flex flex-col md:flex-row rounded-lg shadow-lg"
+              className="hoverImg flex flex-col md:flex-row rounded-lg shadow-lg"
               style={{
                 background: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${
                   headerColorBg.b
                 }, ${+headerColorBg.a / 1.1})`,
               }}
             >
-              <div className="w-full md:w-[50%] min-h-full  rounded-t-lg md:rounded-lg">
+              <div className="w-full md:w-[50%] min-h-full  rounded-t-lg md:rounded-lg img_w">
                 {oneNew.image && (
                   <img
                     src={oneNew.image}

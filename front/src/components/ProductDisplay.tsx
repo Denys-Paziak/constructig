@@ -61,14 +61,14 @@ const ProductDisplay: React.FC<Props> = ({
               <div
                 key={category.id}
                 onClick={() => setSelectedCategory(category.name)}
-                className="cursor-pointer flex items-center rounded-lg shadow-lg transition duration-300 category-item"
+                className=" hoverImg cursor-pointer flex items-center rounded-lg shadow-lg transition duration-300 category-item"
                 style={{
                   background: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${
                     headerColorBg.b
                   }, ${+headerColorBg.a / 1.1})`,
                 }}
               >
-                <div className="w-[30%] md:w-[50%] h-[120px] md:h-[320px]">
+                <div className="w-[30%] md:w-[50%] h-[120px] md:h-[320px] img_w ">
                   {category.image && (
                     <img
                       src={category.image}
@@ -83,9 +83,10 @@ const ProductDisplay: React.FC<Props> = ({
                     className="text-2xl px-[20px] py-[10px] border-b md:border-b-0 md:px-[60px] md:py-[20px] rounded-none md:rounded-md md:text-4xl font-bold opacity-[80%] no-bg-color"
                     style={{
                       color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
-                      backgroundColor: `rgba(${headerColorBg.r}, ${
-                        headerColorBg.g
+                      backgroundColor: window.innerWidth < 1000 ? '' :  `rgba(${headerColorBg.r}, ${
+                          headerColorBg.g
                       }, ${headerColorBg.b}, ${headerColorBg.a / 1})`,
+
                     }}
                   >
                     {category.name}
@@ -135,7 +136,7 @@ const ProductDisplay: React.FC<Props> = ({
               filteredItems.map((item) => (
                 <div
                   key={item.id}
-                  className="w-full flex flex-row-reverse md:flex-row rounded-md shadow-lg product-item"
+                  className="hoverImg w-full flex flex-row-reverse md:flex-row rounded-md shadow-lg product-item"
                   style={{
                     background: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${
                       headerColorBg.b
@@ -179,7 +180,7 @@ const ProductDisplay: React.FC<Props> = ({
                   </div>
                   <div
                     className={
-                      "w-[30%] md:w-[50%] min-h-[120px] md:h-[320px] no-image-border"
+                      "w-[30%] md:w-[50%] min-h-[120px] md:h-[320px] no-image-border img_w"
                     }
                     style={
                       !item.image

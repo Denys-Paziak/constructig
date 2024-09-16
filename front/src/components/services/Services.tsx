@@ -77,7 +77,7 @@ export const Services: React.FC<ServicesProps> = ({
                 }}
               >
                 {service.image.length > 0 ? (
-                  <div className="w-[30px] h-[30px]">
+                  <div className="w-[24px] h-[24px] max-w-[24px] max-h-[24px] md:w-[50px] md:h-[50px]  md:max-w-[50px] md:max-h-[50px]">
                     <img
                       src={service.image}
                       alt={service.title}
@@ -107,7 +107,7 @@ export const Services: React.FC<ServicesProps> = ({
                     />
                   </svg>
                 )}
-                <span className="text-lg text-white text-md">
+                <span className="text-[14px] md:text-lg text-white text-md">
                   {service.title}
                 </span>
               </NavLink>
