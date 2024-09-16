@@ -162,7 +162,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               <div className="container mx-auto pt-16 flex flex-col items-end gap-4">
                 <button
                   onClick={handleCloseProducts}
-                  className="bg-red-transparent flex items-center gap-4 z-[100001] border-b py-2 px-4 button-close"
+                  className="bg-red-transparent flex items-center gap-4 z-[50] border-b py-2 px-4 button-close"
                   style={{
                     color: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
                     borderColor: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
