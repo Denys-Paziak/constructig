@@ -13,10 +13,10 @@ app.use(express.json());
 import authRoutes from "./routes/auth.js";
 import siteRoutes from "./routes/site.js";
 
-app.use("/auth", authRoutes);
-app.use("/", siteRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/", siteRoutes);
 
-app.get("/", (req, res) => {
+app.get("/api/", (req, res) => {
   res.send("Hello World!");
 });
 
