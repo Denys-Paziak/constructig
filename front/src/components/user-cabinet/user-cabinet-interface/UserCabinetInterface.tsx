@@ -44,7 +44,7 @@ const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
   return (
     <div className="w-full bg-white rounded-xl p-4 md:p-6 shadow-lg">
       <div className="flex items-start flex-col gap-6">
-        <div className="w-full flex items-start justify-between flex-col md:flex-row md:items-center gap-4 md:gap-0">
+        <div className="w-full flex items-start justify-between flex-row md:items-center gap-4 md:gap-0">
           <h3 className="text-black text-xl font-semibold">
             Hello, <span className="notranslate">{userData.name}</span>
           </h3>

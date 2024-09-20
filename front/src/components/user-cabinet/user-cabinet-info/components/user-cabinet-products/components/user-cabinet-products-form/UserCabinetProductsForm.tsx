@@ -109,7 +109,11 @@ const UserCabinetProductsForm: React.FC<Props> = ({
 
     if (token) {
       try {
-        const response = await createProduct(String(+sites[0].id), formData, token);
+        const response = await createProduct(
+          String(+sites[0].id),
+          formData,
+          token
+        );
         notify(response.message);
 
         reset();
@@ -223,7 +227,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
           Price
         </label>
         <input
-          type="text"
+          type="number"
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           style={errors["price"] ? { border: "1px solid #EB001B" } : {}}
           placeholder="Price"

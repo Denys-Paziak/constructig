@@ -204,29 +204,6 @@ const UserCabinetProductsUpdate: React.FC = () => {
                   )}
                 </div>
               </div>
-              {/* <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
-                <label htmlFor="category" className="text-sm font-semibold">
-                  Category name
-                </label>
-                <select
-                  onChange={handleCategoryChange}
-                  className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                  value={activeCategoryId}
-                >
-                  {data.global.categories.map(
-                    (category: ICategory, index: number) => (
-                      <option value={category.id} key={index}>
-                        {category.name}
-                      </option>
-                    )
-                  )}
-                </select>
-                {errors["category"] && (
-                  <span className="text-md text-red-500 font-light">
-                    {errors["category"]?.message as string}
-                  </span>
-                )}
-              </div> */}
               <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
                 <label htmlFor="name" className="text-sm font-semibold">
                   Name
@@ -270,7 +247,7 @@ const UserCabinetProductsUpdate: React.FC = () => {
                   Price
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   style={errors["price"] ? { border: "1px solid #EB001B" } : {}}
                   placeholder="Price"

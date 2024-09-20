@@ -73,7 +73,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
 
   return (
     <div className="w-full min-h-screen py-8 px-4 bg-gradient-to-r bg-blue-500">
-      <div className="max-w-[1200px] mx-auto flex flex-col items-center gap-8 p-6 rounded-lg">
+      <div className="max-w-[1200px] mx-auto flex flex-col items-center gap-8 rounded-lg">
         <h2 className="text-2xl md:text-4xl font-extrabold text-center text-white">
           Welcome to your account!
         </h2>
