@@ -140,8 +140,15 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               textColor={data.global.main_text_color}
             />
           )}
+<<<<<<< HEAD
           <Baner bodyColorBg={data.global.site_bg_color} />
           {data.services?.visible === 1 && (
+=======
+
+          {/*<Baner bodyColorBg={data.global.site_bg_color} />*/}
+
+          {data.services?.visible && (
+>>>>>>> d54b152 (sadasd)
             <Services
               data={data}
               services={data.services.cols || []}
