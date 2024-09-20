@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
-  const navigate = useNavigate();
-
-  const notifySuccess = (message: string) => {
-    toast.success(message, {
-      autoClose: 1000,
-    });
-  };
+  // const navigate = useNavigate();
+  //
+  // const notifySuccess = (message: string) => {
+  //   toast.success(message, {
+  //     autoClose: 1000,
+  //   });
+  // };
 
   const notifyError = (message: string) => {
     toast.error(message, {
