@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import LanguageSelector from "../LanguageSelector.tsx";
+import { NavLink } from "react-router-dom";
 
 interface HeaderProps {
   logo: string | null;
@@ -98,21 +99,37 @@ export const Header: React.FC<HeaderProps> = ({
             color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
           }}
         >
-          {data.slider?.visible && (
+          {data.slider?.visible === 1 && (
             <a href="#slider">{data.header.menu[0].text}</a>
           )}
-          {data.services?.visible && (
+          {data.services?.visible === 1 && (
             <a href="#services">{data.header.menu[1].text}</a>
           )}
-          {data.info?.visible && (
+          {data.info?.visible === 1 && (
             <a href="#about">{data.header.menu[2].text}</a>
           )}
-          {data.socials?.visible && (
+          {data.socials?.visible === 1 && (
             <a href="#contact">{data.header.menu[3].text}</a>
           )}
         </div>
-        <div className={"hidden lg:block"}>
+        <div className={"hidden lg:flex items-center gap-4"}>
           <LanguageSelector />
+          <div className="flex items-center gap-4">
+            <NavLink
+              to={"/login"}
+              type="button"
+              className="py-1.5 px-3 bg-white text-black text-sm rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Login
+            </NavLink>
+            <NavLink
+              to={"/register"}
+              type="button"
+              className="py-1.5 px-3  bg-white text-black  text-sm rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Register
+            </NavLink>
+          </div>
         </div>
       </div>
 
@@ -125,7 +142,7 @@ export const Header: React.FC<HeaderProps> = ({
             backgroundColor: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${headerColorBg.b}, ${headerColorBg.a})`,
           }}
         >
-          {data.slider?.visible && (
+          {data.slider?.visible === 1 && (
             <a
               onClick={toggleMenu}
               href="#slider"
@@ -133,10 +150,10 @@ export const Header: React.FC<HeaderProps> = ({
                 color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
               }}
             >
-              slider
+              {data.header.menu[0].text}
             </a>
           )}
-          {data.services?.visible && (
+          {data.services?.visible === 1 && (
             <a
               onClick={toggleMenu}
               href="#services"
@@ -144,10 +161,10 @@ export const Header: React.FC<HeaderProps> = ({
                 color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
               }}
             >
-              services
+              {data.header.menu[1].text}
             </a>
           )}
-          {data.info?.visible && (
+          {data.info?.visible === 1 && (
             <a
               onClick={toggleMenu}
               href="#info"
@@ -155,10 +172,10 @@ export const Header: React.FC<HeaderProps> = ({
                 color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
               }}
             >
-              info
+              {data.header.menu[2].text}
             </a>
           )}
-          {data.socials?.visible && (
+          {data.socials?.visible === 1 && (
             <a
               onClick={toggleMenu}
               href="#socials"
@@ -166,10 +183,26 @@ export const Header: React.FC<HeaderProps> = ({
                 color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
               }}
             >
-              socials
+              {data.header.menu[3].text}
             </a>
           )}
           <LanguageSelector headerTextColor={headerTextColor} />
+          <div className="flex items-center gap-4">
+            <NavLink
+              to={"/login"}
+              type="button"
+              className="py-1.5 px-3 bg-white text-black text-sm rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Login
+            </NavLink>
+            <NavLink
+              to={"/register"}
+              type="button"
+              className="py-1.5 px-3  bg-white text-black  text-sm rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Register
+            </NavLink>
+          </div>
         </div>
       )}
     </div>

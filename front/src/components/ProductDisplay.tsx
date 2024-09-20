@@ -287,7 +287,7 @@ const ProductDisplay: React.FC<Props> = ({
               <img
                 src={selectedItem.image}
                 alt={selectedItem.name}
-                className="w-full h-60 md:h-96 object-cover rounded-md"
+                className="min-w-full md:w-[60%] h-60 md:h-96 object-cover rounded-md"
               />
               <div className="p-4">
                 <h3 className="text-xl font-bold mb-2">{selectedItem.name}</h3>
@@ -408,12 +408,6 @@ const ProductDisplay: React.FC<Props> = ({
                       >
                         {item.name}
                       </h4>
-                      {/* <span
-                        className="w-full h-[1px] opacity-[50%]"
-                        style={{
-                          background: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
-                        }}
-                      ></span> */}
                     </div>
                     <div className="w-full h-full flex flex-col justify-between">
                       <p

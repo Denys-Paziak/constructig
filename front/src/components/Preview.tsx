@@ -51,6 +51,8 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
 
   if (!data) return <Loader />;
 
+  console.log(data);
+
   return (
     <div
       className={`${
@@ -119,8 +121,8 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
             type === "constructor" ? "rounded-xl overflow-hidden" : ""
           }`}
         >
-          <TopLine />
-          {data.header?.visible && (
+          {/* <TopLine /> */}
+          {data.header?.visible === 1 && (
             <Header
               logo={data.header.logo}
               data={data}
@@ -131,7 +133,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               onMenuToggle={handleMenuToggle}
             />
           )}
-          {data.slider?.visible && (
+          {data.slider?.visible === 1 && (
             <Slider
               images={data.slider.images || []}
               backgroundColor={data.global.main_bg_color}
@@ -139,7 +141,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
             />
           )}
           <Baner bodyColorBg={data.global.site_bg_color} />
-          {data.services?.visible && (
+          {data.services?.visible === 1 && (
             <Services
               data={data}
               services={data.services.cols || []}
@@ -234,7 +236,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               </div>
             </div>
           )}
-          {data.info?.visible && (
+          {data.info?.visible === 1 && (
             <Info
               data={data}
               image={data.info.image}
@@ -246,7 +248,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               screen={screen}
             />
           )}
-          {data.socials?.visible && (
+          {data.socials?.visible === 1 && (
             <Socials
               data={data}
               screen={screen}
@@ -288,7 +290,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               bodyTextColor={data.global.site_text_color}
             />
           )}
-          {data.footer?.visible && (
+          {data.footer?.visible === 1 && (
             <Footer
               logo={data.header.logo}
               data={data}

@@ -52,16 +52,16 @@ export const Footer: React.FC<Props> = ({
               color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
             }}
           >
-            {data.slider?.visible && (
+            {data.slider?.visible === 1 && (
               <a href="#slider">{data.header.menu[0].text}</a>
             )}
-            {data.services?.visible && (
+            {data.services?.visible === 1 && (
               <a href="#services">{data.header.menu[1].text}</a>
             )}
-            {data.info?.visible && (
+            {data.info?.visible === 1 && (
               <a href="#about">{data.header.menu[2].text}</a>
             )}
-            {data.socials?.visible && (
+            {data.socials?.visible === 1 && (
               <a href="#contact">{data.header.menu[3].text}</a>
             )}
           </ul>

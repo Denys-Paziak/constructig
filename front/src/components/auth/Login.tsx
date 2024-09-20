@@ -129,6 +129,15 @@ const Login: React.FC<Props> = ({ setIsLoggedIn }) => {
               Create Account
             </NavLink>
           </p>
+          <p className="text-sm text-black font-normal text-center">
+            Forgot password?{" "}
+            <NavLink
+              to={"/reset"}
+              className="text-blue-500 tex-medium underline"
+            >
+              Reset Password
+            </NavLink>
+          </p>
         </div>
       </div>
     </div>

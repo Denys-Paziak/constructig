@@ -43,7 +43,7 @@ export const Slider: React.FC<SliderProps> = ({
     return (
       <div
         id="slider"
-        className="mx-auto h-[60vh] flex justify-center items-center relative"
+        className="mx-auto h-[35vh] md:h-[80vh] flex justify-center items-center relative"
       >
         <Swiper
           centeredSlides={true}
@@ -54,7 +54,7 @@ export const Slider: React.FC<SliderProps> = ({
           modules={[Pagination, Autoplay]}
           pagination={true}
           navigation={true}
-          className="h-[60vh]"
+          className="h-[80vh]"
         >
           <SwiperSlide>
             <div
