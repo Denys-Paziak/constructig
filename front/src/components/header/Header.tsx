@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import LanguageSelector from "../LanguageSelector.tsx";
 import { NavLink } from "react-router-dom";
 
 interface HeaderProps {
@@ -113,7 +112,6 @@ export const Header: React.FC<HeaderProps> = ({
           )}
         </div>
         <div className={"hidden lg:flex items-center gap-4"}>
-          <LanguageSelector />
           <div className="flex items-center gap-4">
             <NavLink
               to={"/login"}
@@ -186,7 +184,6 @@ export const Header: React.FC<HeaderProps> = ({
               {data.header.menu[3].text}
             </a>
           )}
-          <LanguageSelector headerTextColor={headerTextColor} />
           <div className="flex items-center gap-4">
             <NavLink
               to={"/login"}

@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from 'uuid';
+import nodemailer from "nodemailer";
 
 export const updateUser = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
@@ -477,20 +478,85 @@ async function createSite(id, url, name) {
 }
 
 export const resetPassSend = async (req, res) => {
-  const token = req.header("Authorization").replace("Bearer ", "");
-  const decoded = jwt.verify(token, dotenv.config().parsed.JWT_SECRET);
+    console.log("email")
+    const { email } = req.body;
+    console.log(email)
+
+    const connection = mysql.createConnection(dbConfig);
+
+
+
+    let subject = 'Test';
+    let from = "igorbarakudov@gmail.com";
+    let text =
+        "Dear " + email + "\n" +
+        "\n" +
+        "You have received this email because a request to reset the password for your account has been made.\n" +
+        "\n" +
+        "To reset your password, please click on the following link:\n" +
+        "\n";
+
+    let to;
+
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: false,
+        auth: {
+            user: "igorbarakudov@gmail.com",
+            pass: "azwxxhxacgrearib",
+        },
+    });
+
+    try {
+        // Отримуємо поточний хеш пароля з бази даних
+        connection.query(
+            "SELECT * FROM users WHERE email = ?",
+            [email],
+            async (err, results) => {
+                if (err) {
+                    console.error("Помилка виконання запиту: " + err.message);
+                    return res.status(500).json({ error: "Помилка виконання запиту" });
+                }
+
+                if (results.length === 0) {
+                    return res.status(404).json({ message: "Користувача не знайдено" });
+                }
+
+                const user = results[0];
+                console.log(user)
+                text += `menualista.com/reset/${user.reset}/${user.email}`;
+                to = user.email;
+
+                console.log(text)
+
+                const info = await transporter.sendMail({
+                    subject,
+                    text,
+                    from,
+                    to
+                });
+
+                console.log("Message sent: %s", info.messageId);
+
+            }
+        );
+    } catch (error) {
+    }
+
+
   res.status(200).json({
-    url: decoded.reset + "?email=" + decoded.email
+    message: ""
   });
 };
+
+
 
 export const changePassword = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
 
-  const token = req.header("Authorization").replace("Bearer ", "");
-  const decoded = jwt.verify(token, dotenv.config().parsed.JWT_SECRET);
-
-  const { oldPassword, newPassword } = req.body;
+  const {newPassword, email, key } = req.body;
 
   connection.connect(async (err) => {
     if (err) {
@@ -501,8 +567,8 @@ export const changePassword = async (req, res) => {
     try {
       // Отримуємо поточний хеш пароля з бази даних
       connection.query(
-          "SELECT password FROM users WHERE id = ?",
-          [decoded.id],
+          "SELECT * FROM users WHERE email = ? AND reset = ?",
+          [email, key],
           async (err, results) => {
             if (err) {
               console.error("Помилка виконання запиту: " + err.message);
@@ -514,20 +580,17 @@ export const changePassword = async (req, res) => {
             }
 
             const user = results[0];
-            const isMatch = await bcrypt.compare(oldPassword, user.password);
 
-            if (!isMatch) {
-              return res.status(401).json({
-                message: "Невірний старий пароль. Оновлення не виконано.",
-              });
-            }
+            console.log(user)
 
             const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
+            console.log(email, key)
+
             // Оновлюємо пароль в базі даних
             connection.query(
-                "UPDATE users SET password = ? WHERE id = ?",
-                [hashedNewPassword, decoded.id],
+                "UPDATE users SET password = ? WHERE email = ? AND reset = ?",
+                [hashedNewPassword, email, key],
                 (err) => {
                   if (err) {
                     console.error("Помилка оновлення пароля: " + err.message);

@@ -1,21 +1,23 @@
 import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router-dom";
+import { reset } from "../../services/auth/reset/reset.ts";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
-  // const navigate = useNavigate();
-  //
-  // const notifySuccess = (message: string) => {
-  //   toast.success(message, {
-  //     autoClose: 1000,
-  //   });
-  // };
+  const { key, email } = useParams<{ key?: string; email?: string }>(); // Додано ? для того, щоб вони могли бути undefined
+  const navigate = useNavigate();
+
+  const notifySuccess = (message: string) => {
+    toast.success(message, {
+      autoClose: 4000,
+    });
+  };
 
   const notifyError = (message: string) => {
     toast.error(message, {
-      autoClose: 2000,
+      autoClose: 4000,
     });
   };
 
@@ -23,21 +25,35 @@ const ResetPassword = () => {
     e.preventDefault();
 
     if (newPassword.length === 0 && confirmNewPassword.length === 0) {
-      notifyError("Password cannot be empty");
+      notifyError("Password cannot be empty.");
+      return;
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      notifyError("Passwords do not match.");
+      return;
+    }
+
+    if (!email || !key) {
+      notifyError("Invalid reset link.");
       return;
     }
 
     const formData = new FormData();
     formData.append("newPassword", newPassword);
     formData.append("confirmNewPassword", confirmNewPassword);
+    formData.append("email", email);
+    formData.append("key", key);
 
     try {
-      // const data = await reset(formData);
-      // if (data.token) {
-      //   localStorage.setItem("token", data.token);
-      //   notifySuccess("Reset password successful!");
-      //   navigate("/profile");
-      // }
+      const data: any = await reset(formData);
+
+      if (data.status === 200) {
+        notifySuccess("Password reset successful!");
+        navigate("/login");
+      } else {
+        notifyError("Password reset error!");
+      }
     } catch (error) {
       notifyError("An error occurred. Please try again later.");
       console.error(error);
