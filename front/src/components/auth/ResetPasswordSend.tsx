@@ -47,7 +47,7 @@ const ResetPasswordSend = () => {
             Reset your password
           </h2>
           <p className="text-sm text-black font-normal text-center">
-            Please enter your new password and confirm password to continue
+            Please enter your email address to continue
           </p>
         </div>
         <form onSubmit={handleSubmit} className="w-full space-y-6">
