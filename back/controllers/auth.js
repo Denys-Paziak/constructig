@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from 'uuid';
+import nodemailer from "nodemailer";
 
 export const updateUser = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
@@ -477,12 +478,40 @@ async function createSite(id, url, name) {
 }
 
 export const resetPassSend = async (req, res) => {
+    let subject = 'Test';
+    let text = 'Test';
+    let from = "igorbarakudov@gmail.com";
+    let to = "denispaziak@gmail.com";
+
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: false,
+        auth: {
+            user: "igorbarakudov@gmail.com",
+            pass: "npsn kjzl jajv xcww@1",
+        },
+    });
+
+    const info = await transporter.sendMail({
+        subject,
+        text,
+        from,
+        to
+    });
+
+    console.log("Message sent: %s", info.messageId);
+
   const token = req.header("Authorization").replace("Bearer ", "");
   const decoded = jwt.verify(token, dotenv.config().parsed.JWT_SECRET);
+
   res.status(200).json({
     url: decoded.reset + "?email=" + decoded.email
   });
 };
+
+
 
 export const changePassword = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
