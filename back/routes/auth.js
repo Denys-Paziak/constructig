@@ -1,5 +1,5 @@
 import express, {response} from "express";
-import {getUser, login, register, resetPassSend, updateUser} from '../controllers/auth.js';
+import {changePassword, getUser, login, register, resetPassSend, updateUser} from '../controllers/auth.js';
 import multer from "multer";
 import authMiddleware from "../middlewares/authMiddleware.js";
 const upload = multer();
@@ -12,7 +12,7 @@ router.post('/register', upload.none(), register);
 router.get('/getUser', upload.none(), getUser);
 router.put("/update", upload.none(), updateUser);
 
-router.get("/reset", upload.none(), authMiddleware, resetPassSend);
-// router.put("/reset2", upload.none(), authMiddleware, resetPass);
+router.post("/resetsend", upload.none(), resetPassSend );
+router.put("/reset", upload.none(),  changePassword);
 
 export default router;

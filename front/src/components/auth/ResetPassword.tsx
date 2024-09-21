@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import {useParams} from "react-router-dom";
+import {reset} from "../../services/auth/reset/reset.ts";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
-  // const navigate = useNavigate();
-  //
-  // const notifySuccess = (message: string) => {
-  //   toast.success(message, {
-  //     autoClose: 1000,
-  //   });
-  // };
+  const { key, email } = useParams<{key: string, email: string}>();
+
+  const token = localStorage.getItem("token");
+
+  const notifySuccess = (message: string) => {
+    toast.success(message, {
+      autoClose: 1000,
+    });
+  };
 
   const notifyError = (message: string) => {
     toast.error(message, {
@@ -31,13 +35,19 @@ const ResetPassword = () => {
     formData.append("newPassword", newPassword);
     formData.append("confirmNewPassword", confirmNewPassword);
 
+    formData.append("email", email);
+    formData.append("key", key);
+
     try {
-      // const data = await reset(formData);
-      // if (data.token) {
-      //   localStorage.setItem("token", data.token);
-      //   notifySuccess("Reset password successful!");
-      //   navigate("/profile");
-      // }
+        const data: any = await reset( formData);
+        console.log(data);
+
+        if (data.status === 200) {
+          notifySuccess("Reset password successful!");
+        }else {
+          notifySuccess("Reset password error!");
+        }
+
     } catch (error) {
       notifyError("An error occurred. Please try again later.");
       console.error(error);
