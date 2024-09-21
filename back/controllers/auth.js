@@ -3,6 +3,7 @@ import dbConfig from "../config/dbConfig.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { v4 as uuidv4 } from 'uuid';
 
 export const updateUser = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
@@ -155,6 +156,7 @@ export const login = async (req, res) => {
           email: user.email,
           name: user.username,
           company: user.company,
+          reset: user.reset,
         },
         dotenv.config().parsed.JWT_SECRET,
         { expiresIn: "30d" }
@@ -172,7 +174,7 @@ export const register = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const insertUserQuery =
-      "INSERT INTO users (username, email, password, company) VALUES (?, ?, ?, ?)";
+      "INSERT INTO users (username, email, password, company, reset) VALUES (?, ?, ?, ?, ?)";
     const getUserQuery = "SELECT id FROM users WHERE email = ?";
 
     connection.connect((err) => {
@@ -186,7 +188,7 @@ export const register = async (req, res) => {
       // Insert the new user
       connection.query(
         insertUserQuery,
-        [username, email, hashedPassword, company],
+        [username, email, hashedPassword, company, uuidv4()],
         (err, results) => {
           if (err) {
             console.error("Помилка виконання запиту: " + err.message);
@@ -473,3 +475,75 @@ async function createSite(id, url, name) {
     });
   });
 }
+
+export const resetPassSend = async (req, res) => {
+  const token = req.header("Authorization").replace("Bearer ", "");
+  const decoded = jwt.verify(token, dotenv.config().parsed.JWT_SECRET);
+  res.status(200).json({
+    url: decoded.reset + "?email=" + decoded.email
+  });
+};
+
+export const changePassword = async (req, res) => {
+  const connection = mysql.createConnection(dbConfig);
+
+  const token = req.header("Authorization").replace("Bearer ", "");
+  const decoded = jwt.verify(token, dotenv.config().parsed.JWT_SECRET);
+
+  const { oldPassword, newPassword } = req.body;
+
+  connection.connect(async (err) => {
+    if (err) {
+      console.error("Помилка підключення до бази даних: " + err.stack);
+      return res.status(500).json({ error: "Помилка підключення до бази даних" });
+    }
+
+    try {
+      // Отримуємо поточний хеш пароля з бази даних
+      connection.query(
+          "SELECT password FROM users WHERE id = ?",
+          [decoded.id],
+          async (err, results) => {
+            if (err) {
+              console.error("Помилка виконання запиту: " + err.message);
+              return res.status(500).json({ error: "Помилка виконання запиту" });
+            }
+
+            if (results.length === 0) {
+              return res.status(404).json({ message: "Користувача не знайдено" });
+            }
+
+            const user = results[0];
+            const isMatch = await bcrypt.compare(oldPassword, user.password);
+
+            if (!isMatch) {
+              return res.status(401).json({
+                message: "Невірний старий пароль. Оновлення не виконано.",
+              });
+            }
+
+            const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+            // Оновлюємо пароль в базі даних
+            connection.query(
+                "UPDATE users SET password = ? WHERE id = ?",
+                [hashedNewPassword, decoded.id],
+                (err) => {
+                  if (err) {
+                    console.error("Помилка оновлення пароля: " + err.message);
+                    return res.status(500).json({ error: "Помилка оновлення пароля" });
+                  }
+
+                  res.status(200).json({ message: "Пароль успішно змінено" });
+                  connection.end();
+                }
+            );
+          }
+      );
+    } catch (error) {
+      console.error("Помилка: " + error.message);
+      res.status(500).json({ error: "Внутрішня помилка сервера" });
+      connection.end();
+    }
+  });
+};
