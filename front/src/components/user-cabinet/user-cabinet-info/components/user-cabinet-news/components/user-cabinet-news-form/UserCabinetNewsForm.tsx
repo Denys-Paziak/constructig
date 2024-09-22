@@ -5,6 +5,7 @@ import { Accept, useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import imageCompression from "browser-image-compression";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
+import Loader from "../../../../../../loader/Loader";
 
 interface Props {
   toggleNewsForm: () => void;
@@ -25,6 +26,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
   const {
     register,
     handleSubmit,
@@ -39,6 +41,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({
   };
 
   const onDropMainImage = useCallback(async (acceptedFiles: File[]) => {
+    setIsLoadingImage(true);
     const file = acceptedFiles[0];
 
     const options = {
@@ -55,6 +58,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({
     });
 
     setMainImage(compressedFile);
+    setIsLoadingImage(false);
     setMainImagePreview(URL.createObjectURL(compressedFile));
   }, []);
 
@@ -105,6 +109,10 @@ const UserCabinetNewsForm: React.FC<Props> = ({
       setIsLoading(false);
     }
   };
+
+  if (isLoadingImage) {
+    return <Loader />;
+  }
 
   return (
     <form

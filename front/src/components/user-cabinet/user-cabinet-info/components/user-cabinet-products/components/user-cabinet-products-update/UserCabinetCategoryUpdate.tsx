@@ -10,6 +10,7 @@ import {
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import { deleteImage } from "../../../../../../../services/upload-images/uploadImages";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
+import Loader from "../../../../../../loader/Loader";
 
 const UserCabinetProductsUpdate: React.FC = () => {
   const [productImages, setProductImages] = useState<File[]>([]);
@@ -19,6 +20,7 @@ const UserCabinetProductsUpdate: React.FC = () => {
   const [isEditUploadOpen, setEditUploadOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [editProduct, setEditProduct] = useState<IProduct>();
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
   const { id } = useParams();
   const {
     register,
@@ -35,6 +37,7 @@ const UserCabinetProductsUpdate: React.FC = () => {
   };
 
   const onDropProductImages = useCallback((acceptedFiles: File[]) => {
+    setIsLoadingImage(true);
     const files = acceptedFiles;
     setProductImages((prevNewImages) => [...prevNewImages, ...files]);
 
@@ -43,6 +46,7 @@ const UserCabinetProductsUpdate: React.FC = () => {
       ...(prevPreviews || []),
       ...productPreviews,
     ]);
+    setIsLoadingImage(false);
   }, []);
 
   const {
@@ -54,7 +58,7 @@ const UserCabinetProductsUpdate: React.FC = () => {
     isFocused: isProductFocused,
   } = useDropzone({
     onDrop: onDropProductImages,
-    multiple: true,
+    multiple: false,
     accept: acceptType,
   });
 
@@ -92,7 +96,6 @@ const UserCabinetProductsUpdate: React.FC = () => {
     try {
       if (token) {
         const response = await deleteImage(editProduct!.image, token);
-        console.log(response);
       }
     } catch (error) {
       console.log(error);
@@ -126,6 +129,10 @@ const UserCabinetProductsUpdate: React.FC = () => {
   const handleChangePhoto = () => {
     setEditUploadOpen((prevState) => !prevState);
   };
+
+  if (isLoadingImage) {
+    return <Loader />;
+  }
 
   return (
     <section className="w-full min-h-screen shape_bg pt-10 px-4 md:px-0">
