@@ -16,7 +16,7 @@ AWS.config.update({
 
 const s3 = new AWS.S3();
 
-const bucketName = "constructig";
+const bucketName = "menualista";
 
 export const uploadFile = (file) => {
   const params = {
