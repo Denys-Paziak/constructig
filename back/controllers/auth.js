@@ -3,7 +3,7 @@ import dbConfig from "../config/dbConfig.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import nodemailer from "nodemailer";
 
 export const updateUser = async (req, res) => {
@@ -174,57 +174,85 @@ export const register = async (req, res) => {
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const insertUserQuery =
-      "INSERT INTO users (username, email, password, company, reset) VALUES (?, ?, ?, ?, ?)";
-    const getUserQuery = "SELECT id FROM users WHERE email = ?";
+
+    // Query to check if a user with the same email, username, or company already exists
+    const checkUserQuery =
+      "SELECT id FROM users WHERE email = ? OR username = ? OR company = ?";
 
     connection.connect((err) => {
       if (err) {
-        console.error("Помилка підключення до бази даних: " + err.stack);
-        return res
-          .status(500)
-          .json({ error: "Помилка підключення до бази даних" });
+        console.error("Database connection error: " + err.stack);
+        return res.status(500).json({ error: "Database connection error" });
       }
 
-      // Insert the new user
+      // Check if the user already exists
       connection.query(
-        insertUserQuery,
-        [username, email, hashedPassword, company, uuidv4()],
+        checkUserQuery,
+        [email, username, company],
         (err, results) => {
           if (err) {
-            console.error("Помилка виконання запиту: " + err.message);
-            return res.status(500).json({ error: "Помилка виконання запиту" });
+            console.error("Query execution error: " + err.message);
+            return res.status(500).json({ error: "Query execution error" });
           }
 
-          // Retrieve the new user's ID
-          connection.query(getUserQuery, [email], (err, results) => {
-            if (err) {
-              console.error("Помилка виконання запиту: " + err.message);
-              return res
-                .status(500)
-                .json({ error: "Помилка виконання запиту" });
-            }
-
-            const user = results[0];
-            createSite(user.id, company, company)
-              .then(() => {
-                res
-                  .status(201)
-                  .json({ message: "Користувача успішно зареєстровано!" });
-                connection.end();
-              })
-              .catch((error) => {
-                console.error("Помилка створення лендінгу: " + error.message);
-                res.status(500).json({ error: "Помилка створення лендінгу" });
-                connection.end();
+          if (results.length > 0) {
+            return res
+              .status(409)
+              .json({
+                error:
+                  "A user with the same email, username, or company already exists",
               });
-          });
+          }
+
+          // If the user does not exist, proceed with registration
+          const insertUserQuery =
+            "INSERT INTO users (username, email, password, company, reset) VALUES (?, ?, ?, ?, ?)";
+          const getUserQuery = "SELECT id FROM users WHERE email = ?";
+
+          connection.query(
+            insertUserQuery,
+            [username, email, hashedPassword, company, uuidv4()],
+            (err, results) => {
+              if (err) {
+                console.error("Query execution error: " + err.message);
+                return res.status(500).json({ error: "Query execution error" });
+              }
+
+              // Retrieve the new user's ID
+              connection.query(getUserQuery, [email], (err, results) => {
+                if (err) {
+                  console.error("Query execution error: " + err.message);
+                  return res
+                    .status(500)
+                    .json({ error: "Query execution error" });
+                }
+
+                const user = results[0];
+                createSite(user.id, company, company)
+                  .then(() => {
+                    res
+                      .status(201)
+                      .json({ message: "User successfully registered!" });
+                    connection.end();
+                  })
+                  .catch((error) => {
+                    console.error(
+                      "Error creating landing page: " + error.message
+                    );
+                    res
+                      .status(500)
+                      .json({ error: "Error creating landing page" });
+                    connection.end();
+                  });
+              });
+            }
+          );
         }
       );
     });
   } catch (error) {
-    console.error("Помилка хешування паролю: " + error.message);
-    res.status(500).json({ error: "Помилка хешування паролю" });
+    console.error("Password hashing error: " + error.message);
+    res.status(500).json({ error: "Password hashing error" });
   }
 };
 
@@ -402,7 +430,7 @@ async function createSite(id, url, name) {
                                 return connection.rollback(() => {
                                   console.error(
                                     "Помилка вставки в таблицю socials: " +
-                                    err.message
+                                      err.message
                                   );
                                 });
                               }
@@ -422,7 +450,7 @@ async function createSite(id, url, name) {
                                     return connection.rollback(() => {
                                       console.error(
                                         "Помилка вставки в таблицю footers: " +
-                                        err.message
+                                          err.message
                                       );
                                     });
                                   }
@@ -440,7 +468,7 @@ async function createSite(id, url, name) {
                                         return connection.rollback(() => {
                                           console.error(
                                             "Помилка вставки в таблицю global: " +
-                                            err.message
+                                              err.message
                                           );
                                         });
                                       }
@@ -450,7 +478,7 @@ async function createSite(id, url, name) {
                                           return connection.rollback(() => {
                                             console.error(
                                               "Помилка коміту транзакції: " +
-                                              err.message
+                                                err.message
                                             );
                                           });
                                         }
@@ -478,130 +506,129 @@ async function createSite(id, url, name) {
 }
 
 export const resetPassSend = async (req, res) => {
-    console.log("email")
-    const { email } = req.body;
-    console.log(email)
+  console.log("email");
+  const { email } = req.body;
+  console.log(email);
 
-    const connection = mysql.createConnection(dbConfig);
+  const connection = mysql.createConnection(dbConfig);
 
+  let subject = "Test";
+  let from = "igorbarakudov@gmail.com";
+  let text =
+    "Dear " +
+    email +
+    "\n" +
+    "\n" +
+    "You have received this email because a request to reset the password for your account has been made.\n" +
+    "\n" +
+    "To reset your password, please click on the following link:\n" +
+    "\n";
 
+  let to;
 
-    let subject = 'Test';
-    let from = "igorbarakudov@gmail.com";
-    let text =
-        "Dear " + email + "\n" +
-        "\n" +
-        "You have received this email because a request to reset the password for your account has been made.\n" +
-        "\n" +
-        "To reset your password, please click on the following link:\n" +
-        "\n";
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: false,
+    auth: {
+      user: "igorbarakudov@gmail.com",
+      pass: "azwxxhxacgrearib",
+    },
+  });
 
-    let to;
+  try {
+    // Отримуємо поточний хеш пароля з бази даних
+    connection.query(
+      "SELECT * FROM users WHERE email = ?",
+      [email],
+      async (err, results) => {
+        if (err) {
+          console.error("Помилка виконання запиту: " + err.message);
+          return res.status(500).json({ error: "Помилка виконання запиту" });
+        }
 
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: false,
-        auth: {
-            user: "igorbarakudov@gmail.com",
-            pass: "azwxxhxacgrearib",
-        },
-    });
+        if (results.length === 0) {
+          return res.status(404).json({ message: "Користувача не знайдено" });
+        }
 
-    try {
-        // Отримуємо поточний хеш пароля з бази даних
-        connection.query(
-            "SELECT * FROM users WHERE email = ?",
-            [email],
-            async (err, results) => {
-                if (err) {
-                    console.error("Помилка виконання запиту: " + err.message);
-                    return res.status(500).json({ error: "Помилка виконання запиту" });
-                }
+        const user = results[0];
+        console.log(user);
+        text += `menualista.com/reset/${user.reset}/${user.email}`;
+        to = user.email;
 
-                if (results.length === 0) {
-                    return res.status(404).json({ message: "Користувача не знайдено" });
-                }
+        console.log(text);
 
-                const user = results[0];
-                console.log(user)
-                text += `menualista.com/reset/${user.reset}/${user.email}`;
-                to = user.email;
+        const info = await transporter.sendMail({
+          subject,
+          text,
+          from,
+          to,
+        });
 
-                console.log(text)
-
-                const info = await transporter.sendMail({
-                    subject,
-                    text,
-                    from,
-                    to
-                });
-
-                console.log("Message sent: %s", info.messageId);
-
-            }
-        );
-    } catch (error) {
-    }
-
+        console.log("Message sent: %s", info.messageId);
+      }
+    );
+  } catch (error) {}
 
   res.status(200).json({
-    message: ""
+    message: "",
   });
 };
-
-
 
 export const changePassword = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
 
-  const {newPassword, email, key } = req.body;
+  const { newPassword, email, key } = req.body;
 
   connection.connect(async (err) => {
     if (err) {
       console.error("Помилка підключення до бази даних: " + err.stack);
-      return res.status(500).json({ error: "Помилка підключення до бази даних" });
+      return res
+        .status(500)
+        .json({ error: "Помилка підключення до бази даних" });
     }
 
     try {
       // Отримуємо поточний хеш пароля з бази даних
       connection.query(
-          "SELECT * FROM users WHERE email = ? AND reset = ?",
-          [email, key],
-          async (err, results) => {
-            if (err) {
-              console.error("Помилка виконання запиту: " + err.message);
-              return res.status(500).json({ error: "Помилка виконання запиту" });
-            }
-
-            if (results.length === 0) {
-              return res.status(404).json({ message: "Користувача не знайдено" });
-            }
-
-            const user = results[0];
-
-            console.log(user)
-
-            const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-
-            console.log(email, key)
-
-            // Оновлюємо пароль в базі даних
-            connection.query(
-                "UPDATE users SET password = ? WHERE email = ? AND reset = ?",
-                [hashedNewPassword, email, key],
-                (err) => {
-                  if (err) {
-                    console.error("Помилка оновлення пароля: " + err.message);
-                    return res.status(500).json({ error: "Помилка оновлення пароля" });
-                  }
-
-                  res.status(200).json({ message: "Пароль успішно змінено" });
-                  connection.end();
-                }
-            );
+        "SELECT * FROM users WHERE email = ? AND reset = ?",
+        [email, key],
+        async (err, results) => {
+          if (err) {
+            console.error("Помилка виконання запиту: " + err.message);
+            return res.status(500).json({ error: "Помилка виконання запиту" });
           }
+
+          if (results.length === 0) {
+            return res.status(404).json({ message: "Користувача не знайдено" });
+          }
+
+          const user = results[0];
+
+          console.log(user);
+
+          const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+          console.log(email, key);
+
+          // Оновлюємо пароль в базі даних
+          connection.query(
+            "UPDATE users SET password = ? WHERE email = ? AND reset = ?",
+            [hashedNewPassword, email, key],
+            (err) => {
+              if (err) {
+                console.error("Помилка оновлення пароля: " + err.message);
+                return res
+                  .status(500)
+                  .json({ error: "Помилка оновлення пароля" });
+              }
+
+              res.status(200).json({ message: "Пароль успішно змінено" });
+              connection.end();
+            }
+          );
+        }
       );
     } catch (error) {
       console.error("Помилка: " + error.message);
