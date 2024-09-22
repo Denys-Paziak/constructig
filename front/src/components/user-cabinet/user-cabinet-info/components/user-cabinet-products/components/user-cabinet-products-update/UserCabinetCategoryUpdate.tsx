@@ -95,7 +95,7 @@ const UserCabinetProductsUpdate: React.FC = () => {
 
     try {
       if (token) {
-        const response = await deleteImage(editProduct!.image, token);
+        await deleteImage(editProduct!.image, token);
       }
     } catch (error) {
       console.log(error);
