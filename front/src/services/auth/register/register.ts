@@ -10,6 +10,6 @@ export const register = async (formData: FormData) => {
     return response;
   } catch (error) {
     console.log(error);
-    return [];
+    return error;
   }
 };

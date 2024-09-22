@@ -5,6 +5,7 @@ import { createCategory } from "../../../../../../../services/categories/categor
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import imageCompression from "browser-image-compression";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
+import Loader from "../../../../../../loader/Loader";
 
 interface Props {
   toggleCategoriesForm: () => void;
@@ -26,6 +27,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
   const {
     register,
     handleSubmit,
@@ -40,6 +42,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
   };
 
   const onDropMainImage = useCallback(async (acceptedFiles: File[]) => {
+    setIsLoadingImage(true);
     const file = acceptedFiles[0];
 
     const options = {
@@ -55,6 +58,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
       lastModified: Date.now(),
     });
 
+    setIsLoadingImage(false);
     setMainImage(compressedFile);
     setMainImagePreview(URL.createObjectURL(compressedFile));
   }, []);
@@ -107,6 +111,10 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
       setIsLoading(false);
     }
   };
+
+  if (isLoadingImage) {
+    return <Loader />;
+  }
 
   return (
     <form

@@ -5,6 +5,7 @@ import { deleteProduct } from "../../../../../services/products/products";
 import UserCabinetProductsForm from "./components/user-cabinet-products-form/UserCabinetProductsForm";
 import UserCabinetProductsTable from "./components/user-cabinet-products-table/UserCabinetProductsTable";
 import { notify } from "../../../../../helpers/helper";
+import { toast } from "react-toastify";
 
 interface Props {
   data: any;
@@ -16,8 +17,18 @@ const UserCabinetProducts: React.FC<Props> = ({ data, sites, fetchData }) => {
   const [isProductsFormOpen, setProductsFormOpen] = useState(true);
   const navigate = useNavigate();
 
+  const notifyError = (message: string) => {
+    toast.error(message, {
+      autoClose: 2000,
+    });
+  };
+
   const handleProductsForm = () => {
-    setProductsFormOpen((prevState) => !prevState);
+    if (data.global.categories.length > 0) {
+      setProductsFormOpen((prevState) => !prevState);
+    } else {
+      notifyError("First, add a category and then a product");
+    }
   };
 
   const onEditProduct = (category: IProduct) => {

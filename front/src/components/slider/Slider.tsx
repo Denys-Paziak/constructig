@@ -54,7 +54,7 @@ export const Slider: React.FC<SliderProps> = ({
           modules={[Pagination, Autoplay]}
           pagination={true}
           navigation={true}
-          className="h-[80vh]"
+          className="md:h-[80vh] h-[35vh]"
         >
           <SwiperSlide>
             <div
