@@ -205,7 +205,7 @@ const ProductDisplay: React.FC<Props> = ({
                   </div>
                   <div
                     className={
-                      "w-[30%] md:w-[50%] min-h-[120px] md:h-[320px] no-image-border img_w"
+                      "w-[30%] md:w-[50%] h-[120px] md:h-[320px] no-image-border img_w"
                     }
                     style={
                       !item.image
@@ -221,7 +221,7 @@ const ProductDisplay: React.FC<Props> = ({
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-full min-h-full object-cover image-border hover:cursor-pointer"
+                        className="w-full h-[120px] md:h-[320px] object-cover image-border hover:cursor-pointer"
                       />
                     )}
                   </div>

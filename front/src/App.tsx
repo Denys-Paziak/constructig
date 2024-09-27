@@ -16,6 +16,7 @@ import UserCabinetNewsUpdate from "./components/user-cabinet/user-cabinet-info/c
 import UserCabinetProductsUpdate from "./components/user-cabinet/user-cabinet-info/components/user-cabinet-products/components/user-cabinet-products-update/UserCabinetCategoryUpdate.tsx";
 import ResetPassword from "./components/auth/ResetPassword.tsx";
 import ResetPasswordSend from "./components/auth/ResetPasswordSend.tsx";
+import Home from "./pages/home/Home.tsx";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -40,6 +41,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route
           path="/login"
           element={
@@ -84,15 +86,9 @@ function App() {
           element={<UserCabinetProductsUpdate />}
         />
 
-        <Route
-            path="/reset"
-            element={<ResetPasswordSend />}
-        />
+        <Route path="/reset" element={<ResetPasswordSend />} />
 
-        <Route
-            path="/reset/:key/:email"
-            element={<ResetPassword />}
-        />
+        <Route path="/reset/:key/:email" element={<ResetPassword />} />
 
         <Route
           path="*"

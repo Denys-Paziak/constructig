@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-
 import { Pagination, Autoplay } from "swiper/modules";
 
 interface SliderProps {
@@ -16,6 +15,19 @@ export const Slider: React.FC<SliderProps> = ({
   backgroundColor,
   textColor,
 }) => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [currentImage, setCurrentImage] = useState<string | null>(null);
+
+  const openPopup = (image: string) => {
+    setCurrentImage(image);
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+    setCurrentImage(null);
+  };
+
   const def = (
     <svg
       width="50px"
@@ -39,91 +51,88 @@ export const Slider: React.FC<SliderProps> = ({
     </svg>
   );
 
-  if (images.length === 0) {
-    return (
-      <div
-        id="slider"
-        className="mx-auto h-[35vh] md:h-[80vh] flex justify-center items-center relative"
-      >
-        <Swiper
-          centeredSlides={true}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-          }}
-          modules={[Pagination, Autoplay]}
-          pagination={true}
-          navigation={true}
-          className="md:h-[80vh] h-[35vh]"
-        >
-          <SwiperSlide>
-            <div
-              className="h-full w-full object-cover flex justify-center items-center"
-              style={{
-                backgroundColor: `rgba(${backgroundColor.r}, ${
-                  backgroundColor.g
-                }, ${backgroundColor.b}, ${backgroundColor.a / 4})`,
-              }}
-            >
-              {def}
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div
-              className="h-full w-full flex justify-center items-center object-cover"
-              style={{
-                backgroundColor: `rgba(${backgroundColor.r}, ${
-                  backgroundColor.g
-                }, ${backgroundColor.b}, ${backgroundColor.a / 4})`,
-              }}
-            >
-              {def}
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div
-              className="h-full w-full flex justify-center items-center object-cover"
-              style={{
-                backgroundColor: `rgba(${backgroundColor.r}, ${
-                  backgroundColor.g
-                }, ${backgroundColor.b}, ${backgroundColor.a / 4})`,
-              }}
-            >
-              {def}
-            </div>
-          </SwiperSlide>
-        </Swiper>
-      </div>
-    );
-  }
-
   return (
-    <div className="relative">
-      <Swiper
-        centeredSlides={true}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
-        modules={[Pagination]}
-        pagination={true}
-        navigation={true}
-        className="h-full"
-      >
-        {images &&
-          images.map((image, index) => (
-            <SwiperSlide className="w-full h-full" key={index}>
-              <div className="h-full w-full flex justify-center items-center object-cover">
-                <img
-                  src={image}
-                  alt={`Slide ${index + 1}`}
-                  className="object-cover object-center h-[100vh] w-full"
-                />
+    <>
+      {images.length === 0 ? (
+        <div
+          id="slider"
+          className="mx-auto h-[35vh] md:h-[80vh] flex justify-center items-center relative"
+        >
+          <Swiper
+            centeredSlides={true}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
+            modules={[Pagination, Autoplay]}
+            pagination={true}
+            navigation={true}
+            className="md:h-[80vh] h-[35vh]"
+          >
+            <SwiperSlide>
+              <div
+                className="h-full w-full object-cover flex justify-center items-center"
+                style={{
+                  backgroundColor: `rgba(${backgroundColor.r}, ${
+                    backgroundColor.g
+                  }, ${backgroundColor.b}, ${backgroundColor.a / 4})`,
+                }}
+              >
+                {def}
               </div>
             </SwiperSlide>
-          ))}
-      </Swiper>
-    </div>
+          </Swiper>
+        </div>
+      ) : (
+        <div className="relative">
+          <Swiper
+            centeredSlides={true}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
+            modules={[Pagination]}
+            pagination={true}
+            navigation={true}
+            className="h-full"
+          >
+            {images.map((image, index) => (
+              <SwiperSlide className="w-full h-full" key={index}>
+                <div
+                  className="h-full w-full flex justify-center items-center object-cover cursor-pointer"
+                  onClick={() => openPopup(image)}
+                >
+                  <img
+                    src={image}
+                    alt={`Slide ${index + 1}`}
+                    className="object-cover object-center h-[100vh] w-full"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      )}
+
+      {isPopupOpen && currentImage && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50"
+          onClick={closePopup}
+        >
+          <img
+            src={currentImage}
+            alt="Popup"
+            className="w-[88%] max-h-full max-w-full"
+          />
+          <button
+            className="absolute top-4 right-4 text-white text-3xl"
+            onClick={closePopup}
+          >
+            &times;
+          </button>
+        </div>
+      )}
+    </>
   );
 };
 
