@@ -1,20 +1,32 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { INew } from "../services/news/news.interface";
 import Loader from "./loader/Loader";
+import {useParams} from "react-router-dom";
+import {getSite} from "../services/getSite/getSite.ts";
 
-interface Props {
-  data: any;
-  bodyColorBg: { r: string; g: string; b: string; a: string };
-  headerColorBg: { r: string; g: string; b: string; a: string };
-  bodyTextColor: { r: number; g: number; b: number; a: number };
-}
 
-const NewsDisplay: React.FC<Props> = ({
-  data,
-  headerColorBg,
-  bodyTextColor,
-}) => {
-  if (!data) {
+const NewsDisplay: React.FC = () => {
+    const [data, setData] = useState<any>();
+    const { siteName, company } = useParams();
+
+    const getUserSite = async () => {
+        try {
+            const response = await getSite(siteName!, company!);
+            setData(response);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getUserSite();
+    }, []);
+
+
+    console.log(data)
+
+
+    if (!data) {
     return <Loader />;
   }
 
@@ -22,28 +34,28 @@ const NewsDisplay: React.FC<Props> = ({
     <div
       className="w-full rounded-lg"
       style={{
-        background: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${
-          headerColorBg.b
-        }, ${+headerColorBg.a / 6})`,
+        background: `rgba(${data.global.main_bg_color.r}, ${data.global.main_bg_color.g}, ${
+            data.global.main_bg_color.b
+        }, ${+data.global.main_bg_color.a / 6})`,
       }}
     >
       <div
         className="rounded-lg flex flex-col gap-4 p-3"
         style={{
-          background: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${
-            bodyTextColor.b
-          }, ${bodyTextColor.a / 4})`,
+          background: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${
+              data.global.site_text_color.b
+          }, ${data.global.site_text_color.a / 4})`,
         }}
       >
-        {data.news.length > 0 ? (
-          data.news.map((oneNew: INew) => (
+        {data.global.news.length > 0 ? (
+          data.global.news.map((oneNew: INew) => (
             <div
               key={oneNew.id}
               className="hoverImg flex flex-col md:flex-row rounded-lg shadow-lg"
               style={{
-                background: `rgba(${headerColorBg.r}, ${headerColorBg.g}, ${
-                  headerColorBg.b
-                }, ${+headerColorBg.a / 1.1})`,
+                background: `rgba(${data.global.main_bg_color.r}, ${data.global.main_bg_color.g}, ${
+                    data.global.main_bg_color.b
+                }, ${+data.global.main_bg_color.a / 1.1})`,
               }}
             >
               <div className="w-full md:w-[50%] min-h-full  rounded-t-lg md:rounded-lg img_w">
@@ -60,7 +72,7 @@ const NewsDisplay: React.FC<Props> = ({
                 <h3
                   className="text-xl font-semibold"
                   style={{
-                    color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
+                    color: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
                   }}
                 >
                   {oneNew.title}
@@ -68,7 +80,7 @@ const NewsDisplay: React.FC<Props> = ({
                 <p
                   className="text-md h-[180px] overflow-scroll md:overflow-visible md:h-auto opacity-[80%]"
                   style={{
-                    color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
+                    color: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
                   }}
                 >
                   {oneNew.content}
@@ -80,7 +92,7 @@ const NewsDisplay: React.FC<Props> = ({
           <p
             className="text-center py-8"
             style={{
-              color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
+              color: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
             }}
           >
             No news found.

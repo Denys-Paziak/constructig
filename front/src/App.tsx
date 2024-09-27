@@ -16,6 +16,7 @@ import UserCabinetNewsUpdate from "./components/user-cabinet/user-cabinet-info/c
 import UserCabinetProductsUpdate from "./components/user-cabinet/user-cabinet-info/components/user-cabinet-products/components/user-cabinet-products-update/UserCabinetCategoryUpdate.tsx";
 import ResetPassword from "./components/auth/ResetPassword.tsx";
 import ResetPasswordSend from "./components/auth/ResetPasswordSend.tsx";
+import NewsDisplay from "./components/NewsDisplay.tsx";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -74,6 +75,7 @@ function App() {
           element={isLoggedIn ? <SiteConstructor /> : <Navigate to="/login" />}
         />
         <Route path="/:siteName/:company" element={<UserSite />} />
+        <Route path="/:siteName/:company/news" element={<NewsDisplay />} />
         <Route
           path="/category-update/:id"
           element={<UserCabinetCategoryUpdate />}
