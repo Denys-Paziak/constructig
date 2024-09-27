@@ -11,7 +11,7 @@ interface Props {
     handleInputChange: (
         section: string,
         field: string,
-        value: string | null | any[]
+        value: any
     ) => void;
 }
 
