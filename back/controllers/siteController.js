@@ -1,223 +1,40 @@
+
+import { uploadFile } from "../util/uploadFile.js";
 import mysql from "mysql";
 import dbConfig from "../config/dbConfig.js";
 
-import { uploadFile } from "../util/uploadFile.js";
+// Створюємо пул з'єднань
+const pool = mysql.createPool(dbConfig);
 
-const connection = mysql.createConnection(dbConfig);
-
-export const createSite = async (req, res) => {
-  const connection = mysql.createConnection(dbConfig);
-  const { id } = req.user;
-  const { url, name } = req.body;
-
-  connection.connect((err) => {
-    if (err) {
-      console.error("Помилка підключення до бази даних: " + err.stack);
-      return res
-        .status(500)
-        .json({ error: "Помилка підключення до бази даних" });
-    }
-
-    const queryCheckUrl = "SELECT id FROM sites WHERE url = ?";
-    connection.query(queryCheckUrl, [url], (err, results) => {
+// Функція обгортка для виконання запитів з промісами
+function executeQuery(query, params) {
+  return new Promise((resolve, reject) => {
+    pool.query(query, params, (err, results) => {
       if (err) {
-        console.error("Помилка виконання запиту: " + err.message);
-        return res.status(500).json({ error: "Помилка виконання запиту" });
+        return reject(err);
       }
-
-      if (results.length > 0) {
-        return res
-          .status(400)
-          .json({ error: "URL вже існує. Виберіть інший URL." });
-      }
-
-      connection.beginTransaction((err) => {
-        if (err) {
-          console.error("Помилка початку транзакції: " + err.stack);
-          return res.status(500).json({ error: "Помилка початку транзакції" });
-        }
-
-        const queryInsertSite =
-          "INSERT INTO sites (user_id, url, name) VALUES (?, ?, ?)";
-
-        connection.query(queryInsertSite, [id, url, name], (err, results) => {
-          if (err) {
-            return connection.rollback(() => {
-              console.error("Помилка виконання запиту: " + err.message);
-              res.status(500).json({ error: "Помилка виконання запиту" });
-            });
-          }
-
-          const siteId = results.insertId;
-
-          // Використовуємо послідовні запити замість пакетного запиту
-          const queryInsertHeader =
-            "INSERT INTO headers (site_id, visible, logo, menu) VALUES (?, ?, ?, ?)";
-          const queryInsertSlider =
-            "INSERT INTO sliders (site_id, visible, images) VALUES (?, ?, ?)";
-          const queryInsertServices =
-            "INSERT INTO services (site_id, visible, cols) VALUES (?, ?, ?)";
-          const queryInsertInfo =
-            "INSERT INTO info (site_id, visible, image, title, text) VALUES (?, ?, ?, ?, ?)";
-          const queryInsertSocials =
-            "INSERT INTO socials (site_id, visible, instagram, facebook, youtube) VALUES (?, ?, ?, ?, ?)";
-          const queryInsertFooter =
-            "INSERT INTO footers (site_id, visible, work_time, web_link) VALUES (?, ?, ?, ?)";
-
-          const defaultMenu = JSON.stringify([
-            { link: "/home", text: "Home" },
-            { link: "/about", text: "About Us" },
-          ]);
-
-          const defaultCols = JSON.stringify([
-            { image: "default_service.jpg", title: "Service 1" },
-            { image: "default_service.jpg", title: "Service 2" },
-            { image: "default_service.jpg", title: "Service 3" },
-          ]);
-
-          connection.query(
-            queryInsertHeader,
-            [siteId, true, null, defaultMenu],
-            (err) => {
-              if (err) {
-                return connection.rollback(() => {
-                  console.error(
-                    "Помилка вставки в таблицю headers: " + err.message
-                  );
-                  res
-                    .status(500)
-                    .json({ error: "Помилка вставки в таблицю headers" });
-                });
-              }
-
-              connection.query(
-                queryInsertSlider,
-                [siteId, true, JSON.stringify([])],
-                (err) => {
-                  if (err) {
-                    return connection.rollback(() => {
-                      console.error(
-                        "Помилка вставки в таблицю sliders: " + err.message
-                      );
-                      res
-                        .status(500)
-                        .json({ error: "Помилка вставки в таблицю sliders" });
-                    });
-                  }
-
-                  connection.query(
-                    queryInsertServices,
-                    [siteId, true, defaultCols],
-                    (err) => {
-                      if (err) {
-                        return connection.rollback(() => {
-                          console.error(
-                            "Помилка вставки в таблицю services: " + err.message
-                          );
-                          res.status(500).json({
-                            error: "Помилка вставки в таблицю services",
-                          });
-                        });
-                      }
-
-                      connection.query(
-                        queryInsertInfo,
-                        [siteId, true, null, "Default Title", "Default text"],
-                        (err) => {
-                          if (err) {
-                            return connection.rollback(() => {
-                              console.error(
-                                "Помилка вставки в таблицю info: " + err.message
-                              );
-                              res.status(500).json({
-                                error: "Помилка вставки в таблицю info",
-                              });
-                            });
-                          }
-
-                          connection.query(
-                            queryInsertSocials,
-                            [siteId, true, null, null, null],
-                            (err) => {
-                              if (err) {
-                                return connection.rollback(() => {
-                                  console.error(
-                                    "Помилка вставки в таблицю socials: " +
-                                    err.message
-                                  );
-                                  res.status(500).json({
-                                    error: "Помилка вставки в таблицю socials",
-                                  });
-                                });
-                              }
-
-                              connection.query(
-                                queryInsertFooter,
-                                [siteId, true, "Mon-Fri 9am-6pm", null],
-                                (err) => {
-                                  if (err) {
-                                    return connection.rollback(() => {
-                                      console.error(
-                                        "Помилка вставки в таблицю footers: " +
-                                        err.message
-                                      );
-                                      res.status(500).json({
-                                        error:
-                                          "Помилка вставки в таблицю footers",
-                                      });
-                                    });
-                                  }
-
-                                  connection.commit((err) => {
-                                    if (err) {
-                                      return connection.rollback(() => {
-                                        console.error(
-                                          "Помилка коміту транзакції: " +
-                                          err.message
-                                        );
-                                        res.status(500).json({
-                                          error: "Помилка коміту транзакції",
-                                        });
-                                      });
-                                    }
-
-                                    res.status(201).json({
-                                      message: "Лендінг створено успішно!",
-                                    });
-                                    connection.end();
-                                  });
-                                }
-                              );
-                            }
-                          );
-                        }
-                      );
-                    }
-                  );
-                }
-              );
-            }
-          );
-        });
-      });
+      resolve(results);
     });
   });
-};
+}
 
+// Отримання сайту за ID
 export const getSite = async (req, res) => {
-  const connection = mysql.createConnection(dbConfig);
   const { siteId } = req.params;
 
-  const siteQuery = `
+  try {
+    const siteQuery = `
       SELECT 
-          s.id AS site_id, s.url AS site_url, s.name AS site_name,
-          h.visible AS header_visible, h.logo AS header_logo, h.menu AS header_menu,
-          sl.visible AS slider_visible, sl.images AS slider_images,
-          se.visible AS services_visible, se.cols AS services_cols,
-          i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
-          so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube, so.messenger AS socials_messenger, so.whatsApp AS socials_whatsApp, so.viber AS socials_viber, so.x AS socials_x, so.tikTok AS socials_tikTok,
-          f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link, f.first_description AS first_description, f.second_description AS second_description,
-          g.main_bg_color AS main_bg_color, g.main_text_color AS main_text_color, g.site_bg_color AS site_bg_color,  g.site_text_color AS site_text_color
+        s.id AS site_id, s.url AS site_url, s.name AS site_name,
+        h.visible AS header_visible, h.logo AS header_logo, h.menu AS header_menu,
+        sl.visible AS slider_visible, sl.images AS slider_images,
+        se.visible AS services_visible, se.cols AS services_cols,
+        i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
+        so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube, 
+        f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link,
+        b.visible AS banner_visible,
+        g.main_bg_color AS global_main_bg_color, g.main_text_color AS global_main_text_color,
+        g.site_bg_color AS global_site_bg_color, g.site_text_color AS global_site_text_color
       FROM sites s
       LEFT JOIN headers h ON s.id = h.site_id
       LEFT JOIN sliders sl ON s.id = sl.site_id
@@ -225,314 +42,215 @@ export const getSite = async (req, res) => {
       LEFT JOIN info i ON s.id = i.site_id
       LEFT JOIN socials so ON s.id = so.site_id
       LEFT JOIN footers f ON s.id = f.site_id
+      LEFT JOIN banner b ON s.id = b.site_id
       LEFT JOIN global g ON s.id = g.site_id
-      WHERE s.id = ? AND s.user_id = ?
-  `;
+      WHERE s.id = ? AND s.user_id = ?`;
 
-  const categoriesQuery = `
-      SELECT * FROM categories WHERE site_id = ? ORDER BY id DESC
-  `;
+    const siteResult = await executeQuery(siteQuery, [siteId, req.user.id]);
 
-  const itemsQuery = `
-      SELECT i.id, i.name, i.description, i.price,i.image, c.name AS category_name
-      FROM items i
-      LEFT JOIN categories c ON i.category_id = c.id
-      WHERE i.site_id = ? ORDER BY id DESC
-  `;
-
-  const newsQuery = `
-      SELECT * FROM news WHERE site_id = ? ORDER BY id DESC
-  `;
-
-  connection.connect((err) => {
-    if (err) {
-      console.error("Помилка підключення до бази даних: " + err.stack);
-      return res
-        .status(500)
-        .json({ error: "Помилка підключення до бази даних" });
+    if (siteResult.length === 0) {
+      return res.status(404).json({ message: "Лендінг не знайдено" });
     }
 
-    connection.query(siteQuery, [siteId, req.user.id], (err, siteResults) => {
-      if (err) {
-        console.error("Помилка виконання запиту: " + err.message);
-        return res.status(500).json({ error: "Помилка виконання запиту" });
-      }
+    const result = siteResult[0];
 
-      if (siteResults.length === 0) {
-        return res.status(404).json({ message: "Лендінг не знайдено" });
-      }
+    // Отримання категорій
+    const categoriesQuery = "SELECT * FROM categories WHERE site_id = ?";
+    const categoriesResult = await executeQuery(categoriesQuery, [siteId]);
 
-      const result = siteResults[0];
-
-      const site = {
-        id: result.site_id,
-        url: result.site_url,
-        name: result.site_name,
-      };
-
-      const header = {
-        visible: result.header_visible,
-        logo: result.header_logo,
-        menu: JSON.parse(result.header_menu),
-      };
-
-      const slider = {
-        visible: result.slider_visible,
-        images: JSON.parse(result.slider_images),
-      };
-
-      const services = {
-        visible: result.services_visible,
-        cols: JSON.parse(result.services_cols),
-      };
-
-      const info = {
-        visible: result.info_visible,
-        image: result.info_image,
-        title: result.info_title,
-        text: result.info_text,
-      };
-
-      const socials = {
-        visible: result.socials_visible,
-        instagram: result.socials_instagram,
-        facebook: result.socials_facebook,
-        youtube: result.socials_youtube,
-        messenger: result.socials_messenger,
-        whatsApp: result.socials_whatsApp,
-        viber: result.socials_viber,
-        x: result.socials_x,
-        tikTok: result.socials_tikTok,
-      };
-
-      const footer = {
-        visible: result.footer_visible,
-        work_time: result.footer_work_time,
-        web_link: result.footer_web_link,
-        first_description: result.first_description,
-        second_description: result.second_description,
-      };
-
-      let global = {
-        main_bg_color: JSON.parse(result.main_bg_color),
-        main_text_color: JSON.parse(result.main_text_color),
-        site_bg_color: JSON.parse(result.site_bg_color),
-        site_text_color: JSON.parse(result.site_text_color),
-      };
-
-      // Виконуємо запит для отримання категорій
-      connection.query(categoriesQuery, [siteId], (err, categoriesResults) => {
-        if (err) {
-          console.error("Помилка виконання запиту до категорій: " + err.message);
-          return res.status(500).json({ error: "Помилка виконання запиту до категорій" });
-        }
-
-        global.categories = categoriesResults;
-
-        // Виконуємо запит для отримання продуктів (items) з категорією
-        connection.query(itemsQuery, [siteId], (err, itemsResults) => {
-          if (err) {
-            console.error("Помилка виконання запиту до продуктів: " + err.message);
-            return res.status(500).json({ error: "Помилка виконання запиту до продуктів" });
-          }
-
-          global.items = itemsResults;
-
-          // Виконуємо запит для отримання новин (news)
-          connection.query(newsQuery, [siteId], (err, newsResults) => {
-            if (err) {
-              console.error("Помилка виконання запиту до новин: " + err.message);
-              return res.status(500).json({ error: "Помилка виконання запиту до новин" });
-            }
-
-            global.news = newsResults;
-
-            // Формуємо відповідь з додаванням категорій, продуктів і новин в global
-            res.status(200).json({
-              site,
-              header,
-              slider,
-              services,
-              info,
-              socials,
-              footer,
-              global,
-            });
-
-            connection.end();
-          });
-        });
-      });
-    });
-  });
-};
-
-
-
-export const getSiteByName = async (req, res) => {
-  const connection = mysql.createConnection(dbConfig);
-  const { siteName } = req.params;
-
-  const siteQuery = `
-        SELECT 
-            s.id AS site_id, s.url AS site_url, s.name AS site_name,
-            h.visible AS header_visible, h.logo AS header_logo, h.menu AS header_menu,
-            sl.visible AS slider_visible, sl.images AS slider_images,
-            se.visible AS services_visible, se.cols AS services_cols,
-            i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
-            so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube, so.messenger AS socials_messenger, so.whatsApp AS socials_whatsApp, so.viber AS socials_viber, so.x AS socials_x, so.tikTok AS socials_tikTok,
-            f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link, f.first_description AS first_description, f.second_description AS second_description,
-            g.main_bg_color AS main_bg_color, g.main_text_color AS main_text_color, g.site_bg_color AS site_bg_color, g.site_text_color AS site_text_color
-        FROM sites s
-        LEFT JOIN headers h ON s.id = h.site_id
-        LEFT JOIN sliders sl ON s.id = sl.site_id
-        LEFT JOIN services se ON s.id = se.site_id
-        LEFT JOIN info i ON s.id = i.site_id
-        LEFT JOIN socials so ON s.id = so.site_id
-        LEFT JOIN footers f ON s.id = f.site_id
-        LEFT JOIN global g ON s.id = g.site_id
-        WHERE s.name = ?
-    `;
-
-  const categoriesQuery = `
-      SELECT * FROM categories WHERE site_id = ?
-  `;
-
-  const itemsQuery = `
+    // Отримання продуктів (items)
+    const itemsQuery = `
       SELECT i.id, i.name, i.description, i.price, i.image, c.name AS category_name
       FROM items i
       LEFT JOIN categories c ON i.category_id = c.id
-      WHERE i.site_id = ?
-  `;
+      WHERE i.site_id = ?`;
+    const itemsResult = await executeQuery(itemsQuery, [siteId]);
 
-  const newsQuery = `
-      SELECT * FROM news WHERE site_id = ?
-  `;
+    // Отримання новин (news)
+    const newsQuery = "SELECT * FROM news WHERE site_id = ?";
+    const newsResult = await executeQuery(newsQuery, [siteId]);
 
-  connection.connect((err) => {
-    if (err) {
-      console.error("Помилка підключення до бази даних: " + err.stack);
-      return res
-        .status(500)
-        .json({ error: "Помилка підключення до бази даних" });
-    }
+    // Формування об'єкта для відправки на фронт
+    const site = {
+      id: result.site_id,
+      url: result.site_url,
+      name: result.site_name,
+    };
 
-    connection.query(siteQuery, [siteName], (err, results) => {
-      if (err) {
-        console.error("Помилка виконання запиту: " + err.message);
-        return res.status(500).json({ error: "Помилка виконання запиту" });
-      }
+    const header = {
+      visible: result.header_visible,
+      logo: result.header_logo,
+      menu: JSON.parse(result.header_menu),
+    };
 
-      if (results.length === 0) {
-        return res.status(404).json({ message: "Лендінг не знайдено" });
-      }
+    const slider = {
+      visible: result.slider_visible,
+      images: JSON.parse(result.slider_images),
+    };
 
-      const result = results[0];
-      const siteId = result.site_id;
+    const services = {
+      visible: result.services_visible,
+      cols: JSON.parse(result.services_cols),
+    };
 
-      const site = {
-        id: result.site_id,
-        url: result.site_url,
-        name: result.site_name,
-      };
+    const info = {
+      visible: result.info_visible,
+      image: result.info_image,
+      title: result.info_title,
+      text: result.info_text,
+    };
 
-      const header = {
-        visible: result.header_visible,
-        logo: result.header_logo,
-        menu: JSON.parse(result.header_menu),
-      };
+    const socials = {
+      visible: result.socials_visible,
+      instagram: result.socials_instagram,
+      facebook: result.socials_facebook,
+      youtube: result.socials_youtube,
+    };
 
-      const slider = {
-        visible: result.slider_visible,
-        images: JSON.parse(result.slider_images),
-      };
+    const footer = {
+      visible: result.footer_visible,
+      work_time: result.footer_work_time,
+      web_link: result.footer_web_link,
+    };
 
-      const services = {
-        visible: result.services_visible,
-        cols: JSON.parse(result.services_cols),
-      };
+    const banner = {
+      visible: result.banner_visible,
+    };
 
-      const info = {
-        visible: result.info_visible,
-        image: result.info_image,
-        title: result.info_title,
-        text: result.info_text,
-      };
+    const global = {
+      main_bg_color: JSON.parse(result.global_main_bg_color),
+      main_text_color: JSON.parse(result.global_main_text_color),
+      site_bg_color: JSON.parse(result.global_site_bg_color),
+      site_text_color: JSON.parse(result.global_site_text_color),
+      categories: categoriesResult || [], // Додаємо категорії
+      items: itemsResult || [], // Додаємо продукти (items)
+      news: newsResult || [],   // Додаємо новини (news)
+    };
 
-      const socials = {
-        visible: result.socials_visible,
-        instagram: result.socials_instagram,
-        facebook: result.socials_facebook,
-        youtube: result.socials_youtube,
-        messenger: result.socials_messenger,
-        whatsApp: result.socials_whatsApp,
-        viber: result.socials_viber,
-        x: result.socials_x,
-        tikTok: result.socials_tikTok,
-      };
-
-      const footer = {
-        visible: result.footer_visible,
-        work_time: result.footer_work_time,
-        web_link: result.footer_web_link,
-        first_description: result.first_description,
-        second_description: result.second_description,
-      };
-
-      let global = {
-        main_bg_color: JSON.parse(result.main_bg_color),
-        main_text_color: JSON.parse(result.main_text_color),
-        site_bg_color: JSON.parse(result.site_bg_color),
-        site_text_color: JSON.parse(result.site_text_color),
-      };
-
-      // Виконуємо запит для отримання категорій
-      connection.query(categoriesQuery, [siteId], (err, categoriesResults) => {
-        if (err) {
-          console.error("Помилка виконання запиту до категорій: " + err.message);
-          return res.status(500).json({ error: "Помилка виконання запиту до категорій" });
-        }
-
-        global.categories = categoriesResults;
-
-        // Виконуємо запит для отримання продуктів (items) з категорією
-        connection.query(itemsQuery, [siteId], (err, itemsResults) => {
-          if (err) {
-            console.error("Помилка виконання запиту до продуктів: " + err.message);
-            return res.status(500).json({ error: "Помилка виконання запиту до продуктів" });
-          }
-
-          global.items = itemsResults;
-
-          // Виконуємо запит для отримання новин (news)
-          connection.query(newsQuery, [siteId], (err, newsResults) => {
-            if (err) {
-              console.error("Помилка виконання запиту до новин: " + err.message);
-              return res.status(500).json({ error: "Помилка виконання запиту до новин" });
-            }
-
-            global.news = newsResults;
-
-            // Формуємо відповідь з додаванням категорій, продуктів і новин в global
-            res.status(200).json({
-              site,
-              header,
-              slider,
-              services,
-              info,
-              socials,
-              footer,
-              global,
-            });
-
-            connection.end();
-          });
-        });
-      });
+    res.status(200).json({
+      site,
+      header,
+      slider,
+      services,
+      info,
+      socials,
+      footer,
+      banner,
+      global,
     });
-  });
+  } catch (error) {
+    console.error("Помилка виконання запиту: ", error.message);
+    res.status(500).json({ error: "Помилка виконання запиту" });
+  }
 };
 
+
+// Отримання сайту за назвою
+export const getSiteByName = async (req, res) => {
+  const { siteName, company } = req.params;
+
+  try {
+    const siteQuery = `
+      SELECT 
+        s.id AS site_id, s.url AS site_url, s.name AS site_name,
+        h.visible AS header_visible, h.logo AS header_logo, h.menu AS header_menu,
+        sl.visible AS slider_visible, sl.images AS slider_images,
+        se.visible AS services_visible, se.cols AS services_cols,
+        i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
+        so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube, 
+        f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link,
+        b.visible AS banner_visible,
+        g.main_bg_color AS global_main_bg_color, g.main_text_color AS global_main_text_color,
+        g.site_bg_color AS global_site_bg_color, g.site_text_color AS global_site_text_color
+      FROM sites s
+      LEFT JOIN headers h ON s.id = h.site_id
+      LEFT JOIN sliders sl ON s.id = sl.site_id
+      LEFT JOIN services se ON s.id = se.site_id
+      LEFT JOIN info i ON s.id = i.site_id
+      LEFT JOIN socials so ON s.id = so.site_id
+      LEFT JOIN footers f ON s.id = f.site_id
+      LEFT JOIN banner b ON s.id = b.site_id
+      LEFT JOIN global g ON s.id = g.site_id
+      WHERE s.name = ? AND s.url = ?`;
+
+    const siteResult = await executeQuery(siteQuery, [company, siteName]);
+
+    if (siteResult.length === 0) {
+      return res.status(404).json({ message: "Лендінг не знайдено" });
+    }
+
+    const result = siteResult[0];
+
+    // Формування об'єкта для відправки на фронт
+    const site = {
+      id: result.site_id,
+      url: result.site_url,
+      name: result.site_name,
+    };
+
+    const header = {
+      visible: result.header_visible,
+      logo: result.header_logo,
+      menu: JSON.parse(result.header_menu),
+    };
+
+    const slider = {
+      visible: result.slider_visible,
+      images: JSON.parse(result.slider_images),
+    };
+
+    const services = {
+      visible: result.services_visible,
+      cols: JSON.parse(result.services_cols),
+    };
+
+    const info = {
+      visible: result.info_visible,
+      image: result.info_image,
+      title: result.info_title,
+      text: result.info_text,
+    };
+
+    const socials = {
+      visible: result.socials_visible,
+      instagram: result.socials_instagram,
+      facebook: result.socials_facebook,
+      youtube: result.socials_youtube,
+    };
+
+    const footer = {
+      visible: result.footer_visible,
+      work_time: result.footer_work_time,
+      web_link: result.footer_web_link,
+    };
+
+    const banner = {
+      visible: result.banner_visible,
+    };
+
+    const global = {
+      main_bg_color: JSON.parse(result.global_main_bg_color),
+      main_text_color: JSON.parse(result.global_main_text_color),
+      site_bg_color: JSON.parse(result.global_site_bg_color),
+      site_text_color: JSON.parse(result.global_site_text_color),
+    };
+
+    res.status(200).json({
+      site,
+      header,
+      slider,
+      services,
+      info,
+      socials,
+      footer,
+      banner,
+      global,
+    });
+  } catch (error) {
+    console.error("Помилка виконання запиту: ", error.message);
+    res.status(500).json({ error: "Помилка виконання запиту" });
+  }
+};
 
 export const updateSite = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);

@@ -73,7 +73,7 @@ function App() {
           path="/site/:id"
           element={isLoggedIn ? <SiteConstructor /> : <Navigate to="/login" />}
         />
-        <Route path="/:siteName" element={<UserSite />} />
+        <Route path="/:siteName/:company" element={<UserSite />} />
         <Route
           path="/category-update/:id"
           element={<UserCabinetCategoryUpdate />}

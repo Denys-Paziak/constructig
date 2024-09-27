@@ -34,6 +34,7 @@ import {
   getNewsById,
   updateNews,
 } from "../controllers/newsController.js";
+import {updateBanner} from "../controllers/banner.js";
 
 const upload = multer();
 const router = express.Router();
@@ -46,7 +47,7 @@ router.post(
 );
 router.post("/site/delete", upload.none(), authMiddleware, deleteImage);
 router.get("/site/id/:siteId", upload.none(), authMiddleware, getSite);
-router.get("/site/:siteName", upload.none(), getSiteByName);
+router.get("/site/:siteName/:company", upload.none(), getSiteByName);
 
 router.put(
   "/site/:siteId",
@@ -64,6 +65,8 @@ router.put(
 router.put("/site/slider/:siteId", upload.none(), authMiddleware, updateSlider);
 
 router.put("/site/info/:siteId", upload.none(), authMiddleware, updateInfo);
+
+router.put("/site/banner/:siteId", upload.none(), authMiddleware, updateBanner);
 
 router.put("/site/social/:siteId", upload.none(), authMiddleware, updateSocial);
 
