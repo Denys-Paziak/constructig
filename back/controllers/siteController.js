@@ -181,6 +181,23 @@ export const getSiteByName = async (req, res) => {
 
     const result = siteResult[0];
 
+
+    // Отримання категорій
+    const categoriesQuery = "SELECT * FROM categories WHERE site_id = ?";
+    const categoriesResult = await executeQuery(categoriesQuery, [result.site_id]);
+
+    // Отримання продуктів (items)
+    const itemsQuery = `
+      SELECT i.id, i.name, i.description, i.price, i.image, c.name AS category_name
+      FROM items i
+      LEFT JOIN categories c ON i.category_id = c.id
+      WHERE i.site_id = ?`;
+    const itemsResult = await executeQuery(itemsQuery, [result.site_id]);
+
+    // Отримання новин (news)
+    const newsQuery = "SELECT * FROM news WHERE site_id = ?";
+    const newsResult = await executeQuery(newsQuery, [result.site_id]);
+
     // Формування об'єкта для відправки на фронт
     const site = {
       id: result.site_id,
@@ -233,6 +250,9 @@ export const getSiteByName = async (req, res) => {
       main_text_color: JSON.parse(result.global_main_text_color),
       site_bg_color: JSON.parse(result.global_site_bg_color),
       site_text_color: JSON.parse(result.global_site_text_color),
+      categories: categoriesResult || [],
+      items: itemsResult || [],
+      news: newsResult || [],
     };
 
     res.status(200).json({
