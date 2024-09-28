@@ -14,6 +14,7 @@ interface Item {
   description: string;
   price: number;
   image: string;
+  isPopular: string
 }
 
 interface Props {
@@ -66,7 +67,7 @@ const ProductDisplay: React.FC<Props> = ({
               />
               <div className="p-4">
                 <h3 className="text-xl font-bold mb-2">{selectedItem.name}</h3>
-                <p className="text-lg font-semibold">€ {selectedItem.price}</p>
+                <p className="text-lg font-semibold">€ {selectedItem.price} </p>
               </div>
             </div>
           </div>
@@ -199,7 +200,7 @@ const ProductDisplay: React.FC<Props> = ({
                           color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
                         }}
                       >
-                        € {item.price}
+                        € {item.price}  isPopular{item.isPopular}
                       </p>
                     </div>
                   </div>

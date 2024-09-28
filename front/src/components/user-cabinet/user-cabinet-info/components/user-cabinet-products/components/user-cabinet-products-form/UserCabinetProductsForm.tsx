@@ -33,7 +33,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
-  const [isPopular, setIsPopular] = useState(false); // Чекбокс для популярності
+  const [isPopular, setIsPopular] = useState(false);
   const {
     register,
     handleSubmit,
