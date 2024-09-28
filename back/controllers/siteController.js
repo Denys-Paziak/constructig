@@ -60,10 +60,11 @@ export const getSite = async (req, res) => {
 
     // Отримання продуктів (items)
     const itemsQuery = `
-      SELECT i.id, i.name, i.description, i.price, i.image, c.name AS category_name
+      SELECT i.id,i.isPopular, i.name, i.description, i.price, i.image, c.name AS category_name
       FROM items i
       LEFT JOIN categories c ON i.category_id = c.id
-      WHERE i.site_id = ?`;
+      WHERE i.site_id = ? ORDER BY isPopular DESC`;
+
     const itemsResult = await executeQuery(itemsQuery, [siteId]);
 
     // Отримання новин (news)
@@ -188,10 +189,10 @@ export const getSiteByName = async (req, res) => {
 
     // Отримання продуктів (items)
     const itemsQuery = `
-      SELECT i.id, i.name, i.description, i.price, i.image, c.name AS category_name
+      SELECT i.id,i.isPopular, i.name, i.description, i.price, i.image, c.name AS category_name
       FROM items i
       LEFT JOIN categories c ON i.category_id = c.id
-      WHERE i.site_id = ?`;
+      WHERE i.site_id = ? ORDER BY isPopular ASC`;
     const itemsResult = await executeQuery(itemsQuery, [result.site_id]);
 
     // Отримання новин (news)

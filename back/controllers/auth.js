@@ -307,6 +307,7 @@ async function createSite(id, url, name) {
                         { image: "", title: "Geo", link: null },
                         { image: "", title: "Menu" },
                         { image: "", title: "News" },
+                        { image: "", title: "Wifi", name: "", password: "" },
                     ])],
                 },
                 {
