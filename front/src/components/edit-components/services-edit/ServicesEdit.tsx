@@ -17,6 +17,8 @@ interface Service {
   title: string;
   phone?: string;
   link?: string;
+  name?: string;
+  password?: string;
 }
 
 interface Props {
@@ -141,6 +143,18 @@ const ServicesEdit: React.FC<Props> = ({
     handleInputChange("services", "cols", updatedServices);
   };
 
+  const handleWifiName = (index: number, newValue: string) => {
+    const updatedServices = [...data.services.cols];
+    updatedServices[index] = { ...updatedServices[index], name: newValue };
+    handleInputChange("services", "cols", updatedServices);
+  };
+
+  const handleWifiPass = (index: number, newValue: string) => {
+    const updatedServices = [...data.services.cols];
+    updatedServices[index] = { ...updatedServices[index], password: newValue };
+    handleInputChange("services", "cols", updatedServices);
+  };
+
   return (
     <>
       {isLoading && <Loader />}
@@ -150,31 +164,53 @@ const ServicesEdit: React.FC<Props> = ({
             <div className="w-full flex flex-col gap-2">
               <p>Phone number for call service:</p>
               <input
-                type="text"
-                placeholder="Phone number"
-                value={data.services.cols[0].phone}
-                onChange={(e) => handlePhoneChange(0, e.target.value)}
-                className="p-2 border border-gray-300 rounded-md"
+                  type="text"
+                  placeholder="Phone number"
+                  value={data.services.cols[0].phone}
+                  onChange={(e) => handlePhoneChange(0, e.target.value)}
+                  className="p-2 border border-gray-300 rounded-md"
               />
             </div>
             <div className="w-full flex flex-col gap-2">
               <p>Link on map for map service:</p>
               <input
-                type="text"
-                placeholder="Link on map"
-                value={data.services.cols[1].link}
-                onChange={(e) => handleMapsChange(1, e.target.value)}
-                className="p-2 border border-gray-300 rounded-md"
+                  type="text"
+                  placeholder="Link on map"
+                  value={data.services.cols[1].link}
+                  onChange={(e) => handleMapsChange(1, e.target.value)}
+                  className="p-2 border border-gray-300 rounded-md"
+              />
+            </div>
+
+            <div className="w-full flex flex-col gap-2">
+              <p>Wifi name:</p>
+              <input
+                  type="text"
+                  placeholder="Wifi name"
+                  value={data.services.cols[4].name}
+                  onChange={(e) => handleWifiName(4, e.target.value)}
+                  className="p-2 border border-gray-300 rounded-md"
+              />
+            </div>
+
+            <div className="w-full flex flex-col gap-2">
+              <p>Wifi password:</p>
+              <input
+                  type="text"
+                  placeholder="Wifi password"
+                  value={data.services.cols[4].password}
+                  onChange={(e) => handleWifiPass(4, e.target.value)}
+                  className="p-2 border border-gray-300 rounded-md"
               />
             </div>
           </div>
           <div className="w-full mt-6 rounded-md shadow-md flex items-start gap-4 flex-col">
             {data.services.cols.map((service: Service, index: number) => {
-              const { getRootProps, getInputProps, isDragActive } = useDropzone(
-                {
-                  onDrop: (acceptedFiles) => onDrop(index, acceptedFiles),
-                  multiple: false,
-                }
+              const {getRootProps, getInputProps, isDragActive} = useDropzone(
+                  {
+                    onDrop: (acceptedFiles) => onDrop(index, acceptedFiles),
+                    multiple: false,
+                  }
               );
 
               return (

@@ -7,7 +7,6 @@ import { Socials } from "./socials/Socials";
 import Loader from "./loader/Loader";
 import { Footer } from "./footer/Footer";
 import ProductDisplay from "./ProductDisplay";
-import NewsDisplay from "./NewsDisplay";
 import Baner from "./baner/Baner.tsx";
 
 interface PreviewProps {
@@ -21,7 +20,8 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showProducts, setShowProducts] = useState(false);
-  const [showNews, setShowNews] = useState(false);
+  const [showWifi, setShowWifi] = useState(false);
+
 
   const handleMenuToggle = () => {
     setIsMenuOpen((isOpen) => !isOpen);
@@ -32,12 +32,15 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   const handleServiceClick = (index: number) => {
     if (index === 2) {
       setShowProducts(true);
-      setShowNews(false);
       return;
     }
     if (index === 3) {
-      setShowNews(true);
       setShowProducts(false);
+      return;
+    }
+
+    if (index === 4) {
+      setShowWifi(true);
       return;
     }
   };
@@ -46,13 +49,9 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
     setShowProducts(false);
   };
 
-  const handleCloseNews = () => {
-    setShowNews(false);
-  };
+
 
   if (!data) return <Loader />;
-
-  console.log(data);
 
   return (
     <div
@@ -200,50 +199,17 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               </div>
             </div>
           )}
-          {showNews && (
-            <div
-              className="w-[100%] top-0 z-50 overflow-auto px-4 md:px-0 pb-24"
-              style={{
-                background: `rgba(${data.global.site_bg_color.r}, ${data.global.site_bg_color.g}, ${data.global.site_bg_color.b}, ${data.global.site_bg_color.a})`,
-              }}
-            >
-              <div className="container mx-auto pt-16 flex flex-col items-end gap-4">
-                <button
-                  onClick={handleCloseNews}
-                  className="bg-red-transparent flex items-center gap-4 z-[100001] border-b py-2 px-4 button-close"
-                  style={{
-                    color: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
-                    borderColor: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
-                  }}
-                >
-                  <span className="hidden md:block">Close</span>
-                  <svg
-                    width="10"
-                    height="9"
-                    viewBox="0 0 10 9"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M1 0.5L9 8.5M9 0.5L1 8.5"
-                      stroke-linecap="round"
-                      style={{
-                        stroke: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
-                      }}
-                    />
-                  </svg>
-                </button>
-                <NewsDisplay
-                  data={data.global}
-                  bodyColorBg={data.global.site_bg_color}
-                  headerColorBg={data.global.main_bg_color}
-                  bodyTextColor={data.global.site_text_color}
-                />
-              </div>
-            </div>
-          )}
+          {showWifi && <div className={"fixed top-0 left-0 w-full h-[100vh] bg-red-400 z-[100] flex justify-center items-center flex-col"}>
+            <div className={"absolute top-0 right-0"} onClick={() => {setShowWifi(false)}}>close</div>
+            <h2 className={'text-2xl font-bold'}>Wifi name</h2>
+            <p>{data.services.cols[4].name}</p>
+            <h2 className={'text-2xl font-bold'}>Wifi password</h2>
+            <p>{data.services.cols[4].password}</p>
+
+          </div>}
           {data.info?.visible === 1 && (
-            <Info
-              data={data}
+              <Info
+                  data={data}
               image={data.info.image}
               title={data.info.title}
               text={data.info.text}
