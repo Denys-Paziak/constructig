@@ -29,23 +29,6 @@ const SiteConstructor: React.FC = () => {
     fetchData();
   }, [id]);
 
-  // const handleSave = async () => {
-  //   const token = localStorage.getItem("token");
-  //
-  //   if (id && data && token) {
-  //     const formData = new FormData();
-  //
-  //     formData.append("data", JSON.stringify(data));
-  //
-  //     try {
-  //       await updateSite(parseInt(id), formData, token);
-  //       alert("Site updated successfully!");
-  //     } catch (error) {
-  //       console.error("Error updating site:", error);
-  //       alert("Failed to update site");
-  //     }
-  //   }
-  // };
 
   const handleInputChange = (section: string, field: string, value: any) => {
     if (data) {
@@ -59,10 +42,13 @@ const SiteConstructor: React.FC = () => {
     if (data) {
       const newData = { ...data };
       if (newData[name]) {
-        newData[name].visible = checked || false;
+        newData[name].visible = (checked === true && 1) || 0;
         setData(newData);
       }
     }
+
+
+    console.log(data)
   };
 
   const toggleSection = (section: string) => {
@@ -78,6 +64,7 @@ const SiteConstructor: React.FC = () => {
   const sections = [
     { name: "global", title: "Global settings", component: Global },
     { name: "header", title: "Header" },
+    { name: "banner", title: "Banner" },
     { name: "slider", title: "Slider" },
     { name: "services", title: "Services" },
     { name: "info", title: "Info" },

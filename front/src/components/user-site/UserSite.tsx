@@ -5,11 +5,11 @@ import Preview from "../Preview";
 
 const UserSite: React.FC = () => {
   const [data, setData] = useState<any>();
-  const { siteName } = useParams();
+  const { siteName, company } = useParams();
 
   const getUserSite = async () => {
     try {
-      const response = await getSite(siteName!);
+      const response = await getSite(siteName!, company!);
       setData(response);
     } catch (error) {
       console.log(error);

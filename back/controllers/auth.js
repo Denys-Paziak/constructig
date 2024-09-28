@@ -169,91 +169,95 @@ export const login = async (req, res) => {
 };
 
 export const register = async (req, res) => {
-  const connection = mysql.createConnection(dbConfig);
-  const { username, email, password, company } = req.body;
+    const connection = mysql.createConnection(dbConfig);
+    const { username, email, password, company, restaurantName } = req.body;
 
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Query to check if a user with the same email, username, or company already exists
-    const checkUserQuery =
-      "SELECT id FROM users WHERE email = ? OR username = ? OR company = ?";
+        // Query to check if a user with the same email, username, or company already exists
+        const checkUserQuery =
+            "SELECT id FROM users WHERE email = ? OR username = ?";
 
-    connection.connect((err) => {
-      if (err) {
-        console.error("Database connection error: " + err.stack);
-        return res.status(500).json({ error: "Database connection error" });
-      }
-
-      // Check if the user already exists
-      connection.query(
-        checkUserQuery,
-        [email, username, company],
-        (err, results) => {
-          if (err) {
-            console.error("Query execution error: " + err.message);
-            return res.status(500).json({ error: "Query execution error" });
-          }
-
-          if (results.length > 0) {
-            return res
-              .status(409)
-              .json({
-                error:
-                  "A user with the same email, username, or company already exists",
-              });
-          }
-
-          // If the user does not exist, proceed with registration
-          const insertUserQuery =
-            "INSERT INTO users (username, email, password, company, reset) VALUES (?, ?, ?, ?, ?)";
-          const getUserQuery = "SELECT id FROM users WHERE email = ?";
-
-          connection.query(
-            insertUserQuery,
-            [username, email, hashedPassword, company, uuidv4()],
-            (err, results) => {
-              if (err) {
-                console.error("Query execution error: " + err.message);
-                return res.status(500).json({ error: "Query execution error" });
-              }
-
-              // Retrieve the new user's ID
-              connection.query(getUserQuery, [email], (err, results) => {
-                if (err) {
-                  console.error("Query execution error: " + err.message);
-                  return res
-                    .status(500)
-                    .json({ error: "Query execution error" });
-                }
-
-                const user = results[0];
-                createSite(user.id, company, company)
-                  .then(() => {
-                    res
-                      .status(201)
-                      .json({ message: "User successfully registered!" });
-                    connection.end();
-                  })
-                  .catch((error) => {
-                    console.error(
-                      "Error creating landing page: " + error.message
-                    );
-                    res
-                      .status(500)
-                      .json({ error: "Error creating landing page" });
-                    connection.end();
-                  });
-              });
+        connection.connect((err) => {
+            if (err) {
+                console.error("Database connection error: " + err.stack);
+                return res.status(500).json({ error: "Database connection error" });
             }
-          );
-        }
-      );
-    });
-  } catch (error) {
-    console.error("Password hashing error: " + error.message);
-    res.status(500).json({ error: "Password hashing error" });
-  }
+
+            connection.query(
+                checkUserQuery,
+                [email, username],
+                (err, results) => {
+                    if (err) {
+                        console.error("Query execution error: " + err.message);
+                        return res.status(500).json({ error: "Query execution error" });
+                    }
+
+                    if (results.length > 0) {
+                        return res.status(409).json({
+                            error:
+                                "A user with the same email, username, or company already exists",
+                        });
+                    }
+
+                    const insertUserQuery =
+                        "INSERT INTO users (username, email, password, company, reset) VALUES (?, ?, ?, ?, ?)";
+                    const getUserQuery = "SELECT id FROM users WHERE email = ?";
+
+                    connection.query(
+                        insertUserQuery,
+                        [username, email, hashedPassword, company, uuidv4()],
+                        (err, results) => {
+                            if (err) {
+                                console.error("Query execution error: " + err.message);
+                                return res.status(500).json({ error: "Query execution error" });
+                            }
+
+                            // Retrieve the new user's ID
+                            connection.query(getUserQuery, [email], (err, results) => {
+                                if (err) {
+                                    console.error("Query execution error: " + err.message);
+                                    return res.status(500).json({ error: "Query execution error" });
+                                }
+
+                                const user = results[0];
+
+                                // Now, check how many sites this company already has
+                                const checkSiteCountQuery =
+                                    "SELECT COUNT(*) AS siteCount FROM sites WHERE name = ?";
+
+                                connection.query(checkSiteCountQuery, [company], (err, countResults) => {
+                                    if (err) {
+                                        console.error("Query execution error: " + err.message);
+                                        return res.status(500).json({ error: "Query execution error" });
+                                    }
+
+                                    const siteCount = countResults[0].siteCount;
+                                    const newSiteNumber = siteCount + 1;
+                                    createSite(user.id, newSiteNumber, company)
+                                        .then(() => {
+                                            res
+                                                .status(201)
+                                                .json({ message: "User successfully registered!" });
+                                            connection.end();
+                                        })
+                                        .catch((error) => {
+                                            console.error("Error creating landing page: " + error.message);
+                                            res.status(500).json({ error: "Error creating landing page" });
+                                            connection.end();
+                                        });
+                                });
+                            });
+                        }
+                    );
+                }
+            );
+        });
+    } catch (error) {
+        console.error("Password hashing error: " + error.message);
+        res.status(500).json({ error: "Password hashing error" });
+    }
 };
 
 export const getUser = async (req, res) => {
@@ -262,247 +266,114 @@ export const getUser = async (req, res) => {
   res.status(200).json(decoded);
 };
 
+const pool = mysql.createPool(dbConfig);
+
 async function createSite(id, url, name) {
-  const connection = mysql.createConnection(dbConfig);
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Початок транзакції
+            await executeQuery("START TRANSACTION");
 
-  connection.connect((err) => {
-    if (err) {
-      console.error("Помилка підключення до бази даних: " + err.stack);
-      return { error: "Помилка підключення до бази даних" };
-    }
+            // Додавання запису у таблицю sites
+            const queryInsertSite = "INSERT INTO sites (user_id, url, name) VALUES (?, ?, ?)";
+            const result = await executeQuery(queryInsertSite, [id, url, name]);
 
-    const queryCheckUrl = "SELECT id FROM sites WHERE url = ?";
-    connection.query(queryCheckUrl, [url], (err, results) => {
-      if (err) {
-        console.error("Помилка виконання запиту: " + err.message);
-        return { error: "Помилка виконання запиту" };
-      }
-
-      if (results.length > 0) {
-        return { error: "URL вже існує. Виберіть інший URL." };
-      }
-
-      connection.beginTransaction((err) => {
-        if (err) {
-          console.error("Помилка початку транзакції: " + err.stack);
-          return { error: "Помилка початку транзакції" };
-        }
-
-        const queryInsertSite =
-          "INSERT INTO sites (user_id, url, name) VALUES (?, ?, ?)";
-
-        connection.query(queryInsertSite, [id, url, name], (err, results) => {
-          if (err) {
-            return connection.rollback(() => {
-              console.error("Помилка виконання запиту: " + err.message);
-            });
-          }
-
-          const siteId = results.insertId;
-
-          const queryInsertHeader =
-            "INSERT INTO headers (site_id, visible, logo, menu) VALUES (?, ?, ?, ?)";
-          const queryInsertSlider =
-            "INSERT INTO sliders (site_id, visible, images) VALUES (?, ?, ?)";
-          const queryInsertServices =
-            "INSERT INTO services (site_id, visible, cols) VALUES (?, ?, ?)";
-          const queryInsertInfo =
-            "INSERT INTO info (site_id, visible, image, title, text) VALUES (?, ?, ?, ?, ?)";
-          const queryInsertSocials =
-            "INSERT INTO socials (site_id, visible, instagram, facebook, youtube, messenger, whatsApp, viber, x, tikTok) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-          const queryInsertFooter =
-            "INSERT INTO footers (site_id, visible, work_time, web_link, first_description, second_description) VALUES (?, ?, ?, ?, ?, ?)";
-          const queryInsertGlobal =
-            "INSERT INTO global (site_id, main_bg_color, main_text_color, site_bg_color, site_text_color) VALUES (?, ?, ?, ?, ?)";
-
-          const defaultMenu = JSON.stringify([
-            { link: "#slider", text: "Home" },
-            { link: "#services", text: "Services" },
-            { link: "#about", text: "About Us" },
-            { link: "#contact", text: "Contact Us" },
-          ]);
-
-          const defaultCols = JSON.stringify([
-            { image: "", title: "Call", phone: null },
-            { image: "", title: "Geo", link: null },
-            { image: "", title: "Menu" },
-            { image: "", title: "News" },
-          ]);
-
-          const main_bg_color = JSON.stringify({
-            r: 20,
-            g: 20,
-            b: 20,
-            a: 1,
-          });
-
-          const main_text_color = JSON.stringify({
-            r: 255,
-            g: 255,
-            b: 255,
-            a: 1,
-          });
-
-          const site_bg_color = JSON.stringify({
-            r: 0,
-            g: 0,
-            b: 0,
-            a: 1,
-          });
-
-          const site_text_color = JSON.stringify({
-            r: 255,
-            g: 255,
-            b: 255,
-            a: 1,
-          });
-
-          connection.query(
-            queryInsertHeader,
-            [siteId, true, null, defaultMenu],
-            (err) => {
-              if (err) {
-                return connection.rollback(() => {
-                  console.error(
-                    "Помилка вставки в таблицю headers: " + err.message
-                  );
-                });
-              }
-
-              connection.query(
-                queryInsertSlider,
-                [siteId, true, JSON.stringify([])],
-                (err) => {
-                  if (err) {
-                    return connection.rollback(() => {
-                      console.error(
-                        "Помилка вставки в таблицю sliders: " + err.message
-                      );
-                    });
-                  }
-
-                  connection.query(
-                    queryInsertServices,
-                    [siteId, true, defaultCols],
-                    (err) => {
-                      if (err) {
-                        return connection.rollback(() => {
-                          console.error(
-                            "Помилка вставки в таблицю services: " + err.message
-                          );
-                        });
-                      }
-
-                      connection.query(
-                        queryInsertInfo,
-                        [
-                          siteId,
-                          true,
-                          null,
-                          "Title",
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                        ],
-                        (err) => {
-                          if (err) {
-                            return connection.rollback(() => {
-                              console.error(
-                                "Помилка вставки в таблицю info: " + err.message
-                              );
-                            });
-                          }
-
-                          connection.query(
-                            queryInsertSocials,
-                            [
-                              siteId,
-                              true,
-                              "https://instagram.com",
-                              "https://facebook.com",
-                              null,
-                              null,
-                              "https://whatsapp.com",
-                              null,
-                              "https://x.com",
-                              null,
-                            ],
-                            (err) => {
-                              if (err) {
-                                return connection.rollback(() => {
-                                  console.error(
-                                    "Помилка вставки в таблицю socials: " +
-                                      err.message
-                                  );
-                                });
-                              }
-
-                              connection.query(
-                                queryInsertFooter,
-                                [
-                                  siteId,
-                                  true,
-                                  "Mon-Fri 9am-6pm",
-                                  null,
-                                  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, praesentium amet. Consequuntur iure corporis minus animi, voluptatibus hic modi excepturi corrupti ipsam dolorum itaque sapiente vel dolore fugit error. Aperiam corporis ipsam repellendus non iure rerum praesentium modi laboriosam hic modi excepturi corrupti ipsam dolorum itaque sapiente vel dolore fugit error. Aperiam corporis ipsam repellendus non iure rerum praesentium modi laboriosam",
-                                  "hic modi excepturi corrupti ipsam dolorum itaque sapiente vel dolore fugit error. Aperiam corporis ipsam repellendus non iure rerum praesentium modi laboriosam re rerum praesentium modi laboriosam",
-                                ],
-                                (err) => {
-                                  if (err) {
-                                    return connection.rollback(() => {
-                                      console.error(
-                                        "Помилка вставки в таблицю footers: " +
-                                          err.message
-                                      );
-                                    });
-                                  }
-                                  connection.query(
-                                    queryInsertGlobal,
-                                    [
-                                      siteId,
-                                      main_bg_color,
-                                      main_text_color,
-                                      site_bg_color,
-                                      site_text_color,
-                                    ],
-                                    (err) => {
-                                      if (err) {
-                                        return connection.rollback(() => {
-                                          console.error(
-                                            "Помилка вставки в таблицю global: " +
-                                              err.message
-                                          );
-                                        });
-                                      }
-
-                                      connection.commit((err) => {
-                                        if (err) {
-                                          return connection.rollback(() => {
-                                            console.error(
-                                              "Помилка коміту транзакції: " +
-                                                err.message
-                                            );
-                                          });
-                                        }
-
-                                        connection.end();
-                                      });
-                                    }
-                                  );
-                                }
-                              );
-                            }
-                          );
-                        }
-                      );
-                    }
-                  );
-                }
-              );
+            // Перевірка, чи було успішно вставлено запис
+            if (!result || !result.insertId) {
+                throw new Error("Failed to add site");
             }
-          );
-        });
-      });
+
+            const siteId = result.insertId;
+
+            // Масив із запитами для вставки
+            const queries = [
+                {
+                    query: "INSERT INTO headers (site_id, visible, logo, menu) VALUES (?, ?, ?, ?)",
+                    params: [siteId, true, null, JSON.stringify([
+                        { link: "#slider", text: "Home" },
+                        { link: "#services", text: "Services" },
+                        { link: "#about", text: "About Us" },
+                        { link: "#contact", text: "Contact Us" },
+                    ])],
+                },
+                {
+                    query: "INSERT INTO sliders (site_id, visible, images) VALUES (?, ?, ?)",
+                    params: [siteId, true, JSON.stringify([])],
+                },
+                {
+                    query: "INSERT INTO services (site_id, visible, cols) VALUES (?, ?, ?)",
+                    params: [siteId, true, JSON.stringify([
+                        { image: "", title: "Call", phone: null },
+                        { image: "", title: "Geo", link: null },
+                        { image: "", title: "Menu" },
+                        { image: "", title: "News" },
+                    ])],
+                },
+                {
+                    query: "INSERT INTO info (site_id, visible, image, title, text) VALUES (?, ?, ?, ?, ?)",
+                    params: [siteId, true, null, "Title", "Lorem Ipsum is simply dummy text of the printing and typesetting industry."],
+                },
+                {
+                    query: "INSERT INTO socials (site_id, visible, instagram, facebook, youtube, messenger, whatsApp, viber, x, tikTok) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    params: [siteId, true, "https://instagram.com", "https://facebook.com", null, null, "https://whatsapp.com", null, "https://x.com", null],
+                },
+                {
+                    query: "INSERT INTO footers (site_id, visible, work_time, web_link, first_description, second_description) VALUES (?, ?, ?, ?, ?, ?)",
+                    params: [siteId, true, "Mon-Fri 9am-6pm", null, "Lorem ipsum description.", "Another description."],
+                },
+                {
+                    query: "INSERT INTO global (site_id, main_bg_color, main_text_color, site_bg_color, site_text_color) VALUES (?, ?, ?, ?, ?)",
+                    params: [
+                        siteId,
+                        JSON.stringify({ r: 59, g: 130, b: 246, a: 1 }),
+                        JSON.stringify({ r: 255, g: 255, b: 255, a: 1 }),
+                        JSON.stringify({ r: 255, g: 255, b: 255, a: 1 }),
+                        JSON.stringify({ r: 0, g: 0, b: 0, a: 1 }),
+                    ],
+                },
+                {
+                    query: "INSERT INTO banner (site_id, visible) VALUES (?, ?)",
+                    params: [siteId, false],
+                },
+            ];
+
+            // Виконання запитів
+            for (const { query, params } of queries) {
+                const queryResult = await executeQuery(query, params);
+
+                // Перевірка, чи запит був виконаний успішно
+                if (!queryResult) {
+                    throw new Error(`Failed to execute query: ${query}`);
+                }
+            }
+
+            // Коміт транзакції
+            await executeQuery("COMMIT");
+
+            resolve({ success: true, siteId });
+        } catch (error) {
+            console.error("Error executing queries: ", error.message);
+            try {
+                await executeQuery("ROLLBACK");
+            } catch (rollbackError) {
+                console.error("Error during rollback: ", rollbackError.message);
+            }
+            reject(new Error(`Error executing queries: ${error.message}`));
+        }
     });
-  });
+}
+
+// Функція обгортка для виконання запиту з промісами
+function executeQuery(query, params) {
+    return new Promise((resolve, reject) => {
+        pool.query(query, params, (err, results) => {
+            if (err) {
+                console.error("Database query error:", err);
+                return reject(err);
+            }
+            resolve(results);
+        });
+    });
 }
 
 export const resetPassSend = async (req, res) => {

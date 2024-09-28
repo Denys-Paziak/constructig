@@ -11,6 +11,7 @@ import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import { deleteImage } from "../../../../../../../services/upload-images/uploadImages";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
 import Loader from "../../../../../../loader/Loader";
+import Select from "react-select";
 
 const UserCabinetProductsUpdate: React.FC = () => {
   const [productImages, setProductImages] = useState<File[]>([]);
@@ -146,6 +147,31 @@ const UserCabinetProductsUpdate: React.FC = () => {
               onSubmit={handleSubmit(onSubmit)}
               className="w-full flex flex-wrap gap-[20px]"
             >
+              <div className="w-full md:w-[calc(50%-10px)]   flex flex-col gap-2">
+                <label htmlFor="category" className="text-sm font-semibold">
+                  Category name
+                </label>
+                {/* <Select
+                  options={categoryOptions}
+                  onChange={handleCategoryChange}
+                  defaultValue={}
+                  className="w-full"
+                  classNamePrefix="react-select"
+                  theme={(theme) => ({
+                    ...theme,
+                    colors: {
+                      ...theme.colors,
+                      primary25: "#E6F0FF",
+                      primary: "#007BFF",
+                    },
+                  })}
+                /> */}
+                {errors["category"] && (
+                  <span className="text-md text-red-500 font-light">
+                    {errors["category"]?.message as string}
+                  </span>
+                )}
+              </div>
               <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
                 {!isEditUploadOpen && (
                   <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
@@ -267,6 +293,29 @@ const UserCabinetProductsUpdate: React.FC = () => {
                   </span>
                 )}
               </div>
+              {/* <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
+                <label
+                  htmlFor="isPopular"
+                  className="text-sm font-semibold text-gray-700"
+                >
+                  Is Popular
+                </label>
+                <div className="flex items-center py-2   space-x-3">
+                  {/* <input
+                    id="isPopular"
+                    type="checkbox"
+                    checked={isPopular}
+                    onChange={(e) => setIsPopular(e.target.checked)}
+                    className="h-5 w-5  text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                  /> 
+                  <label
+                    htmlFor="isPopular"
+                    className="text-gray-700 cursor-pointer"
+                  >
+                    Mark as popular
+                  </label>
+                </div>
+              </div> */}
               <div className="w-full flex md:flex-row flex-col gap-[20px] pt-4 border-t border-gray-300">
                 <button
                   className="w-full py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"

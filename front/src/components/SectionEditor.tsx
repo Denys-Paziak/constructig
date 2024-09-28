@@ -5,6 +5,7 @@ import SocialsEdit from "./edit-components/socials-edit/SocialsEdit";
 import Toggle from "react-toggle";
 import FooterEdit from "./edit-components/footer-edit/FooterEdit";
 import ServicesEdit from "./edit-components/services-edit/ServicesEdit";
+import Banner from "./edit-components/banner/Banner.tsx";
 
 
 interface SectionEditorProps {
@@ -33,7 +34,7 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
           <div className="w-full flex items-center justify-between">
             <p>Hide/Show:</p>
             <Toggle
-              defaultChecked={true}
+              defaultChecked={data[sectionName].visible === 1 ? true : false}
               icons={false}
               onChange={(e) => visibleHandler(sectionName, e.target.checked)}
             />
@@ -43,6 +44,11 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
           data={data}
           sectionName={sectionName}
           handleInputChange={handleInputChange}
+        />
+        <Banner
+            data={data}
+            sectionName={sectionName}
+            handlerInput={handleInputChange}
         />
         <SliderEdit
           data={data}

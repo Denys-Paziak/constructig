@@ -127,14 +127,14 @@ const UserCabinetInfo: React.FC<Props> = ({
                           {site.name}
                         </h3>
                         <a
-                          href={"http://localhost:5173/" + site.url}
+                          href={"http://localhost:5173/" + site.url + "/" + site.name}
                           className="block text-white-600 mb-4"
                         >
-                          {"http://localhost:5173/" + site.url}
+                          {"http://localhost:5173/" + site.url + "/" + site.name}
                         </a>
                         <div className="w-full flex justify-between gap-4">
                           <button
-                            onClick={() => navigate(`/${userData.company}`)}
+                            onClick={() => navigate(`/${site.url + "/" + site.name}`)}
                             className="w-[50%] py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 block mx-auto"
                           >
                             View

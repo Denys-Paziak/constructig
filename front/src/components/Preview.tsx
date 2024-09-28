@@ -8,6 +8,7 @@ import Loader from "./loader/Loader";
 import { Footer } from "./footer/Footer";
 import ProductDisplay from "./ProductDisplay";
 import NewsDisplay from "./NewsDisplay";
+import Baner from "./baner/Baner.tsx";
 
 interface PreviewProps {
   data: any;
@@ -25,6 +26,8 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   const handleMenuToggle = () => {
     setIsMenuOpen((isOpen) => !isOpen);
   };
+
+  console.log(data)
 
   const handleServiceClick = (index: number) => {
     if (index === 2) {
@@ -138,7 +141,11 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               textColor={data.global.main_text_color}
             />
           )}
-          {/*<Baner bodyColorBg={data.global.site_bg_color} />*/}
+
+          {data.banner?.visible  === 1 && (
+              <Baner bodyColorBg={data.global.site_bg_color} />
+          )}
+
           {data.services?.visible && (
             <Services
               data={data}

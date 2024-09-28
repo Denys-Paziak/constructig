@@ -14,9 +14,9 @@ export const getUserSites = async (token: string) => {
   }
 };
 
-export const getSite = async (siteName: string) => {
+export const getSite = async (siteName: string, company: string) => {
   try {
-    const { data } = await axios.get(`site/${siteName}`);
+    const { data } = await axios.get(`site/${siteName}/${company}`);
     return data;
   } catch (error) {
     console.log(error);

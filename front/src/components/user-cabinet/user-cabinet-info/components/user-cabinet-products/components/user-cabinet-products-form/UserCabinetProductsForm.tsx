@@ -7,6 +7,7 @@ import { ICategory } from "../../../../../../../services/categories/category.int
 import imageCompression from "browser-image-compression";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
 import Loader from "../../../../../../loader/Loader";
+import Select from "react-select"; // Імпортуємо react-select
 
 interface Props {
   toggleProductsForm: () => void;
@@ -32,6 +33,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
+  const [isPopular, setIsPopular] = useState(false); // Чекбокс для популярності
   const {
     register,
     handleSubmit,
@@ -87,11 +89,8 @@ const UserCabinetProductsForm: React.FC<Props> = ({
     accept: acceptType,
   });
 
-  const handleCategoryChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedCategoryId = event.target.value;
-    setActiveCategoryId(selectedCategoryId);
+  const handleCategoryChange = (selectedOption: any) => {
+    setActiveCategoryId(selectedOption.value);
   };
 
   const onSubmit = async (data: any) => {
@@ -108,6 +107,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
     }
 
     formData.append("categoryId", activeCategoryId || "");
+    formData.append("isPopular", String(isPopular)); // Додаємо значення популярності
 
     const token = localStorage.getItem("token");
 
@@ -140,11 +140,47 @@ const UserCabinetProductsForm: React.FC<Props> = ({
     return <Loader />;
   }
 
+  // Створення опцій для селектора категорій
+  const categoryOptions = data.global.categories.map((category: ICategory) => ({
+    value: category.id,
+    label: category.name,
+  }));
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="w-full flex flex-wrap gap-[20px]"
     >
+      {/* Використання кастомного селектора категорій */}
+      <div className="w-full md:w-[calc(50%-10px)]   flex flex-col gap-2">
+        <label htmlFor="category" className="text-sm font-semibold">
+          Category name
+        </label>
+        <Select
+          options={categoryOptions}
+          onChange={handleCategoryChange}
+          defaultValue={categoryOptions.find(
+            (option: any) => option.value === activeCategoryId
+          )}
+          className="w-full"
+          classNamePrefix="react-select"
+          theme={(theme) => ({
+            ...theme,
+            colors: {
+              ...theme.colors,
+              primary25: "#E6F0FF",
+              primary: "#007BFF",
+            },
+          })}
+        />
+        {errors["category"] && (
+          <span className="text-md text-red-500 font-light">
+            {errors["category"]?.message as string}
+          </span>
+        )}
+      </div>
+
+      {/* Ваше поле для завантаження зображення */}
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="image" className="text-sm font-semibold">
           Product image
@@ -161,7 +197,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
           {isMainDragActive ? (
             <p>Drag and drop files here</p>
           ) : (
-            <p>Drag and drop files here</p>
+            <p>Drag 'n' drop an image here, or click to select one</p>
           )}
         </AdminImage>
         {mainImagePreview && (
@@ -174,28 +210,8 @@ const UserCabinetProductsForm: React.FC<Props> = ({
           </div>
         )}
       </div>
-      <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
-        <label htmlFor="category" className="text-sm font-semibold">
-          Category name
-        </label>
-        <select
-          onChange={handleCategoryChange}
-          className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          value={activeCategoryId}
-        >
-          {data.global.categories.map((category: ICategory, index: number) => (
-            <option value={category.id} key={index}>
-              {" "}
-              {category.name}
-            </option>
-          ))}
-        </select>
-        {errors["category"] && (
-          <span className="text-md text-red-500 font-light">
-            {errors["category"]?.message as string}
-          </span>
-        )}
-      </div>
+
+      {/* Поле для імені продукту */}
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="name" className="text-sm font-semibold">
           Name
@@ -213,6 +229,8 @@ const UserCabinetProductsForm: React.FC<Props> = ({
           </span>
         )}
       </div>
+
+      {/* Поле для опису продукту */}
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="description" className="text-sm font-semibold">
           Description
@@ -230,6 +248,8 @@ const UserCabinetProductsForm: React.FC<Props> = ({
           </span>
         )}
       </div>
+
+      {/* Поле для ціни продукту */}
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="price" className="text-sm font-semibold">
           Price
@@ -248,6 +268,29 @@ const UserCabinetProductsForm: React.FC<Props> = ({
           </span>
         )}
       </div>
+
+      {/* Чекбокс для популярності */}
+      <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
+        <label
+          htmlFor="isPopular"
+          className="text-sm font-semibold text-gray-700"
+        >
+          Is Popular
+        </label>
+        <div className="flex items-center py-2   space-x-3">
+          <input
+            id="isPopular"
+            type="checkbox"
+            checked={isPopular}
+            onChange={(e) => setIsPopular(e.target.checked)}
+            className="h-5 w-5  text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+          />
+          <label htmlFor="isPopular" className="text-gray-700 cursor-pointer">
+            Mark as popular
+          </label>
+        </div>
+      </div>
+
       <div className="w-full flex md:flex-row flex-col gap-[20px] pt-4 border-t border-gray-300">
         <button
           className="w-full py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -258,7 +301,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
         </button>
         <button
           onClick={toggleProductsForm}
-          className="w-full py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="w-full py-2.5 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
           type="button"
           disabled={isLoading}
         >
