@@ -1,4 +1,3 @@
-import React from "react";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";

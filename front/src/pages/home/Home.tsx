@@ -1,4 +1,3 @@
-import React from "react";
 import MainHeader from "../../components/main-header/MainHeader";
 import MainFooter from "../../components/main-footer/MainFooter";
 import Hero from "./components/hero/Hero";

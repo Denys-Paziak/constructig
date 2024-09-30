@@ -1,4 +1,3 @@
-import React from "react";
 import MainButton from "../../../../components/main-button/MainButton";
 
 const WhyUs = () => {

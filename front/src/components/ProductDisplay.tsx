@@ -17,6 +17,16 @@ interface Item {
   isPopular: number;
 }
 
+interface BasketItem {
+  id: number;
+  name: string;
+  category_name: string;
+  isPopular: string | number;
+  description?: string;
+  price: number;
+  image?: string;
+}
+
 interface Props {
   data: {
     categories: Category[];
@@ -41,19 +51,19 @@ const ProductDisplay: React.FC<Props> = ({
   const filteredItems =
     selectedCategory !== null
       ? data.items
-          .filter((item) => item.category_name === selectedCategory)
-          .sort((a, b) => parseInt(b.isPopular) - parseInt(a.isPopular)) // Sorting by 'isPopular'
+          .filter((item: Item) => item.category_name === selectedCategory)
+          .sort((a, b) => parseInt(b.isPopular) - parseInt(a.isPopular))
       : [];
 
-  const basketHandler = (item: any) => {
-    let basket = localStorage.getItem("basket");
+  const basketHandler = (item: BasketItem) => {
+    const basket = localStorage.getItem("basket");
 
     if (basket) {
-      let data = JSON.parse(basket);
-      let newData = JSON.stringify([...data, item]);
+      const data: BasketItem[] = JSON.parse(basket);
+      const newData = JSON.stringify([...data, item]);
       localStorage.setItem("basket", newData);
     } else {
-      let newData = JSON.stringify([item]);
+      const newData = JSON.stringify([item]);
       localStorage.setItem("basket", newData);
     }
 

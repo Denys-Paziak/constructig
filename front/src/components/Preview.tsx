@@ -16,6 +16,16 @@ interface PreviewProps {
   type?: string;
 }
 
+interface BasketItem {
+  id: number;
+  name: string;
+  category_name: string;
+  isPopular: string | number;
+  description?: string;
+  price: number;
+  image?: string;
+}
+
 const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   const [screen, setScreen] = useState<"desktop" | "tablet" | "mobile">(
     "desktop"
@@ -50,10 +60,10 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   };
 
   const deleteFromBasket = (index: number) => {
-    let localBasket = localStorage.getItem("basket");
+    const localBasket: any = localStorage.getItem("basket");
 
     if (localBasket) {
-      let data = JSON.parse(localBasket);
+      let data: any = JSON.parse(localBasket);
 
       data.splice(index, 1);
 
@@ -97,7 +107,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
     }
   };
 
-  const handleOrder = async () => {
+  const handleOrder: any = async () => {
     setIsPopupVisible(false);
 
     const orderedItems = basket

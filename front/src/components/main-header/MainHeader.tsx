@@ -1,4 +1,3 @@
-import React from "react";
 import LanguageSelector from "../LanguageSelector";
 import { NavLink } from "react-router-dom";
 

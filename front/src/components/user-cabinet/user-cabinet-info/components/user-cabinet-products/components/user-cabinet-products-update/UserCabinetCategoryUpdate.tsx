@@ -11,7 +11,6 @@ import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import { deleteImage } from "../../../../../../../services/upload-images/uploadImages";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
 import Loader from "../../../../../../loader/Loader";
-import Select from "react-select";
 
 const UserCabinetProductsUpdate: React.FC = () => {
   const [productImages, setProductImages] = useState<File[]>([]);

@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 const LanguageSelector = () => {
   // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
