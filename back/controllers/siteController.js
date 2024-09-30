@@ -1,4 +1,3 @@
-
 import { uploadFile } from "../util/uploadFile.js";
 import mysql from "mysql";
 import dbConfig from "../config/dbConfig.js";
@@ -30,8 +29,8 @@ export const getSite = async (req, res) => {
         sl.visible AS slider_visible, sl.images AS slider_images,
         se.visible AS services_visible, se.cols AS services_cols,
         i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
-        so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube, 
-        f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link,
+        so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube, so.messenger AS socials_messenger, so.whatsApp AS socials_whatsApp, so.viber AS socials_viber, so.x AS socials_x, so.tikTok AS socials_tikTok,
+        f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link, f.first_description AS footer_first_description, f.second_description AS footer_second_description,
         b.visible AS banner_visible,
         g.main_bg_color AS global_main_bg_color, g.main_text_color AS global_main_text_color,
         g.site_bg_color AS global_site_bg_color, g.site_text_color AS global_site_text_color
@@ -60,10 +59,11 @@ export const getSite = async (req, res) => {
 
     // Отримання продуктів (items)
     const itemsQuery = `
-      SELECT i.id, i.name, i.description, i.price, i.image, c.name AS category_name
+      SELECT i.id,i.isPopular, i.name, i.description, i.price, i.image, c.name AS category_name
       FROM items i
       LEFT JOIN categories c ON i.category_id = c.id
-      WHERE i.site_id = ?`;
+      WHERE i.site_id = ? ORDER BY isPopular DESC`;
+
     const itemsResult = await executeQuery(itemsQuery, [siteId]);
 
     // Отримання новин (news)
@@ -105,12 +105,19 @@ export const getSite = async (req, res) => {
       instagram: result.socials_instagram,
       facebook: result.socials_facebook,
       youtube: result.socials_youtube,
+      messenger: result.socials_messenger,
+      whatsApp: result.socials_whatsApp,
+      viber: result.socials_viber,
+      x: result.socials_x,
+      tikTok: result.socials_tikTok,
     };
 
     const footer = {
       visible: result.footer_visible,
       work_time: result.footer_work_time,
       web_link: result.footer_web_link,
+      first_description: result.footer_first_description,
+      second_description: result.footer_second_description,
     };
 
     const banner = {
@@ -124,7 +131,7 @@ export const getSite = async (req, res) => {
       site_text_color: JSON.parse(result.global_site_text_color),
       categories: categoriesResult || [], // Додаємо категорії
       items: itemsResult || [], // Додаємо продукти (items)
-      news: newsResult || [],   // Додаємо новини (news)
+      news: newsResult || [], // Додаємо новини (news)
     };
 
     res.status(200).json({
@@ -144,7 +151,6 @@ export const getSite = async (req, res) => {
   }
 };
 
-
 // Отримання сайту за назвою
 export const getSiteByName = async (req, res) => {
   const { siteName, company } = req.params;
@@ -157,8 +163,8 @@ export const getSiteByName = async (req, res) => {
         sl.visible AS slider_visible, sl.images AS slider_images,
         se.visible AS services_visible, se.cols AS services_cols,
         i.visible AS info_visible, i.image AS info_image, i.title AS info_title, i.text AS info_text,
-        so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube, 
-        f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link,
+        so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube, so.messenger AS socials_messenger, so.whatsApp AS socials_whatsApp, so.viber AS socials_viber, so.x AS socials_x, so.tikTok AS socials_tikTok,
+        f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link, f.first_description AS footer_first_description, f.second_description AS footer_second_description,
         b.visible AS banner_visible,
         g.main_bg_color AS global_main_bg_color, g.main_text_color AS global_main_text_color,
         g.site_bg_color AS global_site_bg_color, g.site_text_color AS global_site_text_color
@@ -181,17 +187,18 @@ export const getSiteByName = async (req, res) => {
 
     const result = siteResult[0];
 
-
     // Отримання категорій
     const categoriesQuery = "SELECT * FROM categories WHERE site_id = ?";
-    const categoriesResult = await executeQuery(categoriesQuery, [result.site_id]);
+    const categoriesResult = await executeQuery(categoriesQuery, [
+      result.site_id,
+    ]);
 
     // Отримання продуктів (items)
     const itemsQuery = `
-      SELECT i.id, i.name, i.description, i.price, i.image, c.name AS category_name
+      SELECT i.id,i.isPopular, i.name, i.description, i.price, i.image, c.name AS category_name
       FROM items i
       LEFT JOIN categories c ON i.category_id = c.id
-      WHERE i.site_id = ?`;
+      WHERE i.site_id = ? ORDER BY isPopular ASC`;
     const itemsResult = await executeQuery(itemsQuery, [result.site_id]);
 
     // Отримання новин (news)
@@ -233,12 +240,19 @@ export const getSiteByName = async (req, res) => {
       instagram: result.socials_instagram,
       facebook: result.socials_facebook,
       youtube: result.socials_youtube,
+      messenger: result.socials_messenger,
+      whatsApp: result.socials_whatsApp,
+      viber: result.socials_viber,
+      x: result.socials_x,
+      tikTok: result.socials_tikTok,
     };
 
     const footer = {
       visible: result.footer_visible,
       work_time: result.footer_work_time,
       web_link: result.footer_web_link,
+      first_description: result.footer_first_description,
+      second_description: result.footer_second_description,
     };
 
     const banner = {

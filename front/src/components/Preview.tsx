@@ -22,12 +22,11 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   const [showProducts, setShowProducts] = useState(false);
   const [showWifi, setShowWifi] = useState(false);
 
-
   const handleMenuToggle = () => {
     setIsMenuOpen((isOpen) => !isOpen);
   };
 
-  console.log(data)
+  console.log(data);
 
   const handleServiceClick = (index: number) => {
     if (index === 2) {
@@ -48,8 +47,6 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   const handleCloseProducts = () => {
     setShowProducts(false);
   };
-
-
 
   if (!data) return <Loader />;
 
@@ -141,8 +138,8 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
             />
           )}
 
-          {data.banner?.visible  === 1 && (
-              <Baner bodyColorBg={data.global.site_bg_color} />
+          {data.banner?.visible === 1 && (
+            <Baner bodyColorBg={data.global.site_bg_color} />
           )}
 
           {data.services?.visible && (
@@ -199,17 +196,35 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               </div>
             </div>
           )}
-          {showWifi && <div className={"fixed top-0 left-0 w-full h-[100vh] bg-red-400 z-[100] flex justify-center items-center flex-col"}>
-            <div className={"absolute top-0 right-0"} onClick={() => {setShowWifi(false)}}>close</div>
-            <h2 className={'text-2xl font-bold'}>Wifi name</h2>
-            <p>{data.services.cols[4].name}</p>
-            <h2 className={'text-2xl font-bold'}>Wifi password</h2>
-            <p>{data.services.cols[4].password}</p>
-
-          </div>}
+          {showWifi && (
+            <div
+              className={
+                "fixed top-0 left-0 w-full h-[100vh] bg-white z-[100] flex justify-center items-center flex-col"
+              }
+            >
+              <button
+                className="absolute top-2 right-4 text-gray-500 text-2xl"
+                onClick={() => {
+                  setShowWifi(false);
+                }}
+              >
+                ×
+              </button>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-4 bg-gray-200 py-2 px-6 rounded-md">
+                  <h2 className={"text-2xl font-bold"}>Wifi name:</h2>
+                  <p>{data.services.cols[4].name}sigohosd</p>
+                </div>
+                <div className="flex items-center gap-4 bg-gray-200 py-2 px-6 rounded-md">
+                  <h2 className={"text-2xl font-bold"}>Wifi password:</h2>
+                  <p>{data.services.cols[4].password}sdgpjfgsd-gfdgidfo</p>
+                </div>
+              </div>
+            </div>
+          )}
           {data.info?.visible === 1 && (
-              <Info
-                  data={data}
+            <Info
+              data={data}
               image={data.info.image}
               title={data.info.title}
               text={data.info.text}

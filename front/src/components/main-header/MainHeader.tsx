@@ -16,39 +16,43 @@ const MainHeader = () => {
                 <img src="../../public/logo.png" alt="logo" />
               </NavLink>
             </div>
-            <nav className="flex items-center justify-between">
-              <ul className="flex items-center gap-[40px]">
-                <li>
-                  <NavLink className="text-white" to={"/"}>
-                    How it works
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink className="text-white" to={"/"}>
-                    Our partners
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink className="text-white" to={"/"}>
-                    Events
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink className="text-white" to={"/"}>
-                    Why us?
-                  </NavLink>
-                </li>
-              </ul>
-            </nav>
-            <div className="flex items-center gap-[40px]">
-              <LanguageSelector />
-              <button
-                className="py-[10px] px-[24px] bg-white cursor-pointer outline-none border-none rounded-md"
-                style={{ color: "#3649AD" }}
-                type="button"
-              >
-                Contact Us
-              </button>
+            <div className="w-full flex items-center justify-between">
+              <div className="w-full flex justify-center">
+                <nav className="flex items-center justify-between">
+                  <ul className="flex items-center gap-[40px]">
+                    <li>
+                      <NavLink className="text-white" to={"/"}>
+                        How it works
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink className="text-white" to={"/"}>
+                        Our partners
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink className="text-white" to={"/"}>
+                        Events
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink className="text-white" to={"/"}>
+                        Why us?
+                      </NavLink>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+              <div className="flex items-center gap-[40px]">
+                <LanguageSelector />
+                <button
+                  className="py-[10px] text-nowrap px-[24px] bg-white cursor-pointer outline-none border-none rounded-md"
+                  style={{ color: "#3649AD" }}
+                  type="button"
+                >
+                  Contact Us
+                </button>
+              </div>
             </div>
           </div>
         </div>

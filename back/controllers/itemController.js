@@ -7,16 +7,25 @@ export const createItem = async (req, res) => {
     const { siteId } = req.params;
 
 
-    const { categoryId, name, description, price } = req.body;
+    const { categoryId, name, description, price, isPopular } = req.body;
 
-    let query = 'INSERT INTO items (category_id, name, description, price, site_id) VALUES ( ?, ?, ?, ?, ?)';
-    let params = [categoryId, name, description, price, siteId]
+    let popular;
+
+    if (isPopular === "true") {
+        popular = 1
+    }else {
+        popular = 0
+    }
+
+
+    let query = 'INSERT INTO items (isPopular,category_id, name, description, price, site_id) VALUES ( ?, ?, ?, ?, ?,?)';
+    let params = [popular,categoryId, name, description, price, siteId]
 
     if (req.file) {
         const image = req.file;
         const resUpload = await uploadImageServer(image);
-        query = 'INSERT INTO items (category_id, name, description, price, image, site_id) VALUES (?, ?, ?, ?, ?, ?)';
-        params = [categoryId, name, description, price, resUpload, siteId];
+        query = 'INSERT INTO items (isPopular, category_id, name, description, price, image, site_id) VALUES (?, ?, ?, ?, ?, ?,?)';
+        params = [popular, categoryId, name, description, price, resUpload, siteId];
     }
 
 
@@ -108,7 +117,7 @@ export const getItemById = (req, res) => {
 
     const { itemId } = req.params;
 
-    const query = "SELECT * FROM items WHERE id = ?";
+    const query = "SELECT * FROM items WHERE id = ? ORDER BY isPopular DESC";
 
     connection.connect(err => {
         if (err) {

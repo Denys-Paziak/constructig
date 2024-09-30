@@ -82,6 +82,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
           <>
             <UserCabinetInterface
               userData={userData}
+              sites={sites}
               setIsLoggedIn={setIsLoggedIn}
             />
             <UserCabinetInfo

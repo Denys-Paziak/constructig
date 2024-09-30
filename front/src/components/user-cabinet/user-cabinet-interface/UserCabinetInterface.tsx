@@ -7,10 +7,15 @@ import LanguageSelector from "../../LanguageSelector";
 
 interface Props {
   userData: IGetMe;
+  sites: any;
   setIsLoggedIn: (value: boolean) => void;
 }
 
-const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
+const UserCabinetInterface: React.FC<Props> = ({
+  userData,
+  sites,
+  setIsLoggedIn,
+}) => {
   const qrRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -149,7 +154,10 @@ const UserCabinetInterface: React.FC<Props> = ({ userData, setIsLoggedIn }) => {
           </div>
           <div className="flex items-center md:items-start flex-col gap-3">
             <div ref={qrRef} className="mx-auto">
-              <QRCode className="w-32 h-32" value={userData.company} />
+              <QRCode
+                className="w-32 h-32"
+                value={`https://menualista.com/${sites[0].url}/${userData.company}`}
+              />
             </div>
             <button
               className="w-full py-2 px-4 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
