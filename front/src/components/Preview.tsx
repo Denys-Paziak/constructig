@@ -9,7 +9,7 @@ import { Footer } from "./footer/Footer";
 import ProductDisplay from "./ProductDisplay";
 import Baner from "./baner/Baner.tsx";
 import { sendMessageToOrder } from "../api/telegram.ts";
-import { notify } from "../helpers/helper.ts";
+import { notify, notifyError } from "../helpers/helper.ts";
 
 interface PreviewProps {
   data: any;
@@ -87,6 +87,14 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
 
   const handleCloseProducts = () => {
     setShowProducts(false);
+  };
+
+  const handleOrderClick = () => {
+    if (basket.length > 0) {
+      setIsPopupVisible(true);
+    } else {
+      notifyError("Your basket is empty!");
+    }
   };
 
   const handleOrder = async () => {
@@ -235,7 +243,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
                 style={{
                   background: `rgba(${data.global.main_bg_color.r}, ${data.global.main_bg_color.g}, ${data.global.main_bg_color.b}, ${data.global.main_bg_color.a})`,
                 }}
-                onClick={() => setIsPopupVisible(true)}
+                onClick={handleOrderClick}
               >
                 Continue
               </button>
