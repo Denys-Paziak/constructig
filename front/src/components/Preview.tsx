@@ -16,16 +16,6 @@ interface PreviewProps {
   type?: string;
 }
 
-interface BasketItem {
-  id: number;
-  name: string;
-  category_name: string;
-  isPopular: string | number;
-  description?: string;
-  price: number;
-  image?: string;
-}
-
 const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   const [screen, setScreen] = useState<"desktop" | "tablet" | "mobile">(
     "desktop"
@@ -112,7 +102,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
 
     const orderedItems = basket
       .map(
-        (item, index) =>
+        (item: any, index: any) =>
           `#${index + 1} ${item.name} - €${item.price}\nDescription: ${
             item.description
           }`
