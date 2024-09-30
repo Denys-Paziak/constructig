@@ -33,7 +33,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
-  const [isPopular, setIsPopular] = useState(false);
+  const [isPopular, setIsPopular] = useState(false); // Чекбокс для популярності
   const {
     register,
     handleSubmit,
@@ -140,7 +140,6 @@ const UserCabinetProductsForm: React.FC<Props> = ({
     return <Loader />;
   }
 
-  // Створення опцій для селектора категорій
   const categoryOptions = data.global.categories.map((category: ICategory) => ({
     value: category.id,
     label: category.name,
@@ -151,7 +150,6 @@ const UserCabinetProductsForm: React.FC<Props> = ({
       onSubmit={handleSubmit(onSubmit)}
       className="w-full flex flex-wrap gap-[20px]"
     >
-      {/* Використання кастомного селектора категорій */}
       <div className="w-full md:w-[calc(50%-10px)]   flex flex-col gap-2">
         <label htmlFor="category" className="text-sm font-semibold">
           Category name
@@ -180,7 +178,6 @@ const UserCabinetProductsForm: React.FC<Props> = ({
         )}
       </div>
 
-      {/* Ваше поле для завантаження зображення */}
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="image" className="text-sm font-semibold">
           Product image
@@ -269,7 +266,6 @@ const UserCabinetProductsForm: React.FC<Props> = ({
         )}
       </div>
 
-      {/* Чекбокс для популярності */}
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label
           htmlFor="isPopular"
@@ -301,7 +297,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
         </button>
         <button
           onClick={toggleProductsForm}
-          className="w-full py-2.5 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+          className="w-full py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           type="button"
           disabled={isLoading}
         >
