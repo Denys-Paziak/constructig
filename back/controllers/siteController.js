@@ -63,7 +63,7 @@ export const getSite = async (req, res) => {
       SELECT i.id,i.isPopular, i.name, i.description, i.price, i.image, c.name AS category_name
       FROM items i
       LEFT JOIN categories c ON i.category_id = c.id
-      WHERE i.site_id = ? ORDER BY isPopular DESC`;
+      WHERE i.site_id = ?`;
 
     const itemsResult = await executeQuery(itemsQuery, [siteId]);
 
@@ -192,7 +192,7 @@ export const getSiteByName = async (req, res) => {
       SELECT i.id,i.isPopular, i.name, i.description, i.price, i.image, c.name AS category_name
       FROM items i
       LEFT JOIN categories c ON i.category_id = c.id
-      WHERE i.site_id = ? ORDER BY isPopular ASC`;
+      WHERE i.site_id = ?`;
     const itemsResult = await executeQuery(itemsQuery, [result.site_id]);
 
     // Отримання новин (news)
