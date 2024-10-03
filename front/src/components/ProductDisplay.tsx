@@ -52,7 +52,7 @@ const ProductDisplay: React.FC<Props> = ({
     selectedCategory !== null
       ? data.items
           .filter((item: Item) => item.category_name === selectedCategory)
-          .sort((a, b) => parseInt(b.isPopular) - parseInt(a.isPopular))
+          .sort((a: any, b: any) => parseInt(b.isPopular) - parseInt(a.isPopular))
       : [];
 
   const basketHandler = (item: BasketItem) => {

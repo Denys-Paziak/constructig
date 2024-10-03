@@ -16,16 +16,6 @@ interface PreviewProps {
   type?: string;
 }
 
-interface BasketItem {
-  id: number;
-  name: string;
-  category_name: string;
-  isPopular: string | number;
-  description?: string;
-  price: number;
-  image?: string;
-}
-
 const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   const [screen, setScreen] = useState<"desktop" | "tablet" | "mobile">(
     "desktop"
@@ -112,7 +102,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
 
     const orderedItems = basket
       .map(
-        (item, index) =>
+        (item: any, index: any) =>
           `#${index + 1} ${item.name} - €${item.price}\nDescription: ${
             item.description
           }`
@@ -145,6 +135,8 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
 
   if (!data) return <Loader />;
 
+  console.log(data);
+
   return (
     <div
       className={`${
@@ -157,7 +149,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
     >
       {basket && (
         <div
-          className="fixed flex justify-center items-center w-14 h-14 cursor-pointer bottom-10 right-10 rounded-full z-50 bg-red-400 shadow-lg transform transition-all duration-300 hover:scale-110 hover:shadow-xl"
+          className="fixed border-t-2 md:border-t-0 border-white flex justify-center items-center w-full h-14 md:w-14 md:h-14 cursor-pointer bottom-0 right-0 md:bottom-10 md:right-10 md:rounded-full z-50 bg-red-400 shadow-lg transform transition-all duration-300 hover:scale-110 hover:shadow-xl"
           style={{
             background: `rgba(${data.global.main_bg_color.r}, ${data.global.main_bg_color.g}, ${data.global.main_bg_color.b}, ${data.global.main_bg_color.a})`,
             color: `rgba(${data.global.main_text_color.r}, ${data.global.main_text_color.g}, ${data.global.main_text_color.b}, ${data.global.main_text_color.a})`,
@@ -166,11 +158,14 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
             setBasketMenu(true);
           }}
         >
-          <div className="absolute -top-2 -left-2 w-6 h-6 flex justify-center items-center rounded-full bg-amber-50 text-black border-[1px] border-black shadow-sm text-xs font-bold animate-pulse">
+          <div className="absolute hidden md:flex -top-2 -left-2 w-6 h-6 flex justify-center items-center rounded-full bg-amber-50 text-black border-[1px] border-black shadow-sm text-xs font-bold animate-pulse">
             {basket.length}
           </div>
+
+          <p className={"md:hidden"}>Open basket </p>
+
           <svg
-            className="w-6 h-6 text-white animate-bounce"
+            className="hidden md:block w-6 h-6 text-white animate-bounce"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -187,9 +182,9 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
       )}
 
       {basketMenu && (
-        <div className="fixed z-[1000] w-full h-full bg-white overflow-y-scroll p-6 shadow-lg animate-fadeIn">
+        <div className="fixed z-[1000] w-full h-full bg-white overflow-y-scroll p-6 py-20 shadow-lg animate-fadeIn">
           <div
-            className="absolute top-5 right-5 text-3xl cursor-pointer transform transition-transform hover:scale-110"
+            className="absolute top-5 right-5 text-4xl cursor-pointer transform transition-transform hover:scale-110"
             onClick={() => {
               setBasketMenu(false);
             }}
@@ -444,7 +439,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               }
             >
               <button
-                className="absolute top-2 right-4 text-gray-700 text-2xl"
+                className="absolute top-2 right-4 text-gray-700 text-4xl"
                 onClick={() => {
                   setShowWifi(false);
                 }}

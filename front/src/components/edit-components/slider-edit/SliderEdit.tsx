@@ -26,7 +26,7 @@ const SliderEdit: React.FC<Props> = ({
   const token = localStorage.getItem("token");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { id } = useParams();
+  const id = data.site.id;
   const [uploadedSliderImages, setUploadedSliderImages] = useState<
     File[] | null
   >(null);

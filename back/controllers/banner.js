@@ -8,6 +8,9 @@ export const updateBanner = async (req, res) => {
   const data = JSON.parse(req.body.data);
   const { siteId } = req.params;
 
+
+  console.log(siteId)
+
   const {  visible } = data;
 
   let params = [visible, siteId];

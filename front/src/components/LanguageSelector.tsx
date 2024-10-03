@@ -1,9 +1,11 @@
-const LanguageSelector = () => {
-  // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+import { useTranslation } from "react-i18next";
 
-  // const toggleDropdown = () => {
-  //   setIsDropdownOpen(!isDropdownOpen);
-  // };
+const LanguageSelector = () => {
+  const { i18n } = useTranslation();
+
+  const changeLanguage = (language: string) => {
+    i18n.changeLanguage(language); // Перемикання мови
+  };
 
   return (
     <>
@@ -61,6 +63,19 @@ const LanguageSelector = () => {
           </ul>
         </div>
       )} */}
+      <div className="flex items-center gap-4">
+        <button
+          type="button"
+          onClick={() => {
+            changeLanguage("es");
+          }}
+        >
+          ES
+        </button>
+        <button type="button" onClick={() => changeLanguage("en")}>
+          EN
+        </button>
+      </div>
     </>
   );
 };

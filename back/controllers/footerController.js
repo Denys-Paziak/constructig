@@ -9,12 +9,12 @@ export const updateFooter = async (req, res) => {
   const data = JSON.parse(req.body.data);
   const { siteId } = req.params;
 
-  const { web_link, first_description, second_description, visible } = data;
+  const { web_link, first_description, second_description, visible, start_time, end_time} = data;
 
-  let params = [visible, web_link, first_description, second_description, siteId];
+  let params = [end_time, start_time, visible, web_link, first_description, second_description, siteId];
 
   const query =
-    "UPDATE footers SET visible = ?, web_link = ?, first_description = ?, second_description = ? WHERE site_id = ?";
+    "UPDATE footers SET end_time = ?, start_time = ?, visible = ?, web_link = ?, first_description = ?, second_description = ? WHERE site_id = ?";
 
   connection.query(query, params, (err, results) => {
     if (err) {

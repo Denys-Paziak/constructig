@@ -4,6 +4,7 @@ import QRCode from "react-qr-code";
 import html2canvas from "html2canvas";
 import { useNavigate } from "react-router-dom";
 import LanguageSelector from "../../LanguageSelector";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   userData: IGetMe;
@@ -19,6 +20,7 @@ const UserCabinetInterface: React.FC<Props> = ({
   const qrRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { t } = useTranslation();
 
   const downloadQRCode = async () => {
     if (qrRef.current) {
@@ -51,7 +53,7 @@ const UserCabinetInterface: React.FC<Props> = ({
       <div className="flex items-start flex-col gap-6">
         <div className="w-full flex items-start justify-between flex-row md:items-center gap-4 md:gap-0">
           <h3 className="text-black text-xl font-semibold">
-            Hello, <span className="notranslate">{userData.name}</span>
+            {t("test")}, <span className="notranslate">{userData.name}</span>
           </h3>
           <div className="language-block">
             <LanguageSelector />

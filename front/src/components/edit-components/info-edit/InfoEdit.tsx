@@ -19,7 +19,7 @@ interface Props {
 }
 
 const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
-  const { id } = useParams();
+  const id = data.site.id;
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSaveChanges = async () => {

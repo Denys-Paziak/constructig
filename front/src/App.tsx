@@ -18,10 +18,12 @@ import ResetPassword from "./components/auth/ResetPassword.tsx";
 import ResetPasswordSend from "./components/auth/ResetPasswordSend.tsx";
 import NewsDisplay from "./components/NewsDisplay.tsx";
 import Home from "./pages/home/Home.tsx";
+import { useTranslation } from "react-i18next";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   // const [editingSiteId, setEditingSiteId] = useState<number | null>(null);
+  const { i18n } = useTranslation();
 
   const handleLogin = (): void => {
     const token = localStorage.getItem("token");
@@ -38,6 +40,10 @@ function App() {
   useEffect(() => {
     handleLogin();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("language", i18n.language);
+  }, [i18n.language]);
 
   return (
     <Router>

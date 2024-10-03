@@ -5,6 +5,7 @@ import { IGetMe } from "../../services/auth/getMe/getMe.interface";
 import { getMe } from "../../services/auth/getMe/getMe";
 import Loader from "../loader/Loader";
 import { getEditSite, getUserSites } from "../../services/getSite/getSite";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   setIsLoggedIn: (value: boolean) => void;
@@ -14,6 +15,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   const [userData, setUserData] = useState<IGetMe | null>(null);
   const [data, setData] = useState<any>(null);
   const [sites, setSites] = useState<any>([]);
+  const { i18n } = useTranslation();
 
   const getUserData = async () => {
     const token = localStorage.getItem("token");
@@ -34,7 +36,11 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
 
     if (sites.length > 0 && token) {
       try {
-        const response = await getEditSite(+sites[0].id, token);
+        const response = await getEditSite(
+          +sites[0].langId,
+          token,
+          i18n.language
+        ); // Сюди треба передати мову
         setData({ ...response });
       } catch (error) {
         console.log(error);

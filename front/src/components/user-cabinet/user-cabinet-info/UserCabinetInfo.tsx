@@ -6,6 +6,7 @@ import Loader from "../../loader/Loader";
 import UserCabinetCategory from "./components/user-cabinet-category/UserCabinetCategory";
 import UserCabinetProducts from "./components/user-cabinet-products/UserCabinetProducts";
 import UserCabinetNews from "./components/user-cabinet-news/UserCabinetNews";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   userData: IGetMe;
@@ -25,6 +26,7 @@ const UserCabinetInfo: React.FC<Props> = ({
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   // const [sitesAll, setSitesAll] = useState<any>([]);
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
 
   const handleTabClick = (index: number) => {
     setActiveTabIndex(index);
@@ -99,9 +101,7 @@ const UserCabinetInfo: React.FC<Props> = ({
               </button>
             </li>
             <li
-              className={` ${
-                activeTabIndex === 4 ? "bg-gray-100" : "inactive"
-              }`}
+              className={`${activeTabIndex === 4 ? "bg-gray-100" : "inactive"}`}
             >
               <button
                 onClick={() => handleTabClick(4)}
@@ -118,46 +118,56 @@ const UserCabinetInfo: React.FC<Props> = ({
               <div className="w-full flex items-start flex-col gap-6 py-6">
                 <div className="w-full">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {sites.map((site: any) => (
-                      <div
-                        key={site.id}
-                        className="shadow-xl rounded-lg p-6 shape_bg text-white"
-                      >
-                        <h3 className="text-xl font-semibold mb-2">
-                          {site.name}
-                        </h3>
-                        <a
-                          href={
-                            "https://menualista.com/" +
-                            site.url +
-                            "/" +
-                            site.name
-                          }
-                          className="block text-white-600 mb-4"
-                        >
-                          {"https://menualista.com/" +
-                            site.url +
-                            "/" +
-                            site.name}
-                        </a>
-                        <div className="w-full flex justify-between gap-4">
-                          <button
-                            onClick={() =>
-                              navigate(`/${site.url + "/" + site.name}`)
-                            }
-                            className="w-[50%] py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 block mx-auto"
+                    {sites.map((site: any) => {
+                      if (site.lang === i18n.language) {
+                        return (
+                          <div
+                            key={site.id}
+                            className="shadow-xl rounded-lg p-6 shape_bg text-white"
                           >
-                            View
-                          </button>
-                          <button
-                            onClick={() => navigate(`/site/${site.id}`)}
-                            className="w-[50%] py-2 px-4 bg-white text-black rounded-md hover:bg-gray-100"
-                          >
-                            Edit
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                            <div className={" flex justify-between"}>
+                              <h3 className="text-xl font-semibold mb-2">
+                                {site.name}
+                              </h3>
+
+                              <p className={"text-xl font-semibold mb-2"}>
+                                {site.lang}
+                              </p>
+                            </div>
+                            <a
+                              href={
+                                "https://menualista.com/" +
+                                site.url +
+                                "/" +
+                                site.name
+                              }
+                              className="block text-white-600 mb-4"
+                            >
+                              {"https://menualista.com/" +
+                                site.url +
+                                "/" +
+                                userData.company}
+                            </a>
+                            <div className="w-full flex justify-between gap-4">
+                              <button
+                                onClick={() =>
+                                  navigate(`/${site.url + "/" + site.name}`)
+                                }
+                                className="w-[50%] py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 block mx-auto"
+                              >
+                                View
+                              </button>
+                              <button
+                                onClick={() => navigate(`/site/${site.langId}`)}
+                                className="w-[50%] py-2 px-4 bg-white text-black rounded-md hover:bg-gray-100"
+                              >
+                                Edit
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      }
+                    })}
                   </div>
                 </div>
               </div>
