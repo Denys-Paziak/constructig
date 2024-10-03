@@ -11,7 +11,7 @@ interface Props {
 }
 
 const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
-  const { id } = useParams();
+  const id = data.site.id;
 
   const handleSaveChanges = async () => {
     const token = localStorage.getItem("token");

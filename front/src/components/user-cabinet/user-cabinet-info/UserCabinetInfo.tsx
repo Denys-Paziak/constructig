@@ -99,7 +99,7 @@ const UserCabinetInfo: React.FC<Props> = ({
               </button>
             </li>
             <li
-              className={` ${
+              className={`${
                 activeTabIndex === 4 ? "bg-gray-100" : "inactive"
               }`}
             >
@@ -123,13 +123,20 @@ const UserCabinetInfo: React.FC<Props> = ({
                         key={site.id}
                         className="shadow-xl rounded-lg p-6 shape_bg text-white"
                       >
-                        <h3 className="text-xl font-semibold mb-2">
-                          {site.name}
-                        </h3>
+
+                        <div className={" flex justify-between"}>
+                          <h3 className="text-xl font-semibold mb-2">
+                            {site.name}
+                          </h3>
+
+                          <p className={"text-xl font-semibold mb-2"}>{site.lang}</p>
+                        </div>
+
+
                         <a
-                          href={
-                            "https://menualista.com/" +
-                            site.url +
+                            href={
+                                "https://menualista.com/" +
+                                site.url +
                             "/" +
                             site.name
                           }
@@ -137,8 +144,7 @@ const UserCabinetInfo: React.FC<Props> = ({
                         >
                           {"https://menualista.com/" +
                             site.url +
-                            "/" +
-                            site.name}
+                            "/" + userData.company}
                         </a>
                         <div className="w-full flex justify-between gap-4">
                           <button
@@ -150,7 +156,7 @@ const UserCabinetInfo: React.FC<Props> = ({
                             View
                           </button>
                           <button
-                            onClick={() => navigate(`/site/${site.id}`)}
+                            onClick={() => navigate(`/site/${site.langId}`)}
                             className="w-[50%] py-2 px-4 bg-white text-black rounded-md hover:bg-gray-100"
                           >
                             Edit

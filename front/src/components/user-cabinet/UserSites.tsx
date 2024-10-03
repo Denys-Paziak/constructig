@@ -34,7 +34,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
 
     if (sites.length > 0 && token) {
       try {
-        const response = await getEditSite(+sites[0].id, token);
+        const response = await getEditSite(+sites[0].id, token, "en"); // Сюди треба передати мову
         setData({ ...response });
       } catch (error) {
         console.log(error);

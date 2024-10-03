@@ -29,7 +29,7 @@ const HeaderEdit: React.FC<Props> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false); // Стан для відстеження процесу завантаження
   const token = localStorage.getItem("token");
-  const { id } = useParams();
+  const id = data.site.id;
 
   const onDrop = useCallback(
     async (acceptedFile: File[]) => {

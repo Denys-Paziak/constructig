@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
 import nodemailer from "nodemailer";
+import {createSite} from "./siteController.js";
 
 export const updateUser = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
@@ -86,10 +87,9 @@ export const updateUser = async (req, res) => {
   }
 
   function updateSite(userId, newCompany) {
-    const query = "UPDATE sites SET url = ?, name = ? WHERE user_id = ?";
-    const newUrl = newCompany.toLowerCase().replace(/\s+/g, "-");
+    const query = "UPDATE sites SET name = ? WHERE user_id = ?";
 
-    connection.query(query, [newUrl, newCompany, userId], (err) => {
+    connection.query(query, [newCompany, userId], (err) => {
       if (err) {
         console.error(
           "Помилка оновлення даних у таблиці sites: " + err.message
@@ -237,6 +237,7 @@ export const register = async (req, res) => {
 
                   const siteCount = countResults[0].siteCount;
                   const newSiteNumber = siteCount + 1;
+
                   createSite(user.id, newSiteNumber, company)
                     .then(() => {
                       res
@@ -273,143 +274,6 @@ export const getUser = async (req, res) => {
 };
 
 const pool = mysql.createPool(dbConfig);
-
-async function createSite(id, url, name) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      // Початок транзакції
-      await executeQuery("START TRANSACTION");
-
-      // Додавання запису у таблицю sites
-      const queryInsertSite =
-        "INSERT INTO sites (user_id, url, name) VALUES (?, ?, ?)";
-      const result = await executeQuery(queryInsertSite, [id, url, name]);
-
-      // Перевірка, чи було успішно вставлено запис
-      if (!result || !result.insertId) {
-        throw new Error("Failed to add site");
-      }
-
-      const siteId = result.insertId;
-
-      // Масив із запитами для вставки
-      const queries = [
-        {
-          query:
-            "INSERT INTO headers (site_id, visible, logo, menu) VALUES (?, ?, ?, ?)",
-          params: [
-            siteId,
-            true,
-            null,
-            JSON.stringify([
-              { link: "#slider", text: "Home" },
-              { link: "#services", text: "Services" },
-              { link: "#about", text: "About Us" },
-              { link: "#contact", text: "Contact Us" },
-            ]),
-          ],
-        },
-        {
-          query:
-            "INSERT INTO sliders (site_id, visible, images) VALUES (?, ?, ?)",
-          params: [siteId, true, JSON.stringify([])],
-        },
-        {
-          query:
-            "INSERT INTO services (site_id, visible, cols) VALUES (?, ?, ?)",
-          params: [
-            siteId,
-            true,
-            JSON.stringify([
-              { image: "", title: "Call", phone: null },
-              { image: "", title: "Geo", link: null },
-              { image: "", title: "Menu" },
-              { image: "", title: "News" },
-              { image: "", title: "Wifi", name: "", password: "" },
-            ]),
-          ],
-        },
-        {
-          query:
-            "INSERT INTO info (site_id, visible, image, title, text) VALUES (?, ?, ?, ?, ?)",
-          params: [
-            siteId,
-            true,
-            null,
-            "Title",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-          ],
-        },
-        {
-          query:
-            "INSERT INTO socials (site_id, visible, instagram, facebook, youtube, messenger, whatsApp, viber, x, tikTok) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-          params: [
-            siteId,
-            true,
-            "https://instagram.com",
-            "https://facebook.com",
-            null,
-            null,
-            "https://whatsapp.com",
-            null,
-            "https://x.com",
-            null,
-          ],
-        },
-        {
-          query:
-            "INSERT INTO footers (site_id, visible, work_time, web_link, first_description, second_description) VALUES (?, ?, ?, ?, ?, ?)",
-          params: [
-            siteId,
-            true,
-            "Mon-Fri 9am-6pm",
-            null,
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry' standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-            "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-          ],
-        },
-        {
-          query:
-            "INSERT INTO global (site_id, main_bg_color, main_text_color, site_bg_color, site_text_color) VALUES (?, ?, ?, ?, ?)",
-          params: [
-            siteId,
-            JSON.stringify({ r: 59, g: 130, b: 246, a: 1 }),
-            JSON.stringify({ r: 255, g: 255, b: 255, a: 1 }),
-            JSON.stringify({ r: 255, g: 255, b: 255, a: 1 }),
-            JSON.stringify({ r: 0, g: 0, b: 0, a: 1 }),
-          ],
-        },
-        {
-          query: "INSERT INTO banner (site_id, visible) VALUES (?, ?)",
-          params: [siteId, false],
-        },
-      ];
-
-      // Виконання запитів
-      for (const { query, params } of queries) {
-        const queryResult = await executeQuery(query, params);
-
-        // Перевірка, чи запит був виконаний успішно
-        if (!queryResult) {
-          throw new Error(`Failed to execute query: ${query}`);
-        }
-      }
-
-      // Коміт транзакції
-      await executeQuery("COMMIT");
-
-      resolve({ success: true, siteId });
-    } catch (error) {
-      console.error("Error executing queries: ", error.message);
-      try {
-        await executeQuery("ROLLBACK");
-      } catch (rollbackError) {
-        console.error("Error during rollback: ", rollbackError.message);
-      }
-      reject(new Error(`Error executing queries: ${error.message}`));
-    }
-  });
-}
 
 // Функція обгортка для виконання запиту з промісами
 function executeQuery(query, params) {

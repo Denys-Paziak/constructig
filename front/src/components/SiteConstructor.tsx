@@ -5,6 +5,7 @@ import Preview from "./Preview";
 import { getEditSite } from "../services/getSite/getSite";
 import Global from "./edit-components/global/Global";
 import Loader from "./loader/Loader";
+import {createLang} from "../services/createLang/createLang.ts";
 
 
 
@@ -12,14 +13,18 @@ const SiteConstructor: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [data, setData] = useState<any>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
-  // const navigate = useNavigate();
+  let lang = 'en';
+
+  console.log(data)
+
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
       if (id && token) {
         try {
-          const response = await getEditSite(+id, token);
+          const response = await getEditSite(+id, token, lang);
           setData(response);
         } catch (error) {
           console.log(error);
@@ -38,6 +43,21 @@ const SiteConstructor: React.FC = () => {
     }
   };
 
+
+  const createLangHandler = () => {
+    if (token) {
+
+      const formData = new FormData();
+
+      formData.append("url", data.site.url);
+      formData.append("name", data.site.name);
+      formData.append("langId", data.site.langId);
+      formData.append("lang", "ua");
+
+      createLang(formData, token);
+    }
+  }
+
   const visibleHandler = (name: string, checked: boolean) => {
     if (data) {
       const newData = { ...data };
@@ -46,9 +66,6 @@ const SiteConstructor: React.FC = () => {
         setData(newData);
       }
     }
-
-
-    console.log(data)
   };
 
   const toggleSection = (section: string) => {
@@ -75,6 +92,9 @@ const SiteConstructor: React.FC = () => {
   return (
     <div className="flex edit-block">
       <div className="max-w-[25%] min-w-[25%] h-[100vh] overflow-y-scroll edit-sidebar">
+
+        <button onClick={createLangHandler} className={"w-full block mt-4 text-center py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"}>Create new lang</button>
+
         {sections.map(({ name, title, component: Component }) => (
           <div key={name} className="accordion-section">
             <div

@@ -2,6 +2,8 @@ import express from "express";
 import multer from "multer";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import {
+  createLang,
+  createSite,
   deleteSite,
   getSite,
   getSiteByName,
@@ -35,6 +37,7 @@ import {
   updateNews,
 } from "../controllers/newsController.js";
 import {updateBanner} from "../controllers/banner.js";
+import {register} from "../controllers/auth.js";
 
 const upload = multer();
 const router = express.Router();
@@ -46,7 +49,7 @@ router.post(
   uploadImage
 );
 router.post("/site/delete", upload.none(), authMiddleware, deleteImage);
-router.get("/site/id/:siteId", upload.none(), authMiddleware, getSite);
+router.get("/site/id/:siteId/:lang", upload.none(), authMiddleware, getSite);
 router.get("/site/:siteName/:company", upload.none(), getSiteByName);
 
 router.put(
@@ -140,5 +143,7 @@ router.post(
   authMiddleware,
   updateNews
 );
+
+router.post('/site/createLang', upload.none(), authMiddleware, createLang);
 
 export default router;

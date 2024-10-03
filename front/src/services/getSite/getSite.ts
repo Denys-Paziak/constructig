@@ -24,9 +24,9 @@ export const getSite = async (siteName: string, company: string) => {
   }
 };
 
-export const getEditSite = async (id: number, token: string) => {
+export const getEditSite = async (id: number, token: string, lang) => {
   try {
-    const { data } = await axios.get(`site/id/${id}`, {
+    const { data } = await axios.get(`site/id/${id}/${lang}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

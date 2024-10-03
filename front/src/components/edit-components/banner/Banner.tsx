@@ -13,7 +13,7 @@ interface Props {
 }
 
 const Banner: React.FC<Props> = ({ data, sectionName }) => {
-  const { id } = useParams();
+  const id = data.site.id;
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSaveChanges = async () => {

@@ -22,7 +22,7 @@ interface Service {
 }
 
 interface Props {
-  data: { services: { cols: Service[] } };
+  data: { services: { cols: Service[] }; site: { id: string } };
   sectionName: string;
   handleInputChange: (section: string, field: string, value: any) => void;
 }
@@ -32,7 +32,8 @@ const ServicesEdit: React.FC<Props> = ({
   sectionName,
   handleInputChange,
 }) => {
-  const { id } = useParams();
+  const id = data.site.id;
+
   const token = localStorage.getItem("token");
   const [isLoading, setIsLoading] = useState(false);
 
