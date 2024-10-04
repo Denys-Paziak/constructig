@@ -1,7 +1,7 @@
 import { uploadFile } from "../util/uploadFile.js";
 import mysql from "mysql";
 import dbConfig from "../config/dbConfig.js";
-import {stat} from "fs";
+import { stat } from "fs";
 
 // Створюємо пул з'єднань
 const pool = mysql.createPool(dbConfig);
@@ -68,7 +68,7 @@ function buildSiteResponse(result, categoriesResult, itemsResult, newsResult) {
       url: result.site_url,
       name: result.site_name,
       lang: result.site_lang,
-      langId: result.site_langId
+      langId: result.site_langId,
     },
     header: {
       visible: result.header_visible,
@@ -129,8 +129,13 @@ export const getSite = async (req, res) => {
   const { siteId, lang } = req.params;
 
   try {
-    const siteQuery = getSiteQuery() + " WHERE s.langId = ? AND s.user_id = ? AND s.lang = ?";
-    const siteResult = await executeQuery(siteQuery, [siteId, req.user.id, lang]);
+    const siteQuery =
+      getSiteQuery() + " WHERE s.langId = ? AND s.user_id = ? AND s.lang = ?";
+    const siteResult = await executeQuery(siteQuery, [
+      siteId,
+      req.user.id,
+      lang,
+    ]);
 
     if (siteResult.length === 0) {
       return res.status(404).json({ message: "Лендінг не знайдено" });
@@ -141,7 +146,12 @@ export const getSite = async (req, res) => {
     const itemsResult = await executeQuery(getItemsQuery(), [siteId]);
     const newsResult = await executeQuery(getNewsQuery(), [siteId]);
 
-    const response = buildSiteResponse(result, categoriesResult, itemsResult, newsResult);
+    const response = buildSiteResponse(
+      result,
+      categoriesResult,
+      itemsResult,
+      newsResult
+    );
     res.status(200).json(response);
   } catch (error) {
     console.error("Помилка виконання запиту: ", error.message);
@@ -162,11 +172,18 @@ export const getSiteByName = async (req, res) => {
     }
 
     const result = siteResult[0];
-    const categoriesResult = await executeQuery(getCategoriesQuery(), [result.site_id]);
+    const categoriesResult = await executeQuery(getCategoriesQuery(), [
+      result.site_id,
+    ]);
     const itemsResult = await executeQuery(getItemsQuery(), [result.site_id]);
     const newsResult = await executeQuery(getNewsQuery(), [result.site_id]);
 
-    const response = buildSiteResponse(result, categoriesResult, itemsResult, newsResult);
+    const response = buildSiteResponse(
+      result,
+      categoriesResult,
+      itemsResult,
+      newsResult
+    );
     res.status(200).json(response);
   } catch (error) {
     console.error("Помилка виконання запиту: ", error.message);
@@ -193,8 +210,13 @@ export const updateSite = async (req, res) => {
     const queries = [
       {
         query:
-            "UPDATE headers SET visible = ?, logo = ?, menu = ? WHERE site_id = ?",
-        params: [header.visible, imageLocation, JSON.stringify(header.menu), siteId],
+          "UPDATE headers SET visible = ?, logo = ?, menu = ? WHERE site_id = ?",
+        params: [
+          header.visible,
+          imageLocation,
+          JSON.stringify(header.menu),
+          siteId,
+        ],
       },
       {
         query: "UPDATE sliders SET visible = ?, images = ? WHERE site_id = ?",
@@ -206,12 +228,12 @@ export const updateSite = async (req, res) => {
       },
       {
         query:
-            "UPDATE info SET visible = ?, image = ?, title = ?, text = ? WHERE site_id = ?",
+          "UPDATE info SET visible = ?, image = ?, title = ?, text = ? WHERE site_id = ?",
         params: [info.visible, info.image, info.title, info.text, siteId],
       },
       {
         query:
-            "UPDATE socials SET visible = ?, instagram = ?, facebook = ?, youtube = ? WHERE site_id = ?",
+          "UPDATE socials SET visible = ?, instagram = ?, facebook = ?, youtube = ? WHERE site_id = ?",
         params: [
           socials.visible,
           socials.instagram,
@@ -222,7 +244,7 @@ export const updateSite = async (req, res) => {
       },
       {
         query:
-            "UPDATE footers SET visible = ?, work_time = ?, web_link = ? WHERE site_id = ?",
+          "UPDATE footers SET visible = ?, work_time = ?, web_link = ? WHERE site_id = ?",
         params: [footer.visible, footer.work_time, footer.web_link, siteId],
       },
     ];
@@ -233,8 +255,8 @@ export const updateSite = async (req, res) => {
           return connection.rollback(() => {
             console.error("Помилка оновлення лендінгу: " + err.message);
             return res
-                .status(500)
-                .json({ error: "Помилка оновлення лендінгу" });
+              .status(500)
+              .json({ error: "Помилка оновлення лендінгу" });
           });
         }
 
@@ -244,8 +266,8 @@ export const updateSite = async (req, res) => {
               return connection.rollback(() => {
                 console.error("Помилка коміту транзакції: " + err.message);
                 return res
-                    .status(500)
-                    .json({ error: "Помилка коміту транзакції" });
+                  .status(500)
+                  .json({ error: "Помилка коміту транзакції" });
               });
             }
 
@@ -292,13 +314,12 @@ export const getUserSites = async (req, res) => {
 };
 
 export const createLang = async (req, res) => {
-  const { url, name, langId, lang} = req.body;
+  const { url, name, langId, lang } = req.body;
   const id = req.user.id;
-  await createSite(id, url, name,lang, langId);
+  await createSite(id, url, name, lang, langId);
 
-  res.json({alesGut: "sss"})
+  res.json({ alesGut: "sss" });
 };
-
 
 export async function createSite(id, url, name, lang, langId) {
   return new Promise(async (resolve, reject) => {
@@ -311,13 +332,19 @@ export async function createSite(id, url, name, lang, langId) {
       }
 
       if (lang === undefined) {
-        lang = "en";
+        lang = "es";
       }
 
       // Додавання запису у таблицю sites
       const queryInsertSite =
-          "INSERT INTO sites (user_id, url, name, lang, langId) VALUES (?, ?, ?, ?, ?)";
-      const result = await executeQuery(queryInsertSite, [id, url, name, lang, langId]);
+        "INSERT INTO sites (user_id, url, name, lang, langId) VALUES (?, ?, ?, ?, ?)";
+      const result = await executeQuery(queryInsertSite, [
+        id,
+        url,
+        name,
+        lang,
+        langId,
+      ]);
 
       // Перевірка, чи було успішно вставлено запис
       if (!result || !result.insertId) {
@@ -330,7 +357,7 @@ export async function createSite(id, url, name, lang, langId) {
       const queries = [
         {
           query:
-              "INSERT INTO headers (site_id, visible, logo, menu) VALUES (?, ?, ?, ?)",
+            "INSERT INTO headers (site_id, visible, logo, menu) VALUES (?, ?, ?, ?)",
           params: [
             siteId,
             true,
@@ -345,12 +372,12 @@ export async function createSite(id, url, name, lang, langId) {
         },
         {
           query:
-              "INSERT INTO sliders (site_id, visible, images) VALUES (?, ?, ?)",
+            "INSERT INTO sliders (site_id, visible, images) VALUES (?, ?, ?)",
           params: [siteId, true, JSON.stringify([])],
         },
         {
           query:
-              "INSERT INTO services (site_id, visible, cols) VALUES (?, ?, ?)",
+            "INSERT INTO services (site_id, visible, cols) VALUES (?, ?, ?)",
           params: [
             siteId,
             true,
@@ -365,7 +392,7 @@ export async function createSite(id, url, name, lang, langId) {
         },
         {
           query:
-              "INSERT INTO info (site_id, visible, image, title, text) VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO info (site_id, visible, image, title, text) VALUES (?, ?, ?, ?, ?)",
           params: [
             siteId,
             true,
@@ -376,7 +403,7 @@ export async function createSite(id, url, name, lang, langId) {
         },
         {
           query:
-              "INSERT INTO socials (site_id, visible, instagram, facebook, youtube, messenger, whatsApp, viber, x, tikTok) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO socials (site_id, visible, instagram, facebook, youtube, messenger, whatsApp, viber, x, tikTok) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           params: [
             siteId,
             true,
@@ -392,7 +419,7 @@ export async function createSite(id, url, name, lang, langId) {
         },
         {
           query:
-              "INSERT INTO footers (site_id, visible, work_time, web_link, first_description, second_description, end_time, start_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO footers (site_id, visible, work_time, web_link, first_description, second_description, end_time, start_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
           params: [
             siteId,
             true,
@@ -401,12 +428,12 @@ export async function createSite(id, url, name, lang, langId) {
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry' standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
             "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
             "08:00",
-            "17:00"
+            "17:00",
           ],
         },
         {
           query:
-              "INSERT INTO global (site_id, main_bg_color, main_text_color, site_bg_color, site_text_color) VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO global (site_id, main_bg_color, main_text_color, site_bg_color, site_text_color) VALUES (?, ?, ?, ?, ?)",
           params: [
             siteId,
             JSON.stringify({ r: 59, g: 130, b: 246, a: 1 }),
@@ -446,4 +473,3 @@ export async function createSite(id, url, name, lang, langId) {
     }
   });
 }
-
