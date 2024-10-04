@@ -1,8 +1,5 @@
 import { useTranslation } from "react-i18next";
 
-
-
-
 const langs = ['es','en', "ru"];
 
 const LanguageSelector = ({updateState}) => {

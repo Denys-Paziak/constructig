@@ -17,6 +17,8 @@ export const updateUser = async (req, res) => {
   let updateFields = [];
   let updateValues = [];
 
+  let siteUrl = 0;
+
   if (username) {
     updateFields.push("username = ?");
     updateValues.push(username);
@@ -28,8 +30,28 @@ export const updateUser = async (req, res) => {
   }
 
   if (company) {
-    updateFields.push("company = ?");
-    updateValues.push(company);
+      // Перевіряємо унікальність компанії перед оновленням
+      connection.query(
+          "SELECT COUNT(DISTINCT url) as count FROM sites WHERE name = ?",
+          [company],
+          (err, results) => {
+              if (err) {
+                  console.error("Помилка перевірки унікальності назви: " + err.message);
+                  return res.status(500).json({ error: "Помилка перевірки назви" });
+              }
+
+              const count = results[0].count;
+
+              if (count > 0) {
+                      updateFields.push("company = ?");
+                      updateValues.push(company);
+                      siteUrl = count + 1;
+              } else {
+                  updateFields.push("company = ?");
+                  updateValues.push(company);
+              }
+          }
+      );
   }
 
   if (oldPassword && newPassword) {
@@ -75,7 +97,7 @@ export const updateUser = async (req, res) => {
         }
 
         if (company) {
-          updateSite(decoded.id, company);
+          updateSite(decoded.id, company, siteUrl);
         } else {
           sendResponse();
         }
@@ -86,10 +108,10 @@ export const updateUser = async (req, res) => {
     }
   }
 
-  function updateSite(userId, newCompany) {
-    const query = "UPDATE sites SET name = ? WHERE user_id = ?";
+  function updateSite(userId, newCompany, siteUrl ) {
+    const query = "UPDATE sites SET name = ?, url = ? WHERE user_id = ?";
 
-    connection.query(query, [newCompany, userId], (err) => {
+    connection.query(query, [newCompany, siteUrl, userId], (err) => {
       if (err) {
         console.error(
           "Помилка оновлення даних у таблиці sites: " + err.message

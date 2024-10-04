@@ -3,18 +3,16 @@ import { updateUserData } from "../../../../../services/auth/update-data/updateD
 import { IGetMe } from "../../../../../services/auth/getMe/getMe.interface";
 import { getMe } from "../../../../../services/auth/getMe/getMe";
 import { toast } from "react-toastify";
-// import { getUserSites } from "../../../../../services/getSite/getSite";
 
 interface Props {
   userData: IGetMe;
   setUserData: (response: any) => void;
-  // setSites: (response: any) => void;
+  setSites: (response: any) => void;
 }
 
 const UserCabinetPersonal: React.FC<Props> = ({
   userData,
   setUserData,
-  // setSites,
 }) => {
   const [username, setUsername] = useState<string>("");
   const [company, setCompany] = useState<string>("");
@@ -54,16 +52,6 @@ const UserCabinetPersonal: React.FC<Props> = ({
     }
   };
 
-  const getSites = async (token: string) => {
-    try {
-      if (token) {
-        // const response = await getUserSites(token);
-        // setSites(response.sites);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleSubmitChangeData = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,7 +71,6 @@ const UserCabinetPersonal: React.FC<Props> = ({
           notifySuccess(data.data.message);
           localStorage.setItem("token", data.data.token);
           await getUserData(data.data.token);
-          await getSites(data.data.token);
         } else {
           notifyError("Something went wrong...");
         }
@@ -119,8 +106,7 @@ const UserCabinetPersonal: React.FC<Props> = ({
           notifySuccess(data.message);
           console.log(data);
           localStorage.setItem("token", data.token);
-          getUserData(data.token);
-          getSites(data.token);
+          await getUserData(data.token);
           setOldPassword("");
           setNewPassword("");
           setConfirmNewPassword("");
