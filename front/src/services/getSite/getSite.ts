@@ -33,8 +33,7 @@ export const getEditSite = async (id: number, token: string, lang) => {
     });
     return data;
   } catch (error) {
-    console.log(error);
-    return [];
+    return {error: true};
   }
 };
 

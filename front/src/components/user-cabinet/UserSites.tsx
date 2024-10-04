@@ -40,7 +40,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
           +sites[0].langId,
           token,
           i18n.language
-        ); // Сюди треба передати мову
+        );
         setData({ ...response });
       } catch (error) {
         console.log(error);

@@ -16,7 +16,7 @@ interface Props {
 }
 
 const Global: React.FC<Props> = ({data, handleInputChange}) => {
-    const {id} = useParams();
+    const id = data.site.id;
 
     const handleSaveChanges = async () => {
         const token = localStorage.getItem("token");

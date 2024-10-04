@@ -56,8 +56,6 @@ const UserCabinetInterface: React.FC<Props> = ({
             {t("test")}, <span className="notranslate">{userData.name}</span>
           </h3>
           <div className="language-block">
-            <LanguageSelector />
-
             {isDropdownOpen && (
               <div
                 id="dropdown"
