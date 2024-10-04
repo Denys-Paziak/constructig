@@ -72,14 +72,14 @@ const UserCabinetPersonal: React.FC<Props> = ({
           notifySuccess(data.data.message);
           localStorage.setItem("token", data.data.token);
           await getUserData(data.data.token);
-          fetchData();
+          // fetchData();
         } else {
           notifyError("Something went wrong...");
         }
       }
     } catch (error) {
       console.error(error);
-      notifyError("Incorrect old password");
+      notifyError("Something went wrong...");
     }
   };
 
