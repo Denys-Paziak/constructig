@@ -99,6 +99,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
               userData={userData}
               setUserData={setUserData}
               fetchData={fetchData}
+              getSites={getSites}
             />
           </>
         ) : (

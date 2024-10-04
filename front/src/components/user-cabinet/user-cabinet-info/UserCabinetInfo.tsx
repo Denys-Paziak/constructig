@@ -14,6 +14,7 @@ interface Props {
   sites: any;
   data: any;
   fetchData: any;
+  getSites: () => void;
 }
 
 const UserCabinetInfo: React.FC<Props> = ({
@@ -22,6 +23,7 @@ const UserCabinetInfo: React.FC<Props> = ({
   sites,
   data,
   fetchData,
+  getSites,
 }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const navigate = useNavigate();
@@ -134,14 +136,14 @@ const UserCabinetInfo: React.FC<Props> = ({
                           </div>
                           <a
                             href={
-                              "https://menualista.com/" + site.lang + "/" +
+                              "https://menualista.com/" +
                               site.url +
                               "/" +
                               site.name
                             }
                             className="block text-white-600 mb-4"
                           >
-                            {"https://menualista.com/" + site.lang + "/" +
+                            {"https://menualista.com/" +
                               site.url +
                               "/" +
                               userData.company}
@@ -149,17 +151,14 @@ const UserCabinetInfo: React.FC<Props> = ({
                           <div className="w-full flex justify-between gap-4">
                             <button
                               onClick={() =>
-                                navigate(`/${site.lang}/${site.url + "/" + site.name}`)
+                                navigate(`/${site.url + "/" + site.name}`)
                               }
                               className="w-[50%] py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 block mx-auto"
                             >
                               View
                             </button>
                             <button
-                              onClick={async () => {
-                                await i18n.changeLanguage(site.lang);
-                                navigate(`/site/${site.langId}`);
-                              }}
+                              onClick={() => navigate(`/site/${site.langId}`)}
                               className="w-[50%] py-2 px-4 bg-white text-black rounded-md hover:bg-gray-100"
                             >
                               Edit
@@ -179,6 +178,8 @@ const UserCabinetInfo: React.FC<Props> = ({
                 <UserCabinetPersonal
                   userData={userData}
                   setUserData={setUserData}
+                  fetchData={fetchData}
+                  getSites={getSites}
                 />
               </div>
             )}

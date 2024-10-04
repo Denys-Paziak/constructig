@@ -9,12 +9,14 @@ interface Props {
   setUserData: (response: any) => void;
   setSites: (response: any) => void;
   fetchData: () => void;
+  getSites: () => void;
 }
 
 const UserCabinetPersonal: React.FC<Props> = ({
   userData,
   setUserData,
   fetchData,
+  getSites,
 }) => {
   const [username, setUsername] = useState<string>("");
   const [company, setCompany] = useState<string>("");
@@ -72,7 +74,7 @@ const UserCabinetPersonal: React.FC<Props> = ({
           notifySuccess(data.data.message);
           localStorage.setItem("token", data.data.token);
           await getUserData(data.data.token);
-          // fetchData();
+          getSites();
         } else {
           notifyError("Something went wrong...");
         }
