@@ -50,7 +50,7 @@ router.post(
 );
 router.post("/site/delete", upload.none(), authMiddleware, deleteImage);
 router.get("/site/id/:siteId/:lang", upload.none(), authMiddleware, getSite);
-router.get("/site/:siteName/:company", upload.none(), getSiteByName);
+router.get("/site/:siteName/:company/:lang", upload.none(), getSiteByName);
 
 router.put(
   "/site/:siteId",

@@ -161,11 +161,13 @@ export const getSite = async (req, res) => {
 
 // Отримання сайту за назвою
 export const getSiteByName = async (req, res) => {
-  const { siteName, company } = req.params;
+  const { siteName, company, lang } = req.params;
+
+  console.log(siteName, company, lang);
 
   try {
-    const siteQuery = getSiteQuery() + " WHERE s.name = ? AND s.url = ?";
-    const siteResult = await executeQuery(siteQuery, [company, siteName]);
+    const siteQuery = getSiteQuery() + " WHERE s.name = ? AND s.url = ? AND lang = ?";
+    const siteResult = await executeQuery(siteQuery, [company, siteName, lang]);
 
     if (siteResult.length === 0) {
       return res.status(404).json({ message: "Лендінг не знайдено" });

@@ -14,9 +14,9 @@ export const getUserSites = async (token: string) => {
   }
 };
 
-export const getSite = async (siteName: string, company: string) => {
+export const getSite = async (siteName: string, company: string, lang: string) => {
   try {
-    const { data } = await axios.get(`site/${siteName}/${company}`);
+    const { data } = await axios.get(`site/${siteName}/${company}/${lang}`);
     return data;
   } catch (error) {
     console.log(error);
