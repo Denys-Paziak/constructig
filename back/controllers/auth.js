@@ -32,7 +32,7 @@ export const updateUser = async (req, res) => {
   if (company) {
       // Перевіряємо унікальність компанії перед оновленням
       connection.query(
-          "SELECT COUNT(DISTINCT url) as count FROM sites WHERE name = ?",
+          "SELECT COUNT(DISTINCT langId) as count FROM sites WHERE name = ?",
           [company],
           (err, results) => {
               if (err) {
