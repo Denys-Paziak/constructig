@@ -30,6 +30,8 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
     }
   };
 
+  console.log(data);
+
   const fetchData = async () => {
     const token = localStorage.getItem("token");
     console.log("fetchData");

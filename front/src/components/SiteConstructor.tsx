@@ -1,12 +1,12 @@
-import React, {useState, useEffect, useTransition} from "react";
+import React, { useState, useEffect, useTransition } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import SectionEditor from "./SectionEditor";
 import Preview from "./Preview";
 import { getEditSite } from "../services/getSite/getSite";
 import Global from "./edit-components/global/Global";
 import Loader from "./loader/Loader";
-import {createLang} from "../services/createLang/createLang.ts";
-import {useTranslation} from "react-i18next";
+import { createLang } from "../services/createLang/createLang.ts";
+import { useTranslation } from "react-i18next";
 import LanguageSelector from "./LanguageSelector.tsx";
 
 const SiteConstructor: React.FC = () => {
@@ -22,36 +22,30 @@ const SiteConstructor: React.FC = () => {
     fetchData();
   }, [id]);
 
-
   const fetchData = async () => {
     const token = localStorage.getItem("token");
     if (id && token) {
       try {
         const response = await getEditSite(+id, token, i18n.language);
 
-        if(response.error === true) {
+        if (response.error === true) {
           await createLangHandler(i18n.language);
           setShowBaner(true);
-
-        }else {
+        } else {
           setData(response);
         }
-
       } catch (error) {
         console.log(error);
       }
     }
   };
 
-
   const bannerHandler = async () => {
     const token = localStorage.getItem("token");
     const newLang = await getEditSite(+id, token, i18n.language);
     setData(newLang);
     setShowBaner(false);
-  }
-
-
+  };
 
   const handleInputChange = (section: string, field: string, value: any) => {
     if (data) {
@@ -60,7 +54,6 @@ const SiteConstructor: React.FC = () => {
       setData(newData);
     }
   };
-
 
   const createLangHandler = async (lang) => {
     if (token) {
@@ -72,7 +65,7 @@ const SiteConstructor: React.FC = () => {
 
       await createLang(formData, token);
     }
-  }
+  };
 
   const visibleHandler = (name: string, checked: boolean) => {
     if (data) {
@@ -94,6 +87,8 @@ const SiteConstructor: React.FC = () => {
     return <Loader />;
   }
 
+  console.log(data);
+
   const sections = [
     { name: "global", title: "Global settings", component: Global },
     { name: "header", title: "Header" },
@@ -108,28 +103,30 @@ const SiteConstructor: React.FC = () => {
   return (
     <div className="flex edit-block">
       <div className="max-w-[25%] min-w-[25%] h-[100vh] overflow-y-scroll edit-sidebar">
-
-
         <LanguageSelector updateState={fetchData} />
 
-
-        {showBaner && <div
-            className={"fixed  w-full h-full z-[1000] top-0 left-0 bg-white flex flex-col justify-center items-center"}>
-          <div>No site in</div>
-          <button
+        {showBaner && (
+          <div
+            className={
+              "fixed  w-full h-full z-[1000] top-0 left-0 bg-white flex flex-col justify-center items-center"
+            }
+          >
+            <div>No site in</div>
+            <button
               className="w-full block mt-4 text-center py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               onClick={bannerHandler}
-          >Create
-          </button>
-        </div>}
+            >
+              Create
+            </button>
+          </div>
+        )}
 
-
-        {sections.map(({name, title, component: Component}) => (
-            <div key={name} className="accordion-section">
-              <div
-                  className={` bg-blue-100  py-2 px-4 select-none flex justify-between items-center cursor-pointer transition duration-300 border  border-b-blue-200   ${
-                      activeSection === name ? "text-blue-500 font-semibold" : ""
-                  }`}
+        {sections.map(({ name, title, component: Component }) => (
+          <div key={name} className="accordion-section">
+            <div
+              className={` bg-blue-100  py-2 px-4 select-none flex justify-between items-center cursor-pointer transition duration-300 border  border-b-blue-200   ${
+                activeSection === name ? "text-blue-500 font-semibold" : ""
+              }`}
               onClick={() => toggleSection(name)}
             >
               <p className="notranslate">{title}</p>

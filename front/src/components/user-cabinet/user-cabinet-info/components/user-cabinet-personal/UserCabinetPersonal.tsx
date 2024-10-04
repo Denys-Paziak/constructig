@@ -8,11 +8,13 @@ interface Props {
   userData: IGetMe;
   setUserData: (response: any) => void;
   setSites: (response: any) => void;
+  fetchData: () => void;
 }
 
 const UserCabinetPersonal: React.FC<Props> = ({
   userData,
   setUserData,
+  fetchData,
 }) => {
   const [username, setUsername] = useState<string>("");
   const [company, setCompany] = useState<string>("");
@@ -52,7 +54,6 @@ const UserCabinetPersonal: React.FC<Props> = ({
     }
   };
 
-
   const handleSubmitChangeData = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -71,6 +72,7 @@ const UserCabinetPersonal: React.FC<Props> = ({
           notifySuccess(data.data.message);
           localStorage.setItem("token", data.data.token);
           await getUserData(data.data.token);
+          fetchData();
         } else {
           notifyError("Something went wrong...");
         }

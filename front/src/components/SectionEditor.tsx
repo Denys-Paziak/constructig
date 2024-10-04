@@ -7,7 +7,6 @@ import FooterEdit from "./edit-components/footer-edit/FooterEdit";
 import ServicesEdit from "./edit-components/services-edit/ServicesEdit";
 import Banner from "./edit-components/banner/Banner.tsx";
 
-
 interface SectionEditorProps {
   title: string;
   sectionName: string;
@@ -46,9 +45,9 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
           handleInputChange={handleInputChange}
         />
         <Banner
-            data={data}
-            sectionName={sectionName}
-            handlerInput={handleInputChange}
+          data={data}
+          sectionName={sectionName}
+          handlerInput={handleInputChange}
         />
         <SliderEdit
           data={data}
