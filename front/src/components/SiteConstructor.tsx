@@ -87,8 +87,6 @@ const SiteConstructor: React.FC = () => {
     return <Loader />;
   }
 
-  console.log(data);
-
   const sections = [
     { name: "global", title: "Global settings", component: Global },
     { name: "header", title: "Header" },
@@ -103,7 +101,6 @@ const SiteConstructor: React.FC = () => {
   return (
     <div className="flex edit-block">
       <div className="max-w-[25%] min-w-[25%] h-[100vh] overflow-y-scroll edit-sidebar">
-        <LanguageSelector updateState={fetchData} />
 
         {showBaner && (
           <div
