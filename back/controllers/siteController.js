@@ -128,9 +128,12 @@ function buildSiteResponse(result, categoriesResult, itemsResult, newsResult) {
 export const getSite = async (req, res) => {
   const { siteId, lang } = req.params;
 
+
+  console.log(siteId + " "  + lang)
+
   try {
     const siteQuery =
-      getSiteQuery() + " WHERE s.langId = ? AND s.user_id = ? AND s.lang = ?";
+      getSiteQuery() + "WHERE s.langId = ? AND s.user_id = ? AND s.lang = ?";
     const siteResult = await executeQuery(siteQuery, [
       siteId,
       req.user.id,
@@ -142,9 +145,10 @@ export const getSite = async (req, res) => {
     }
 
     const result = siteResult[0];
-    const categoriesResult = await executeQuery(getCategoriesQuery(), [siteId]);
-    const itemsResult = await executeQuery(getItemsQuery(), [siteId]);
-    const newsResult = await executeQuery(getNewsQuery(), [siteId]);
+
+    const categoriesResult = await executeQuery(getCategoriesQuery(), [result["site_id"]]);
+    const itemsResult = await executeQuery(getItemsQuery(), [result["site_id"]]);
+    const newsResult = await executeQuery(getNewsQuery(), [result["site_id"]]);
 
     const response = buildSiteResponse(
       result,

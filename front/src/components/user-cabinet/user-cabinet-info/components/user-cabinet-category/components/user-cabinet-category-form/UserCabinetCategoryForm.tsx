@@ -91,6 +91,9 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
 
     const token = localStorage.getItem("token");
 
+
+
+
     if (token) {
       try {
         const response = await createCategory(sites[0].id!, formData, token);

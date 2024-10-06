@@ -2,12 +2,12 @@ import { useTranslation } from "react-i18next";
 
 const langs = ['es','en', "ru"];
 
-const LanguageSelector = ({updateState}) => {
+const LanguageSelector = ({fetchData}: {fetchData: () => {}}) => {
   const { i18n } = useTranslation();
 
   const changeLanguage = async (language: string) => {
       await i18n.changeLanguage(language); // Перемикання мови
-      updateState();
+      fetchData();
   };
 
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import UserCabinetInterface from "./user-cabinet-interface/UserCabinetInterface";
 import UserCabinetInfo from "./user-cabinet-info/UserCabinetInfo";
 import { IGetMe } from "../../services/auth/getMe/getMe.interface";
@@ -17,96 +17,84 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   const [sites, setSites] = useState<any>([]);
   const { i18n } = useTranslation();
 
-  const getUserData = async () => {
-    const token = localStorage.getItem("token");
+  const token = useMemo(() => localStorage.getItem("token"), []);
 
+  const getUserData = useCallback(async () => {
+    if (!token) return;
     try {
-      if (token) {
-        const response = await getMe(token);
-        setUserData(response);
-      }
+      const response = await getMe(token);
+      setUserData(response);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [token]);
 
-  console.log(data);
-
-  const fetchData = async () => {
-    const token = localStorage.getItem("token");
-    console.log("fetchData");
-
-    if (sites.length > 0 && token) {
-      try {
-        const response = await getEditSite(
-          +sites[0].langId,
-          token,
-          i18n.language
-        );
-        setData({ ...response });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  const getSites = async () => {
-    const token = localStorage.getItem("token");
-
+  const fetchData = useCallback(async () => {
+    if (sites.length === 0 || !token) return;
     try {
-      if (token) {
-        const response = await getUserSites(token);
-        setSites(response.sites);
-      }
+      const response = await getEditSite(+sites[0].langId, token, i18n.language);
+      setData(response);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [sites, token, i18n.language]);
+
+  const getSites = useCallback(async () => {
+    if (!token) return;
+    try {
+      const response = await getUserSites(token);
+      const filteredSites = response.sites.filter(site => site.lang === i18n.language);
+      setSites(filteredSites);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token, i18n.language]);
 
   useEffect(() => {
-    const fetch = async () => {
-      await getSites();
-    };
-    fetch();
-  }, []);
+    getSites();
+  }, [i18n.language, getSites]);
 
   useEffect(() => {
     getUserData();
+  }, [getUserData]);
+
+  useEffect(() => {
     fetchData();
-  }, [sites]);
+  }, [sites, fetchData]);
 
   if (!userData) {
     return <Loader />;
   }
 
   return (
-    <div className="w-full min-h-screen py-8 px-4 bg-gradient-to-r bg-blue-500">
-      <div className="max-w-[1200px] mx-auto flex flex-col items-center gap-8 rounded-lg">
-        <h2 className="text-2xl md:text-4xl font-extrabold text-center text-white">
-          Welcome to your account!
-        </h2>
+      <div className="w-full min-h-screen py-8 px-4 bg-gradient-to-r bg-blue-500">
+        <div className="max-w-[1200px] mx-auto flex flex-col items-center gap-8 rounded-lg">
+          <h2 className="text-2xl md:text-4xl font-extrabold text-center text-white">
+            Welcome to your account!
+          </h2>
 
-        {data ? (
-          <>
-            <UserCabinetInterface
-              userData={userData}
-              sites={sites}
-              setIsLoggedIn={setIsLoggedIn}
-            />
-            <UserCabinetInfo
-              data={data}
-              sites={sites}
-              userData={userData}
-              setUserData={setUserData}
-              fetchData={fetchData}
-              getSites={getSites}
-            />
-          </>
-        ) : (
-          <Loader />
-        )}
+          {data ? (
+              <>
+                <UserCabinetInterface
+                    userData={userData}
+                    sites={sites}
+                    fetchData={fetchData}
+                    setIsLoggedIn={setIsLoggedIn}
+                />
+                <UserCabinetInfo
+                    data={data}
+                    sites={sites}
+                    userData={userData}
+                    setUserData={setUserData}
+                    fetchData={fetchData}
+                    getSites={getSites}
+                />
+              </>
+          ) : (
+              <Loader />
+          )}
+        </div>
       </div>
-    </div>
   );
 };
 
