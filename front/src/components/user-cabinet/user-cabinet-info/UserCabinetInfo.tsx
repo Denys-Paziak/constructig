@@ -119,6 +119,7 @@ const UserCabinetInfo: React.FC<Props> = ({
               <div className="w-full flex items-start flex-col gap-6 py-6">
                 <div className="w-full">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<<<<<<< HEAD
                     {sites.map((site: any) => {
                       if (site.lang === i18n.language) {
                         return (
@@ -130,6 +131,19 @@ const UserCabinetInfo: React.FC<Props> = ({
                               <h3 className="text-xl font-semibold mb-2">
                                 {site.name}
                               </h3>
+=======
+                    {sites.map((site: any, index: any) => {
+                      if (site.lang === i18n.language) {
+                        return (
+                            <div
+                                key={index}
+                                className="shadow-xl rounded-lg p-6 shape_bg text-white"
+                            >
+                              <div className={" flex justify-between"}>
+                                <h3 className="text-xl font-semibold mb-2">
+                                  {site.name}
+                                </h3>
+>>>>>>> b3fd0fa (asdsad)
 
                               <p className={"text-xl font-semibold mb-2"}>
                                 {site.lang}
@@ -179,7 +193,10 @@ const UserCabinetInfo: React.FC<Props> = ({
                           </div>
                         );
                       }
+<<<<<<< HEAD
                       return <></>;
+=======
+>>>>>>> b3fd0fa (asdsad)
                     })}
                   </div>
                 </div>

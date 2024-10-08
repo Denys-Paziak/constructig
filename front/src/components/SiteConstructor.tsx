@@ -5,9 +5,8 @@ import Preview from "./Preview";
 import { getEditSite } from "../services/getSite/getSite";
 import Global from "./edit-components/global/Global";
 import Loader from "./loader/Loader";
-import { createLang } from "../services/createLang/createLang.ts";
 import { useTranslation } from "react-i18next";
-import LanguageSelector from "./LanguageSelector.tsx";
+
 
 const SiteConstructor: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,7 +15,6 @@ const SiteConstructor: React.FC = () => {
   const [showBaner, setShowBaner] = useState<boolean>(false);
   const { i18n } = useTranslation();
 
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
     fetchData();
@@ -29,7 +27,6 @@ const SiteConstructor: React.FC = () => {
         const response = await getEditSite(+id, token, i18n.language);
 
         if (response.error === true) {
-          await createLangHandler(i18n.language);
           setShowBaner(true);
         } else {
           setData(response);
@@ -55,17 +52,7 @@ const SiteConstructor: React.FC = () => {
     }
   };
 
-  const createLangHandler = async (lang) => {
-    if (token) {
-      const formData = new FormData();
-      formData.append("url", data.site.url);
-      formData.append("name", data.site.name);
-      formData.append("langId", data.site.langId);
-      formData.append("lang", lang);
 
-      await createLang(formData, token);
-    }
-  };
 
   const visibleHandler = (name: string, checked: boolean) => {
     if (data) {

@@ -1,13 +1,13 @@
 import { useTranslation } from "react-i18next";
 
-const langs = ['es','en', "ru"];
+const langs = ['es','en', "sqqss"];
 
-const LanguageSelector = ({fetchData}: {fetchData: () => {}}) => {
+const LanguageSelector = ({fetchData}) => {
   const { i18n } = useTranslation();
 
   const changeLanguage = async (language: string) => {
       await i18n.changeLanguage(language); // Перемикання мови
-      fetchData();
+      await fetchData();
   };
 
 
@@ -18,6 +18,7 @@ const LanguageSelector = ({fetchData}: {fetchData: () => {}}) => {
 
               if (lang === i18n.language) {
                   return <button
+                      key={lang}
                       type="button"
                       className={"bg-blue-800 text-white py-2 px-6 text-sm rounded hover:bg-blue-800"}
                       onClick={() => {
@@ -28,6 +29,7 @@ const LanguageSelector = ({fetchData}: {fetchData: () => {}}) => {
                   </button>
               }else {
                   return <button
+                      key={lang}
                       type="button"
                       className={"bg-blue-600 text-white py-2 px-6 text-sm rounded hover:bg-blue-800"}
                       onClick={() => {
