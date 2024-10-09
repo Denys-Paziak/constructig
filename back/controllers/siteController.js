@@ -495,17 +495,16 @@ export const cloneSiteWithNewLanguage = async (req, res) => {
 
     const originalSite = originalSiteResult[0];
 
-    // Початок транзакції
+    // Початок транзакції для додавання сайту
     await executeQuery("START TRANSACTION");
 
-    // Додавання нового запису в таблицю sites з новою мовою
     const insertSiteQuery =
         "INSERT INTO sites (user_id, url, name, lang, langId) VALUES (?, ?, ?, ?, ?)";
     const newSiteResult = await executeQuery(insertSiteQuery, [
       userId,
-      originalSite.site_url, // URL можна змінити, якщо потрібно
+      originalSite.site_url,
       originalSite.site_name,
-      newLang, // Вказуємо нову мову
+      newLang,
       originalSite.site_langId,
     ]);
 
@@ -514,39 +513,51 @@ export const cloneSiteWithNewLanguage = async (req, res) => {
     }
 
     const newSiteId = newSiteResult.insertId;
+    await executeQuery("COMMIT");
 
+    // Функція для обробки групи запитів
+    const executeQueriesInBatches = async (queries) => {
+      try {
+        await executeQuery("START TRANSACTION");
+        for (const { query, params } of queries) {
+          const result = await executeQuery(query, params);
+          if (!result) throw new Error(`Не вдалося виконати запит: ${query}`);
+        }
+        await executeQuery("COMMIT");
+      } catch (error) {
+        await executeQuery("ROLLBACK");
+        throw error;
+      }
+    };
 
-    console.log("newSiteId" + newSiteId);
+    // Групи запитів для поетапного виконання
 
-    // Масив із запитами для копіювання пов'язаних даних (хедер, слайдер, сервіси тощо)
-    const queries = [
+    // Група 1: Header і Slider
+    const batch1 = [
       {
         query: "INSERT INTO headers (site_id, visible, logo, menu) VALUES (?, ?, ?, ?)",
-        params: [
-          newSiteId,
-          originalSite.header_visible,
-          originalSite.header_logo,
-          originalSite.header_menu,
-        ],
+        params: [newSiteId, originalSite.header_visible, originalSite.header_logo, originalSite.header_menu],
       },
       {
         query: "INSERT INTO sliders (site_id, visible, images) VALUES (?, ?, ?)",
         params: [newSiteId, originalSite.slider_visible, originalSite.slider_images],
       },
+    ];
+
+    // Група 2: Services і Info
+    const batch2 = [
       {
         query: "INSERT INTO services (site_id, visible, cols) VALUES (?, ?, ?)",
         params: [newSiteId, originalSite.services_visible, originalSite.services_cols],
       },
       {
         query: "INSERT INTO info (site_id, visible, image, title, text) VALUES (?, ?, ?, ?, ?)",
-        params: [
-          newSiteId,
-          originalSite.info_visible,
-          originalSite.info_image,
-          originalSite.info_title,
-          originalSite.info_text,
-        ],
+        params: [newSiteId, originalSite.info_visible, originalSite.info_image, originalSite.info_title, originalSite.info_text],
       },
+    ];
+
+    // Група 3: Socials і Footer
+    const batch3 = [
       {
         query: "INSERT INTO socials (site_id, visible, instagram, facebook, youtube, messenger, whatsApp, viber, x, tikTok) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         params: [
@@ -575,6 +586,10 @@ export const cloneSiteWithNewLanguage = async (req, res) => {
           originalSite.footer_end_time,
         ],
       },
+    ];
+
+    // Група 4: Global і Banner
+    const batch4 = [
       {
         query: "INSERT INTO global (site_id, main_bg_color, main_text_color, site_bg_color, site_text_color) VALUES (?, ?, ?, ?, ?)",
         params: [
@@ -591,43 +606,38 @@ export const cloneSiteWithNewLanguage = async (req, res) => {
       },
     ];
 
-    // Виконання запитів для основних даних сайту
-    for (const { query, params } of queries) {
-      const queryResult = await executeQuery(query, params);
-      if (!queryResult) {
-        throw new Error(`Failed to execute query: ${query}`);
-      }
-    }
+    // Група 5: Копіювання категорій
+    const batch5 = [
+      {
+        query: "INSERT INTO categories (name, image, site_id) SELECT name, image, ? FROM categories WHERE site_id = ?",
+        params: [newSiteId, originalSiteId],
+      },
+    ];
 
-    // Копіювання категорій
-    const categoriesQuery =
-        "INSERT INTO categories (name, image, site_id) SELECT name, image, ? FROM categories WHERE site_id = ?";
-    const categoriesResult = await executeQuery(categoriesQuery, [newSiteId, originalSiteId]);
+    // Група 6: Копіювання новин
+    const batch6 = [
+      {
+        query: "INSERT INTO news (title, content, date, image, site_id) SELECT title, content, date, image, ? FROM news WHERE site_id = ?",
+        params: [newSiteId, originalSiteId],
+      },
+    ];
 
-    console.log("Кількість скопійованих категорій: ", categoriesResult.affectedRows);
+    // Група 7: Копіювання товарів
+    const batch7 = [
+      {
+        query: "INSERT INTO items (isPopular, category_id, name, description, price, image, site_id) SELECT isPopular, category_id, name, description, price, image, ? FROM items WHERE site_id = ?",
+        params: [newSiteId, originalSiteId],
+      },
+    ];
 
-    if (!categoriesResult || categoriesResult.affectedRows === 0) {
-      console.log("Категорії не були скопійовані або відсутні.");
-    }
-
-    // Копіювання новин
-    const newsQuery =
-        "INSERT INTO news (title, content, date, image, site_id) SELECT title, content, date, image, ? FROM news WHERE site_id = ?";
-    const newsResult = await executeQuery(newsQuery, [newSiteId, originalSiteId]);
-    if (!newsResult || newsResult.affectedRows === 0) {
-      console.log("Новини не були скопійовані або відсутні.");
-    }
-
-    // Копіювання товарів
-    const itemsQuery =
-        "INSERT INTO items (isPopular, category_id, name, description, price, image, site_id) SELECT isPopular, category_id, name, description, price, image, ? FROM items WHERE site_id = ?";
-    const itemsResult = await executeQuery(itemsQuery, [newSiteId, originalSiteId]);
-    if (!itemsResult || itemsResult.affectedRows === 0) {
-      console.log("Товари не були скопійовані або відсутні.");
-    }
-
-    // Коміт транзакції
-    await executeQuery("COMMIT");
+    // Виконання запитів поетапно
+    await executeQueriesInBatches(batch1);
+    await executeQueriesInBatches(batch2);
+    await executeQueriesInBatches(batch3);
+    await executeQueriesInBatches(batch4);
+    await executeQueriesInBatches(batch5);
+    await executeQueriesInBatches(batch6);
+    await executeQueriesInBatches(batch7);
 
     res.status(200).json({ message: "Сайт успішно скопійовано на новій мові", newSiteId });
   } catch (error) {

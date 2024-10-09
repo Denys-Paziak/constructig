@@ -37,7 +37,6 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
     if (sites.length > 0) {
       try {
         const response = await getEditSite(+sites[0]?.langId, token, i18n.language);
-        console.log(response)
         setData(response);
       } catch (error) {
         console.log(error);
@@ -49,9 +48,6 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
 
 
   const createLangHandler = async () => {
-
-      console.log(prevSiteId)
-
       const formData = new FormData();
       formData.append("originalSiteId", prevSiteId);
       formData.append("newLang", i18n.language);
@@ -60,21 +56,18 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
       await createLang(formData, token);
 
       await getSites();
-      await getUserData();
-      await fetchData();
   };
 
   const getSites =  async () => {
     if (!token) return;
-
     try {
       const response = await getUserSites(token);
+
       const filteredSites = response.sites.filter(site => site.lang === i18n.language);
 
       if (filteredSites.length === 0) {
         setPrevSiteId(sites[0].id);
       }
-
       setSites(filteredSites);
     } catch (error) {
       console.log(error);
@@ -82,19 +75,25 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   };
 
 
-  useEffect(() => {
-    const start = async  () => {
+
+  useEffect( () => {
+    const start = async () => {
       await getSites();
-      await getUserData();
-      await fetchData();
     }
-
-    start();
-
+     start();
   }, [i18n.language]);
 
 
+  useEffect(() => {
+    const start = async () => {
+      await getUserData();
+      await fetchData();
+    }
+    start();
+  }, [sites]);
 
+
+  console.log(data + "sss")
 
   if (sites.length === 0) {
     return <div className={"fixed flex justify-center items-center top-0 left-0 w-full h-full bg-white"}>

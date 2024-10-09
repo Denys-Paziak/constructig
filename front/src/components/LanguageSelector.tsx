@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-const langs = ['es','en', "sqqss"];
+const langs = ['es','en', "qxxxфф"];
 
 const LanguageSelector = ({fetchData}) => {
   const { i18n } = useTranslation();
