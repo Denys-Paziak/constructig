@@ -10,6 +10,7 @@ import {
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import { deleteImage } from "../../../../../../../services/upload-images/uploadImages";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
+import { useTranslation } from "react-i18next";
 
 const UserCabinetCategoryUpdate: React.FC = () => {
   const [categoryImages, setCategoryImages] = useState<File[]>([]);
@@ -20,6 +21,7 @@ const UserCabinetCategoryUpdate: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [editCategory, setEditCategory] = useState<ICategory>();
   const { id } = useParams();
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -133,7 +135,9 @@ const UserCabinetCategoryUpdate: React.FC = () => {
       <div className="max-w-[1200px] mx-auto bg-white p-6 rounded-lg">
         <div className="w-full flex flex-col gap-8">
           <h2 className="text-2xl md:text-4xl font-extrabold text-center text-black">
-            Update category data
+            {t(
+              "admin.adminInfo.adminInfoCategories.adminInfoCategoriesEditTitle"
+            )}
           </h2>
           <div className="w-full flex flex-col gap-4">
             <form
@@ -144,7 +148,9 @@ const UserCabinetCategoryUpdate: React.FC = () => {
                 {!isEditUploadOpen && (
                   <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
                     <label htmlFor="image" className="text-sm font-semibold">
-                      Category image
+                      {t(
+                        "admin.adminInfo.adminInfoCategories.adminInfoCategoriesLabel1"
+                      )}
                     </label>
                     <ul className="">
                       <li className="w-10 h-auto">
@@ -163,7 +169,13 @@ const UserCabinetCategoryUpdate: React.FC = () => {
                     className="w-[160px] py-2 px-3 bg-blue-500 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     type="button"
                   >
-                    {!isEditUploadOpen ? "Change image" : "Cancel"}
+                    {!isEditUploadOpen
+                      ? t(
+                          "admin.adminInfo.adminInfoCategories.adminInfoCategoriesEditChangeImage"
+                        )
+                      : t(
+                          "admin.adminInfo.adminInfoCategories.adminInfoCategoriesButtonCancel"
+                        )}
                   </button>
                   {isEditUploadOpen && (
                     <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
@@ -177,9 +189,17 @@ const UserCabinetCategoryUpdate: React.FC = () => {
                       >
                         <input {...getCategoryInputProps()} />
                         {isCategoryDragActive ? (
-                          <p>Drag and drop files here</p>
+                          <p>
+                            {t(
+                              "admin.adminInfo.adminInfoCategories.adminInfoCategoriesPlaceholder1"
+                            )}
+                          </p>
                         ) : (
-                          <p>Drag and drop files here</p>
+                          <p>
+                            {t(
+                              "admin.adminInfo.adminInfoCategories.adminInfoCategoriesPlaceholder1"
+                            )}
+                          </p>
                         )}
                       </AdminImage>
                       <ul className="">
@@ -207,13 +227,17 @@ const UserCabinetCategoryUpdate: React.FC = () => {
               </div>
               <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
                 <label htmlFor="name" className="text-sm font-semibold">
-                  Name
+                  {t(
+                    "admin.adminInfo.adminInfoCategories.adminInfoCategoriesLabel2"
+                  )}
                 </label>
                 <input
                   type="text"
                   className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   style={errors["name"] ? { border: "1px solid #EB001B" } : {}}
-                  placeholder="Name"
+                  placeholder={t(
+                    "admin.adminInfo.adminInfoCategories.adminInfoCategoriesLabel2"
+                  )}
                   {...register("name", { required: `Це поле обов'язкове!` })}
                 />
                 {errors["name"] && (
@@ -228,14 +252,22 @@ const UserCabinetCategoryUpdate: React.FC = () => {
                   type="submit"
                   disabled={isLoading || !isValid}
                 >
-                  {isLoading ? "Loading..." : "Confirm"}
+                  {isLoading
+                    ? t(
+                        "admin.adminInfo.adminInfoCategories.adminInfoCategoriesButtonLoading"
+                      )
+                    : t(
+                        "admin.adminInfo.adminInfoCategories.adminInfoCategoriesButtonConfirm"
+                      )}
                 </button>
                 <button
                   className="w-full py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   type="button"
                   onClick={() => navigate("/profile")}
                 >
-                  Back to profile
+                  {t(
+                    "admin.adminInfo.adminInfoCategories.adminInfoCategoriesEditBack"
+                  )}
                 </button>
               </div>
             </form>

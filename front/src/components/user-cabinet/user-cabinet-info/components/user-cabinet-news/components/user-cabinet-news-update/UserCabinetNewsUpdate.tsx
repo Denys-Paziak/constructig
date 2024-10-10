@@ -7,6 +7,7 @@ import { getNewById, updateNew } from "../../../../../../../services/news/news";
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import { deleteImage } from "../../../../../../../services/upload-images/uploadImages";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
+import { useTranslation } from "react-i18next";
 
 const UserCabinetNewsUpdate = () => {
   const [newImages, setNewImages] = useState<File[]>([]);
@@ -17,6 +18,7 @@ const UserCabinetNewsUpdate = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [editNew, setEditNew] = useState<INew>();
   const { id } = useParams();
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -128,7 +130,7 @@ const UserCabinetNewsUpdate = () => {
       <div className="max-w-[1200px] mx-auto bg-white p-6 rounded-lg">
         <div className="w-full flex flex-col gap-8">
           <h2 className="text-2xl md:text-4xl font-extrabold text-center text-black">
-            Update new data
+            {t("admin.adminInfo.adminInfoEvents.adminInfoEventsEditTitle")}
           </h2>
           <div className="w-full flex flex-col gap-4">
             <form
@@ -139,7 +141,9 @@ const UserCabinetNewsUpdate = () => {
                 {!isEditUploadOpen && (
                   <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
                     <label htmlFor="image" className="text-sm font-semibold">
-                      New image
+                      {t(
+                        "admin.adminInfo.adminInfoEvents.adminInfoEventsLabel1"
+                      )}
                     </label>
                     <ul className="">
                       <li className="w-10 h-auto">
@@ -158,7 +162,13 @@ const UserCabinetNewsUpdate = () => {
                     className="w-[160px] py-2 px-3 bg-blue-500 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     type="button"
                   >
-                    {!isEditUploadOpen ? "Change image" : "Cancel"}
+                    {!isEditUploadOpen
+                      ? t(
+                          "admin.adminInfo.adminInfoEvents.adminInfoEventsEditChangeImage"
+                        )
+                      : t(
+                          "admin.adminInfo.adminInfoEvents.adminInfoEventsButtonCancel"
+                        )}
                   </button>
                   {isEditUploadOpen && (
                     <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
@@ -172,9 +182,17 @@ const UserCabinetNewsUpdate = () => {
                       >
                         <input {...getNewInputProps()} />
                         {isNewDragActive ? (
-                          <p>Drag and drop files here</p>
+                          <p>
+                            {t(
+                              "admin.adminInfo.adminInfoEvents.adminInfoEventsPlaceholder1"
+                            )}
+                          </p>
                         ) : (
-                          <p>Drag and drop files here</p>
+                          <p>
+                            {t(
+                              "admin.adminInfo.adminInfoEvents.adminInfoEventsPlaceholder1"
+                            )}
+                          </p>
                         )}
                       </AdminImage>
                       <ul className="">
@@ -202,13 +220,15 @@ const UserCabinetNewsUpdate = () => {
               </div>
               <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
                 <label htmlFor="title" className="text-sm font-semibold">
-                  Title
+                  {t("admin.adminInfo.adminInfoEvents.adminInfoEventsLabel2")}
                 </label>
                 <input
                   type="text"
                   className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   style={errors["title"] ? { border: "1px solid #EB001B" } : {}}
-                  placeholder="Title"
+                  placeholder={t(
+                    "admin.adminInfo.adminInfoEvents.adminInfoEventsLabel2"
+                  )}
                   {...register("title", { required: `Це поле обов'язкове!` })}
                 />
                 {errors["title"] && (
@@ -219,7 +239,7 @@ const UserCabinetNewsUpdate = () => {
               </div>
               <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
                 <label htmlFor="content" className="text-sm font-semibold">
-                  Description
+                  {t("admin.adminInfo.adminInfoEvents.adminInfoEventsLabel3")}
                 </label>
                 <input
                   type="text"
@@ -227,7 +247,9 @@ const UserCabinetNewsUpdate = () => {
                   style={
                     errors["content"] ? { border: "1px solid #EB001B" } : {}
                   }
-                  placeholder="Description"
+                  placeholder={t(
+                    "admin.adminInfo.adminInfoEvents.adminInfoEventsLabel3"
+                  )}
                   {...register("content", { required: `Це поле обов'язкове!` })}
                 />
                 {errors["content"] && (
@@ -242,14 +264,20 @@ const UserCabinetNewsUpdate = () => {
                   type="submit"
                   disabled={isLoading || !isValid}
                 >
-                  {isLoading ? "Loading..." : "Confirm"}
+                  {isLoading
+                    ? t(
+                        "admin.adminInfo.adminInfoEvents.adminInfoEventsButtonLoading"
+                      )
+                    : t(
+                        "admin.adminInfo.adminInfoEvents.adminInfoEventsButtonConfirm"
+                      )}
                 </button>
                 <button
                   className="w-full py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   type="button"
                   onClick={() => navigate("/profile")}
                 >
-                  Back to profile
+                  {t("admin.adminInfo.adminInfoEvents.adminInfoEventsEditBack")}
                 </button>
               </div>
             </form>

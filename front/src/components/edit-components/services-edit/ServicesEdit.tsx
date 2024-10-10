@@ -11,6 +11,7 @@ import { updateServices } from "../../../services/services/services";
 import { notify } from "../../../helpers/helper";
 import imageCompression from "browser-image-compression";
 import Loader from "../../loader/Loader";
+import { useTranslation } from "react-i18next";
 
 interface Service {
   image: string;
@@ -33,6 +34,7 @@ const ServicesEdit: React.FC<Props> = ({
   handleInputChange,
 }) => {
   const id = data.site.id;
+  const { t } = useTranslation();
 
   const token = localStorage.getItem("token");
   const [isLoading, setIsLoading] = useState(false);
@@ -163,62 +165,80 @@ const ServicesEdit: React.FC<Props> = ({
         <div className="bg-white p-3">
           <div className="w-full flex flex-col gap-3">
             <div className="w-full flex flex-col gap-2">
-              <p>Phone number for call service:</p>
+              <p>
+                {t("adminChange.adminChangeServices.adminChangeServicesLabel1")}
+              </p>
               <input
-                  type="text"
-                  placeholder="Phone number"
-                  value={data.services.cols[0].phone}
-                  onChange={(e) => handlePhoneChange(0, e.target.value)}
-                  className="p-2 border border-gray-300 rounded-md"
+                type="text"
+                placeholder={t(
+                  "adminChange.adminChangeServices.adminChangeServicesPlaceholder1"
+                )}
+                value={data.services.cols[0].phone}
+                onChange={(e) => handlePhoneChange(0, e.target.value)}
+                className="p-2 border border-gray-300 rounded-md"
               />
             </div>
             <div className="w-full flex flex-col gap-2">
-              <p>Link on map for map service:</p>
+              <p>
+                {t("adminChange.adminChangeServices.adminChangeServicesLabel2")}
+              </p>
               <input
-                  type="text"
-                  placeholder="Link on map"
-                  value={data.services.cols[1].link}
-                  onChange={(e) => handleMapsChange(1, e.target.value)}
-                  className="p-2 border border-gray-300 rounded-md"
-              />
-            </div>
-
-            <div className="w-full flex flex-col gap-2">
-              <p>Wifi name:</p>
-              <input
-                  type="text"
-                  placeholder="Wifi name"
-                  value={data.services.cols[4].name}
-                  onChange={(e) => handleWifiName(4, e.target.value)}
-                  className="p-2 border border-gray-300 rounded-md"
+                type="text"
+                placeholder={t(
+                  "adminChange.adminChangeServices.adminChangeServicesPlaceholder2"
+                )}
+                value={data.services.cols[1].link}
+                onChange={(e) => handleMapsChange(1, e.target.value)}
+                className="p-2 border border-gray-300 rounded-md"
               />
             </div>
 
             <div className="w-full flex flex-col gap-2">
-              <p>Wifi password:</p>
+              <p>
+                {t("adminChange.adminChangeServices.adminChangeServicesLabel3")}
+              </p>
               <input
-                  type="text"
-                  placeholder="Wifi password"
-                  value={data.services.cols[4].password}
-                  onChange={(e) => handleWifiPass(4, e.target.value)}
-                  className="p-2 border border-gray-300 rounded-md"
+                type="text"
+                placeholder={t(
+                  "adminChange.adminChangeServices.adminChangeServicesPlaceholder3"
+                )}
+                value={data.services.cols[4].name}
+                onChange={(e) => handleWifiName(4, e.target.value)}
+                className="p-2 border border-gray-300 rounded-md"
+              />
+            </div>
+
+            <div className="w-full flex flex-col gap-2">
+              <p>
+                {t("adminChange.adminChangeServices.adminChangeServicesLabel4")}
+              </p>
+              <input
+                type="text"
+                placeholder={t(
+                  "adminChange.adminChangeServices.adminChangeServicesPlaceholder4"
+                )}
+                value={data.services.cols[4].password}
+                onChange={(e) => handleWifiPass(4, e.target.value)}
+                className="p-2 border border-gray-300 rounded-md"
               />
             </div>
           </div>
           <div className="w-full mt-6 rounded-md shadow-md flex items-start gap-4 flex-col">
             {data.services.cols.map((service: Service, index: number) => {
-              const {getRootProps, getInputProps, isDragActive} = useDropzone(
-                  {
-                    onDrop: (acceptedFiles) => onDrop(index, acceptedFiles),
-                    multiple: false,
-                  }
+              const { getRootProps, getInputProps, isDragActive } = useDropzone(
+                {
+                  onDrop: (acceptedFiles) => onDrop(index, acceptedFiles),
+                  multiple: false,
+                }
               );
 
               return (
                 <div key={index} className="w-full flex flex-col gap-2">
                   <input
                     type="text"
-                    placeholder="Заголовок"
+                    placeholder={t(
+                      "adminChange.adminChangeServices.adminChangeServicesName"
+                    )}
                     value={service.title}
                     onChange={(e) => handleTitleChange(index, e.target.value)}
                     className="p-2 border text-sm border-gray-300 rounded-md"
@@ -236,8 +256,12 @@ const ServicesEdit: React.FC<Props> = ({
                         ) : (
                           <p>
                             {isDragActive
-                              ? "Drag and drop files here"
-                              : "Drag and drop files here"}
+                              ? t(
+                                  "adminChange.adminChangeServices.adminChangeServicesPlaceholder7"
+                                )
+                              : t(
+                                  "adminChange.adminChangeServices.adminChangeServicesPlaceholder7"
+                                )}
                           </p>
                         )}
                       </AdminImage>

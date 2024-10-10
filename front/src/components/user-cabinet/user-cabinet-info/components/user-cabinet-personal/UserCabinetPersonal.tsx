@@ -3,6 +3,7 @@ import { updateUserData } from "../../../../../services/auth/update-data/updateD
 import { IGetMe } from "../../../../../services/auth/getMe/getMe.interface";
 import { getMe } from "../../../../../services/auth/getMe/getMe";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   userData: IGetMe;
@@ -24,6 +25,7 @@ const UserCabinetPersonal: React.FC<Props> = ({
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
+  const { t } = useTranslation();
 
   const notifySuccess = (message: string) => {
     toast.success(message, {
@@ -136,12 +138,14 @@ const UserCabinetPersonal: React.FC<Props> = ({
               htmlFor="username"
               className="block text-sm font-medium text-gray-700"
             >
-              Username
+              {t("admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel1")}
             </label>
             <input
               id="username"
               type="text"
-              placeholder="Username"
+              placeholder={t(
+                "admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel1"
+              )}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
@@ -153,12 +157,14 @@ const UserCabinetPersonal: React.FC<Props> = ({
               htmlFor="company"
               className="block text-sm font-medium text-gray-700"
             >
-              Company name
+              {t("admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel2")}
             </label>
             <input
               id="company"
               type="text"
-              placeholder="Company"
+              placeholder={t(
+                "admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel2"
+              )}
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
@@ -170,12 +176,14 @@ const UserCabinetPersonal: React.FC<Props> = ({
               htmlFor="email"
               className="block text-sm font-medium text-gray-700"
             >
-              Email address:
+              {t("admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel3")}
             </label>
             <input
               id="email"
               type="email"
-              placeholder="Email"
+              placeholder={t(
+                "admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel3"
+              )}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
@@ -186,7 +194,7 @@ const UserCabinetPersonal: React.FC<Props> = ({
             type="submit"
             className="w-full py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            Update data
+            {t("admin.adminInfo.adminInfoSettings.adminInfoSettingsButtonData")}
           </button>
         </form>
         <form
@@ -198,12 +206,14 @@ const UserCabinetPersonal: React.FC<Props> = ({
               htmlFor="oldpassword"
               className="block text-sm font-medium text-gray-700"
             >
-              Old password
+              {t("admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel4")}
             </label>
             <input
               id="oldpassword"
               type="password"
-              placeholder="Old password"
+              placeholder={t(
+                "admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel4"
+              )}
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
               className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
@@ -215,12 +225,14 @@ const UserCabinetPersonal: React.FC<Props> = ({
               htmlFor="password"
               className="block text-sm font-medium text-gray-700"
             >
-              New Password
+              {t("admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel5")}
             </label>
             <input
               id="password"
               type="password"
-              placeholder="New Password"
+              placeholder={t(
+                "admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel5"
+              )}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
@@ -232,12 +244,14 @@ const UserCabinetPersonal: React.FC<Props> = ({
               htmlFor="confirm-password"
               className="block text-sm font-medium text-gray-700"
             >
-              Confirm New Password
+              {t("admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel6")}
             </label>
             <input
               id="confirm-password"
               type="password"
-              placeholder="Confirm New Password"
+              placeholder={t(
+                "admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel6"
+              )}
               value={confirmNewPassword}
               onChange={(e) => setConfirmNewPassword(e.target.value)}
               className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
@@ -248,7 +262,9 @@ const UserCabinetPersonal: React.FC<Props> = ({
             type="submit"
             className="w-full py-2.5 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 block"
           >
-            Update password
+            {t(
+              "admin.adminInfo.adminInfoSettings.adminInfoSettingsButtonPassword"
+            )}
           </button>
         </form>
       </div>

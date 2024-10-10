@@ -5,6 +5,7 @@ import { INew } from "../../../../../services/news/news.interface";
 import { useNavigate } from "react-router-dom";
 import { deleteNew } from "../../../../../services/news/news";
 import { notify } from "../../../../../helpers/helper";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   data: any;
@@ -15,6 +16,7 @@ interface Props {
 const UserCabinetNews: React.FC<Props> = ({ data, sites, fetchData }) => {
   const [isNewsFormOpen, setNewsFormOpen] = useState(true);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleNewsForm = () => {
     setNewsFormOpen((prevState) => !prevState);
@@ -50,7 +52,7 @@ const UserCabinetNews: React.FC<Props> = ({ data, sites, fetchData }) => {
             className="py-3 px-8 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             type="button"
           >
-            Add event
+            {t("admin.adminInfo.adminInfoEvents.adminInfoEventsButtonAdd")}
           </button>
         )}
         {!isNewsFormOpen && (

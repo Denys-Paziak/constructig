@@ -14,7 +14,7 @@ const SiteConstructor: React.FC = () => {
   const [data, setData] = useState<any>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [showBaner, setShowBaner] = useState<boolean>(false);
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const token = localStorage.getItem("token");
 
@@ -101,6 +101,7 @@ const SiteConstructor: React.FC = () => {
   return (
     <div className="flex edit-block">
       <div className="max-w-[25%] min-w-[25%] h-[100vh] overflow-y-scroll edit-sidebar">
+        <LanguageSelector updateState={fetchData} />
 
         {showBaner && (
           <div
@@ -178,7 +179,7 @@ const SiteConstructor: React.FC = () => {
             to={"/profile"}
             className="w-full block mt-4 text-center py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            Go to Profile
+            {t("adminChange.adminChangeToProfile")}
           </NavLink>
         </div>
       </div>

@@ -108,6 +108,11 @@ body {
   color: white;
 }
 
+.language-block button:hover {
+  background: #3b82f5;
+  color: white;
+}
+
 .swiper {
   width: 100%;
 }

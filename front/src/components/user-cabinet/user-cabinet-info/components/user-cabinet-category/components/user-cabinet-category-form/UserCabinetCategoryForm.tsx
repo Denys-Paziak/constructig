@@ -6,6 +6,7 @@ import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import imageCompression from "browser-image-compression";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
 import Loader from "../../../../../../loader/Loader";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   toggleCategoriesForm: () => void;
@@ -36,6 +37,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
   } = useForm<FormValues>({
     mode: "onChange",
   });
+  const { t } = useTranslation();
 
   const acceptType: Accept = {
     "image/*": [".jpeg", ".jpg", ".png", ".gif"],
@@ -91,9 +93,6 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
 
     const token = localStorage.getItem("token");
 
-
-
-
     if (token) {
       try {
         const response = await createCategory(sites[0].id!, formData, token);
@@ -126,7 +125,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
     >
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="image" className="text-sm font-semibold">
-          Category Image
+          {t("admin.adminInfo.adminInfoCategories.adminInfoCategoriesLabel1")}
         </label>
         <AdminImage
           {...getMainRootProps({
@@ -138,9 +137,17 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
         >
           <input {...getMainInputProps()} />
           {isMainDragActive ? (
-            <p>Drag and drop files here</p>
+            <p>
+              {t(
+                "admin.adminInfo.adminInfoCategories.adminInfoCategoriesPlaceholder1"
+              )}
+            </p>
           ) : (
-            <p>Drag and drop files here</p>
+            <p>
+              {t(
+                "admin.adminInfo.adminInfoCategories.adminInfoCategoriesPlaceholder1"
+              )}
+            </p>
           )}
         </AdminImage>
         {mainImagePreview && (
@@ -155,14 +162,16 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
       </div>
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="name" className="text-sm font-semibold">
-          Name
+          {t("admin.adminInfo.adminInfoCategories.adminInfoCategoriesLabel2")}
         </label>
         <input
           type="text"
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           style={errors["name"] ? { border: "1px solid #EB001B" } : {}}
-          placeholder="Name"
-          {...register("name", { required: `Це поле обов'язкове!` })}
+          placeholder={t(
+            "admin.adminInfo.adminInfoCategories.adminInfoCategoriesLabel2"
+          )}
+          {...register("name", { required: `Required field` })}
         />
         {errors["name"] && (
           <span className="text-md text-red-500 font-light">
@@ -176,7 +185,13 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
           type="submit"
           disabled={isLoading || !isValid}
         >
-          {isLoading ? "Loading..." : "Confirm"}
+          {isLoading
+            ? t(
+                "admin.adminInfo.adminInfoCategories.adminInfoCategoriesButtonLoading"
+              )
+            : t(
+                "admin.adminInfo.adminInfoCategories.adminInfoCategoriesButtonConfirm"
+              )}
         </button>
         <button
           onClick={toggleCategoriesForm}
@@ -184,7 +199,9 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
           type="button"
           disabled={isLoading}
         >
-          Cancel
+          {t(
+            "admin.adminInfo.adminInfoCategories.adminInfoCategoriesButtonCancel"
+          )}
         </button>
       </div>
     </form>

@@ -27,7 +27,7 @@ const UserCabinetInfo: React.FC<Props> = ({
 }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const navigate = useNavigate();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const handleTabClick = (index: number) => {
     setActiveTabIndex(index);
@@ -41,7 +41,9 @@ const UserCabinetInfo: React.FC<Props> = ({
     <div className="w-full bg-white rounded-xl p-4 md:p-6 shadow-lg">
       <div className="flex items-start flex-col gap-6">
         <div>
-          <h3 className="text-black text-xl font-semibold">Інформація:</h3>
+          <h3 className="text-black text-xl font-semibold">
+            {t("admin.adminInfo.adminInfoInformation")}
+          </h3>
         </div>
         <div className="w-full">
           <ul className="flex border-b border-gray-200 w-full overflow-x-scroll flex-nowrap ">
@@ -56,7 +58,7 @@ const UserCabinetInfo: React.FC<Props> = ({
                   activeTabIndex === 0 ? "bg-blue-500 text-white" : ""
                 }`}
               >
-                Sites
+                {t("admin.adminInfo.adminInfoSites.adminInfoSitesTab")}
               </button>
             </li>
             <li
@@ -70,7 +72,7 @@ const UserCabinetInfo: React.FC<Props> = ({
                   activeTabIndex === 1 ? "bg-blue-500 text-white" : ""
                 }`}
               >
-                Settings
+                {t("admin.adminInfo.adminInfoSettings.adminInfoSettingsTab")}
               </button>
             </li>
             <li
@@ -84,7 +86,9 @@ const UserCabinetInfo: React.FC<Props> = ({
                   activeTabIndex === 2 ? "bg-blue-500 text-white" : ""
                 }`}
               >
-                Categories
+                {t(
+                  "admin.adminInfo.adminInfoCategories.adminInfoCategoriesTab"
+                )}
               </button>
             </li>
             <li
@@ -98,7 +102,7 @@ const UserCabinetInfo: React.FC<Props> = ({
                   activeTabIndex === 3 ? "bg-blue-500 text-white" : ""
                 }`}
               >
-                Goods
+                {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsTab")}
               </button>
             </li>
             <li
@@ -110,7 +114,7 @@ const UserCabinetInfo: React.FC<Props> = ({
                   activeTabIndex === 4 ? "bg-blue-500 text-white" : ""
                 }`}
               >
-                Events
+                {t("admin.adminInfo.adminInfoEvents.adminInfoEventsTab")}
               </button>
             </li>
           </ul>
@@ -164,7 +168,9 @@ const UserCabinetInfo: React.FC<Props> = ({
                                 }
                                 className="w-[50%] py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 block mx-auto"
                               >
-                                View
+                                {t(
+                                  "admin.adminInfo.adminInfoSites.adminInfoSitesView"
+                                )}
                               </button>
                               <button
                                 onClick={() => {
@@ -173,7 +179,9 @@ const UserCabinetInfo: React.FC<Props> = ({
                                 }}
                                 className="w-[50%] py-2 px-4 bg-white text-black rounded-md hover:bg-gray-100"
                               >
-                                Edit
+                                {t(
+                                  "admin.adminInfo.adminInfoSites.adminInfoSitesEdit"
+                                )}
                               </button>
                             </div>
                           </div>
@@ -188,7 +196,11 @@ const UserCabinetInfo: React.FC<Props> = ({
 
             {activeTabIndex === 1 && (
               <div>
-                <h3 className="text-lg font-semibold">User data</h3>
+                <h3 className="text-lg font-semibold">
+                  {t(
+                    "admin.adminInfo.adminInfoSettings.adminInfoSettingsTitle"
+                  )}
+                </h3>
                 <UserCabinetPersonal
                   userData={userData}
                   setUserData={setUserData}
@@ -200,7 +212,11 @@ const UserCabinetInfo: React.FC<Props> = ({
 
             {activeTabIndex === 2 && (
               <div>
-                <h3 className="text-lg font-semibold">Product categories</h3>
+                <h3 className="text-lg font-semibold">
+                  {t(
+                    "admin.adminInfo.adminInfoCategories.adminInfoCategoriesTitle"
+                  )}
+                </h3>
                 <UserCabinetCategory
                   sites={sites}
                   data={data}

@@ -11,6 +11,7 @@ import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import { deleteImage } from "../../../../../../../services/upload-images/uploadImages";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
 import Loader from "../../../../../../loader/Loader";
+import { useTranslation } from "react-i18next";
 
 const UserCabinetProductsUpdate: React.FC = () => {
   const [productImages, setProductImages] = useState<File[]>([]);
@@ -48,6 +49,7 @@ const UserCabinetProductsUpdate: React.FC = () => {
     ]);
     setIsLoadingImage(false);
   }, []);
+  const { t } = useTranslation();
 
   const {
     getRootProps: getProductRootProps,
@@ -139,7 +141,7 @@ const UserCabinetProductsUpdate: React.FC = () => {
       <div className="max-w-[1200px] mx-auto bg-white p-6 rounded-lg">
         <div className="w-full flex flex-col gap-8">
           <h2 className="text-2xl md:text-4xl font-extrabold text-center text-black">
-            Update product data
+            {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsEditTitle")}
           </h2>
           <div className="w-full flex flex-col gap-4">
             <form
@@ -148,7 +150,9 @@ const UserCabinetProductsUpdate: React.FC = () => {
             >
               <div className="w-full md:w-[calc(50%-10px)]   flex flex-col gap-2">
                 <label htmlFor="category" className="text-sm font-semibold">
-                  Category name
+                  {t(
+                    "admin.adminInfo.adminInfoGoods.adminInfoGoodsCategoryName"
+                  )}
                 </label>
                 {/* <Select
                   options={categoryOptions}
@@ -175,7 +179,7 @@ const UserCabinetProductsUpdate: React.FC = () => {
                 {!isEditUploadOpen && (
                   <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
                     <label htmlFor="image" className="text-sm font-semibold">
-                      Product image
+                      {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel2")}
                     </label>
                     <ul className="">
                       <li className="w-10 h-auto">
@@ -208,9 +212,17 @@ const UserCabinetProductsUpdate: React.FC = () => {
                       >
                         <input {...getProductInputProps()} />
                         {isProductDragActive ? (
-                          <p>Drag and drop files here</p>
+                          <p>
+                            {t(
+                              "admin.adminInfo.adminInfoGoods.adminInfoGoodsPlaceholder2"
+                            )}
+                          </p>
                         ) : (
-                          <p>Drag and drop files here</p>
+                          <p>
+                            {t(
+                              "admin.adminInfo.adminInfoGoods.adminInfoGoodsPlaceholder2"
+                            )}
+                          </p>
                         )}
                       </AdminImage>
                       <ul className="">
@@ -238,13 +250,15 @@ const UserCabinetProductsUpdate: React.FC = () => {
               </div>
               <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
                 <label htmlFor="name" className="text-sm font-semibold">
-                  Name
+                  {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel3")}
                 </label>
                 <input
                   type="text"
                   className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   style={errors["name"] ? { border: "1px solid #EB001B" } : {}}
-                  placeholder="Name"
+                  placeholder={t(
+                    "admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel3"
+                  )}
                   {...register("name", { required: `Це поле обов'язкове!` })}
                 />
                 {errors["name"] && (
@@ -255,7 +269,7 @@ const UserCabinetProductsUpdate: React.FC = () => {
               </div>
               <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
                 <label htmlFor="description" className="text-sm font-semibold">
-                  Description
+                  {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel4")}
                 </label>
                 <input
                   type="text"
@@ -263,7 +277,9 @@ const UserCabinetProductsUpdate: React.FC = () => {
                   style={
                     errors["description"] ? { border: "1px solid #EB001B" } : {}
                   }
-                  placeholder="Description"
+                  placeholder={t(
+                    "admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel4"
+                  )}
                   {...register("description", {
                     required: `Це поле обов'язкове!`,
                   })}
@@ -276,13 +292,15 @@ const UserCabinetProductsUpdate: React.FC = () => {
               </div>
               <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
                 <label htmlFor="price" className="text-sm font-semibold">
-                  Price
+                  {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel5")}
                 </label>
                 <input
                   type="number"
                   className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   style={errors["price"] ? { border: "1px solid #EB001B" } : {}}
-                  placeholder="Price"
+                  placeholder={t(
+                    "admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel5"
+                  )}
                   step="0.01"
                   {...register("price", { required: `Це поле обов'язкове!` })}
                 />
@@ -321,14 +339,20 @@ const UserCabinetProductsUpdate: React.FC = () => {
                   type="submit"
                   disabled={isLoading || !isValid}
                 >
-                  {isLoading ? "Loading..." : "Confirm"}
+                  {isLoading
+                    ? t(
+                        "admin.adminInfo.adminInfoGoods.adminInfoGoodsButtonLoading"
+                      )
+                    : t(
+                        "admin.adminInfo.adminInfoGoods.adminInfoGoodsButtonCancel"
+                      )}
                 </button>
                 <button
                   className="w-full py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   type="button"
                   onClick={() => navigate("/profile")}
                 >
-                  Back to profile
+                  {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsEditBack")}
                 </button>
               </div>
             </form>

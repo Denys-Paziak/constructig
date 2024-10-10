@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { notify } from "../../../helpers/helper";
 import imageCompression from "browser-image-compression";
 import Loader from "../../loader/Loader";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   data: any;
@@ -21,6 +22,7 @@ interface Props {
 const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
   const id = data.site.id;
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation();
 
   const handleSaveChanges = async () => {
     try {
@@ -107,9 +109,11 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
     <>
       {sectionName === "info" && (
         <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-4 flex-col">
-          <h4 className="font-semibold text-lg">Filling the content</h4>
+          <h4 className="font-semibold text-lg">
+            {t("adminChange.adminChangeInfo.adminChangeInfoSubtitle2")}
+          </h4>
           <div className="w-full flex flex-col gap-2">
-            <p>Image:</p>
+            <p>{t("adminChange.adminChangeInfo.adminChangeInfoLabel1")}</p>
             <AdminImage
               {...getRootProps({
                 isdragactive: isDragActive.toString(),
@@ -117,9 +121,13 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             >
               <input {...getInputProps()} />
               {isDragActive ? (
-                <p>Drag and drop files here</p>
+                <p>
+                  {t("adminChange.adminChangeInfo.adminChangeInfoPlaceholder1")}
+                </p>
               ) : (
-                <p>Drag and drop files here</p>
+                <p>
+                  {t("adminChange.adminChangeInfo.adminChangeInfoPlaceholder1")}
+                </p>
               )}
             </AdminImage>
 
@@ -142,10 +150,12 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             )}
           </div>
           <div className="w-full flex flex-col gap-2">
-            <p>Title:</p>
+            <p> {t("adminChange.adminChangeInfo.adminChangeInfoLabel2")}</p>
             <input
               type="text"
-              placeholder="Title"
+              placeholder={t(
+                "adminChange.adminChangeInfo.adminChangeInfoPlaceholder2"
+              )}
               value={data[sectionName]?.title || ""}
               onChange={(e) =>
                 handlerInput(sectionName, "title", e.target.value)
@@ -154,9 +164,11 @@ const InfoEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             />
           </div>
           <div className="w-full flex flex-col gap-2">
-            <p>Text:</p>
+            <p>{t("adminChange.adminChangeInfo.adminChangeInfoLabel3")}</p>
             <textarea
-              placeholder="Text"
+              placeholder={t(
+                "adminChange.adminChangeInfo.adminChangeInfoPlaceholder3"
+              )}
               value={data[sectionName]?.text || ""}
               onChange={(e) =>
                 handlerInput(sectionName, "text", e.target.value)

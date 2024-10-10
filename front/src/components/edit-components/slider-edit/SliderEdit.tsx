@@ -11,6 +11,7 @@ import {
 import imageCompression from "browser-image-compression";
 import { notify } from "../../../helpers/helper";
 import Loader from "../../loader/Loader";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   data: any;
@@ -30,6 +31,7 @@ const SliderEdit: React.FC<Props> = ({
   const [uploadedSliderImages, setUploadedSliderImages] = useState<
     File[] | null
   >(null);
+  const { t } = useTranslation();
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
@@ -139,7 +141,9 @@ const SliderEdit: React.FC<Props> = ({
     <>
       {sectionName === "slider" && (
         <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-4 flex-col">
-          <h4 className="font-semibold text-lg">Slides</h4>
+          <h4 className="font-semibold text-lg">
+            {t("adminChange.adminChangeSlider.adminChangeSliderTitle")}
+          </h4>
           <AdminImage
             {...getRootProps({
               isdragactive: isDragActive.toString(),
@@ -147,9 +151,11 @@ const SliderEdit: React.FC<Props> = ({
           >
             <input {...getInputProps()} />
             {isDragActive ? (
-              <p>Drag and drop files here</p>
+              <p>{t("adminChange.adminChangeSlider.adminChangeSliderTitle")}</p>
             ) : (
-              <p>Drag and drop files here</p>
+              <p>
+                {t("adminChange.adminChangeSlider.adminChangeSliderLabel1")}
+              </p>
             )}
           </AdminImage>
 
@@ -179,7 +185,7 @@ const SliderEdit: React.FC<Props> = ({
             ))}
           {data.slider.images === null && (
             <p className="w-full text-sm text-black text-center py-6">
-              There are no images of the slider yet.
+              {t("adminChange.adminChangeHeader.adminChangeHeaderEmpty")}
             </p>
           )}
           <Button handleButtonClick={handleSaveChanges} />

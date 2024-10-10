@@ -3,10 +3,9 @@ import UserCabinetCategoryTable from "./components/user-cabinet-category-table/U
 import UserCabinetCategoryForm from "./components/user-cabinet-category-form/UserCabinetCategoryForm";
 import { useNavigate } from "react-router-dom";
 import { ICategory } from "../../../../../services/categories/category.interface";
-import {
-  deleteCategory,
-} from "../../../../../services/categories/category";
+import { deleteCategory } from "../../../../../services/categories/category";
 import { notify } from "../../../../../helpers/helper";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   sites: any;
@@ -16,8 +15,8 @@ interface Props {
 
 const UserCabinetCategory: React.FC<Props> = ({ sites, data, fetchData }) => {
   const [isCategoriesFormOpen, setCategoriesFormOpen] = useState(true);
-  // const [categories, setCategories] = useState<ICategory[]>([]);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const getAll = async () => {
     // const categoriesData = await getAllCategories();
@@ -57,7 +56,9 @@ const UserCabinetCategory: React.FC<Props> = ({ sites, data, fetchData }) => {
             className="py-3 px-8 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             type="button"
           >
-            Add category
+            {t(
+              "admin.adminInfo.adminInfoCategories.adminInfoCategoriesButtonAdd"
+            )}
           </button>
         )}
         {!isCategoriesFormOpen && (

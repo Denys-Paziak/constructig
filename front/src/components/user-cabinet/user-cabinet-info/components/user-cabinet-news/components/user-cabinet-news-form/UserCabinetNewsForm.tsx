@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import imageCompression from "browser-image-compression";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
 import Loader from "../../../../../../loader/Loader";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   toggleNewsForm: () => void;
@@ -35,6 +36,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({
   } = useForm<FormValues>({
     mode: "onChange",
   });
+  const { t } = useTranslation();
 
   const acceptType: Accept = {
     "image/*": [".jpeg", ".jpg", ".png", ".gif"],
@@ -121,7 +123,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({
     >
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="image" className="text-sm font-semibold">
-          Image of the event
+          {t("admin.adminInfo.adminInfoEvents.adminInfoEventsLabel1")}
         </label>
         <AdminImage
           {...getMainRootProps({
@@ -133,9 +135,13 @@ const UserCabinetNewsForm: React.FC<Props> = ({
         >
           <input {...getMainInputProps()} />
           {isMainDragActive ? (
-            <p>Drag and drop files here</p>
+            <p>
+              {t("admin.adminInfo.adminInfoEvents.adminInfoEventsPlaceholder1")}
+            </p>
           ) : (
-            <p>Drag and drop files here</p>
+            <p>
+              {t("admin.adminInfo.adminInfoEvents.adminInfoEventsPlaceholder1")}
+            </p>
           )}
         </AdminImage>
         {mainImagePreview && (
@@ -150,13 +156,15 @@ const UserCabinetNewsForm: React.FC<Props> = ({
       </div>
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="title" className="text-sm font-semibold">
-          Title
+          {t("admin.adminInfo.adminInfoEvents.adminInfoEventsLabel2")}
         </label>
         <input
           type="text"
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           style={errors["title"] ? { border: "1px solid #EB001B" } : {}}
-          placeholder="Title"
+          placeholder={t(
+            "admin.adminInfo.adminInfoEvents.adminInfoEventsLabel2"
+          )}
           {...register("title", { required: `Це поле обов'язкове!` })}
         />
         {errors["title"] && (
@@ -167,13 +175,15 @@ const UserCabinetNewsForm: React.FC<Props> = ({
       </div>
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="content" className="text-sm font-semibold">
-          Description
+          {t("admin.adminInfo.adminInfoEvents.adminInfoEventsLabel3")}
         </label>
         <input
           type="text"
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           style={errors["content"] ? { border: "1px solid #EB001B" } : {}}
-          placeholder="Description"
+          placeholder={t(
+            "admin.adminInfo.adminInfoEvents.adminInfoEventsLabel3"
+          )}
           {...register("content", { required: `Це поле обов'язкове!` })}
         />
         {errors["content"] && (
@@ -188,7 +198,9 @@ const UserCabinetNewsForm: React.FC<Props> = ({
           type="submit"
           disabled={isLoading || !isValid}
         >
-          {isLoading ? "Loading..." : "Confirm"}
+          {isLoading
+            ? t("admin.adminInfo.adminInfoEvents.adminInfoEventsButtonLoading")
+            : t("admin.adminInfo.adminInfoEvents.adminInfoEventsButtonConfirm")}
         </button>
         <button
           onClick={toggleNewsForm}
@@ -196,7 +208,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({
           type="button"
           disabled={isLoading}
         >
-          Cancel
+          {t("admin.adminInfo.adminInfoEvents.adminInfoEventsButtonCancel")}
         </button>
       </div>
     </form>

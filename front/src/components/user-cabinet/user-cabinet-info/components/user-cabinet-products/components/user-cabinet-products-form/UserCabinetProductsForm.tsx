@@ -8,6 +8,7 @@ import imageCompression from "browser-image-compression";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
 import Loader from "../../../../../../loader/Loader";
 import Select from "react-select"; // Імпортуємо react-select
+import { useTranslation } from "react-i18next";
 
 interface Props {
   toggleProductsForm: () => void;
@@ -45,6 +46,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
   const [activeCategoryId, setActiveCategoryId] = useState<
     string | undefined
   >();
+  const { t } = useTranslation();
 
   const acceptType: Accept = {
     "image/*": [".jpeg", ".jpg", ".png", ".gif"],
@@ -152,7 +154,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
     >
       <div className="w-full md:w-[calc(50%-10px)]   flex flex-col gap-2">
         <label htmlFor="category" className="text-sm font-semibold">
-          Category name
+          {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel1")}
         </label>
         <Select
           options={categoryOptions}
@@ -180,7 +182,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
 
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="image" className="text-sm font-semibold">
-          Product image
+          {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel2")}
         </label>
         <AdminImage
           {...getMainRootProps({
@@ -192,9 +194,13 @@ const UserCabinetProductsForm: React.FC<Props> = ({
         >
           <input {...getMainInputProps()} />
           {isMainDragActive ? (
-            <p>Drag and drop files here</p>
+            <p>
+              {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsPlaceholder2")}
+            </p>
           ) : (
-            <p>Drag 'n' drop an image here, or click to select one</p>
+            <p>
+              {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsPlaceholder2")}
+            </p>
           )}
         </AdminImage>
         {mainImagePreview && (
@@ -208,16 +214,15 @@ const UserCabinetProductsForm: React.FC<Props> = ({
         )}
       </div>
 
-      {/* Поле для імені продукту */}
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="name" className="text-sm font-semibold">
-          Name
+          {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel3")}
         </label>
         <input
           type="text"
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           style={errors["name"] ? { border: "1px solid #EB001B" } : {}}
-          placeholder="Name"
+          placeholder={t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel3")}
           {...register("name", { required: `Це поле обов'язкове!` })}
         />
         {errors["name"] && (
@@ -230,13 +235,13 @@ const UserCabinetProductsForm: React.FC<Props> = ({
       {/* Поле для опису продукту */}
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="description" className="text-sm font-semibold">
-          Description
+          {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel4")}
         </label>
         <input
           type="text"
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           style={errors["description"] ? { border: "1px solid #EB001B" } : {}}
-          placeholder="Description"
+          placeholder={t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel4")}
           {...register("description", { required: `Це поле обов'язкове!` })}
         />
         {errors["description"] && (
@@ -249,13 +254,13 @@ const UserCabinetProductsForm: React.FC<Props> = ({
       {/* Поле для ціни продукту */}
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="price" className="text-sm font-semibold">
-          Price
+          {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel5")}
         </label>
         <input
           type="number"
           className="py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           style={errors["price"] ? { border: "1px solid #EB001B" } : {}}
-          placeholder="Price"
+          placeholder={t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel5")}
           step="0.01"
           {...register("price", { required: `Це поле обов'язкове!` })}
         />
@@ -271,7 +276,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
           htmlFor="isPopular"
           className="text-sm font-semibold text-gray-700"
         >
-          Is Popular
+          {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel6")}
         </label>
         <div className="flex items-center py-2   space-x-3">
           <input
@@ -282,7 +287,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
             className="h-5 w-5  text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
           />
           <label htmlFor="isPopular" className="text-gray-700 cursor-pointer">
-            Mark as popular
+            {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsPlaceholder6")}
           </label>
         </div>
       </div>
@@ -293,7 +298,9 @@ const UserCabinetProductsForm: React.FC<Props> = ({
           type="submit"
           disabled={isLoading || !isValid}
         >
-          {isLoading ? "Loading..." : "Confirm"}
+          {isLoading
+            ? t("admin.adminInfo.adminInfoGoods.adminInfoGoodsButtonLoading")
+            : t("admin.adminInfo.adminInfoGoods.adminInfoGoodsButtonConfirm")}
         </button>
         <button
           onClick={toggleProductsForm}
@@ -301,7 +308,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
           type="button"
           disabled={isLoading}
         >
-          Cancel
+          {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsButtonCancel")}
         </button>
       </div>
     </form>

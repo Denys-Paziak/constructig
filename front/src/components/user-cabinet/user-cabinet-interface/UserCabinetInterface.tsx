@@ -10,14 +10,14 @@ interface Props {
   userData: IGetMe;
   sites: any;
   setIsLoggedIn: (value: boolean) => void;
-  fetchData: () => {}
+  fetchData: () => {};
 }
 
 const UserCabinetInterface: React.FC<Props> = ({
   userData,
   sites,
   setIsLoggedIn,
-                                                 fetchData
+  fetchData,
 }) => {
   const qrRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -55,11 +55,12 @@ const UserCabinetInterface: React.FC<Props> = ({
       <div className="flex items-start flex-col gap-6">
         <div className="w-full flex items-start justify-between flex-row md:items-center gap-4 md:gap-0">
           <h3 className="text-black text-xl font-semibold">
-            {t("test")}, <span className="notranslate">{userData.name}</span>
+            {t("admin.adminInterface.adminInterfaceHello")},{" "}
+            <span className="notranslate">{userData.name}</span>
           </h3>
-          <div className="language-block">
-            Виберіть сайт мови  яку хочете редагувати
-            <LanguageSelector  fetchData={fetchData}/>
+          <div className="language-block flex flex-col gap-2 items-end">
+            {t("admin.adminInterface.adminInterfaceChoose")}
+            <LanguageSelector fetchData={fetchData} />
           </div>
         </div>
         <div className="w-full flex md:items-center justify-between flex-col gap-6 md:flex-row md:gap-0">
@@ -78,7 +79,7 @@ const UserCabinetInterface: React.FC<Props> = ({
                 </h4>
                 <div className="flex items-center gap-1">
                   <p className="text-[16px] text-gray-700 text-normal">
-                    Email address:
+                    {t("admin.adminInterface.adminInterfaceEmail")}
                   </p>
                   <span className="text-[16px] text-gray-900 text-normal notranslate">
                     {userData.email}
@@ -86,7 +87,7 @@ const UserCabinetInterface: React.FC<Props> = ({
                 </div>
                 <div className="flex items-center gap-1">
                   <p className="text-[16px] text-gray-700 text-normal">
-                    Company:
+                    {t("admin.adminInterface.adminInterfaceCompany")}
                   </p>
                   <span className="text-[16px] text-gray-900 text-normal notranslate">
                     {userData.company}
@@ -99,7 +100,7 @@ const UserCabinetInterface: React.FC<Props> = ({
               type="button"
               onClick={signOut}
             >
-              Sign Out
+              {t("admin.adminInterface.adminInterfaceSignOut")}
             </button>
           </div>
           <div className="flex items-center md:items-start flex-col gap-3">
@@ -114,7 +115,7 @@ const UserCabinetInterface: React.FC<Props> = ({
               type="button"
               onClick={downloadQRCode}
             >
-              Download QRCode
+              {t("admin.adminInterface.adminInterfaceDownload")}
             </button>
           </div>
         </div>

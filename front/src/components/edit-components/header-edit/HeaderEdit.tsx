@@ -11,6 +11,7 @@ import imageCompression from "browser-image-compression";
 import { notify } from "../../../helpers/helper";
 import Button from "../../UI/button/Button";
 import Loader from "../../loader/Loader";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   data: any;
@@ -30,6 +31,7 @@ const HeaderEdit: React.FC<Props> = ({
   const [isLoading, setIsLoading] = useState(false); // Стан для відстеження процесу завантаження
   const token = localStorage.getItem("token");
   const id = data.site.id;
+  const { t } = useTranslation();
 
   const onDrop = useCallback(
     async (acceptedFile: File[]) => {
@@ -134,10 +136,14 @@ const HeaderEdit: React.FC<Props> = ({
       {sectionName === "header" && (
         <div className="w-full flex flex-col gap-4">
           <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
-            <h4 className="font-semibold text-lg">Site logo</h4>
+            <h4 className="font-semibold text-lg">
+              {t("adminChange.adminChangeHeader.adminChangeHeaderSubtitle2")}
+            </h4>
             <div className="w-full flex flex-col gap-4">
               <div className="w-full flex flex-col gap-2">
-                <p>Menu item 1:</p>
+                <p>
+                  {t("adminChange.adminChangeHeader.adminChangeHeaderLabel1")}
+                </p>
                 <input
                   type="text"
                   placeholder="Menu item 1"
@@ -147,7 +153,10 @@ const HeaderEdit: React.FC<Props> = ({
                 />
               </div>
               <div className="w-full flex flex-col gap-2">
-                <p>Menu item 2:</p>
+                <p>
+                  {" "}
+                  {t("adminChange.adminChangeHeader.adminChangeHeaderLabel2")}
+                </p>
                 <input
                   type="text"
                   placeholder="Menu item 2"
@@ -157,7 +166,10 @@ const HeaderEdit: React.FC<Props> = ({
                 />
               </div>
               <div className="w-full flex flex-col gap-2">
-                <p>Menu item 3:</p>
+                <p>
+                  {" "}
+                  {t("adminChange.adminChangeHeader.adminChangeHeaderLabel3")}
+                </p>
                 <input
                   type="text"
                   placeholder="Menu item 3"
@@ -167,7 +179,10 @@ const HeaderEdit: React.FC<Props> = ({
                 />
               </div>
               <div className="w-full flex flex-col gap-2">
-                <p>Menu item 4:</p>
+                <p>
+                  {" "}
+                  {t("adminChange.adminChangeHeader.adminChangeHeaderLabel4")}
+                </p>
                 <input
                   type="text"
                   placeholder="Menu item 4"
@@ -178,7 +193,9 @@ const HeaderEdit: React.FC<Props> = ({
               </div>
             </div>
             <div className="w-full flex mt-4 items-start flex-col gap-2">
-              <p>Logo:</p>
+              <p>
+                {t("adminChange.adminChangeHeader.adminChangeHeaderLabel5")}
+              </p>
               <AdminImage
                 {...getRootProps({
                   isdragactive: isDragActive.toString(),
@@ -186,9 +203,17 @@ const HeaderEdit: React.FC<Props> = ({
               >
                 <input {...getInputProps()} />
                 {isDragActive ? (
-                  <p>Drag and drop files here</p>
+                  <p>
+                    {t(
+                      "adminChange.adminChangeHeader.adminChangeHeaderPlaceholder5"
+                    )}
+                  </p>
                 ) : (
-                  <p>Drag and drop files here</p>
+                  <p>
+                    {t(
+                      "adminChange.adminChangeHeader.adminChangeHeaderPlaceholder5"
+                    )}
+                  </p>
                 )}
               </AdminImage>
             </div>
@@ -210,7 +235,7 @@ const HeaderEdit: React.FC<Props> = ({
 
             {!data.header.logo && (
               <p className="w-full text-sm text-black text-center py-6">
-                There is no logo yet.
+                {t("adminChange.adminChangeHeader.adminChangeHeaderEmpty")}
               </p>
             )}
 

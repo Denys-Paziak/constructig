@@ -6,6 +6,7 @@ import UserCabinetProductsForm from "./components/user-cabinet-products-form/Use
 import UserCabinetProductsTable from "./components/user-cabinet-products-table/UserCabinetProductsTable";
 import { notify } from "../../../../../helpers/helper";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   data: any;
@@ -16,6 +17,7 @@ interface Props {
 const UserCabinetProducts: React.FC<Props> = ({ data, sites, fetchData }) => {
   const [isProductsFormOpen, setProductsFormOpen] = useState(true);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const notifyError = (message: string) => {
     toast.error(message, {
@@ -60,7 +62,7 @@ const UserCabinetProducts: React.FC<Props> = ({ data, sites, fetchData }) => {
             className="py-3 px-8 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             type="button"
           >
-            Add product
+            {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsButtonAdd")}
           </button>
         )}
         {!isProductsFormOpen && (

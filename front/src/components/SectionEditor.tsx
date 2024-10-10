@@ -6,6 +6,7 @@ import Toggle from "react-toggle";
 import FooterEdit from "./edit-components/footer-edit/FooterEdit";
 import ServicesEdit from "./edit-components/services-edit/ServicesEdit";
 import Banner from "./edit-components/banner/Banner.tsx";
+import { useTranslation } from "react-i18next";
 
 interface SectionEditorProps {
   title: string;
@@ -25,13 +26,17 @@ const SectionEditor: React.FC<SectionEditorProps> = ({
   visibleHandler,
   handleInputChange,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="">
       <div className="bg-gray-100 rounded-md p-4 w-full flex flex-col gap-4">
         <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
-          <h4 className="font-semibold text-lg">Displaying a block</h4>
+          <h4 className="font-semibold text-lg">
+            {t("adminChange.adminChangeHeader.adminChangeHeaderSubtitle1")}
+          </h4>
           <div className="w-full flex items-center justify-between">
-            <p>Hide/Show:</p>
+            <p>{t("adminChange.adminChangeHeader.adminChangeHeaderHide")}</p>
             <Toggle
               defaultChecked={data[sectionName].visible === 1 ? true : false}
               icons={false}

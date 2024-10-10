@@ -3,6 +3,7 @@ import Button from "../../UI/button/Button";
 import { updateSocials } from "../../../services/socials/socials";
 import { useParams } from "react-router-dom";
 import { notify } from "../../../helpers/helper";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   data: any;
@@ -12,6 +13,7 @@ interface Props {
 
 const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
   const id = data.site.id;
+  const { t } = useTranslation();
 
   const handleSaveChanges = async () => {
     const token = localStorage.getItem("token");
@@ -36,15 +38,16 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
         <div className="w-full bg-white rounded-md shadow-md p-3 flex items-start gap-2 flex-col">
           <div className="w-full border-b border-gray-400 pb-2">
             <p className="text-sm font-normal text-blue-500">
-              To display a social network, you need to insert a link to it to
-              it.
+              {t("adminChange.adminChangeSocial.adminChangeSocialSubtitle2")}
             </p>
           </div>
           <div className="w-full flex flex-col gap-2">
-            <p>Instagram:</p>
+            <p>{t("adminChange.adminChangeSocial.adminChangeSocialLabel1")}</p>
             <input
               type="text"
-              placeholder="Instagram"
+              placeholder={t(
+                "adminChange.adminChangeSocial.adminChangeSocialLabel1"
+              )}
               value={data[sectionName]?.instagram || ""}
               onChange={(e) =>
                 handlerInput(sectionName, "instagram", e.target.value)
@@ -53,10 +56,12 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             />
           </div>
           <div className="w-full flex flex-col gap-2">
-            <p>Facebook:</p>
+            <p>{t("adminChange.adminChangeSocial.adminChangeSocialLabel2")}</p>
             <input
               type="text"
-              placeholder="Facebook"
+              placeholder={t(
+                "adminChange.adminChangeSocial.adminChangeSocialLabel2"
+              )}
               value={data[sectionName]?.facebook || ""}
               onChange={(e) =>
                 handlerInput(sectionName, "facebook", e.target.value)
@@ -65,10 +70,12 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             />
           </div>
           <div className="w-full flex flex-col gap-2">
-            <p>YouTube:</p>
+            <p>{t("adminChange.adminChangeSocial.adminChangeSocialLabel3")}</p>
             <input
               type="text"
-              placeholder="YouTube"
+              placeholder={t(
+                "adminChange.adminChangeSocial.adminChangeSocialLabel3"
+              )}
               value={data[sectionName]?.youtube || ""}
               onChange={(e) =>
                 handlerInput(sectionName, "youtube", e.target.value)
@@ -77,10 +84,12 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             />
           </div>
           <div className="w-full flex flex-col gap-2">
-            <p>Messenger:</p>
+            <p>{t("adminChange.adminChangeSocial.adminChangeSocialLabel4")}</p>
             <input
               type="text"
-              placeholder="Messenger"
+              placeholder={t(
+                "adminChange.adminChangeSocial.adminChangeSocialLabel4"
+              )}
               value={data[sectionName]?.messenger || ""}
               onChange={(e) =>
                 handlerInput(sectionName, "messenger", e.target.value)
@@ -89,10 +98,12 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             />
           </div>
           <div className="w-full flex flex-col gap-2">
-            <p>WhatsApp:</p>
+            <p>{t("adminChange.adminChangeSocial.adminChangeSocialLabel5")}</p>
             <input
               type="text"
-              placeholder="WhatsApp"
+              placeholder={t(
+                "adminChange.adminChangeSocial.adminChangeSocialLabel5"
+              )}
               value={data[sectionName]?.whatsApp || ""}
               onChange={(e) =>
                 handlerInput(sectionName, "whatsApp", e.target.value)
@@ -101,10 +112,12 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             />
           </div>
           <div className="w-full flex flex-col gap-2">
-            <p>Viber:</p>
+            <p>{t("adminChange.adminChangeSocial.adminChangeSocialLabel6")}</p>
             <input
               type="text"
-              placeholder="Viber"
+              placeholder={t(
+                "adminChange.adminChangeSocial.adminChangeSocialLabel6"
+              )}
               value={data[sectionName]?.viber || ""}
               onChange={(e) =>
                 handlerInput(sectionName, "viber", e.target.value)
@@ -113,20 +126,24 @@ const SocialsEdit: React.FC<Props> = ({ data, sectionName, handlerInput }) => {
             />
           </div>
           <div className="w-full flex flex-col gap-2">
-            <p>X:</p>
+            <p>{t("adminChange.adminChangeSocial.adminChangeSocialLabel7")}</p>
             <input
               type="text"
-              placeholder="X"
+              placeholder={t(
+                "adminChange.adminChangeSocial.adminChangeSocialLabel7"
+              )}
               value={data[sectionName]?.x || ""}
               onChange={(e) => handlerInput(sectionName, "x", e.target.value)}
               className="p-2 border border-gray-300 rounded-md"
             />
           </div>
           <div className="w-full flex flex-col gap-2">
-            <p>TikTok:</p>
+            <p>{t("adminChange.adminChangeSocial.adminChangeSocialLabel8")}</p>
             <input
               type="text"
-              placeholder="TikTok"
+              placeholder={t(
+                "adminChange.adminChangeSocial.adminChangeSocialLabel8"
+              )}
               value={data[sectionName]?.tikTok || ""}
               onChange={(e) =>
                 handlerInput(sectionName, "tikTok", e.target.value)
