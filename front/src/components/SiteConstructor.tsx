@@ -77,8 +77,8 @@ const SiteConstructor: React.FC = () => {
   const sections = [
     { name: "global", title: "Global settings", component: Global },
     { name: "header", title: "Header" },
-    { name: "banner", title: "Banner" },
     { name: "slider", title: "Slider" },
+    { name: "banner", title: "Banner" },
     { name: "services", title: "Services" },
     { name: "info", title: "Info" },
     { name: "socials", title: "Social networks" },

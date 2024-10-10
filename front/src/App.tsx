@@ -80,8 +80,9 @@ function App() {
 
         <Route
           path="/site/:id"
-          element={isLoggedIn ? <SiteConstructor /> : <Navigate to="/login" />}
+          element={<SiteConstructor />}
         />
+
         <Route path="/:lang/:siteName/:company" element={<UserSite />} />
         <Route path="/:siteName/:company/news" element={<NewsDisplay />} />
         <Route
@@ -102,6 +103,8 @@ function App() {
           path="*"
           element={<Navigate to={isLoggedIn ? "/profile" : "/login"} />}
         />
+
+
       </Routes>
       <ToastContainer />
     </Router>

@@ -31,6 +31,7 @@ export const Services: React.FC<ServicesProps> = ({
   data,
   onServiceClick,
 }) => {
+
   if (data.services.visible !== 0) {
     return (
       <div

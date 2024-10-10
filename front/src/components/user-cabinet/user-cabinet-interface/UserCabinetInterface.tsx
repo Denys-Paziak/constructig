@@ -11,13 +11,14 @@ interface Props {
     sites: any;
     setIsLoggedIn: (value: boolean) => void;
     fetchData: () => {}
+    handlerChangeLang: () => {}
 }
 
 const UserCabinetInterface: React.FC<Props> = ({
                                                    userData,
                                                    sites,
                                                    setIsLoggedIn,
-                                                   fetchData
+                                                   handlerChangeLang
                                                }) => {
     const qrRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
@@ -56,7 +57,7 @@ const UserCabinetInterface: React.FC<Props> = ({
                     </h3>
                     <div className="language-block">
                         Виберіть сайт мови яку хочете редагувати
-                        <LanguageSelector fetchData={fetchData}/>
+                        <LanguageSelector  fetchData={handlerChangeLang}/>
                     </div>
                 </div>
                 <div className="w-full flex md:items-center justify-between flex-col gap-6 md:flex-row md:gap-0">

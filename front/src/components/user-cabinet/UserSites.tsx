@@ -17,6 +17,8 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   const [data, setData] = useState<any>(null);
   const [sites, setSites] = useState<any>([]);
   const [prevSiteId, setPrevSiteId] = useState<any>([]);
+  const [sitesStatus, setSitesStatus] = useState<any>(true);
+
   const { i18n } = useTranslation();
 
   const token = localStorage.getItem("token");
@@ -60,6 +62,10 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
 
   const getSites =  async () => {
     if (!token) return;
+
+    console.log("getSites")
+    console.log( i18n.language)
+
     try {
       const response = await getUserSites(token);
 
@@ -67,21 +73,29 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
 
       if (filteredSites.length === 0) {
         setPrevSiteId(sites[0].id);
+        return false
       }
+
       setSites(filteredSites);
+      return true
     } catch (error) {
       console.log(error);
     }
   };
 
 
+  const handlerChangeLang = async () => {
+    let status = await getSites();
+    setSitesStatus(status);
+  }
 
-  useEffect( () => {
+
+  useEffect(() => {
     const start = async () => {
       await getSites();
     }
-     start();
-  }, [i18n.language]);
+    start();
+  }, []);
 
 
   useEffect(() => {
@@ -93,9 +107,15 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   }, [sites]);
 
 
-  console.log(data + "sss")
-
   if (sites.length === 0) {
+    return <Loader/>;
+  }
+
+  if (!userData) {
+    return <Loader/>;
+  }
+
+  if (!sitesStatus) {
     return <div className={"fixed flex justify-center items-center top-0 left-0 w-full h-full bg-white"}>
       <button onClick={createLangHandler}
               className={"inline-block text-black hover:bg-blue-500 hover:text-white py-4 px-4 text-sm font-medium text-center"}>Create
@@ -104,9 +124,6 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
     </div>;
   }
 
-  if (!userData) {
-    return <Loader/>;
-  }
 
   return (
       <div className="w-full min-h-screen py-8 px-4 bg-gradient-to-r bg-blue-500">
@@ -120,6 +137,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
                     sites={sites}
                     fetchData={fetchData}
                     setIsLoggedIn={setIsLoggedIn}
+                    handlerChangeLang={handlerChangeLang}
                 />
                 <UserCabinetInfo
                     data={data}

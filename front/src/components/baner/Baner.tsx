@@ -14,7 +14,7 @@ const Baner = ({ bodyColorBg }: Props) => {
         className={
           "object-cover w-[80%] mx-auto cursor-pointer lg:w-[50%] md:block"
         }
-        src="../banner.png"
+        src="../../banner.png"
         alt={"bannerbg"}
       />
     </div>
