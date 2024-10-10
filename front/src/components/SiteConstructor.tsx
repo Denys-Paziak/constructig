@@ -5,9 +5,8 @@ import Preview from "./Preview";
 import { getEditSite } from "../services/getSite/getSite";
 import Global from "./edit-components/global/Global";
 import Loader from "./loader/Loader";
-import { createLang } from "../services/createLang/createLang.ts";
 import { useTranslation } from "react-i18next";
-import LanguageSelector from "./LanguageSelector.tsx";
+import LanguageSelector from "./LanguageSelector";
 
 const SiteConstructor: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,8 +14,6 @@ const SiteConstructor: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [showBaner, setShowBaner] = useState<boolean>(false);
   const { i18n, t } = useTranslation();
-
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
     fetchData();
@@ -29,7 +26,6 @@ const SiteConstructor: React.FC = () => {
         const response = await getEditSite(+id, token, i18n.language);
 
         if (response.error === true) {
-          await createLangHandler(i18n.language);
           setShowBaner(true);
         } else {
           setData(response);
@@ -52,18 +48,6 @@ const SiteConstructor: React.FC = () => {
       const newData = { ...data };
       newData[section][field] = value === "" ? null : value;
       setData(newData);
-    }
-  };
-
-  const createLangHandler = async (lang) => {
-    if (token) {
-      const formData = new FormData();
-      formData.append("url", data.site.url);
-      formData.append("name", data.site.name);
-      formData.append("langId", data.site.langId);
-      formData.append("lang", lang);
-
-      await createLang(formData, token);
     }
   };
 
@@ -90,8 +74,8 @@ const SiteConstructor: React.FC = () => {
   const sections = [
     { name: "global", title: "Global settings", component: Global },
     { name: "header", title: "Header" },
-    { name: "banner", title: "Banner" },
     { name: "slider", title: "Slider" },
+    { name: "banner", title: "Banner" },
     { name: "services", title: "Services" },
     { name: "info", title: "Info" },
     { name: "socials", title: "Social networks" },
@@ -101,8 +85,6 @@ const SiteConstructor: React.FC = () => {
   return (
     <div className="flex edit-block">
       <div className="max-w-[25%] min-w-[25%] h-[100vh] overflow-y-scroll edit-sidebar">
-        <LanguageSelector updateState={fetchData} />
-
         {showBaner && (
           <div
             className={

@@ -377,7 +377,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
             <Baner bodyColorBg={data.global.site_bg_color} />
           )}
 
-          {data.services?.visible && (
+          {data.services?.visible === 1 && (
             <Services
               data={data}
               services={data.services.cols || []}

@@ -123,17 +123,18 @@ const UserCabinetInfo: React.FC<Props> = ({
               <div className="w-full flex items-start flex-col gap-6 py-6">
                 <div className="w-full">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {sites.map((site: any) => {
+          {sites.map((site: any, index: any) => {
                       if (site.lang === i18n.language) {
                         return (
-                          <div
-                            key={site.id}
-                            className="shadow-xl rounded-lg p-6 shape_bg text-white"
-                          >
-                            <div className={" flex justify-between"}>
-                              <h3 className="text-xl font-semibold mb-2">
-                                {site.name}
-                              </h3>
+                            <div
+                                key={index}
+                                className="shadow-xl rounded-lg p-6 shape_bg text-white"
+                            >
+                              <div className={" flex justify-between"}>
+                                <h3 className="text-xl font-semibold mb-2">
+                                  {site.name}
+                                </h3>
+
 
                               <p className={"text-xl font-semibold mb-2"}>
                                 {site.lang}

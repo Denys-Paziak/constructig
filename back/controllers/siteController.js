@@ -479,3 +479,174 @@ export async function createSite(id, url, name, lang, langId) {
     }
   });
 }
+
+export const cloneSiteWithNewLanguage = async (req, res) => {
+  const { originalSiteId, newLang } = req.body;
+  const userId = req.user.id;
+
+  try {
+    // Отримання даних оригінального сайту перед транзакцією
+    const originalSiteQuery = getSiteQuery() + "WHERE s.id = ?";
+    const originalSiteResult = await executeQuery(originalSiteQuery, [originalSiteId]);
+
+    if (originalSiteResult.length === 0) {
+      throw new Error("Оригінальний сайт не знайдено");
+    }
+
+    const originalSite = originalSiteResult[0];
+
+    // Початок транзакції для додавання сайту
+    await executeQuery("START TRANSACTION");
+
+    const insertSiteQuery =
+        "INSERT INTO sites (user_id, url, name, lang, langId) VALUES (?, ?, ?, ?, ?)";
+    const newSiteResult = await executeQuery(insertSiteQuery, [
+      userId,
+      originalSite.site_url,
+      originalSite.site_name,
+      newLang,
+      originalSite.site_langId,
+    ]);
+
+    if (!newSiteResult || !newSiteResult.insertId) {
+      throw new Error("Не вдалося створити новий сайт");
+    }
+
+    const newSiteId = newSiteResult.insertId;
+    await executeQuery("COMMIT");
+
+    // Функція для обробки групи запитів
+    const executeQueriesInBatches = async (queries) => {
+      try {
+        await executeQuery("START TRANSACTION");
+        for (const { query, params } of queries) {
+          const result = await executeQuery(query, params);
+          if (!result) throw new Error(`Не вдалося виконати запит: ${query}`);
+        }
+        await executeQuery("COMMIT");
+      } catch (error) {
+        await executeQuery("ROLLBACK");
+        throw error;
+      }
+    };
+
+    // Групи запитів для поетапного виконання
+
+    // Група 1: Header і Slider
+    const batch1 = [
+      {
+        query: "INSERT INTO headers (site_id, visible, logo, menu) VALUES (?, ?, ?, ?)",
+        params: [newSiteId, originalSite.header_visible, originalSite.header_logo, originalSite.header_menu],
+      },
+      {
+        query: "INSERT INTO sliders (site_id, visible, images) VALUES (?, ?, ?)",
+        params: [newSiteId, originalSite.slider_visible, originalSite.slider_images],
+      },
+    ];
+
+    // Група 2: Services і Info
+    const batch2 = [
+      {
+        query: "INSERT INTO services (site_id, visible, cols) VALUES (?, ?, ?)",
+        params: [newSiteId, originalSite.services_visible, originalSite.services_cols],
+      },
+      {
+        query: "INSERT INTO info (site_id, visible, image, title, text) VALUES (?, ?, ?, ?, ?)",
+        params: [newSiteId, originalSite.info_visible, originalSite.info_image, originalSite.info_title, originalSite.info_text],
+      },
+    ];
+
+    // Група 3: Socials і Footer
+    const batch3 = [
+      {
+        query: "INSERT INTO socials (site_id, visible, instagram, facebook, youtube, messenger, whatsApp, viber, x, tikTok) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        params: [
+          newSiteId,
+          originalSite.socials_visible,
+          originalSite.socials_instagram,
+          originalSite.socials_facebook,
+          originalSite.socials_youtube,
+          originalSite.socials_messenger,
+          originalSite.socials_whatsApp,
+          originalSite.socials_viber,
+          originalSite.socials_x,
+          originalSite.socials_tikTok,
+        ],
+      },
+      {
+        query: "INSERT INTO footers (site_id, visible, work_time, web_link, first_description, second_description, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        params: [
+          newSiteId,
+          originalSite.footer_visible,
+          originalSite.footer_work_time,
+          originalSite.footer_web_link,
+          originalSite.footer_first_description,
+          originalSite.footer_second_description,
+          originalSite.footer_start_time,
+          originalSite.footer_end_time,
+        ],
+      },
+    ];
+
+    // Група 4: Global і Banner
+    const batch4 = [
+      {
+        query: "INSERT INTO global (site_id, main_bg_color, main_text_color, site_bg_color, site_text_color) VALUES (?, ?, ?, ?, ?)",
+        params: [
+          newSiteId,
+          originalSite.global_main_bg_color,
+          originalSite.global_main_text_color,
+          originalSite.global_site_bg_color,
+          originalSite.global_site_text_color,
+        ],
+      },
+      {
+        query: "INSERT INTO banner (site_id, visible) VALUES (?, ?)",
+        params: [newSiteId, originalSite.banner_visible],
+      },
+    ];
+
+    // Група 5: Копіювання категорій
+    const batch5 = [
+      {
+        query: "INSERT INTO categories (name, image, site_id) SELECT name, image, ? FROM categories WHERE site_id = ?",
+        params: [newSiteId, originalSiteId],
+      },
+    ];
+
+    // Група 6: Копіювання новин
+    const batch6 = [
+      {
+        query: "INSERT INTO news (title, content, date, image, site_id) SELECT title, content, date, image, ? FROM news WHERE site_id = ?",
+        params: [newSiteId, originalSiteId],
+      },
+    ];
+
+    // Група 7: Копіювання товарів
+    const batch7 = [
+      {
+        query: "INSERT INTO items (isPopular, category_id, name, description, price, image, site_id) SELECT isPopular, category_id, name, description, price, image, ? FROM items WHERE site_id = ?",
+        params: [newSiteId, originalSiteId],
+      },
+    ];
+
+    // Виконання запитів поетапно
+    await executeQueriesInBatches(batch1);
+    await executeQueriesInBatches(batch2);
+    await executeQueriesInBatches(batch3);
+    await executeQueriesInBatches(batch4);
+    await executeQueriesInBatches(batch5);
+    await executeQueriesInBatches(batch6);
+    await executeQueriesInBatches(batch7);
+
+    res.status(200).json({ message: "Сайт успішно скопійовано на новій мові", newSiteId });
+  } catch (error) {
+    console.error("Помилка клонування сайту: ", error.message);
+    try {
+      await executeQuery("ROLLBACK");
+    } catch (rollbackError) {
+      console.error("Помилка під час відкату транзакції: ", rollbackError.message);
+    }
+    res.status(500).json({ error: "Помилка клонування сайту" });
+  }
+};

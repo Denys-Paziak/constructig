@@ -8,9 +8,6 @@ const UserSite: React.FC = () => {
   const { siteName, company, lang } = useParams();
 
 
-
-
-
   const getUserSite = async () => {
     try {
       const response = await getSite(siteName!, company!, lang!);

@@ -54,7 +54,7 @@ export const Socials: React.FC<SocialsProps> = ({
                 rel="noopener noreferrer"
               >
                 <img
-                  src={"../" + social.name + ".png"}
+                  src={"../../" + social.name + ".png"}
                   alt={social.name}
                   className="h-12 w-12 mb-2"
                 />
