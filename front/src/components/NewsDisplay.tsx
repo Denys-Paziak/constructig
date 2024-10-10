@@ -6,11 +6,11 @@ import {getSite} from "../services/getSite/getSite.ts";
 
 const NewsDisplay: React.FC = () => {
     const [data, setData] = useState<any>();
-    const { siteName, company } = useParams();
+    const { siteName, company, lang } = useParams();
 
     const getUserSite = async () => {
         try {
-            const response = await getSite(siteName!, company!);
+            const response = await getSite(siteName!, company!, lang!);
             setData(response);
         } catch (error) {
             console.log(error);
