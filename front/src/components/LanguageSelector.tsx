@@ -8,8 +8,8 @@ const LanguageSelector = ({ fetchData }) => {
   const [lang, setLang] = useState();
 
   const changeLanguage = async (language: string) => {
-    localStorage.setItem("siteLang", language);
 
+     localStorage.setItem("siteLang", language);
     setLang(language);
     await fetchData();
   };

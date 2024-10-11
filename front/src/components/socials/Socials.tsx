@@ -38,7 +38,7 @@ export const Socials: React.FC<SocialsProps> = ({
           {data.header.menu[3].text}
         </h2>
         <div
-          className={`w-full overflow-auto flex justify-between ${
+          className={`w-full flex justify-between ${
             screen == "desctop" && "flex flex-col lg:flex-row"
           } ${screen == "tablet" && "flex-col gap-6"} ${
             screen == "mobile" && "flex-col gap-6"
