@@ -40,7 +40,6 @@ const UserCabinetProductsForm: React.FC<Props> = ({
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
 
-  const [croppedArea, setCroppedArea] = useState({});
   const [croppedAreaPixels, setCroppedAreaPixels] = useState({});
 
   const [openCrop, setOpenCrop] = useState(false);
