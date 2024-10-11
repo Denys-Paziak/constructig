@@ -67,7 +67,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
       await handlerChangeLang();
       setShowLoader(false);
     } else {
-      localStorage.setItem("siteLang", "es");
+      localStorage.setItem("siteLang", "en");
       await handlerChangeLang();
     }
   };
@@ -75,10 +75,10 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   const getSites = async () => {
     if (!token) return;
 
-    let siteLang = localStorage.getItem("siteLang"); // en
+    let siteLang = localStorage.getItem("siteLang");
 
     if (!siteLang) {
-      localStorage.setItem("siteLang", "es"); // es
+      localStorage.setItem("siteLang", "en");
     }
 
 
