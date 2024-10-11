@@ -86,7 +86,7 @@ const WhyUs = () => {
             <div className="w-[100%] md:w-[40%]">
               <img
                 className="w-full"
-                src="../../public/why-us-banner.jpg"
+                src="../why-us-banner.jpg"
                 alt="why us banner"
               />
             </div>

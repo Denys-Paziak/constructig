@@ -32,7 +32,7 @@ const MainHeader = () => {
           <div className="w-full flex items-center justify-between">
             <div className="w-[60px] md:w-[98px]">
               <NavLink to={"/"}>
-                <img src="../../public/logo.png" alt="logo" />
+                <img src="../logo.png" alt="logo" />
               </NavLink>
             </div>
             <div className="w-full hidden md:flex items-center justify-between">

@@ -25,7 +25,7 @@ const Hero = () => {
               <MainButton text={"Try now"} type={"button"} />
             </div>
             <div className="w-[100%] md:w-[60%]">
-              <img src="../../public/hero-mockup.png" alt="hero mockup" />
+              <img src="../hero-mockup.png" alt="hero mockup" />
             </div>
             <div
               className="absolute z-[1] bottom-0 w-full h-[120px]"

@@ -147,7 +147,7 @@ const OurPartners = () => {
                 <div className="w-full">
                   <img
                     className="w-full h-auto rounded-md object-cover"
-                    src="../../public/client-image.jpg"
+                    src="../client-image.jpg"
                     alt="client img"
                   />
                 </div>
@@ -230,7 +230,7 @@ const OurPartners = () => {
                 <div className="w-full">
                   <img
                     className="w-full h-auto rounded-md object-cover"
-                    src="../../public/client-image.jpg"
+                    src="../client-image.jpg"
                     alt="client img"
                   />
                 </div>
@@ -313,7 +313,7 @@ const OurPartners = () => {
                 <div className="w-full">
                   <img
                     className="w-full h-auto rounded-md object-cover"
-                    src="../../public/client-image.jpg"
+                    src="../client-image.jpg"
                     alt="client img"
                   />
                 </div>
@@ -396,7 +396,7 @@ const OurPartners = () => {
                 <div className="w-full">
                   <img
                     className="w-full h-auto rounded-md object-cover"
-                    src="../../public/client-image.jpg"
+                    src="../client-image.jpg"
                     alt="client img"
                   />
                 </div>

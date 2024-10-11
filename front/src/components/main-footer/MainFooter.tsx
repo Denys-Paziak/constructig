@@ -12,7 +12,7 @@ const MainFooter = () => {
             <div className="flex flex-col items-center lg:items-start gap-[26px]">
               <div className="w-[98px]">
                 <NavLink to={"/"}>
-                  <img src="../../public/logo.png" alt="logo" />
+                  <img src="../logo.png" alt="logo" />
                 </NavLink>
               </div>
               <div className="flex flex-col items-center lg:items-start gap-[8px]">

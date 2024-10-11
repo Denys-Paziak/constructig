@@ -9,7 +9,7 @@ const HowItWorks = () => {
           <div className="flex items-center justify-center">
             <img
               className="min-w-[260px] h-auto"
-              src="../../public/how-it-works-phone.png"
+              src="../how-it-works-phone.png"
               alt="phone mockup"
             />
           </div>

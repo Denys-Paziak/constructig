@@ -50,11 +50,7 @@ const LanguageSelectorAdmin = () => {
               onClick={() => handleLanguageChange("en")}
               className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
-              <img
-                className="w-5"
-                src="../../public/uk-flag.svg"
-                alt="uk flag"
-              />
+              <img className="w-5" src="../uk-flag.svg" alt="uk flag" />
               {t("admin.adminInterface.adminInterfaceLang1")}
             </a>
           </MenuItem>
@@ -64,11 +60,7 @@ const LanguageSelectorAdmin = () => {
               onClick={() => handleLanguageChange("es")}
               className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
-              <img
-                className="w-5"
-                src="../../public/spain-flag.svg"
-                alt="spain flag"
-              />
+              <img className="w-5" src="../spain-flag.svg" alt="spain flag" />
               {t("admin.adminInterface.adminInterfaceLang2")}
             </a>
           </MenuItem>
@@ -78,11 +70,7 @@ const LanguageSelectorAdmin = () => {
               onClick={() => handleLanguageChange("ru")}
               className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
-              <img
-                className="w-5"
-                src="../../public/ru-flag.svg"
-                alt="ru flag"
-              />
+              <img className="w-5" src="../ru-flag.svg" alt="ru flag" />
               {t("admin.adminInterface.adminInterfaceLang3")}
             </a>
           </MenuItem>

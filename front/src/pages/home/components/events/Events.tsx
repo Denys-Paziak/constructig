@@ -105,25 +105,25 @@ const Events = () => {
                 className="mySwiper partners-slider"
               >
                 <SwiperSlide>
-                  <img src="../../public/event-image.jpg" alt="event img" />
+                  <img src="../event-image.jpg" alt="event img" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <img src="../../public/event-image.jpg" alt="event img" />
+                  <img src="../event-image.jpg" alt="event img" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <img src="../../public/event-image.jpg" alt="event img" />
+                  <img src="../event-image.jpg" alt="event img" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <img src="../../public/event-image.jpg" alt="event img" />
+                  <img src="../event-image.jpg" alt="event img" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <img src="../../public/event-image.jpg" alt="event img" />
+                  <img src="../event-image.jpg" alt="event img" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <img src="../../public/event-image.jpg" alt="event img" />
+                  <img src="../event-image.jpg" alt="event img" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <img src="../../public/event-image.jpg" alt="event img" />
+                  <img src="../event-image.jpg" alt="event img" />
                 </SwiperSlide>
               </Swiper>
 
