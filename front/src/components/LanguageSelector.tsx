@@ -1,54 +1,55 @@
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 const langs = ["es", "en", "qxxxффaaфs"];
 
-const LanguageSelector = ({ fetchData }) => {
-  const { i18n } = useTranslation();
+const LanguageSelector = ({fetchData}) => {
+    const {i18n} = useTranslation();
 
-  const changeLanguage = async (language: string) => {
-    await i18n.changeLanguage(language); // Перемикання мови
-    await fetchData();
-  };
+    const changeLanguage = async (language: string) => {
+        // await i18n.changeLanguage(language); // Перемикання мови
+        localStorage.setItem("siteLang", language);
+        await fetchData();
+    };
 
-  return (
-    <div className={"flex justify-center h-[64px]"}>
-      <div className="flex items-center gap-4">
-        {langs.map((lang) => {
-          if (lang === i18n.language) {
-            return (
-              <button
-                key={lang}
-                type="button"
-                className={
-                  "bg-blue-800 text-white py-2 px-6 text-sm rounded hover:bg-blue-800"
-                }
-                onClick={() => {
-                  changeLanguage(lang);
-                }}
-              >
-                {lang}
-              </button>
-            );
-          } else {
-            return (
-              <button
-                key={lang}
-                type="button"
-                className={
-                  "bg-blue-600 text-white py-2 px-6 text-sm rounded hover:bg-blue-800"
-                }
-                onClick={() => {
-                  changeLanguage(lang);
-                }}
-              >
-                {lang}
-              </button>
-            );
-          }
-        })}
-      </div>
-    </div>
-  );
+    return (
+        <div className={"flex justify-center h-[64px]"}>
+            <div className="flex items-center gap-4">
+                {langs.map((lang) => {
+                    if (lang === i18n.language) {
+                        return (
+                            <button
+                                key={lang}
+                                type="button"
+                                className={
+                                    "bg-blue-800 text-white py-2 px-6 text-sm rounded hover:bg-blue-800"
+                                }
+                                onClick={() => {
+                                    changeLanguage(lang);
+                                }}
+                            >
+                                {lang}
+                            </button>
+                        );
+                    } else {
+                        return (
+                            <button
+                                key={lang}
+                                type="button"
+                                className={
+                                    "bg-blue-600 text-white py-2 px-6 text-sm rounded hover:bg-blue-800"
+                                }
+                                onClick={() => {
+                                    changeLanguage(lang);
+                                }}
+                            >
+                                {lang}
+                            </button>
+                        );
+                    }
+                })}
+            </div>
+        </div>
+    );
 };
 
 export default LanguageSelector;

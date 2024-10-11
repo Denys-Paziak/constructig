@@ -223,18 +223,18 @@ const UserCabinetProductsForm: React.FC<Props> = ({
                     </div>
                     {/* Кнопки для обрізки і скасування */}
                     <div className="flex gap-4">
-                      <button
+                      <div
                           className="px-6 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
                           onClick={onCropHandler}
                       >
                         Обрізати
-                      </button>
-                      <button
+                      </div>
+                      <div
                           className="px-6 py-2 text-white bg-gray-600 hover:bg-gray-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                           onClick={() => setOpenCrop(false)}
                       >
                         Скасувати
-                      </button>
+                      </div>
                     </div>
                   </div>
                 </div>

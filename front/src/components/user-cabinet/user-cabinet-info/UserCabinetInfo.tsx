@@ -124,7 +124,6 @@ const UserCabinetInfo: React.FC<Props> = ({
                 <div className="w-full">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {sites.map((site: any, index: any) => {
-                      if (site.lang === i18n.language) {
                         return (
                             <div
                                 key={index}
@@ -187,8 +186,6 @@ const UserCabinetInfo: React.FC<Props> = ({
                             </div>
                           </div>
                         );
-                      }
-                      return <></>;
                     })}
                   </div>
                 </div>

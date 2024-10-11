@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState} from "react";
 import UserCabinetInterface from "./user-cabinet-interface/UserCabinetInterface";
 import UserCabinetInfo from "./user-cabinet-info/UserCabinetInfo";
 import { IGetMe } from "../../services/auth/getMe/getMe.interface";
 import { getMe } from "../../services/auth/getMe/getMe";
 import Loader from "../loader/Loader";
 import { getEditSite, getUserSites } from "../../services/getSite/getSite";
-import { useTranslation } from "react-i18next";
 import { createLang } from "../../services/createLang/createLang.ts";
-import {CropImage} from "../cropImage/CropImage.tsx";
 
 interface Props {
   setIsLoggedIn: (value: boolean) => void;
@@ -20,7 +18,6 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   const [prevSiteId, setPrevSiteId] = useState<any>([]);
   const [sitesStatus, setSitesStatus] = useState<any>(true);
   const [showLoader, setShowLoader] = useState<any>(false);
-  const { i18n } = useTranslation();
 
   const token = localStorage.getItem("token");
 
@@ -36,13 +33,23 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   };
 
   const fetchData = async () => {
+
+    let siteLang = localStorage.getItem("siteLang");
+
+
+
+    console.log("fetch")
+    console.log(sites)
+
     if (sites.length > 0) {
       try {
         const response = await getEditSite(
           +sites[0]?.langId,
           token,
-          i18n.language
+            siteLang
         );
+
+        console.log(response)
         setData(response);
       } catch (error) {
         console.log(error);
@@ -53,18 +60,23 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   };
 
   const createLangHandler = async (type: string) => {
+
+
+    let siteLang = localStorage.getItem("siteLang");
+
+
     if (type === "create") {
       setShowLoader(true);
       const formData = new FormData();
       formData.append("originalSiteId", prevSiteId);
-      formData.append("newLang", i18n.language);
+      formData.append("newLang", siteLang);
 
-      console.log(`Creating site for language: ${i18n.language}`);
+      console.log(`Creating site for language: ${siteLang}`);
       await createLang(formData, token);
       await handlerChangeLang();
       setShowLoader(false);
     } else {
-      await i18n.changeLanguage("es");
+      localStorage.setItem("siteLang", "es");
       await handlerChangeLang();
     }
   };
@@ -72,14 +84,13 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   const getSites = async () => {
     if (!token) return;
 
-    console.log("getSites");
-    console.log(i18n.language);
+    let siteLang = localStorage.getItem("siteLang");
 
     try {
       const response = await getUserSites(token);
 
       const filteredSites = response.sites.filter(
-        (site) => site.lang === i18n.language
+        (site) => site.lang === siteLang
       );
 
       if (filteredSites.length === 0) {
@@ -107,11 +118,19 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   }, []);
 
   useEffect(() => {
+
+    console.log("sites")
+    console.log(sites)
+
     const start = async () => {
       await getUserData();
       await fetchData();
     };
     start();
+
+
+    console.log("end")
+    console.log(sites)
   }, [sites]);
 
   if (sites.length === 0) {
