@@ -19,22 +19,21 @@ export const createService = async (req, res) => {
 
     connection.connect(err => {
         if (err) {
-            console.error('Помилка підключення до бази даних: ' + err.stack);
-            return res.status(500).json({ error: 'Помилка підключення до бази даних' });
+            console.error('Database connection error: ' + err.stack);
+            return res.status(500).json({ error: 'Database connection error' });
         }
 
         connection.query(query, [siteId, type, JSON.stringify(data), true], (err, results) => {
             if (err) {
-                console.error('Помилка виконання запиту: ' + err.message);
-                return res.status(500).json({ error: 'Помилка виконання запиту' });
+                console.error('Query execution error: ' + err.message);
+                return res.status(500).json({ error: 'Query execution error' });
             }
 
-            res.status(201).json({ message: 'Сервіс створено успішно!' });
+            res.status(201).json({ message: 'Service created successfully!' });
             connection.end();
         });
     });
 };
-
 
 export const updateService = async (req, res) => {
     const connection = mysql.createConnection(dbConfig);
@@ -48,17 +47,17 @@ export const updateService = async (req, res) => {
 
     connection.connect(err => {
         if (err) {
-            console.error('Помилка підключення до бази даних: ' + err.stack);
-            return res.status(500).json({ error: 'Помилка підключення до бази даних' });
+            console.error('Database connection error: ' + err.stack);
+            return res.status(500).json({ error: 'Database connection error' });
         }
 
         connection.query(query, [visible, colsJson, serviceId], (err, results) => {
             if (err) {
-                console.error('Помилка виконання запиту: ' + err.message);
-                return res.status(500).json({ error: 'Помилка виконання запиту' });
+                console.error('Query execution error: ' + err.message);
+                return res.status(500).json({ error: 'Query execution error' });
             }
 
-            res.status(200).json({ message: 'Сервіс оновлено успішно!' });
+            res.status(200).json({ message: 'Service updated successfully!' });
             connection.end();
         });
     });

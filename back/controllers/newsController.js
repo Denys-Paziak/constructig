@@ -9,29 +9,29 @@ export const createNews = async (req, res) => {
   const { title, content, date } = req.body;
 
   let query =
-    "INSERT INTO news (title, content, date,  site_id) VALUES (?, ?, ?, ?)";
+      "INSERT INTO news (title, content, date, site_id) VALUES (?, ?, ?, ?)";
   let params = [title, content, date, siteId];
 
   if (req.file) {
     const image = req.file;
     const resUpload = await uploadImageServer(image);
     query =
-      "INSERT INTO news (title, content, date, image, site_id) VALUES (?, ?, ?, ?, ?)";
+        "INSERT INTO news (title, content, date, image, site_id) VALUES (?, ?, ?, ?, ?)";
     params = [title, content, date, resUpload, siteId];
   }
 
   connection.connect((err) => {
     if (err) {
-      console.error("Помилка підключення до бази даних: " + err.stack);
+      console.error("Database connection error: " + err.stack);
       return res
-        .status(500)
-        .json({ error: "Помилка підключення до бази даних" });
+          .status(500)
+          .json({ error: "Database connection error" });
     }
 
     connection.query(query, params, (err, results) => {
       if (err) {
-        console.error("Помилка виконання запиту: " + err.message);
-        return res.status(500).json({ error: "Помилка виконання запиту" });
+        console.error("Query execution error: " + err.message);
+        return res.status(500).json({ error: "Query execution error" });
       }
 
       res.status(201).json({ message: "The event was created successfully!" });
@@ -48,16 +48,16 @@ export const deleteNews = (req, res) => {
 
   connection.connect((err) => {
     if (err) {
-      console.error("Помилка підключення до бази даних: " + err.stack);
+      console.error("Database connection error: " + err.stack);
       return res
-        .status(500)
-        .json({ error: "Помилка підключення до бази даних" });
+          .status(500)
+          .json({ error: "Database connection error" });
     }
 
     connection.query(query, [newsId], (err, results) => {
       if (err) {
-        console.error("Помилка виконання запиту: " + err.message);
-        return res.status(500).json({ error: "Помилка виконання запиту" });
+        console.error("Query execution error: " + err.message);
+        return res.status(500).json({ error: "Query execution error" });
       }
 
       res.status(200).json({ message: "The event successfully deleted!" });
@@ -85,20 +85,20 @@ export const updateNews = async (req, res) => {
 
   connection.connect((err) => {
     if (err) {
-      console.error("Помилка підключення до бази даних: " + err.stack);
+      console.error("Database connection error: " + err.stack);
       return res
-        .status(500)
-        .json({ error: "Помилка підключення до бази даних" });
+          .status(500)
+          .json({ error: "Database connection error" });
     }
 
     connection.query(query, params, (err, results) => {
       if (err) {
-        console.error("Помилка виконання запиту: " + err.message);
-        return res.status(500).json({ error: "Помилка виконання запиту" });
+        console.error("Query execution error: " + err.message);
+        return res.status(500).json({ error: "Query execution error" });
       }
 
       if (results.affectedRows === 0) {
-        return res.status(404).json({ error: "Новину не знайдено" });
+        return res.status(404).json({ error: "The event not found." });
       }
 
       res.status(200).json({ message: "The event successfully updated" });
@@ -115,16 +115,16 @@ export const getNewsById = (req, res) => {
 
   connection.connect((err) => {
     if (err) {
-      console.error("Помилка підключення до бази даних: " + err.stack);
+      console.error("Database connection error: " + err.stack);
       return res
-        .status(500)
-        .json({ error: "Помилка підключення до бази даних" });
+          .status(500)
+          .json({ error: "Database connection error" });
     }
 
     connection.query(query, [newsId], (err, results) => {
       if (err) {
-        console.error("Помилка виконання запиту: " + err.message);
-        return res.status(500).json({ error: "Помилка виконання запиту" });
+        console.error("Query execution error: " + err.message);
+        return res.status(500).json({ error: "Query execution error" });
       }
 
       if (results.length === 0) {

@@ -6,42 +6,39 @@ export const createItem = async (req, res) => {
     const connection = mysql.createConnection(dbConfig);
     const { siteId } = req.params;
 
-
     const { categoryId, name, description, price, isPopular } = req.body;
 
     let popular;
 
     if (isPopular === "true") {
-        popular = 1
-    }else {
-        popular = 0
+        popular = 1;
+    } else {
+        popular = 0;
     }
 
-
-    let query = 'INSERT INTO items (isPopular,category_id, name, description, price, site_id) VALUES ( ?, ?, ?, ?, ?,?)';
-    let params = [popular,categoryId, name, description, price, siteId]
+    let query = 'INSERT INTO items (isPopular, category_id, name, description, price, site_id) VALUES ( ?, ?, ?, ?, ?, ?)';
+    let params = [popular, categoryId, name, description, price, siteId];
 
     if (req.file) {
         const image = req.file;
         const resUpload = await uploadImageServer(image);
-        query = 'INSERT INTO items (isPopular, category_id, name, description, price, image, site_id) VALUES (?, ?, ?, ?, ?, ?,?)';
+        query = 'INSERT INTO items (isPopular, category_id, name, description, price, image, site_id) VALUES (?, ?, ?, ?, ?, ?, ?)';
         params = [popular, categoryId, name, description, price, resUpload, siteId];
     }
 
-
     connection.connect(err => {
         if (err) {
-            console.error('Помилка підключення до бази даних: ' + err.stack);
-            return res.status(500).json({ error: 'Помилка підключення до бази даних' });
+            console.error('Database connection error: ' + err.stack);
+            return res.status(500).json({ error: 'Database connection error' });
         }
 
         connection.query(query, params, (err, results) => {
             if (err) {
-                console.error('Помилка виконання запиту: ' + err.message);
-                return res.status(500).json({ error: 'Помилка виконання запиту' });
+                console.error('Query execution error: ' + err.message);
+                return res.status(500).json({ error: 'Query execution error' });
             }
 
-            res.status(201).json({ message: 'Товар створено успішно!' });
+            res.status(201).json({ message: 'Item created successfully!' });
             connection.end();
         });
     });
@@ -56,21 +53,22 @@ export const deleteItem = (req, res) => {
 
     connection.connect(err => {
         if (err) {
-            console.error('Помилка підключення до бази даних: ' + err.stack);
-            return res.status(500).json({ error: 'Помилка підключення до бази даних' });
+            console.error('Database connection error: ' + err.stack);
+            return res.status(500).json({ error: 'Database connection error' });
         }
 
         connection.query(query, [itemId], (err, results) => {
             if (err) {
-                console.error('Помилка виконання запиту: ' + err.message);
-                return res.status(500).json({ error: 'Помилка виконання запиту' });
+                console.error('Query execution error: ' + err.message);
+                return res.status(500).json({ error: 'Query execution error' });
             }
 
-            res.status(200).json({ message: 'Товар видалено успішно!' });
+            res.status(200).json({ message: 'Item deleted successfully!' });
             connection.end();
         });
     });
 };
+
 export const updateItem = async (req, res) => {
     const connection = mysql.createConnection(dbConfig);
 
@@ -91,26 +89,25 @@ export const updateItem = async (req, res) => {
 
     connection.connect(err => {
         if (err) {
-            console.error('Помилка підключення до бази даних: ' + err.stack);
-            return res.status(500).json({ error: 'Помилка підключення до бази даних' });
+            console.error('Database connection error: ' + err.stack);
+            return res.status(500).json({ error: 'Database connection error' });
         }
 
         connection.query(query, params, (err, results) => {
             if (err) {
-                console.error('Помилка виконання запиту: ' + err.message);
-                return res.status(500).json({ error: 'Помилка виконання запиту' });
+                console.error('Query execution error: ' + err.message);
+                return res.status(500).json({ error: 'Query execution error' });
             }
 
             if (results.affectedRows === 0) {
-                return res.status(404).json({ error: 'Товар не знайдено' });
+                return res.status(404).json({ error: 'Item not found' });
             }
 
-            res.status(200).json({ message: 'Товар оновлено успішно!' });
+            res.status(200).json({ message: 'Item updated successfully!' });
             connection.end();
         });
     });
 };
-
 
 export const getItemById = (req, res) => {
     const connection = mysql.createConnection(dbConfig);
@@ -121,18 +118,18 @@ export const getItemById = (req, res) => {
 
     connection.connect(err => {
         if (err) {
-            console.error('Помилка підключення до бази даних: ' + err.stack);
-            return res.status(500).json({ error: 'Помилка підключення до бази даних' });
+            console.error('Database connection error: ' + err.stack);
+            return res.status(500).json({ error: 'Database connection error' });
         }
 
         connection.query(query, [itemId], (err, results) => {
             if (err) {
-                console.error('Помилка виконання запиту: ' + err.message);
-                return res.status(500).json({ error: 'Помилка виконання запиту' });
+                console.error('Query execution error: ' + err.message);
+                return res.status(500).json({ error: 'Query execution error' });
             }
 
             if (results.length === 0) {
-                return res.status(404).json({ error: 'Товар не знайдено' });
+                return res.status(404).json({ error: 'Item not found' });
             }
 
             res.status(200).json(results[0]);
