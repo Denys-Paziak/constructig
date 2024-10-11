@@ -1,15 +1,26 @@
 import { useTranslation } from "react-i18next";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import {useEffect, useState} from "react";
 
 const LanguageSelector = ({ fetchData }) => {
   const { i18n, t } = useTranslation();
+  const [lang, setLang] = useState();
+
 
   const changeLanguage = async (language: string) => {
-    // await i18n.changeLanguage(language); // Перемикання мови
     localStorage.setItem("siteLang", language);
+
+    setLang(language);
     await fetchData();
   };
+
+  useEffect(() => {
+    let localLang = localStorage.getItem("siteLang");
+    if (localLang) {
+      setLang(localLang);
+    }
+  }, []);
 
   return (
     // <div className={"flex justify-center h-[64px]"}>
@@ -52,7 +63,9 @@ const LanguageSelector = ({ fetchData }) => {
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm">
-          {t("admin.adminInterface.adminInterfaceChoose")}
+
+          {lang === "en" ? t("admin.adminInterface.adminInterfaceLang1") : lang === "es" ?   t("admin.adminInterface.adminInterfaceLang2"): lang === "es" ?   t("admin.adminInterface.adminInterfaceLang3"):  t("admin.adminInterface.adminInterfaceChoose")}
+
           <ChevronDownIcon
             aria-hidden="true"
             className="-mr-1 h-5 w-5 text-white"
