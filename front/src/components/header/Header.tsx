@@ -22,6 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
   onMenuToggle,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("EN"); // Стандартна мова
 
   const toggleMenu = () => {
     const newMenuState = !isMenuOpen;
@@ -29,6 +30,10 @@ export const Header: React.FC<HeaderProps> = ({
     if (onMenuToggle) {
       onMenuToggle(newMenuState);
     }
+  };
+
+  const handleLanguageChange = (language: string) => {
+    setSelectedLanguage(language); // Оновлюємо вибрану мову
   };
 
   useEffect(() => {
@@ -118,11 +123,19 @@ export const Header: React.FC<HeaderProps> = ({
           } hidden items-center gap-4`}
         >
           <Menu as="div" className="relative inline-block text-left">
-            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm">
-              EN
+            <MenuButton
+              className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm"
+              style={{
+                color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+              }}
+            >
+              {selectedLanguage}
               <ChevronDownIcon
                 aria-hidden="true"
                 className="-mr-1 h-5 w-5 text-black"
+                style={{
+                  color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+                }}
               />
             </MenuButton>
             <MenuItems
@@ -131,41 +144,23 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <div className="py-1">
                 {data.availableLanguages &&
-                  data.availableLanguages.map((el) => {
-                    const isActive = window.location.pathname.includes(
-                      `/${el}/`
-                    );
-                    return (
-                      <MenuItem>
-                        <a
-                          href="#"
-                          className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                        >
-                          {el.toUpperCase()}
-                        </a>
-                      </MenuItem>
-                    );
-                  })}
+                  data.availableLanguages.map((el) => (
+                    <MenuItem key={el}>
+                      <a
+                        href="#"
+                        onClick={() => handleLanguageChange(el.toUpperCase())} // Зміна мови при кліку
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
+                        style={{
+                          color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+                        }}
+                      >
+                        {el.toUpperCase()}
+                      </a>
+                    </MenuItem>
+                  ))}
               </div>
             </MenuItems>
           </Menu>
-
-          {/* <div className="flex items-center gap-4">
-            <NavLink
-              to={"/login"}
-              type="button"
-              className="py-1.5 px-3 bg-white text-black text-sm rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Login
-            </NavLink>
-            <NavLink
-              to={"/register"}
-              type="button"
-              className="py-1.5 px-3  bg-white text-black  text-sm rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Register
-            </NavLink>
-          </div> */}
         </div>
       </div>
 
@@ -225,11 +220,19 @@ export const Header: React.FC<HeaderProps> = ({
 
           <div className="flex flex-col gap-4">
             <Menu as="div" className="relative inline-block text-left">
-              <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm">
-                EN
+              <MenuButton
+                className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm"
+                style={{
+                  color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+                }}
+              >
+                {selectedLanguage}
                 <ChevronDownIcon
                   aria-hidden="true"
                   className="-mr-1 h-5 w-5 text-black"
+                  style={{
+                    color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+                  }}
                 />
               </MenuButton>
               <MenuItems
@@ -238,40 +241,23 @@ export const Header: React.FC<HeaderProps> = ({
               >
                 <div className="py-1">
                   {data.availableLanguages &&
-                    data.availableLanguages.map((el) => {
-                      const isActive = window.location.pathname.includes(
-                        `/${el}/`
-                      );
-                      return (
-                        <MenuItem>
-                          <a
-                            href="#"
-                            className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                          >
-                            {el.toUpperCase()}
-                          </a>
-                        </MenuItem>
-                      );
-                    })}
+                    data.availableLanguages.map((el) => (
+                      <MenuItem key={el}>
+                        <a
+                          href="#"
+                          onClick={() => handleLanguageChange(el.toUpperCase())}
+                          className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
+                          style={{
+                            color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+                          }}
+                        >
+                          {el.toUpperCase()}
+                        </a>
+                      </MenuItem>
+                    ))}
                 </div>
               </MenuItems>
             </Menu>
-            {/* <div className="flex items-center gap-4">
-              <NavLink
-                to={"/login"}
-                type="button"
-                className="py-1.5 px-3 bg-white text-black text-sm rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                Login
-              </NavLink>
-              <NavLink
-                to={"/register"}
-                type="button"
-                className="py-1.5 px-3  bg-white text-black  text-sm rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                Register
-              </NavLink>
-            </div> */}
           </div>
         </div>
       )}

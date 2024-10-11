@@ -346,7 +346,7 @@ export async function createSite(id, url, name, lang, langId) {
       }
 
       if (lang === undefined) {
-        lang = "es";
+        lang = "en";
       }
 
       // Додавання запису у таблицю sites
