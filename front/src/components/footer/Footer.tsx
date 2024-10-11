@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 
 interface Props {
@@ -18,6 +19,8 @@ export const Footer: React.FC<Props> = ({
   footerTextColor,
   screen,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div
       className="py-12 container-block"
@@ -65,7 +68,7 @@ export const Footer: React.FC<Props> = ({
               <a href="#contact">{data.header.menu[3].text}</a>
             )}
           </ul>
-          <div>
+          <div className="flex flex-col gap-2 items-center">
             <NavLink
               target={data.footer.web_link && "_blank"}
               to={data.footer.web_link && data.footer.web_link}
@@ -74,8 +77,16 @@ export const Footer: React.FC<Props> = ({
               }}
               className="text-lg text-black hover:text-blue-500"
             >
-              My website
+              {t("site.siteMyWebsite")}
             </NavLink>
+            <div className="flex gap-2">
+              <p>{t("site.siteWorkingHours")}</p>
+              <div className="flex items-center gap-1">
+                <span>{data.footer.start_time}</span>
+                <span>-</span>
+                <span>{data.footer.end_time}</span>
+              </div>
+            </div>
           </div>
         </div>
         <div className="w-full flex flex-col gap-4">

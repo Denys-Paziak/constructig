@@ -72,14 +72,39 @@ const SiteConstructor: React.FC = () => {
   }
 
   const sections = [
-    { name: "global", title: "Global settings", component: Global },
-    { name: "header", title: "Header" },
-    { name: "slider", title: "Slider" },
-    { name: "banner", title: "Banner" },
-    { name: "services", title: "Services" },
-    { name: "info", title: "Info" },
-    { name: "socials", title: "Social networks" },
-    { name: "footer", title: "Footer" },
+    {
+      name: "global",
+      title: t("adminChange.adminChangeGlobal.adminChangeGlobalTitle"),
+      component: Global,
+    },
+    {
+      name: "header",
+      title: t("adminChange.adminChangeHeader.adminChangeHeaderTitle"),
+    },
+    {
+      name: "slider",
+      title: t("adminChange.adminChangeSlider.adminChangeSliderTitle"),
+    },
+    {
+      name: "banner",
+      title: t("adminChange.adminChangeBanner.adminChangeBannerTitle"),
+    },
+    {
+      name: "services",
+      title: t("adminChange.adminChangeServices.adminChangeServicesTitle"),
+    },
+    {
+      name: "info",
+      title: t("adminChange.adminChangeInfo.adminChangeInfoTitle"),
+    },
+    {
+      name: "socials",
+      title: t("adminChange.adminChangeSocial.adminChangeSocialTitle"),
+    },
+    {
+      name: "footer",
+      title: t("adminChange.adminChangeFooter.adminChangeFooterTitle"),
+    },
   ];
 
   return (
@@ -91,12 +116,12 @@ const SiteConstructor: React.FC = () => {
               "fixed  w-full h-full z-[1000] top-0 left-0 bg-white flex flex-col justify-center items-center"
             }
           >
-            <div>No site in</div>
+            <div>{t("site.siteNoSite")}</div>
             <button
               className="w-full block mt-4 text-center py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               onClick={bannerHandler}
             >
-              Create
+              {t("site.siteCreate")}
             </button>
           </div>
         )}

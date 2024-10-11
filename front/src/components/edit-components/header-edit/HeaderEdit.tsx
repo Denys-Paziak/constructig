@@ -124,7 +124,7 @@ const HeaderEdit: React.FC<Props> = ({
 
     newMenu[index].text = value;
 
-    handleInputChange("header", "menu", newMenu + "");
+    handleInputChange("header", "menu", newMenu);
   };
 
   if (isLoading) {
@@ -180,7 +180,6 @@ const HeaderEdit: React.FC<Props> = ({
               </div>
               <div className="w-full flex flex-col gap-2">
                 <p>
-                  {" "}
                   {t("adminChange.adminChangeHeader.adminChangeHeaderLabel4")}
                 </p>
                 <input

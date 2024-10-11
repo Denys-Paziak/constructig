@@ -245,7 +245,11 @@
     "siteClose": "Cerrar",
     "siteItems": "Volver a Categorías",
     "siteBackToCategories": "Artículos en prueba",
-    "siteAddToBasket": "Añadir a la cesta"
+    "siteAddToBasket": "Añadir a la cesta",
+    "siteMyWebsite": "Mi sitio web",
+    "siteWorkingHours": "Horario de trabajo",
+    "siteNoSite": "No hay sitio en",
+    "siteCreate": "Crear"
   },
   "cropImage": {
     "cropImageZoom": "Zoom",

@@ -245,7 +245,11 @@
     "siteClose": "Закрыть",
     "siteItems": "Назад к Категориям",
     "siteBackToCategories": "Товары на тесте",
-    "siteAddToBasket": "Добавить в корзину"
+    "siteAddToBasket": "Добавить в корзину",
+    "siteMyWebsite": "Мой сайт",
+    "siteWorkingHours": "Часы работы",
+    "siteNoSite": "Нет сайта на",
+    "siteCreate": "Создать"
   },
   "cropImage": {
     "cropImageZoom": "Масштаб",
