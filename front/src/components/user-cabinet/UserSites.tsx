@@ -7,6 +7,7 @@ import Loader from "../loader/Loader";
 import { getEditSite, getUserSites } from "../../services/getSite/getSite";
 import { useTranslation } from "react-i18next";
 import { createLang } from "../../services/createLang/createLang.ts";
+import { CropImage } from "../cropImage/CropImage.tsx";
 
 interface Props {
   setIsLoggedIn: (value: boolean) => void;
@@ -166,6 +167,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
         <h2 className="text-2xl md:text-4xl font-extrabold text-center text-white">
           {t("admin.adminInterface.adminInterfaceWelcome")}
         </h2>
+
         <>
           <UserCabinetInterface
             userData={userData}

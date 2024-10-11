@@ -4,6 +4,7 @@
       "adminInterfaceWelcome": "¡Bienvenido a su cuenta!",
       "adminInterfaceHello": "Hola",
       "adminInterfaceChoose": "Elegir idioma",
+      "adminInterfaceLanguageAdmin": "Elige idioma del administrador",
       "adminInterfaceLang1": "Inglés",
       "adminInterfaceLang2": "Español",
       "adminInterfaceLang3": "Ruso",
@@ -245,5 +246,10 @@
     "siteItems": "Volver a Categorías",
     "siteBackToCategories": "Artículos en prueba",
     "siteAddToBasket": "Añadir a la cesta"
+  },
+  "cropImage": {
+    "cropImageZoom": "Zoom",
+    "cropImageButton1": "Cortar",
+    "cropImageButton2": "Cancelar"
   }
 }

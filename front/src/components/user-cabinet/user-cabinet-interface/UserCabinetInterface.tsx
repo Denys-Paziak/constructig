@@ -5,6 +5,7 @@ import html2canvas from "html2canvas";
 import { useNavigate } from "react-router-dom";
 import LanguageSelector from "../../LanguageSelector";
 import { useTranslation } from "react-i18next";
+import LanguageSelectorAdmin from "../../LanguageSelectorAdmin";
 
 interface Props {
   userData: IGetMe;
@@ -55,9 +56,15 @@ const UserCabinetInterface: React.FC<Props> = ({
             {t("admin.adminInterface.adminInterfaceHello")},{" "}
             <span className="notranslate">{userData.name}</span>
           </h3>
-          <div className="language-block flex flex-col gap-2 items-end">
-            {t("admin.adminInterface.adminInterfaceChoose")}
-            <LanguageSelector fetchData={handlerChangeLang} />
+          <div className="flex gap-6">
+            <div className="language-block flex flex-col gap-2 items-end">
+              {t("admin.adminInterface.adminInterfaceLanguageAdmin")}
+              <LanguageSelectorAdmin />
+            </div>
+            <div className="language-block flex flex-col gap-2 items-end">
+              {t("admin.adminInterface.adminInterfaceChoose")}
+              <LanguageSelector fetchData={handlerChangeLang} />
+            </div>
           </div>
         </div>
         <div className="w-full flex md:items-center justify-between flex-col gap-6 md:flex-row md:gap-0">

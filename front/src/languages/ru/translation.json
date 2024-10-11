@@ -4,6 +4,7 @@
       "adminInterfaceWelcome": "Добро пожаловать в ваш аккаунт!",
       "adminInterfaceHello": "Привет",
       "adminInterfaceChoose": "Выберите язык",
+      "adminInterfaceLanguageAdmin": "Выберите язык администратора",
       "adminInterfaceLang1": "Английский",
       "adminInterfaceLang2": "Испания",
       "adminInterfaceLang3": "Русский",
@@ -245,5 +246,10 @@
     "siteItems": "Назад к Категориям",
     "siteBackToCategories": "Товары на тесте",
     "siteAddToBasket": "Добавить в корзину"
+  },
+  "cropImage": {
+    "cropImageZoom": "Масштаб",
+    "cropImageButton1": "Обрезать",
+    "cropImageButton2": "Отмена"
   }
 }

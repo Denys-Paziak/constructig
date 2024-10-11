@@ -11,7 +11,7 @@ const LanguageSelector = ({ fetchData }) => {
   };
 
   return (
-    <div className={"flex justify-center h-[64px]"}>
+    <div className={"flex justify-center"}>
       <div className="flex items-center gap-4">
         {langs.map((lang) => {
           if (lang === i18n.language) {
