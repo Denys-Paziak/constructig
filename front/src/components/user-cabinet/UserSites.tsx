@@ -35,16 +35,14 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   };
 
   const fetchData = async () => {
+
     let siteLang = localStorage.getItem("siteLang");
 
-    console.log("fetch");
-    console.log(sites);
+
 
     if (sites.length > 0) {
       try {
         const response = await getEditSite(+sites[0]?.langId, token, siteLang);
-
-        console.log(response);
         setData(response);
       } catch (error) {
         console.log(error);
@@ -58,12 +56,13 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
     let siteLang = localStorage.getItem("siteLang");
 
     if (type === "create") {
+
+
       setShowLoader(true);
       const formData = new FormData();
       formData.append("originalSiteId", prevSiteId);
       formData.append("newLang", siteLang);
 
-      console.log(`Creating site for language: ${siteLang}`);
       await createLang(formData, token);
       await handlerChangeLang();
       setShowLoader(false);
@@ -76,11 +75,13 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   const getSites = async () => {
     if (!token) return;
 
-    let siteLang = localStorage.getItem("siteLang");
+    let siteLang = localStorage.getItem("siteLang"); // en
 
-    if (siteLang) {
-      localStorage.setItem("siteLang", "es");
+    if (!siteLang) {
+      localStorage.setItem("siteLang", "es"); // es
     }
+
+
 
     try {
       const response = await getUserSites(token);
@@ -114,17 +115,12 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   }, []);
 
   useEffect(() => {
-    console.log("sites");
-    console.log(sites);
-
     const start = async () => {
       await getUserData();
       await fetchData();
     };
     start();
 
-    console.log("end");
-    console.log(sites);
   }, [sites]);
 
   if (sites.length === 0) {

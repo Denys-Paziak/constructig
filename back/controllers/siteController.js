@@ -181,6 +181,10 @@ export const getSiteByName = async (req, res) => {
     const categoriesResult = await executeQuery(getCategoriesQuery(), [
       result.site_id,
     ]);
+
+    const languagesQuery = "SELECT DISTINCT lang FROM sites WHERE name = ? AND url = ?";
+    const availableLanguages = await executeQuery(languagesQuery, [company, siteName]);
+
     const itemsResult = await executeQuery(getItemsQuery(), [result.site_id]);
     const newsResult = await executeQuery(getNewsQuery(), [result.site_id]);
 
@@ -190,6 +194,10 @@ export const getSiteByName = async (req, res) => {
       itemsResult,
       newsResult
     );
+
+    response.availableLanguages = availableLanguages.map(lang => lang.lang);
+
+
     res.status(200).json(response);
   } catch (error) {
     console.error("Помилка виконання запиту: ", error.message);
