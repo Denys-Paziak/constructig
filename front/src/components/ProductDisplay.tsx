@@ -233,7 +233,7 @@ const ProductDisplay: React.FC<Props> = ({
                           color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
                         }}
                       >
-                        € {item.price} isPopular{item.isPopular}
+                        € {item.price}
                       </p>
                       <button
                         className={"py-2 px-4 text-sm w-fit rounded-md mt-4"}
