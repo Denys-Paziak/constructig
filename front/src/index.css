@@ -107,6 +107,9 @@ body {
   background: #3b82f5;
   color: white;
 }
+.main-header-lang > div > div > button > svg {
+  color: black !important;
+}
 
 .language-block button:hover {
   background: #3b82f5;

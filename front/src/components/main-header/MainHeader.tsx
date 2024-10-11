@@ -62,7 +62,7 @@ const MainHeader = () => {
                   </ul>
                 </nav>
               </div>
-              <div className="flex items-center gap-[40px]">
+              <div className="flex items-center gap-[40px] main-header-lang">
                 <LanguageSelector />
                 <button
                   className="py-[10px] text-nowrap px-[24px] bg-white cursor-pointer outline-none border-none rounded-md"
@@ -118,7 +118,7 @@ const MainHeader = () => {
                     </ul>
                   </nav>
                 </div>
-                <div className="flex items-center gap-[40px]">
+                <div className="flex items-center gap-[40px] main-header-lang">
                   <LanguageSelector />
                   <button
                     className="py-[10px] text-nowrap px-[24px] bg-white cursor-pointer outline-none border-none rounded-md"

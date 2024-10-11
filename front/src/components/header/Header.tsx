@@ -125,17 +125,17 @@ export const Header: React.FC<HeaderProps> = ({
           <Menu as="div" className="relative inline-block text-left">
             <MenuButton
               className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm"
-              style={{
-                color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
-              }}
+              // style={{
+              //   color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+              // }}
             >
               {selectedLanguage}
               <ChevronDownIcon
                 aria-hidden="true"
                 className="-mr-1 h-5 w-5 text-black"
-                style={{
-                  color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
-                }}
+                // style={{
+                //   color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+                // }}
               />
             </MenuButton>
             <MenuItems
@@ -150,9 +150,9 @@ export const Header: React.FC<HeaderProps> = ({
                         href="#"
                         onClick={() => handleLanguageChange(el.toUpperCase())} // Зміна мови при кліку
                         className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                        style={{
-                          color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
-                        }}
+                        // style={{
+                        //   color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+                        // }}
                       >
                         {el.toUpperCase()}
                       </a>
@@ -222,17 +222,17 @@ export const Header: React.FC<HeaderProps> = ({
             <Menu as="div" className="relative inline-block text-left">
               <MenuButton
                 className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm"
-                style={{
-                  color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
-                }}
+                // style={{
+                //   color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+                // }}
               >
                 {selectedLanguage}
                 <ChevronDownIcon
                   aria-hidden="true"
                   className="-mr-1 h-5 w-5 text-black"
-                  style={{
-                    color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
-                  }}
+                  // style={{
+                  //   color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+                  // }}
                 />
               </MenuButton>
               <MenuItems
@@ -247,9 +247,9 @@ export const Header: React.FC<HeaderProps> = ({
                           href="#"
                           onClick={() => handleLanguageChange(el.toUpperCase())}
                           className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                          style={{
-                            color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
-                          }}
+                          // style={{
+                          //   color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
+                          // }}
                         >
                           {el.toUpperCase()}
                         </a>
