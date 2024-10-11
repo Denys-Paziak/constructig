@@ -7,7 +7,6 @@ import {
 } from "../../../services/upload-images/uploadImages";
 import Button from "../../UI/button/Button";
 import { updateInfo } from "../../../services/info/info";
-import { useParams } from "react-router-dom";
 import { notify } from "../../../helpers/helper";
 import imageCompression from "browser-image-compression";
 import Loader from "../../loader/Loader";

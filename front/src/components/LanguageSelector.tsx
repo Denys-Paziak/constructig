@@ -3,19 +3,22 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 
-const LanguageSelector = ({ fetchData }) => {
-  const { i18n, t } = useTranslation();
-  const [lang, setLang] = useState();
+interface Props {
+  fetchData?: () => void;
+}
+
+const LanguageSelector: React.FC<Props> = ({ fetchData }) => {
+  const { t } = useTranslation();
+  const [lang, setLang] = useState<any>();
 
   const changeLanguage = async (language: string) => {
-
-     localStorage.setItem("siteLang", language);
+    localStorage.setItem("siteLang", language);
     setLang(language);
-    await fetchData();
+    await fetchData!();
   };
 
   useEffect(() => {
-    let localLang = localStorage.getItem("siteLang");
+    let localLang: string | null = localStorage.getItem("siteLang");
     if (localLang) {
       setLang(localLang);
     }

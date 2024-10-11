@@ -74,7 +74,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
   }, []);
 
   const onCropHandler = async () => {
-    const croppedImageBlob = await getCroppedImg(
+    const croppedImageBlob: any = await getCroppedImg(
       mainImagePreview,
       croppedAreaPixels
     );
@@ -92,7 +92,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
     setOpenCrop(false);
   };
 
-  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+  const onCropComplete = (croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
@@ -217,7 +217,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
                         max="3"
                         step="0.1"
                         value={zoom}
-                        onChange={(e) => setZoom(e.target.value)}
+                        onChange={(e: any) => setZoom(e.target.value)}
                         className="w-40"
                       />
                     </div>

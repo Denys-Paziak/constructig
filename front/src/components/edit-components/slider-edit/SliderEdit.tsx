@@ -3,7 +3,6 @@ import { AdminImage } from "../../../utils/dropzone/dropzone";
 import { useDropzone } from "react-dropzone";
 import Button from "../../UI/button/Button";
 import { updateSliderEdit } from "../../../services/slider/sliderEdit";
-import { useParams } from "react-router-dom";
 import {
   deleteImage,
   uploadImage,

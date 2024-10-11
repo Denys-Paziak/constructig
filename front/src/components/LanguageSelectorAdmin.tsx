@@ -5,11 +5,10 @@ import { useTranslation } from "react-i18next";
 
 const LanguageSelectorAdmin = () => {
   const { i18n, t } = useTranslation();
-  const [lang, setLang] = useState();
+  const [lang, setLang] = useState<string>();
 
   useEffect(() => {
-    const savedLanguage = localStorage.getItem("language");
-    console.log(savedLanguage);
+    const savedLanguage: string | null = localStorage.getItem("language");
     if (savedLanguage) {
       i18n.changeLanguage(savedLanguage);
       setLang(savedLanguage);

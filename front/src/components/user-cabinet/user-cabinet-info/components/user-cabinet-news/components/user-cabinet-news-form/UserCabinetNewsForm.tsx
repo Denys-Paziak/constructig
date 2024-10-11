@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useSyncExternalStore } from "react";
+import React, { useCallback, useState } from "react";
 import { AdminImage } from "../../../../../../../utils/dropzone/dropzone";
 import { createNew } from "../../../../../../../services/news/news";
 import { Accept, useDropzone } from "react-dropzone";
@@ -73,7 +73,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({
   }, []);
 
   const onCropHandler = async () => {
-    const croppedImageBlob = await getCroppedImg(
+    const croppedImageBlob: any = await getCroppedImg(
       mainImagePreview,
       croppedAreaPixels
     );
@@ -91,7 +91,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({
     setOpenCrop(false);
   };
 
-  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+  const onCropComplete = (croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
@@ -211,7 +211,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({
                         max="3"
                         step="0.1"
                         value={zoom}
-                        onChange={(e) => setZoom(e.target.value)}
+                        onChange={(e: any) => setZoom(e.target.value)}
                         className="w-40"
                       />
                     </div>

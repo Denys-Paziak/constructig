@@ -6,7 +6,6 @@ import {
   uploadImage,
 } from "../../../services/upload-images/uploadImages";
 import Button from "../../UI/button/Button";
-import { useParams } from "react-router-dom";
 import { updateServices } from "../../../services/services/services";
 import { notify } from "../../../helpers/helper";
 import imageCompression from "browser-image-compression";

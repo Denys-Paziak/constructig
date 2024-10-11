@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useTransition } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import SectionEditor from "./SectionEditor";
 import Preview from "./Preview";
@@ -6,7 +6,6 @@ import { getEditSite } from "../services/getSite/getSite";
 import Global from "./edit-components/global/Global";
 import Loader from "./loader/Loader";
 import { useTranslation } from "react-i18next";
-import LanguageSelector from "./LanguageSelector";
 
 const SiteConstructor: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -38,9 +37,11 @@ const SiteConstructor: React.FC = () => {
 
   const bannerHandler = async () => {
     const token = localStorage.getItem("token");
-    const newLang = await getEditSite(+id, token, i18n.language);
-    setData(newLang);
-    setShowBaner(false);
+    if (token) {
+      const newLang = await getEditSite(+id!, token, i18n.language);
+      setData(newLang);
+      setShowBaner(false);
+    }
   };
 
   const handleInputChange = (section: string, field: string, value: any) => {

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 
 import Button from "../../UI/button/Button";
-import { useParams } from "react-router-dom";
 import { notify } from "../../../helpers/helper";
 import Loader from "../../loader/Loader";
-import {updateBanner} from "../../../services/banner/banner.ts";
+import { updateBanner } from "../../../services/banner/banner.ts";
 
 interface Props {
   data: any;

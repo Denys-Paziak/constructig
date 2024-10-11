@@ -123,69 +123,66 @@ const UserCabinetInfo: React.FC<Props> = ({
               <div className="w-full flex items-start flex-col gap-6 py-6">
                 <div className="w-full">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sites.map((site: any, index: any) => {
-                        return (
-                            <div
-                                key={index}
-                                className="shadow-xl rounded-lg p-6 shape_bg text-white"
-                            >
-                              <div className={" flex justify-between"}>
-                                <h3 className="text-xl font-semibold mb-2">
-                                  {site.name}
-                                </h3>
+                    {sites.map((site: any, index: any) => {
+                      return (
+                        <div
+                          key={index}
+                          className="shadow-xl rounded-lg p-6 shape_bg text-white"
+                        >
+                          <div className={" flex justify-between"}>
+                            <h3 className="text-xl font-semibold mb-2">
+                              {site.name}
+                            </h3>
 
-
-                              <p className={"text-xl font-semibold mb-2"}>
-                                {site.lang}
-                              </p>
-                            </div>
-                            <a
-                              href={
-                                "https://menualista.com/" +
-                                site.lang +
-                                "/" +
-                                site.url +
-                                "/" +
-                                site.name
-                              }
-                              className="block text-white-600 mb-4"
-                            >
-                              {"https://menualista.com/" +
-                                site.lang +
-                                "/" +
-                                site.url +
-                                "/" +
-                                userData.company}
-                            </a>
-                            <div className="w-full flex justify-between gap-4">
-                              <button
-                                onClick={() =>
-                                  navigate(
-                                    `/${site.lang}/${
-                                      site.url + "/" + site.name
-                                    }`
-                                  )
-                                }
-                                className="w-[50%] py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 block mx-auto"
-                              >
-                                {t(
-                                  "admin.adminInfo.adminInfoSites.adminInfoSitesView"
-                                )}
-                              </button>
-                              <button
-                                onClick={() => {
-                                  i18n.changeLanguage(site.lang);
-                                  navigate(`/site/${site.langId}`);
-                                }}
-                                className="w-[50%] py-2 px-4 bg-white text-black rounded-md hover:bg-gray-100"
-                              >
-                                {t(
-                                  "admin.adminInfo.adminInfoSites.adminInfoSitesEdit"
-                                )}
-                              </button>
-                            </div>
+                            <p className={"text-xl font-semibold mb-2"}>
+                              {site.lang}
+                            </p>
                           </div>
-                        );
+                          <a
+                            href={
+                              "https://menualista.com/" +
+                              site.lang +
+                              "/" +
+                              site.url +
+                              "/" +
+                              site.name
+                            }
+                            className="block text-white-600 mb-4"
+                          >
+                            {"https://menualista.com/" +
+                              site.lang +
+                              "/" +
+                              site.url +
+                              "/" +
+                              userData.company}
+                          </a>
+                          <div className="w-full flex justify-between gap-4">
+                            <button
+                              onClick={() =>
+                                navigate(
+                                  `/${site.lang}/${site.url + "/" + site.name}`
+                                )
+                              }
+                              className="w-[50%] py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 block mx-auto"
+                            >
+                              {t(
+                                "admin.adminInfo.adminInfoSites.adminInfoSitesView"
+                              )}
+                            </button>
+                            <button
+                              onClick={() => {
+                                i18n.changeLanguage(site.lang);
+                                navigate(`/site/${site.langId}`);
+                              }}
+                              className="w-[50%] py-2 px-4 bg-white text-black rounded-md hover:bg-gray-100"
+                            >
+                              {t(
+                                "admin.adminInfo.adminInfoSites.adminInfoSitesEdit"
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      );
                     })}
                   </div>
                 </div>
@@ -202,7 +199,6 @@ const UserCabinetInfo: React.FC<Props> = ({
                 <UserCabinetPersonal
                   userData={userData}
                   setUserData={setUserData}
-                  fetchData={fetchData}
                   getSites={getSites}
                 />
               </div>

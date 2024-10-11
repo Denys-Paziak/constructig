@@ -160,7 +160,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
   console.log(mainImage);
 
   const onCropHandler = async () => {
-    const croppedImageBlob = await getCroppedImg(
+    const croppedImageBlob: any = await getCroppedImg(
       mainImagePreview,
       croppedAreaPixels
     );
@@ -178,7 +178,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
     setOpenCrop(false);
   };
 
-  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
     console.log(croppedArea, croppedAreaPixels);
     setCroppedAreaPixels(croppedAreaPixels);
   };
@@ -199,7 +199,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
             <div className="relative w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
               <div className="relative w-full h-96 sm:h-[400px] md:h-[500px] lg:h-[600px] bg-gray-100">
                 <Cropper
-                  image={mainImagePreview}
+                  image={mainImagePreview!}
                   crop={crop}
                   zoom={zoom}
                   aspect={4 / 3}
@@ -223,7 +223,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
                     max="3"
                     step="0.1"
                     value={zoom}
-                    onChange={(e) => setZoom(e.target.value)}
+                    onChange={(e: any) => setZoom(e.target.value)}
                     className="w-40"
                   />
                 </div>
@@ -317,7 +317,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
                   max="3"
                   step="0.1"
                   value={zoom}
-                  onChange={(e) => setZoom(e.target.value)}
+                  onChange={(e: any) => setZoom(e.target.value)}
                   className="w-40"
                 />
               </div>

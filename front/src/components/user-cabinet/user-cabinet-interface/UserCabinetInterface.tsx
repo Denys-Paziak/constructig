@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { IGetMe } from "../../../services/auth/getMe/getMe.interface";
 import QRCode from "react-qr-code";
 import html2canvas from "html2canvas";
@@ -22,7 +22,6 @@ const UserCabinetInterface: React.FC<Props> = ({
 }) => {
   const qrRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { t } = useTranslation();
 
   const downloadQRCode = async () => {

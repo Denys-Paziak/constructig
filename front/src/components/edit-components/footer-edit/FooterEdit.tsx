@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Button from "../../UI/button/Button";
-import { useParams } from "react-router-dom";
 import { updateFooter } from "../../../services/footer/footer";
 import { notify } from "../../../helpers/helper";
 import { useTranslation } from "react-i18next";

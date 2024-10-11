@@ -35,14 +35,11 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   };
 
   const fetchData = async () => {
-
-    let siteLang = localStorage.getItem("siteLang");
-
-
+    let siteLang: any = localStorage.getItem("siteLang");
 
     if (sites.length > 0) {
       try {
-        const response = await getEditSite(+sites[0]?.langId, token, siteLang);
+        const response = await getEditSite(+sites[0]?.langId, token!, siteLang);
         setData(response);
       } catch (error) {
         console.log(error);
@@ -53,17 +50,15 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   };
 
   const createLangHandler = async (type: string) => {
-    let siteLang = localStorage.getItem("siteLang");
+    let siteLang: any = localStorage.getItem("siteLang");
 
     if (type === "create") {
-
-
       setShowLoader(true);
       const formData = new FormData();
       formData.append("originalSiteId", prevSiteId);
       formData.append("newLang", siteLang);
 
-      await createLang(formData, token);
+      await createLang(formData, token!);
       await handlerChangeLang();
       setShowLoader(false);
     } else {
@@ -75,19 +70,17 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   const getSites = async () => {
     if (!token) return;
 
-    let siteLang = localStorage.getItem("siteLang");
+    let siteLang: any = localStorage.getItem("siteLang");
 
     if (!siteLang) {
       localStorage.setItem("siteLang", "en");
     }
 
-
-
     try {
       const response = await getUserSites(token);
 
       const filteredSites = response.sites.filter(
-        (site) => site.lang === siteLang
+        (site: any) => site.lang === siteLang
       );
 
       if (filteredSites.length === 0) {
@@ -103,7 +96,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   };
 
   const handlerChangeLang = async () => {
-    let status = await getSites();
+    let status: any = await getSites();
     setSitesStatus(status);
   };
 
@@ -120,7 +113,6 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
       await fetchData();
     };
     start();
-
   }, [sites]);
 
   if (sites.length === 0) {

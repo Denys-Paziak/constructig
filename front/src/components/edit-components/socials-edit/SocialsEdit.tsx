@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "../../UI/button/Button";
 import { updateSocials } from "../../../services/socials/socials";
-import { useParams } from "react-router-dom";
 import { notify } from "../../../helpers/helper";
 import { useTranslation } from "react-i18next";
 

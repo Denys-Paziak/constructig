@@ -144,7 +144,7 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <div className="py-1">
                 {data.availableLanguages &&
-                  data.availableLanguages.map((el) => (
+                  data.availableLanguages.map((el: any) => (
                     <MenuItem key={el}>
                       <a
                         href="#"
@@ -241,7 +241,7 @@ export const Header: React.FC<HeaderProps> = ({
               >
                 <div className="py-1">
                   {data.availableLanguages &&
-                    data.availableLanguages.map((el) => (
+                    data.availableLanguages.map((el: any) => (
                       <MenuItem key={el}>
                         <a
                           href="#"

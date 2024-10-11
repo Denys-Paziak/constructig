@@ -14,7 +14,11 @@ export const getUserSites = async (token: string) => {
   }
 };
 
-export const getSite = async (siteName: string, company: string, lang: string) => {
+export const getSite = async (
+  siteName: string,
+  company: string,
+  lang: string
+) => {
   try {
     const { data } = await axios.get(`site/${siteName}/${company}/${lang}`);
     return data;
@@ -24,7 +28,7 @@ export const getSite = async (siteName: string, company: string, lang: string) =
   }
 };
 
-export const getEditSite = async (id: number, token: string, lang) => {
+export const getEditSite = async (id: number, token: string, lang: string) => {
   try {
     const { data } = await axios.get(`site/id/${id}/${lang}`, {
       headers: {
@@ -32,8 +36,8 @@ export const getEditSite = async (id: number, token: string, lang) => {
       },
     });
     return data;
-  } catch (error) {
-    return {error: true};
+  } catch (error: any) {
+    return { error: true };
   }
 };
 

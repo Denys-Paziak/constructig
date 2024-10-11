@@ -9,15 +9,12 @@ import LanguageSelectorAdmin from "../../../../LanguageSelectorAdmin";
 interface Props {
   userData: IGetMe;
   setUserData: (response: any) => void;
-  setSites: (response: any) => void;
-  fetchData: () => void;
   getSites: () => void;
 }
 
 const UserCabinetPersonal: React.FC<Props> = ({
   userData,
   setUserData,
-  fetchData,
   getSites,
 }) => {
   const [username, setUsername] = useState<string>("");

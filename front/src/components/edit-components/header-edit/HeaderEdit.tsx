@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import { AdminImage } from "../../../utils/dropzone/dropzone";
 import { useDropzone } from "react-dropzone";
 import { updateHeaderEdit } from "../../../services/header-edit/headerEdit";
-import { useParams } from "react-router-dom";
 import {
   deleteImage,
   uploadImage,
@@ -120,7 +119,7 @@ const HeaderEdit: React.FC<Props> = ({
   };
 
   const editMenu = (index: number, value: string) => {
-    const newMenu = [...data.header.menu];
+    const newMenu: any = [...data.header.menu];
 
     newMenu[index].text = value;
 
