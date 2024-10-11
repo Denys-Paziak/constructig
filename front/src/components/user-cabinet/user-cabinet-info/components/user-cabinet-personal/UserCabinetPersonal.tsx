@@ -4,6 +4,7 @@ import { IGetMe } from "../../../../../services/auth/getMe/getMe.interface";
 import { getMe } from "../../../../../services/auth/getMe/getMe";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import LanguageSelectorAdmin from "../../../../LanguageSelectorAdmin";
 
 interface Props {
   userData: IGetMe;
@@ -128,6 +129,10 @@ const UserCabinetPersonal: React.FC<Props> = ({
 
   return (
     <>
+      <div className="language-block flex flex-col gap-2 mt-4">
+        {t("admin.adminInterface.adminInterfaceLanguageAdmin")}
+        <LanguageSelectorAdmin />
+      </div>
       <div className="w-full flex justify-between flex-col md:flex-row gap-6 mt-4">
         <form
           onSubmit={handleSubmitChangeData}

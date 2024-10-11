@@ -39,11 +39,13 @@ function App() {
 
   useEffect(() => {
     handleLogin();
-  }, []);
 
-  useEffect(() => {
-    localStorage.setItem("language", i18n.language);
-  }, [i18n.language]);
+    const savedLanguage = localStorage.getItem("language");
+    console.log(savedLanguage);
+    if (savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, []);
 
   return (
     <Router>
@@ -78,13 +80,13 @@ function App() {
           }
         />
 
-        <Route
-          path="/site/:id"
-          element={<SiteConstructor />}
-        />
+        <Route path="/site/:id" element={<SiteConstructor />} />
 
         <Route path="/:lang/:siteName/:company" element={<UserSite />} />
-        <Route path="/:lang/:siteName/:company/news" element={<NewsDisplay />} />
+        <Route
+          path="/:lang/:siteName/:company/news"
+          element={<NewsDisplay />}
+        />
         <Route
           path="/category-update/:id"
           element={<UserCabinetCategoryUpdate />}
@@ -103,8 +105,6 @@ function App() {
           path="*"
           element={<Navigate to={isLoggedIn ? "/profile" : "/login"} />}
         />
-
-
       </Routes>
       <ToastContainer />
     </Router>

@@ -78,6 +78,10 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
 
     let siteLang = localStorage.getItem("siteLang");
 
+    if (siteLang) {
+      localStorage.setItem("siteLang", "es");
+    }
+
     try {
       const response = await getUserSites(token);
 
