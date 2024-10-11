@@ -10,6 +10,7 @@ import ProductDisplay from "./ProductDisplay";
 import Baner from "./baner/Baner.tsx";
 import { sendMessageToOrder } from "../api/telegram.ts";
 import { notify, notifyError } from "../helpers/helper.ts";
+import { useTranslation } from "react-i18next";
 
 interface PreviewProps {
   data: any;
@@ -28,6 +29,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const { t } = useTranslation();
 
   const handleMenuToggle = () => {
     setIsMenuOpen((isOpen) => !isOpen);
@@ -162,7 +164,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
             {basket.length}
           </div>
 
-          <p className={"md:hidden"}>Open basket </p>
+          <p className={"md:hidden"}>{t("basket.basketMainTitle")}</p>
 
           <svg
             className="hidden md:block w-6 h-6 text-white animate-bounce"
@@ -192,10 +194,12 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
             ×
           </div>
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold mb-6 text-gray-900">Basket</h2>
+            <h2 className="text-3xl font-bold mb-6 text-gray-900">
+              {t("basket.basketTitle")}
+            </h2>
             {basket.length === 0 ? (
               <div className="text-center text-xl text-gray-500">
-                Your basket is empty
+                {t("basket.basketEmpty")}
               </div>
             ) : (
               basket.map((el: any, index) => {
@@ -230,7 +234,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
                         className="mt-2 text-sm text-red-600 hover:text-red-800 hover:underline transition-colors duration-200"
                         onClick={() => deleteFromBasket(index)}
                       >
-                        Delete
+                        {t("basket.basketDelete")}
                       </button>
                     </div>
                   </div>
@@ -240,7 +244,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
 
             <div className="border-t border-gray-300 mt-6 pt-6 flex flex-col items-end">
               <div className="flex justify-between w-full text-xl font-semibold text-gray-900">
-                <span>Total price:</span>
+                <span>{t("basket.basketTotal")}</span>
                 <span>{totalPrice} €</span>
               </div>
               <button
@@ -250,7 +254,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
                 }}
                 onClick={handleOrderClick}
               >
-                Continue
+                {t("basket.basketEnterButton")}
               </button>
             </div>
           </div>
@@ -273,9 +277,11 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               ×
             </button>
             <div className="flex flex-col gap-2 mb-4">
-              <h3 className="text-xl font-bold">Enter a number of table</h3>
+              <h3 className="text-xl font-bold">
+                {t("basket.basketEnterNumber")}
+              </h3>
               <p className="text-sm text-gray-700">
-                Wait until the administrator processes your order
+                {t("basket.basketEnterText")}
               </p>
             </div>
             <input
@@ -283,13 +289,13 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               className="border border-gray-300 rounded-md p-2 mb-4 w-full"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Enter a number of table"
+              placeholder={t("basket.basketEnterNumber")}
             />
             <button
               className="w-full py-2 bg-blue-500 text-white rounded-md"
               onClick={handleOrder}
             >
-              Make an order
+              {t("basket.basketEnterButton")}
             </button>
           </div>
         </div>
@@ -406,7 +412,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
                     borderColor: `rgba(${data.global.site_text_color.r}, ${data.global.site_text_color.g}, ${data.global.site_text_color.b}, ${data.global.site_text_color.a})`,
                   }}
                 >
-                  <span className="hidden md:block">Close</span>
+                  <span className="hidden md:block">{t("site.siteClose")}</span>
                   <svg
                     width="10"
                     height="9"

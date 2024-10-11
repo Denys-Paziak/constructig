@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import UserCabinetInterface from "./user-cabinet-interface/UserCabinetInterface";
 import UserCabinetInfo from "./user-cabinet-info/UserCabinetInfo";
 import { IGetMe } from "../../services/auth/getMe/getMe.interface";
@@ -6,6 +6,7 @@ import { getMe } from "../../services/auth/getMe/getMe";
 import Loader from "../loader/Loader";
 import { getEditSite, getUserSites } from "../../services/getSite/getSite";
 import { createLang } from "../../services/createLang/createLang.ts";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   setIsLoggedIn: (value: boolean) => void;
@@ -18,6 +19,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   const [prevSiteId, setPrevSiteId] = useState<any>([]);
   const [sitesStatus, setSitesStatus] = useState<any>(true);
   const [showLoader, setShowLoader] = useState<any>(false);
+  const { t } = useTranslation();
 
   const token = localStorage.getItem("token");
 
@@ -33,23 +35,16 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   };
 
   const fetchData = async () => {
-
     let siteLang = localStorage.getItem("siteLang");
 
-
-
-    console.log("fetch")
-    console.log(sites)
+    console.log("fetch");
+    console.log(sites);
 
     if (sites.length > 0) {
       try {
-        const response = await getEditSite(
-          +sites[0]?.langId,
-          token,
-            siteLang
-        );
+        const response = await getEditSite(+sites[0]?.langId, token, siteLang);
 
-        console.log(response)
+        console.log(response);
         setData(response);
       } catch (error) {
         console.log(error);
@@ -60,10 +55,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   };
 
   const createLangHandler = async (type: string) => {
-
-
     let siteLang = localStorage.getItem("siteLang");
-
 
     if (type === "create") {
       setShowLoader(true);
@@ -122,9 +114,8 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   }, []);
 
   useEffect(() => {
-
-    console.log("sites")
-    console.log(sites)
+    console.log("sites");
+    console.log(sites);
 
     const start = async () => {
       await getUserData();
@@ -132,9 +123,8 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
     };
     start();
 
-
-    console.log("end")
-    console.log(sites)
+    console.log("end");
+    console.log(sites);
   }, [sites]);
 
   if (sites.length === 0) {
@@ -153,12 +143,10 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
     return (
       <div className="fixed flex flex-col gap-6 justify-center items-center top-0 left-0 w-full h-full bg-blue-50 text-gray-700">
         <h2 className="text-2xl font-semibold text-center">
-          Створення нового сайту
+          {t("admin.adminNewSite.adminNewSiteTitle")}
         </h2>
         <p className="text-md text-center max-w-lg">
-          Ви збираєтеся створити новий сайт на вибраній мові. Усі дані та
-          налаштування з англійської версії будуть скопійовані для зручності.
-          Сайт буде повністю ідентичним, але мовою, яку ви обрали.
+          {t("admin.adminNewSite.adminNewSiteText1")}
         </p>
 
         <button
@@ -167,7 +155,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
           }}
           className="inline-block w-1/2 rounded bg-blue-600 text-white hover:bg-blue-700 py-3 px-6 text-md font-medium transition-all duration-200"
         >
-          Створити новий сайт
+          {t("admin.adminNewSite.adminNewSiteButton1")}
         </button>
 
         <button
@@ -176,12 +164,11 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
           }}
           className="inline-block w-1/2 rounded bg-gray-300 text-gray-700 hover:bg-gray-400 py-3 px-6 text-md font-medium transition-all duration-200"
         >
-          Назад
+          {t("admin.adminNewSite.adminNewSiteButton2")}
         </button>
 
         <p className="text-sm text-center text-gray-500 mt-4">
-          Якщо ви не впевнені, можете повернутися назад і зберегти поточні
-          налаштування.
+          {t("admin.adminNewSite.adminNewSiteText2")}
         </p>
       </div>
     );
@@ -191,7 +178,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
     <div className="w-full min-h-screen py-8 px-4 bg-gradient-to-r bg-blue-500">
       <div className="max-w-[1200px] mx-auto flex flex-col items-center gap-8 rounded-lg">
         <h2 className="text-2xl md:text-4xl font-extrabold text-center text-white">
-          Welcome to your account!
+          {t("admin.adminInterface.adminInterfaceWelcome")}
         </h2>
 
         <>

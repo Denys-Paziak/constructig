@@ -1,58 +1,20 @@
-import { useTranslation } from "react-i18next";
+import React from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { useTranslation } from "react-i18next";
 
-const LanguageSelector = ({ fetchData }) => {
+const LanguageSelectorAdmin = () => {
   const { i18n, t } = useTranslation();
 
-  const changeLanguage = async (language: string) => {
-    // await i18n.changeLanguage(language); // Перемикання мови
-    localStorage.setItem("siteLang", language);
-    await fetchData();
+  const handleLanguageChange = (language: string) => {
+    i18n.changeLanguage(language);
   };
 
   return (
-    // <div className={"flex justify-center h-[64px]"}>
-    //   <div className="flex items-center gap-4">
-    //     {langs.map((lang) => {
-    //       if (lang === i18n.language) {
-    //         return (
-    //           <button
-    //             key={lang}
-    //             type="button"
-    //             className={
-    //               "bg-blue-800 text-white py-2 px-6 text-sm rounded hover:bg-blue-800"
-    //             }
-    //             onClick={() => {
-    //               changeLanguage(lang);
-    //             }}
-    //           >
-    //             {lang}
-    //           </button>
-    //         );
-    //       } else {
-    //         return (
-    //           <button
-    //             key={lang}
-    //             type="button"
-    //             className={
-    //               "bg-blue-600 text-white py-2 px-6 text-sm rounded hover:bg-blue-800"
-    //             }
-    //             onClick={() => {
-    //               changeLanguage(lang);
-    //             }}
-    //           >
-    //             {lang}
-    //           </button>
-    //         );
-    //       }
-    //     })}
-    //   </div>
-    // </div>
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm">
-          {t("admin.adminInterface.adminInterfaceChoose")}
+          {t("admin.adminInterface.adminInterfaceLanguageAdmin")}
           <ChevronDownIcon
             aria-hidden="true"
             className="-mr-1 h-5 w-5 text-white"
@@ -68,7 +30,7 @@ const LanguageSelector = ({ fetchData }) => {
           <MenuItem>
             <a
               href="#"
-              onClick={() => changeLanguage("en")}
+              onClick={() => handleLanguageChange("en")}
               className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
               <img
@@ -82,7 +44,7 @@ const LanguageSelector = ({ fetchData }) => {
           <MenuItem>
             <a
               href="#"
-              onClick={() => changeLanguage("es")}
+              onClick={() => handleLanguageChange("es")}
               className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
               <img
@@ -96,7 +58,7 @@ const LanguageSelector = ({ fetchData }) => {
           <MenuItem>
             <a
               href="#"
-              onClick={() => changeLanguage("ru")}
+              onClick={() => handleLanguageChange("ru")}
               className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
               <img
@@ -113,4 +75,4 @@ const LanguageSelector = ({ fetchData }) => {
   );
 };
 
-export default LanguageSelector;
+export default LanguageSelectorAdmin;

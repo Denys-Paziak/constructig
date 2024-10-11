@@ -4,6 +4,7 @@
       "adminInterfaceWelcome": "Добро пожаловать в ваш аккаунт!",
       "adminInterfaceHello": "Привет",
       "adminInterfaceChoose": "Выберите язык",
+      "adminInterfaceLanguageAdmin": "Выберите язык администратора",
       "adminInterfaceLang1": "Английский",
       "adminInterfaceLang2": "Испания",
       "adminInterfaceLang3": "Русский",
@@ -11,6 +12,13 @@
       "adminInterfaceCompany": "Название компании:",
       "adminInterfaceSignOut": "Выйти",
       "adminInterfaceDownload": "Скачать QRCode"
+    },
+    "adminNewSite": {
+      "adminNewSiteTitle": "Создание нового сайта",
+      "adminNewSiteText1": "Вы собираетесь создать новый сайт на выбранном вами языке. Все данные и настройки из английской версии будут скопированы для удобства. Сайт будет полностью идентичен, но на выбранном вами языке.",
+      "adminNewSiteButton1": "Создать",
+      "adminNewSiteButton2": "Назад",
+      "adminNewSiteText2": "Если вы не уверены, можете вернуться и сохранить текущие настройки."
     },
     "adminInfo": {
       "adminInfoInformation": "Информация:",
@@ -220,5 +228,28 @@
       "adminChangeFooterLabel3": "Второе текстовое описание",
       "adminChangeFooterButton": "Сохранить"
     }
+  },
+  "basket": {
+    "basketMainTitle": "Открыть корзину",
+    "basketTitle": "Корзина",
+    "basketEmpty": "Ваша корзина пуста",
+    "basketTotal": "Итоговая цена",
+    "basketContinue": "Продолжить",
+    "basketDelete": "Удалить",
+    "basketEnterNumber": "Введите номер стола",
+    "basketEnterText": "Подождите, пока администратор обработает ваш заказ",
+    "basketEnterPlaceholder": "Введите номер стола",
+    "basketEnterButton": "Сделать заказ"
+  },
+  "site": {
+    "siteClose": "Закрыть",
+    "siteItems": "Назад к Категориям",
+    "siteBackToCategories": "Товары на тесте",
+    "siteAddToBasket": "Добавить в корзину"
+  },
+  "cropImage": {
+    "cropImageZoom": "Масштаб",
+    "cropImageButton1": "Обрезать",
+    "cropImageButton2": "Отмена"
   }
 }
