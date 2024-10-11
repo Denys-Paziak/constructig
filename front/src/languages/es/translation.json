@@ -12,6 +12,13 @@
       "adminInterfaceSignOut": "Cerrar la sesión",
       "adminInterfaceDownload": "Descargar QRCode"
     },
+    "adminNewSite": {
+      "adminNewSiteTitle": "Creación de un nuevo sitio web",
+      "adminNewSiteText1": "Estás a punto de crear un nuevo sitio web en el idioma de tu elección. Todos los datos y configuraciones de la versión en inglés se copiarán para mayor comodidad. El sitio será completamente idéntico, pero en el idioma de tu elección.",
+      "adminNewSiteButton1": "Crear",
+      "adminNewSiteButton2": "Volver",
+      "adminNewSiteText2": "Si no estás seguro, puedes volver y guardar las configuraciones actuales."
+    },
     "adminInfo": {
       "adminInfoInformation": "Información:",
       "adminInfoSites": {
@@ -220,5 +227,23 @@
       "adminChangeFooterLabel3": "Segunda descripción de texto",
       "adminChangeFooterButton": "Guardar"
     }
+  },
+  "basket": {
+    "basketMainTitle": "Abrir cesta",
+    "basketTitle": "Cesta",
+    "basketEmpty": "Tu cesta está vacía",
+    "basketTotal": "Precio total",
+    "basketContinue": "Continuar",
+    "basketDelete": "Eliminar",
+    "basketEnterNumber": "Introduce el número de mesa",
+    "basketEnterText": "Espera a que el administrador procese tu pedido",
+    "basketEnterPlaceholder": "Introduce el número de mesa",
+    "basketEnterButton": "Hacer un pedido"
+  },
+  "site": {
+    "siteClose": "Cerrar",
+    "siteItems": "Volver a Categorías",
+    "siteBackToCategories": "Artículos en prueba",
+    "siteAddToBasket": "Añadir a la cesta"
   }
 }

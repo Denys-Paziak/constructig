@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Category {
   id: number;
@@ -47,12 +48,15 @@ const ProductDisplay: React.FC<Props> = ({
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const { t } = useTranslation();
 
   const filteredItems =
     selectedCategory !== null
       ? data.items
           .filter((item: Item) => item.category_name === selectedCategory)
-          .sort((a: any, b: any) => parseInt(b.isPopular) - parseInt(a.isPopular))
+          .sort(
+            (a: any, b: any) => parseInt(b.isPopular) - parseInt(a.isPopular)
+          )
       : [];
 
   const basketHandler = (item: BasketItem) => {
@@ -180,7 +184,7 @@ const ProductDisplay: React.FC<Props> = ({
               color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
             }}
           >
-            ← Back to Categories
+            ← {t("site.siteBackToCategories")}
           </button>
           <h2
             className="text-2xl font-bold mb-4"
@@ -188,7 +192,7 @@ const ProductDisplay: React.FC<Props> = ({
               color: `rgba(${bodyTextColor.r}, ${bodyTextColor.g}, ${bodyTextColor.b}, ${bodyTextColor.a})`,
             }}
           >
-            Items in {selectedCategory}
+            {t("site.siteItems")} {selectedCategory}
           </h2>
           <div className="w-full flex flex-col gap-4">
             {filteredItems.length > 0 ? (
@@ -238,7 +242,7 @@ const ProductDisplay: React.FC<Props> = ({
                         }}
                         onClick={() => basketHandler(item)}
                       >
-                        add to basket
+                        {t("site.siteAddToBasket")}
                       </button>
                     </div>
                   </div>

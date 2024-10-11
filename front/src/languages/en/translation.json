@@ -12,6 +12,13 @@
       "adminInterfaceSignOut": "Sign Out",
       "adminInterfaceDownload": "Download QRCode"
     },
+    "adminNewSite": {
+      "adminNewSiteTitle": "Creating a new website",
+      "adminNewSiteText1": "You are about to create a new website in the language of your choice. All data and settings from the English version will be copied for convenience. The site will be completely identical, but in the language of your choice.",
+      "adminNewSiteButton1": "Create",
+      "adminNewSiteButton2": "Back",
+      "adminNewSiteText2": "If you're not sure, you can go back and save the current settings."
+    },
     "adminInfo": {
       "adminInfoInformation": "Information:",
       "adminInfoSites": {
@@ -220,5 +227,23 @@
       "adminChangeFooterLabel3": "Second text description",
       "adminChangeFooterButton": "Save"
     }
+  },
+  "basket": {
+    "basketMainTitle": "Open basket",
+    "basketEmpty": "Your basket is empty",
+    "basketTitle": "Basket",
+    "basketTotal": "Total price",
+    "basketContinue": "Continue",
+    "basketDelete": "Delete",
+    "basketEnterNumber": "Enter a number of table",
+    "basketEnterText": "Wait until administrator processes your order",
+    "basketEnterPlaceholder": "Enter a number of table",
+    "basketEnterButton": "Make an order"
+  },
+  "site": {
+    "siteClose": "Close",
+    "siteItems": "Back to Categories",
+    "siteBackToCategories": "Items in test",
+    "siteAddToBasket": "Add to basket"
   }
 }
