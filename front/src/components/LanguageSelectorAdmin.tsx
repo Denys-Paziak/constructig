@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useTranslation } from "react-i18next";
@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 const LanguageSelectorAdmin = () => {
   const { i18n, t } = useTranslation();
 
-  const handleLanguageChange = (language: string, label: string) => {
+  const handleLanguageChange = (language: string) => {
     i18n.changeLanguage(language);
   };
 
@@ -14,7 +14,7 @@ const LanguageSelectorAdmin = () => {
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm">
-          {t("admin.adminInterface.adminInterfaceChoose")}
+          {t("admin.adminInterface.adminInterfaceLanguageAdmin")}
           <ChevronDownIcon
             aria-hidden="true"
             className="-mr-1 h-5 w-5 text-white"
@@ -30,12 +30,7 @@ const LanguageSelectorAdmin = () => {
           <MenuItem>
             <a
               href="#"
-              onClick={() =>
-                handleLanguageChange(
-                  "en",
-                  t("admin.adminInterface.adminInterfaceLang1")
-                )
-              }
+              onClick={() => handleLanguageChange("en")}
               className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
               <img
@@ -49,12 +44,7 @@ const LanguageSelectorAdmin = () => {
           <MenuItem>
             <a
               href="#"
-              onClick={() =>
-                handleLanguageChange(
-                  "es",
-                  t("admin.adminInterface.adminInterfaceLang2")
-                )
-              }
+              onClick={() => handleLanguageChange("es")}
               className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
               <img
@@ -68,12 +58,7 @@ const LanguageSelectorAdmin = () => {
           <MenuItem>
             <a
               href="#"
-              onClick={() =>
-                handleLanguageChange(
-                  "ru",
-                  t("admin.adminInterface.adminInterfaceLang3")
-                )
-              }
+              onClick={() => handleLanguageChange("ru")}
               className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
               <img

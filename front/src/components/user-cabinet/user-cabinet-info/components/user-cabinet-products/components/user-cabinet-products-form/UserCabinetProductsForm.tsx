@@ -215,7 +215,7 @@ const UserCabinetProductsForm: React.FC<Props> = ({
                 {/* Слайдер для зміни зума */}
                 <div className="flex items-center gap-2">
                   <label htmlFor="zoom" className="text-gray-700">
-                    {t("cropImage.cropImageZoom")}:
+                    Zoom:
                   </label>
                   <input
                     id="zoom"
@@ -230,22 +230,115 @@ const UserCabinetProductsForm: React.FC<Props> = ({
                 </div>
                 {/* Кнопки для обрізки і скасування */}
                 <div className="flex gap-4">
-                  <button
+                  <div
                     className="px-6 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
                     onClick={onCropHandler}
                   >
-                    {t("cropImage.cropImageButton1")}
-                  </button>
-                  <button
+                    Обрізати
+                  </div>
+                  <div
                     className="px-6 py-2 text-white bg-gray-600 hover:bg-gray-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                     onClick={() => setOpenCrop(false)}
                   >
-                    {t("cropImage.cropImageButton2")}
-                  </button>
+                    Скасувати
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+        )}
+
+        <Select
+          options={categoryOptions}
+          onChange={handleCategoryChange}
+          defaultValue={categoryOptions.find(
+            (option: any) => option.value === activeCategoryId
+          )}
+          className="w-full"
+          classNamePrefix="react-select"
+          theme={(theme) => ({
+            ...theme,
+            colors: {
+              ...theme.colors,
+              primary25: "#E6F0FF",
+              primary: "#007BFF",
+            },
+          })}
+        />
+        {errors["category"] && (
+          <span className="text-md text-red-500 font-light">
+            {errors["category"]?.message as string}
+          </span>
+        )}
+      </div>
+
+      <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
+        <label htmlFor="image" className="text-sm font-semibold">
+          {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel2")}
+        </label>
+        <AdminImage
+          {...getMainRootProps({
+            isdragactive: isMainDragActive.toString(),
+            isdragaccept: isMainDragAccept.toString(),
+            isdragreject: isMainDragReject.toString(),
+            isfocused: isMainFocused.toString(),
+          })}
+        >
+          <input {...getMainInputProps()} />
+          {isMainDragActive ? (
+            <p>
+              {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsPlaceholder2")}
+            </p>
+          ) : (
+            <p>
+              {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsPlaceholder2")}
+            </p>
+          )}
+        </AdminImage>
+        {mainImagePreview && (
+          <>
+            <div className="w-12 h-12 mr-4">
+              <img
+                src={mainImagePreview}
+                alt="banner preview"
+                className="w-full h-full"
+              />
+            </div>
+
+            <div className="p-4 bg-white border-t border-gray-300 flex justify-between items-center">
+              {/* Слайдер для зміни зума */}
+              <div className="flex items-center gap-2">
+                <label htmlFor="zoom" className="text-gray-700">
+                  {t("cropImage.cropImageZoom")}:
+                </label>
+                <input
+                  id="zoom"
+                  type="range"
+                  min="1"
+                  max="3"
+                  step="0.1"
+                  value={zoom}
+                  onChange={(e) => setZoom(e.target.value)}
+                  className="w-40"
+                />
+              </div>
+              {/* Кнопки для обрізки і скасування */}
+              <div className="flex gap-4">
+                <button
+                  className="px-6 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                  onClick={onCropHandler}
+                >
+                  {t("cropImage.cropImageButton1")}
+                </button>
+                <button
+                  className="px-6 py-2 text-white bg-gray-600 hover:bg-gray-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                  onClick={() => setOpenCrop(false)}
+                >
+                  {t("cropImage.cropImageButton2")}
+                </button>
+              </div>
+            </div>
+          </>
         )}
 
         <Select
