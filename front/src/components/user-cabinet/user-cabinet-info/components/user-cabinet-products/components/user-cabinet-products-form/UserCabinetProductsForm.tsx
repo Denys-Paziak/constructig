@@ -10,7 +10,8 @@ import Loader from "../../../../../../loader/Loader";
 import Select from "react-select"; // Імпортуємо react-select
 import { useTranslation } from "react-i18next";
 import Cropper from "react-easy-crop";
-import { getCroppedImg } from "../../../../../../../utils/cropImageUtil.ts";
+import {getCroppedImg} from "../../../../../../../utils/cropImageUtil.ts";
+
 
 interface Props {
   toggleProductsForm: () => void;
@@ -73,7 +74,10 @@ const UserCabinetProductsForm: React.FC<Props> = ({
 
     const compressedBlob = await imageCompression(file, options);
 
-    const compressedFile = new File([compressedBlob], file.name, {
+    const uniqueFileName = `cropped_${Date.now()}_${Math.random().toString(36).substring(2, 10)}.jpg`;
+
+
+    const compressedFile = new File([compressedBlob], uniqueFileName, {
       type: file.type,
       lastModified: Date.now(),
     });
@@ -194,55 +198,52 @@ const UserCabinetProductsForm: React.FC<Props> = ({
         </label>
 
         {openCrop && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4">
-            {/* Контейнер для обрізувача зображення */}
-            <div className="relative w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
-              <div className="relative w-full h-96 sm:h-[400px] md:h-[500px] lg:h-[600px] bg-gray-100">
-                <Cropper
-                  image={mainImagePreview!}
-                  crop={crop}
-                  zoom={zoom}
-                  aspect={4 / 3}
-                  onCropChange={setCrop}
-                  onCropComplete={onCropComplete}
-                  onZoomChange={setZoom}
-                />
-              </div>
-
-              {/* Контейнер для кнопок */}
-              <div className="p-4 bg-white border-t border-gray-300 flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <label htmlFor="zoom" className="text-gray-700">
-                    {t("cropImage.cropImageZoom")}
-                  </label>
-                  <input
-                    id="zoom"
-                    type="range"
-                    min="1"
-                    max="3"
-                    step="0.1"
-                    value={zoom}
-                    onChange={(e: any) => setZoom(e.target.value)}
-                    className="w-40"
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4">
+              <div className="relative w-full max-w-2xl sm:max-w-3xl md:max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
+                <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] bg-gray-100">
+                  <Cropper
+                      image={mainImagePreview}
+                      crop={crop}
+                      zoom={zoom}
+                      aspect={4 / 3}
+                      onCropChange={setCrop}
+                      onCropComplete={onCropComplete}
+                      onZoomChange={setZoom}
                   />
                 </div>
-                <div className="flex gap-4">
-                  <div
-                    className="px-6 py-2 cursor-pointer text-white bg-green-600 hover:bg-green-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-                    onClick={onCropHandler}
-                  >
-                    {t("cropImage.cropImageButton1")}
+                <div className="p-4 bg-white border-t border-gray-300 flex flex-col sm:flex-row justify-between items-center">
+                  <div className="flex items-center gap-2 mb-4 sm:mb-0">
+                    <label htmlFor="zoom" className="text-gray-700">
+                      {t("cropImage.cropImageZoom")}
+                    </label>
+                    <input
+                        id="zoom"
+                        type="range"
+                        min="1"
+                        max="3"
+                        step="0.1"
+                        value={zoom}
+                        onChange={(e: any) => setZoom(e.target.value)}
+                        className="w-full sm:w-40"
+                    />
                   </div>
-                  <div
-                    className="px-6 py-2 cursor-pointer text-white bg-gray-600 hover:bg-gray-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                    onClick={() => setOpenCrop(false)}
-                  >
-                    {t("cropImage.cropImageButton2")}
+                  <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                    <div
+                        className="px-6 text-center py-2 text-white bg-green-600 hover:bg-green-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                        onClick={onCropHandler}
+                    >
+                      {t("cropImage.cropImageButton1")}
+                    </div>
+                    <div
+                        className="px-6 text-center py-2 text-white bg-gray-600 hover:bg-gray-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                        onClick={() => setOpenCrop(false)}
+                    >
+                      {t("cropImage.cropImageButton2")}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
         )}
 
         <Select

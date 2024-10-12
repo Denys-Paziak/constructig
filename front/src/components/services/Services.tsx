@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import i18n from "i18next";
 
 interface ServiceItem {
   image: string;
@@ -70,7 +69,7 @@ export const Services: React.FC<ServicesProps> = ({
                       : index === 1
                       ? service.link
                       : index === 3
-                      ? `/${i18n.language}/${data.site.url}/${data.site.name}/news`
+                      ? `/${data.site.lang}/${data.site.url}/${data.site.name}/news`
                       : "#"
                   }
                   onClick={() => {
