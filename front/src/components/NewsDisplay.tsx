@@ -22,7 +22,6 @@ const NewsDisplay: React.FC = () => {
     }, []);
 
 
-    console.log(data)
 
     if (!data) {
         return <Loader />;
