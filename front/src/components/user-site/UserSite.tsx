@@ -7,12 +7,9 @@ const UserSite: React.FC = () => {
   const [data, setData] = useState<any>();
   const { siteName, company, lang } = useParams();
 
-
   const getUserSite = async () => {
     try {
       const response = await getSite(siteName!, company!, lang!);
-      console.log("siteName, company, lang" )
-      console.log(response)
 
       setData(response);
     } catch (error) {

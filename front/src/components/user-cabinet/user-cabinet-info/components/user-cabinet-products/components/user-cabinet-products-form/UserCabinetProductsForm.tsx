@@ -10,7 +10,11 @@ import Loader from "../../../../../../loader/Loader";
 import Select from "react-select"; // Імпортуємо react-select
 import { useTranslation } from "react-i18next";
 import Cropper from "react-easy-crop";
+<<<<<<< HEAD
 import {getCroppedImg} from "../../../../../../../utils/cropImageUtil.ts";
+=======
+import { getCroppedImg } from "../../../../../../cropImage/getCroppedImge";
+>>>>>>> origin/main
 
 interface Props {
   toggleProductsForm: () => void;
@@ -211,7 +215,6 @@ const UserCabinetProductsForm: React.FC<Props> = ({
 
               {/* Контейнер для кнопок */}
               <div className="p-4 bg-white border-t border-gray-300 flex justify-between items-center">
-                {/* Слайдер для зміни зума */}
                 <div className="flex items-center gap-2">
                   <label htmlFor="zoom" className="text-gray-700">
                     {t("cropImage.cropImageZoom")}
@@ -227,7 +230,6 @@ const UserCabinetProductsForm: React.FC<Props> = ({
                     className="w-40"
                   />
                 </div>
-                {/* Кнопки для обрізки і скасування */}
                 <div className="flex gap-4">
                   <div
                     className="px-6 py-2 cursor-pointer text-white bg-green-600 hover:bg-green-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
@@ -302,40 +304,6 @@ const UserCabinetProductsForm: React.FC<Props> = ({
                 alt="banner preview"
                 className="w-full h-full"
               />
-            </div>
-
-            <div className="p-4 bg-white border-t border-gray-300 flex justify-between items-center">
-              {/* Слайдер для зміни зума */}
-              <div className="flex items-center gap-2">
-                <label htmlFor="zoom" className="text-gray-700">
-                  {t("cropImage.cropImageZoom")}:
-                </label>
-                <input
-                  id="zoom"
-                  type="range"
-                  min="1"
-                  max="3"
-                  step="0.1"
-                  value={zoom}
-                  onChange={(e: any) => setZoom(e.target.value)}
-                  className="w-40"
-                />
-              </div>
-              {/* Кнопки для обрізки і скасування */}
-              <div className="flex gap-4">
-                <button
-                  className="px-6 py-2 cursor-pointer text-white bg-green-600 hover:bg-green-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-                  onClick={onCropHandler}
-                >
-                  {t("cropImage.cropImageButton1")}
-                </button>
-                <button
-                  className="px-6 py-2 cursor-pointer text-white bg-gray-600 hover:bg-gray-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                  onClick={() => setOpenCrop(false)}
-                >
-                  {t("cropImage.cropImageButton2")}
-                </button>
-              </div>
             </div>
           </>
         )}
