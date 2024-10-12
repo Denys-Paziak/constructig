@@ -247,7 +247,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
             <div className="border-t border-gray-300 mt-6 pt-6 flex flex-col items-end">
               <div className="flex justify-between w-full text-xl font-semibold text-gray-900">
                 <span>{t("basket.basketTotal")}</span>
-                <span>{totalPrice} €</span>
+                <span>{totalPrice.toFixed(2)} €</span>
               </div>
               <button
                 className="mt-4 px-6 py-3 text-white font-bold rounded-lg shadow transform transition-transform duration-300 hover:scale-105"
@@ -456,7 +456,9 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
               </button>
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4 py-2 px-4 bg-gray-300 rounded-md">
-                  <h2 className={"text-2xl font-bold"}>Wifi name: </h2>
+                  <h2 className={"text-2xl font-bold"}>
+                    {t("site.siteWifiName")}:{" "}
+                  </h2>
                   <p>
                     {data.services.cols[4].name
                       ? data.services.cols[4].name
@@ -464,7 +466,9 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
                   </p>
                 </div>
                 <div className="flex items-center gap-4 py-2 px-4 bg-gray-300 rounded-md">
-                  <h2 className={"text-2xl font-bold"}>Wifi password: </h2>
+                  <h2 className={"text-2xl font-bold"}>
+                    {t("site.siteWifiPassword")}:{" "}
+                  </h2>
                   <p>
                     {data.services.cols[4].password
                       ? data.services.cols[4].password

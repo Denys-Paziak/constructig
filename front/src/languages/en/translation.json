@@ -249,7 +249,18 @@
     "siteMyWebsite": "My website",
     "siteWorkingHours": "Working hours",
     "siteNoSite": "No site in",
-    "siteCreate": "Create"
+    "siteCreate": "Create",
+    "siteNoNews": "There is no news at the moment, but it will be coming soon!",
+    "siteWifiName": "Wifi name",
+    "siteWifiPassword": "Wifi password",
+    "siteDay1": "Monday",
+    "siteDay2": "Tuesday",
+    "siteDay3": "Wednesday",
+    "siteDay4": "Thursday",
+    "siteDay5": "Friday",
+    "siteDay6": "Saturday",
+    "siteDay7": "Sunday",
+    "siteClosed": "Closed"
   },
   "cropImage": {
     "cropImageZoom": "Zoom",

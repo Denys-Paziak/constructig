@@ -221,7 +221,9 @@ const UserCabinetInfo: React.FC<Props> = ({
 
             {activeTabIndex === 3 && (
               <div>
-                <h3 className="text-lg font-semibold">Goods</h3>
+                <h3 className="text-lg font-semibold">
+                  {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsTitle")}
+                </h3>
                 <UserCabinetProducts
                   sites={sites}
                   data={data}
@@ -232,7 +234,9 @@ const UserCabinetInfo: React.FC<Props> = ({
 
             {activeTabIndex === 4 && (
               <div>
-                <h3 className="text-lg font-semibold">Events</h3>
+                <h3 className="text-lg font-semibold">
+                  {t("admin.adminInfo.adminInfoEvents.adminInfoEventsTitle")}
+                </h3>
                 <UserCabinetNews
                   sites={sites}
                   data={data}

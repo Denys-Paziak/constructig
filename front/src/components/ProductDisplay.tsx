@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { notify } from "../helpers/helper";
 
 interface Category {
   id: number;
@@ -72,6 +73,7 @@ const ProductDisplay: React.FC<Props> = ({
     }
 
     updateBasket();
+    notify("Product added to basket");
   };
 
   const closeModal = () => setSelectedItem(null);

@@ -7,7 +7,7 @@ import { ICategory } from "../../../../../../../services/categories/category.int
 import imageCompression from "browser-image-compression";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
 import Loader from "../../../../../../loader/Loader";
-import Select from "react-select"; // Імпортуємо react-select
+import Select from "react-select";
 import { useTranslation } from "react-i18next";
 import Cropper from "react-easy-crop";
 import { getCroppedImg } from "../../../../../../../utils/cropImageUtil.ts";

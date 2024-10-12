@@ -249,7 +249,18 @@
     "siteMyWebsite": "Мой сайт",
     "siteWorkingHours": "Часы работы",
     "siteNoSite": "Нет сайта на",
-    "siteCreate": "Создать"
+    "siteCreate": "Создать",
+    "siteNoNews": "На данный момент новостей нет, но они скоро появятся!",
+    "siteWifiName": "Имя Wifi",
+    "siteWifiPassword": "Пароль Wifi",
+    "siteDay1": "Понедельник",
+    "siteDay2": "Вторник",
+    "siteDay3": "Среда",
+    "siteDay4": "Четверг",
+    "siteDay5": "Пятница",
+    "siteDay6": "Суббота",
+    "siteDay7": "Воскресенье",
+    "siteClosed": "Закрыто"
   },
   "cropImage": {
     "cropImageZoom": "Масштаб",

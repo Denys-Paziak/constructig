@@ -79,12 +79,88 @@ export const Footer: React.FC<Props> = ({
             >
               {t("site.siteMyWebsite")}
             </NavLink>
-            <div className="flex gap-2">
-              <p>{t("site.siteWorkingHours")}</p>
-              <div className="flex items-center gap-1">
-                <span>{data.footer.start_time}</span>
-                <span>-</span>
-                <span>{data.footer.end_time}</span>
+            <div className="flex flex-col items-center gap-1">
+              <p
+                style={{
+                  color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
+                }}
+              >
+                {t("site.siteWorkingHours")}
+              </p>
+              <div className="flex items-center flex-col gap-1">
+                <div
+                  className="flex items-center gap-1"
+                  style={{
+                    color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
+                  }}
+                >
+                  <span>{t("site.siteDay1")}:</span>
+                  <span>{data.footer.start_time}</span>
+                  <span>-</span>
+                  <span>{data.footer.end_time}</span>
+                </div>
+                <div
+                  className="flex items-center gap-1"
+                  style={{
+                    color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
+                  }}
+                >
+                  <span>{t("site.siteDay2")}:</span>
+                  <span>{data.footer.start_time}</span>
+                  <span>-</span>
+                  <span>{data.footer.end_time}</span>
+                </div>
+                <div
+                  className="flex items-center gap-1"
+                  style={{
+                    color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
+                  }}
+                >
+                  <span>{t("site.siteDay3")}:</span>
+                  <span>{data.footer.start_time}</span>
+                  <span>-</span>
+                  <span>{data.footer.end_time}</span>
+                </div>
+                <div
+                  className="flex items-center gap-1"
+                  style={{
+                    color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
+                  }}
+                >
+                  <span>{t("site.siteDay4")}:</span>
+                  <span>{data.footer.start_time}</span>
+                  <span>-</span>
+                  <span>{data.footer.end_time}</span>
+                </div>
+                <div
+                  className="flex items-center gap-1"
+                  style={{
+                    color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
+                  }}
+                >
+                  <span>{t("site.siteDay5")}:</span>
+                  <span>{data.footer.start_time}</span>
+                  <span>-</span>
+                  <span>{data.footer.end_time}</span>
+                </div>
+                <div
+                  className="flex items-center gap-1"
+                  style={{
+                    color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
+                  }}
+                >
+                  <span>{t("site.siteDay6")}:</span>
+                  <span>{t("site.siteClosed")}</span>
+                </div>
+                <div
+                  className="flex items-center gap-1"
+                  style={{
+                    color: `rgba(${footerTextColor.r}, ${footerTextColor.g}, ${footerTextColor.b}, ${footerTextColor.a})`,
+                  }}
+                >
+                  <span>{t("site.siteDay7")}:</span>
+                  <span>{t("site.siteClosed")}</span>
+                </div>
               </div>
             </div>
           </div>
