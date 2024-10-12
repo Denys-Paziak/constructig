@@ -28,7 +28,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
   fetchData,
 }) => {
   const [mainImage, setMainImage] = useState<File | null>(null);
-  const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
+  const [mainImagePreview, setMainImagePreview] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -95,7 +95,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
     }
   }, [croppedAreaPixels, mainImagePreview, mainImage]);
 
-  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+  const onCropComplete = (croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
 

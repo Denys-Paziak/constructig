@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
-import getCroppedImg from "../../utils/cropImageUtil";
+import { getCroppedImg } from "./getCroppedImge";
 
 const CropImage: React.FC = () => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
