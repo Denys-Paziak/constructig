@@ -7,7 +7,7 @@ import imageCompression from "browser-image-compression";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
 import Loader from "../../../../../../loader/Loader";
 import { useTranslation } from "react-i18next";
-import Cropper from "react-easy-crop";
+import Cropper, {Area} from "react-easy-crop";
 import {getCroppedImg} from "../../../../../../../utils/cropImageUtil.ts"; // Helper function for cropping
 
 interface Props {
@@ -28,7 +28,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
                                                     fetchData,
                                                   }) => {
   const [mainImage, setMainImage] = useState<File | null>(null);
-  const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
+  const [mainImagePreview, setMainImagePreview] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -85,8 +85,8 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
     }
   }, [croppedAreaPixels, mainImagePreview, mainImage]);
 
-  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
-    setCroppedAreaPixels(croppedAreaPixels);
+  const onCropComplete = (_: Area, croppedAreaPixels: any) => {
+      setCroppedAreaPixels(croppedAreaPixels);
   };
 
   const {

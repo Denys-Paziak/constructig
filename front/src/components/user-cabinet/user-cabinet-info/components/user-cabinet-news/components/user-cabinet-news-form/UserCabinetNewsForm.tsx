@@ -27,7 +27,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({
   fetchData,
 }) => {
   const [mainImage, setMainImage] = useState<File | null>(null);
-  const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
+  const [mainImagePreview, setMainImagePreview] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
