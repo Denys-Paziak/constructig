@@ -8,7 +8,7 @@ import { notify, notifyError } from "../../../../../../../helpers/helper";
 import Loader from "../../../../../../loader/Loader";
 import { useTranslation } from "react-i18next";
 import Cropper from "react-easy-crop";
-import getCroppedImg from "../../../../../../../utils/cropImageUtil.ts";
+import {getCroppedImg} from "../../../../../../../utils/cropImageUtil.ts";
 
 interface Props {
   toggleNewsForm: () => void;
@@ -291,6 +291,7 @@ const UserCabinetNewsForm: React.FC<Props> = ({
           disabled={isLoading}
         >
           {t("admin.adminInfo.adminInfoEvents.adminInfoEventsButtonCancel")}
+          sss
         </button>
       </div>
     </form>

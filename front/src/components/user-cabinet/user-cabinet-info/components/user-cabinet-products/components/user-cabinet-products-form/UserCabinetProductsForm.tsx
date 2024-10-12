@@ -10,7 +10,7 @@ import Loader from "../../../../../../loader/Loader";
 import Select from "react-select"; // Імпортуємо react-select
 import { useTranslation } from "react-i18next";
 import Cropper from "react-easy-crop";
-import getCroppedImg from "../../../../../../../utils/cropImageUtil.ts";
+import {getCroppedImg} from "../../../../../../../utils/cropImageUtil.ts";
 
 interface Props {
   toggleProductsForm: () => void;
