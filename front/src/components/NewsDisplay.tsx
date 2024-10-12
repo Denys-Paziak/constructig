@@ -23,8 +23,6 @@ const NewsDisplay: React.FC = () => {
     getUserSite();
   }, []);
 
-  console.log(data);
-
   if (!data) {
     return <Loader />;
   }
