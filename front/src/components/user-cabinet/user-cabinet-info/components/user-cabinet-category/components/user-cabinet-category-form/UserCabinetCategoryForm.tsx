@@ -8,7 +8,7 @@ import { notify, notifyError } from "../../../../../../../helpers/helper";
 import Loader from "../../../../../../loader/Loader";
 import { useTranslation } from "react-i18next";
 import Cropper from "react-easy-crop";
-import getCroppedImg from "../../../../../../../utils/cropImageUtil.ts";
+import { getCroppedImg } from "../../../../../../../utils/cropImageUtil.ts"; // Helper function for cropping
 
 interface Props {
   toggleCategoriesForm: () => void;
@@ -33,7 +33,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState({});
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
   const [openCrop, setOpenCrop] = useState(false);
 
   const {
@@ -44,6 +44,7 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
   } = useForm<FormValues>({
     mode: "onChange",
   });
+
   const { t } = useTranslation();
 
   const acceptType: Accept = {
@@ -70,29 +71,31 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
     setIsLoadingImage(false);
     setMainImage(compressedFile);
     setMainImagePreview(URL.createObjectURL(compressedFile));
-    setOpenCrop(true); // Відкриваємо вікно обрізання зображення
+    setOpenCrop(true); // Open crop window
   }, []);
 
-  const onCropHandler = async () => {
-    const croppedImageBlob: any = await getCroppedImg(
-      mainImagePreview,
-      croppedAreaPixels
-    );
-    const croppedFile = new File(
-      [croppedImageBlob],
-      mainImage?.name || "cropped_image.jpg",
-      {
-        type: mainImage?.type || "image/jpeg",
-        lastModified: Date.now(),
-      }
-    );
+  const onCropHandler = useCallback(async () => {
+    if (!croppedAreaPixels) return;
 
-    setMainImage(croppedFile);
-    setMainImagePreview(URL.createObjectURL(croppedFile));
-    setOpenCrop(false);
-  };
+    try {
+      const croppedImage = await getCroppedImg(
+        mainImagePreview,
+        croppedAreaPixels
+      );
+      setMainImage(
+        new File([croppedImage], mainImage!.name, {
+          type: mainImage!.type,
+          lastModified: Date.now(),
+        })
+      );
+      setMainImagePreview(URL.createObjectURL(croppedImage));
+      setOpenCrop(false);
+    } catch (error) {
+      console.error("Crop failed", error);
+    }
+  }, [croppedAreaPixels, mainImagePreview, mainImage]);
 
-  const onCropComplete = (croppedAreaPixels: any) => {
+  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
@@ -187,10 +190,9 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
               <img
                 src={mainImagePreview}
                 alt="banner preview"
-                className="w-full h-full"
+                className="w-full h-full object-cover"
               />
             </div>
-
             {openCrop && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4">
                 <div className="relative w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
@@ -242,7 +244,6 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
           </>
         )}
       </div>
-
       <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
         <label htmlFor="name" className="text-sm font-semibold">
           {t("admin.adminInfo.adminInfoCategories.adminInfoCategoriesLabel2")}
