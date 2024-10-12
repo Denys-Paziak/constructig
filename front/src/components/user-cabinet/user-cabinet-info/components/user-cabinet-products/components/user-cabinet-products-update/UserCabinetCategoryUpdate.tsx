@@ -296,13 +296,13 @@ const UserCabinetProductsUpdate: React.FC = () => {
                           </div>
                           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                             <div
-                                className="px-6 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                                className="px-6 text-center py-2 text-white bg-green-600 hover:bg-green-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
                                 onClick={onCropHandler}
                             >
                               {t("cropImage.cropImageButton1")}
                             </div>
                             <div
-                                className="px-6 py-2 text-white bg-gray-600 hover:bg-gray-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                                className="px-6 py-2 text-center text-white bg-gray-600 hover:bg-gray-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                                 onClick={() => setOpenCrop(false)}
                             >
                               {t("cropImage.cropImageButton2")}
