@@ -8,11 +8,7 @@ import { notify, notifyError } from "../../../../../../../helpers/helper";
 import Loader from "../../../../../../loader/Loader";
 import { useTranslation } from "react-i18next";
 import Cropper from "react-easy-crop";
-<<<<<<< HEAD
-import {getCroppedImg} from "../../../../../../../utils/cropImageUtil.ts";
-=======
-import { getCroppedImg } from "../../../../../../cropImage/getCroppedImge";
->>>>>>> origin/main
+import { getCroppedImg } from "../../../../../../../utils/cropImageUtil.ts";
 
 interface Props {
   toggleNewsForm: () => void;

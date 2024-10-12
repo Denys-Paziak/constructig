@@ -7,13 +7,8 @@ import imageCompression from "browser-image-compression";
 import { notify, notifyError } from "../../../../../../../helpers/helper";
 import Loader from "../../../../../../loader/Loader";
 import { useTranslation } from "react-i18next";
-<<<<<<< HEAD
-import Cropper, {Area} from "react-easy-crop";
-import {getCroppedImg} from "../../../../../../../utils/cropImageUtil.ts"; // Helper function for cropping
-=======
-import Cropper from "react-easy-crop";
+import Cropper, { Area } from "react-easy-crop";
 import { getCroppedImg } from "../../../../../../../utils/cropImageUtil.ts"; // Helper function for cropping
->>>>>>> origin/main
 
 interface Props {
   toggleCategoriesForm: () => void;
@@ -100,13 +95,8 @@ const UserCabinetCategoryForm: React.FC<Props> = ({
     }
   }, [croppedAreaPixels, mainImagePreview, mainImage]);
 
-<<<<<<< HEAD
   const onCropComplete = (_: Area, croppedAreaPixels: any) => {
-      setCroppedAreaPixels(croppedAreaPixels);
-=======
-  const onCropComplete = (croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
->>>>>>> origin/main
   };
 
   const {
