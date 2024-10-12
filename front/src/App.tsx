@@ -22,7 +22,6 @@ import { useTranslation } from "react-i18next";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  // const [editingSiteId, setEditingSiteId] = useState<number | null>(null);
   const { i18n } = useTranslation();
 
   const handleLogin = (): void => {
@@ -33,15 +32,10 @@ function App() {
     }
   };
 
-  // const handleEditSite = (siteId: number): void => {
-  //   setEditingSiteId(siteId);
-  // };
-
   useEffect(() => {
     handleLogin();
 
     const savedLanguage = localStorage.getItem("language");
-    console.log(savedLanguage);
     if (savedLanguage) {
       i18n.changeLanguage(savedLanguage);
     }
@@ -70,10 +64,7 @@ function App() {
           path="/profile"
           element={
             isLoggedIn ? (
-              <UserSites
-                // onEditSite={handleEditSite}
-                setIsLoggedIn={setIsLoggedIn}
-              />
+              <UserSites setIsLoggedIn={setIsLoggedIn} />
             ) : (
               <Navigate to="/login" />
             )

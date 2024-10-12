@@ -99,34 +99,38 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
     }
   };
 
-  const handleOrder: any = async () => {
+  const handleOrder = async () => {
     setIsPopupVisible(false);
 
-    const orderedItems = basket
-      .map(
-        (item: any, index: any) =>
-          `#${index + 1} ${item.name} - €${item.price}\nDescription: ${
-            item.description
-          }`
-      )
-      .join("\n");
+    const orderedItems = basket.map(
+      (item: any, index: any) =>
+        `${index + 1} ${item.name} - €${item.price} Description: ${
+          item.description
+        }`
+    );
 
     const message = `
       🔔 New Order 🔔
-      ------------------------------
+      ---------------\n
+
       Table Number: ${inputValue}
-      Ordered Items:
-      ${orderedItems}
-      ------------------------------
+      Ordered Items: ${orderedItems}\n
+
+      -------------------------
       Total Price: €${totalPrice}
     `;
 
-    await sendMessageToOrder(message);
+    try {
+      await sendMessageToOrder(message);
+      notify("Thank you for your order, the waiter will be with you shortly!");
+    } catch (error) {
+      console.error("Failed to send order", error);
+      notifyError("Failed to send the order.");
+    }
 
     localStorage.removeItem("basket");
     setBasket([]);
     setTotalPrice(0);
-    notify("Thank you for your order, the waiter will be with you shortly!");
 
     setBasketMenu(false);
   };
@@ -136,8 +140,6 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
   }, []);
 
   if (!data) return <Loader />;
-
-  console.log(data);
 
   return (
     <div
@@ -160,7 +162,7 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
             setBasketMenu(true);
           }}
         >
-          <div className="absolute hidden md:flex -top-2 -left-2 w-6 h-6 flex justify-center items-center rounded-full bg-amber-50 text-black border-[1px] border-black shadow-sm text-xs font-bold animate-pulse">
+          <div className="absolute md:flex -top-2 -left-2 w-6 h-6 flex justify-center items-center rounded-full bg-amber-50 text-black border-[1px] border-black shadow-sm text-xs font-bold animate-pulse">
             {basket.length}
           </div>
 

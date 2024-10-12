@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { NavLink } from "react-router-dom";
 
 interface HeaderProps {
   logo: string | null;
@@ -124,7 +125,7 @@ export const Header: React.FC<HeaderProps> = ({
         >
           <Menu as="div" className="relative inline-block text-left">
             <MenuButton
-              className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm"
+              className="inline-flex h-[36px] w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm"
               // style={{
               //   color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
               // }}
@@ -161,6 +162,20 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
             </MenuItems>
           </Menu>
+          <div className="flex items-center gap-4">
+            <NavLink
+              to={"/login"}
+              className="bg-white border-none h-[36px] outline-none rounded-md px-4 py-1.5 text-black font-semibold"
+            >
+              Login
+            </NavLink>
+            <NavLink
+              to={"/register"}
+              className="bg-white border-none h-[36px] outline-none rounded-md px-4 py-1.5 text-black font-semibold"
+            >
+              Register
+            </NavLink>
+          </div>
         </div>
       </div>
 
@@ -258,6 +273,18 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
               </MenuItems>
             </Menu>
+            <NavLink
+              to={"/login"}
+              className="bg-white border-none text-center h-[36px] outline-none rounded-md px-4 py-1.5 text-black font-semibold"
+            >
+              Login
+            </NavLink>
+            <NavLink
+              to={"/register"}
+              className="bg-white border-none text-center h-[36px] outline-none rounded-md px-4 py-1.5 text-black font-semibold"
+            >
+              Register
+            </NavLink>
           </div>
         </div>
       )}
