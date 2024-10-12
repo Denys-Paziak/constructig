@@ -49,7 +49,7 @@ const UserCabinetProductsTable: React.FC<Props> = ({
                     <img
                       src={product.image}
                       alt="category img"
-                      className="h-[160px] mx-auto"
+                      className="min-w-[160px] object-cover max-w-[160px] min-h-[160px] max-h-[160px] mx-auto"
                     />
                   )}
                 </td>
