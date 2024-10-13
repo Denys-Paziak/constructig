@@ -18,7 +18,6 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   const [sites, setSites] = useState<any>([]);
   const [prevSiteId, setPrevSiteId] = useState<any>([]);
   const [sitesStatus, setSitesStatus] = useState<any>(true);
-  const [showLoader, setShowLoader] = useState<any>(false);
   const { t } = useTranslation();
 
   const token = localStorage.getItem("token");
@@ -44,8 +43,6 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
       } catch (error) {
         console.log(error);
       }
-    } else {
-      console.log("сайтів немає");
     }
   };
 
@@ -53,14 +50,12 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
     let siteLang: any = localStorage.getItem("siteLang");
 
     if (type === "create") {
-      setShowLoader(true);
       const formData = new FormData();
       formData.append("originalSiteId", prevSiteId);
       formData.append("newLang", siteLang);
 
       await createLang(formData, token!);
       await handlerChangeLang();
-      setShowLoader(false);
     } else {
       localStorage.setItem("siteLang", "en");
       await handlerChangeLang();
@@ -114,14 +109,6 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
     };
     start();
   }, [sites]);
-
-  if (sites.length === 0) {
-    return <Loader />;
-  }
-
-  if (showLoader) {
-    return <Loader />;
-  }
 
   if (!userData) {
     return <Loader />;

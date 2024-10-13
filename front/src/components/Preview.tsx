@@ -139,6 +139,8 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
     updateBasket();
   }, []);
 
+  console.log(data);
+
   if (!data) return <Loader />;
 
   return (

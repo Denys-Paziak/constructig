@@ -148,7 +148,7 @@ export const Header: React.FC<HeaderProps> = ({
                   data.availableLanguages.map((el: any) => (
                     <MenuItem key={el}>
                       <a
-                        href="#"
+                        href={`/${el}/${data.site.url}/${data.site.name}`}
                         onClick={() => handleLanguageChange(el.toUpperCase())} // Зміна мови при кліку
                         className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
                         // style={{
@@ -259,12 +259,9 @@ export const Header: React.FC<HeaderProps> = ({
                     data.availableLanguages.map((el: any) => (
                       <MenuItem key={el}>
                         <a
-                          href="#"
+                          href={`/${el}/${data.site.url}/${data.site.name}`}
                           onClick={() => handleLanguageChange(el.toUpperCase())}
                           className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                          // style={{
-                          //   color: `rgba(${headerTextColor.r}, ${headerTextColor.g}, ${headerTextColor.b}, ${headerTextColor.a})`,
-                          // }}
                         >
                           {el.toUpperCase()}
                         </a>

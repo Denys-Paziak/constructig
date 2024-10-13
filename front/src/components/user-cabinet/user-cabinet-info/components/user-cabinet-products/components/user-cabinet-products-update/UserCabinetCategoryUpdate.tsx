@@ -25,6 +25,7 @@ const UserCabinetProductsUpdate: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [editProduct, setEditProduct] = useState<IProduct>();
   const [isLoadingImage, setIsLoadingImage] = useState(false);
+  const [isPopular, setIsPopular] = useState(false);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
@@ -121,6 +122,7 @@ const UserCabinetProductsUpdate: React.FC = () => {
               price: editedProduct.price,
             };
             reset(updatedObject);
+            setIsPopular(editedProduct.isPopular === 1 ? true : false);
           }
         } catch (error) {
           console.log(error);
@@ -135,24 +137,22 @@ const UserCabinetProductsUpdate: React.FC = () => {
     const token = localStorage.getItem("token");
     setIsLoading(true);
 
-    try {
-      if (token) {
-        await deleteImage(editProduct!.image, token);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
     const formData = new FormData();
 
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
     });
 
+    formData.append("isPopular", isPopular ? "1" : "0"); // Додаємо значення популярності
+
     if (productImages.length > 0) {
       productImages.forEach((file) => {
         formData.append("image", file);
       });
+
+      if (token) {
+        await deleteImage(editProduct!.image, token);
+      }
     }
 
     if (token) {
@@ -370,6 +370,31 @@ const UserCabinetProductsUpdate: React.FC = () => {
                     {errors["price"]?.message as string}
                   </span>
                 )}
+              </div>
+              <div className="w-full md:w-[calc(50%-10px)] flex flex-col gap-2">
+                <label
+                  htmlFor="isPopular"
+                  className="text-sm font-semibold text-gray-700"
+                >
+                  {t("admin.adminInfo.adminInfoGoods.adminInfoGoodsLabel6")}
+                </label>
+                <div className="flex items-center py-2   space-x-3">
+                  <input
+                    id="isPopular"
+                    type="checkbox"
+                    checked={isPopular}
+                    onChange={(e) => setIsPopular(e.target.checked)}
+                    className="h-5 w-5  text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                  />
+                  <label
+                    htmlFor="isPopular"
+                    className="text-gray-700 cursor-pointer"
+                  >
+                    {t(
+                      "admin.adminInfo.adminInfoGoods.adminInfoGoodsPlaceholder6"
+                    )}
+                  </label>
+                </div>
               </div>
               <div className="w-full flex md:flex-row flex-col gap-[20px] pt-4 border-t border-gray-300">
                 <button

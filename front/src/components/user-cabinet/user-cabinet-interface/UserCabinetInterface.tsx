@@ -105,7 +105,7 @@ const UserCabinetInterface: React.FC<Props> = ({
             <div ref={qrRef} className="mx-auto">
               <QRCode
                 className="w-32 h-32"
-                value={`https://menualista.com/${sites[0].url}/${userData.company}`}
+                value={`https://menualista.com/${sites[0]?.url}/${userData.company}`}
               />
             </div>
             <button
