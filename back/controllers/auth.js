@@ -12,7 +12,7 @@ export const updateUser = async (req, res) => {
     const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = jwt.verify(token, dotenv.config().parsed.JWT_SECRET);
 
-    const { username, email, company, oldPassword, newPassword } = req.body;
+    const { username, email, company, oldPassword, newPassword, chatId} = req.body;
 
     let updateFields = [];
     let updateValues = [];
@@ -22,6 +22,11 @@ export const updateUser = async (req, res) => {
     if (username) {
         updateFields.push("username = ?");
         updateValues.push(username);
+    }
+
+    if (chatId) {
+        updateFields.push("chatId = ?");
+        updateValues.push(chatId);
     }
 
     if (email) {
