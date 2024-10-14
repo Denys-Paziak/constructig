@@ -71,6 +71,8 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
       localStorage.setItem("siteLang", "en");
     }
 
+    siteLang = localStorage.getItem("siteLang");
+
     try {
       const response = await getUserSites(token);
 
@@ -79,7 +81,7 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
       );
 
       if (filteredSites.length === 0) {
-        setPrevSiteId(sites[0].id);
+        setPrevSiteId(filteredSites[0]?.id);
         return false;
       }
 
@@ -178,4 +180,4 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
   );
 };
 
-export default React.memo(UserSites);
+export default UserSites;

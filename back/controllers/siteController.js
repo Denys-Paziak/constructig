@@ -457,13 +457,14 @@ export async function createSite(id, url, name, lang, langId) {
         },
         {
           query:
-            "INSERT INTO global (site_id, main_bg_color, main_text_color, site_bg_color, site_text_color) VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO global (site_id, main_bg_color, main_text_color, site_bg_color, site_text_color, chatId) VALUES (?, ?, ?, ?, ?, ?)",
           params: [
             siteId,
             JSON.stringify({ r: 59, g: 130, b: 246, a: 1 }),
             JSON.stringify({ r: 255, g: 255, b: 255, a: 1 }),
             JSON.stringify({ r: 255, g: 255, b: 255, a: 1 }),
             JSON.stringify({ r: 0, g: 0, b: 0, a: 1 }),
+            "",
           ],
         },
         {

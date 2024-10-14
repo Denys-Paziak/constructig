@@ -65,7 +65,6 @@ const Register: React.FC = () => {
 
     try {
       const response: any = await register(formData);
-      console.log(response);
       if (response.status === 201) {
         notifySuccess("Registration successful!");
         navigate("/login");

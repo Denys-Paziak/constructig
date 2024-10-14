@@ -43,6 +43,7 @@ const UserCabinetInterface: React.FC<Props> = ({
   const signOut = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("token");
+    localStorage.removeItem("siteLang");
     navigate("/login");
   };
 
