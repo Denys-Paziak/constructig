@@ -128,8 +128,7 @@ function buildSiteResponse(result, categoriesResult, itemsResult, newsResult) {
 export const getSite = async (req, res) => {
   const { siteId, lang } = req.params;
 
-
-  console.log(siteId + " "  + lang)
+  console.log(siteId + " " + lang);
 
   try {
     const siteQuery =
@@ -146,8 +145,12 @@ export const getSite = async (req, res) => {
 
     const result = siteResult[0];
 
-    const categoriesResult = await executeQuery(getCategoriesQuery(), [result["site_id"]]);
-    const itemsResult = await executeQuery(getItemsQuery(), [result["site_id"]]);
+    const categoriesResult = await executeQuery(getCategoriesQuery(), [
+      result["site_id"],
+    ]);
+    const itemsResult = await executeQuery(getItemsQuery(), [
+      result["site_id"],
+    ]);
     const newsResult = await executeQuery(getNewsQuery(), [result["site_id"]]);
 
     const response = buildSiteResponse(
@@ -170,7 +173,8 @@ export const getSiteByName = async (req, res) => {
   console.log(siteName, company, lang);
 
   try {
-    const siteQuery = getSiteQuery() + " WHERE s.name = ? AND s.url = ? AND lang = ?";
+    const siteQuery =
+      getSiteQuery() + " WHERE s.name = ? AND s.url = ? AND lang = ?";
     const siteResult = await executeQuery(siteQuery, [company, siteName, lang]);
 
     if (siteResult.length === 0) {
@@ -182,8 +186,12 @@ export const getSiteByName = async (req, res) => {
       result.site_id,
     ]);
 
-    const languagesQuery = "SELECT DISTINCT lang FROM sites WHERE name = ? AND url = ?";
-    const availableLanguages = await executeQuery(languagesQuery, [company, siteName]);
+    const languagesQuery =
+      "SELECT DISTINCT lang FROM sites WHERE name = ? AND url = ?";
+    const availableLanguages = await executeQuery(languagesQuery, [
+      company,
+      siteName,
+    ]);
 
     const itemsResult = await executeQuery(getItemsQuery(), [result.site_id]);
     const newsResult = await executeQuery(getNewsQuery(), [result.site_id]);
@@ -195,8 +203,7 @@ export const getSiteByName = async (req, res) => {
       newsResult
     );
 
-    response.availableLanguages = availableLanguages.map(lang => lang.lang);
-
+    response.availableLanguages = availableLanguages.map((lang) => lang.lang);
 
     res.status(200).json(response);
   } catch (error) {
@@ -495,7 +502,9 @@ export const cloneSiteWithNewLanguage = async (req, res) => {
   try {
     // Отримання даних оригінального сайту перед транзакцією
     const originalSiteQuery = getSiteQuery() + "WHERE s.id = ?";
-    const originalSiteResult = await executeQuery(originalSiteQuery, [originalSiteId]);
+    const originalSiteResult = await executeQuery(originalSiteQuery, [
+      originalSiteId,
+    ]);
 
     if (originalSiteResult.length === 0) {
       throw new Error("Оригінальний сайт не знайдено");
@@ -507,7 +516,7 @@ export const cloneSiteWithNewLanguage = async (req, res) => {
     await executeQuery("START TRANSACTION");
 
     const insertSiteQuery =
-        "INSERT INTO sites (user_id, url, name, lang, langId) VALUES (?, ?, ?, ?, ?)";
+      "INSERT INTO sites (user_id, url, name, lang, langId) VALUES (?, ?, ?, ?, ?)";
     const newSiteResult = await executeQuery(insertSiteQuery, [
       userId,
       originalSite.site_url,
@@ -543,12 +552,23 @@ export const cloneSiteWithNewLanguage = async (req, res) => {
     // Група 1: Header і Slider
     const batch1 = [
       {
-        query: "INSERT INTO headers (site_id, visible, logo, menu) VALUES (?, ?, ?, ?)",
-        params: [newSiteId, originalSite.header_visible, originalSite.header_logo, originalSite.header_menu],
+        query:
+          "INSERT INTO headers (site_id, visible, logo, menu) VALUES (?, ?, ?, ?)",
+        params: [
+          newSiteId,
+          originalSite.header_visible,
+          originalSite.header_logo,
+          originalSite.header_menu,
+        ],
       },
       {
-        query: "INSERT INTO sliders (site_id, visible, images) VALUES (?, ?, ?)",
-        params: [newSiteId, originalSite.slider_visible, originalSite.slider_images],
+        query:
+          "INSERT INTO sliders (site_id, visible, images) VALUES (?, ?, ?)",
+        params: [
+          newSiteId,
+          originalSite.slider_visible,
+          originalSite.slider_images,
+        ],
       },
     ];
 
@@ -556,18 +576,30 @@ export const cloneSiteWithNewLanguage = async (req, res) => {
     const batch2 = [
       {
         query: "INSERT INTO services (site_id, visible, cols) VALUES (?, ?, ?)",
-        params: [newSiteId, originalSite.services_visible, originalSite.services_cols],
+        params: [
+          newSiteId,
+          originalSite.services_visible,
+          originalSite.services_cols,
+        ],
       },
       {
-        query: "INSERT INTO info (site_id, visible, image, title, text) VALUES (?, ?, ?, ?, ?)",
-        params: [newSiteId, originalSite.info_visible, originalSite.info_image, originalSite.info_title, originalSite.info_text],
+        query:
+          "INSERT INTO info (site_id, visible, image, title, text) VALUES (?, ?, ?, ?, ?)",
+        params: [
+          newSiteId,
+          originalSite.info_visible,
+          originalSite.info_image,
+          originalSite.info_title,
+          originalSite.info_text,
+        ],
       },
     ];
 
     // Група 3: Socials і Footer
     const batch3 = [
       {
-        query: "INSERT INTO socials (site_id, visible, instagram, facebook, youtube, messenger, whatsApp, viber, x, tikTok) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        query:
+          "INSERT INTO socials (site_id, visible, instagram, facebook, youtube, messenger, whatsApp, viber, x, tikTok) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         params: [
           newSiteId,
           originalSite.socials_visible,
@@ -582,7 +614,8 @@ export const cloneSiteWithNewLanguage = async (req, res) => {
         ],
       },
       {
-        query: "INSERT INTO footers (site_id, visible, work_time, web_link, first_description, second_description, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        query:
+          "INSERT INTO footers (site_id, visible, work_time, web_link, first_description, second_description, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         params: [
           newSiteId,
           originalSite.footer_visible,
@@ -599,7 +632,8 @@ export const cloneSiteWithNewLanguage = async (req, res) => {
     // Група 4: Global і Banner
     const batch4 = [
       {
-        query: "INSERT INTO global (site_id, main_bg_color, main_text_color, site_bg_color, site_text_color) VALUES (?, ?, ?, ?, ?)",
+        query:
+          "INSERT INTO global (site_id, main_bg_color, main_text_color, site_bg_color, site_text_color) VALUES (?, ?, ?, ?, ?)",
         params: [
           newSiteId,
           originalSite.global_main_bg_color,
@@ -617,7 +651,8 @@ export const cloneSiteWithNewLanguage = async (req, res) => {
     // Група 5: Копіювання категорій
     const batch5 = [
       {
-        query: "INSERT INTO categories (name, image, site_id) SELECT name, image, ? FROM categories WHERE site_id = ?",
+        query:
+          "INSERT INTO categories (name, image, site_id) SELECT name, image, ? FROM categories WHERE site_id = ?",
         params: [newSiteId, originalSiteId],
       },
     ];
@@ -625,7 +660,8 @@ export const cloneSiteWithNewLanguage = async (req, res) => {
     // Група 6: Копіювання новин
     const batch6 = [
       {
-        query: "INSERT INTO news (title, content, date, image, site_id) SELECT title, content, date, image, ? FROM news WHERE site_id = ?",
+        query:
+          "INSERT INTO news (title, content, date, image, site_id) SELECT title, content, date, image, ? FROM news WHERE site_id = ?",
         params: [newSiteId, originalSiteId],
       },
     ];
@@ -633,7 +669,8 @@ export const cloneSiteWithNewLanguage = async (req, res) => {
     // Група 7: Копіювання товарів
     const batch7 = [
       {
-        query: "INSERT INTO items (isPopular, category_id, name, description, price, image, site_id) SELECT isPopular, category_id, name, description, price, image, ? FROM items WHERE site_id = ?",
+        query:
+          "INSERT INTO items (isPopular, category_id, name, description, price, image, site_id) SELECT isPopular, category_id, name, description, price, image, ? FROM items WHERE site_id = ?",
         params: [newSiteId, originalSiteId],
       },
     ];
@@ -647,13 +684,18 @@ export const cloneSiteWithNewLanguage = async (req, res) => {
     await executeQueriesInBatches(batch6);
     await executeQueriesInBatches(batch7);
 
-    res.status(200).json({ message: "Сайт успішно скопійовано на новій мові", newSiteId });
+    res
+      .status(200)
+      .json({ message: "Сайт успішно скопійовано на новій мові", newSiteId });
   } catch (error) {
     console.error("Помилка клонування сайту: ", error.message);
     try {
       await executeQuery("ROLLBACK");
     } catch (rollbackError) {
-      console.error("Помилка під час відкату транзакції: ", rollbackError.message);
+      console.error(
+        "Помилка під час відкату транзакції: ",
+        rollbackError.message
+      );
     }
     res.status(500).json({ error: "Помилка клонування сайту" });
   }

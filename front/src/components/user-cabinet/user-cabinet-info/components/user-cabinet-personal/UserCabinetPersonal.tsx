@@ -299,7 +299,7 @@ const UserCabinetPersonal: React.FC<Props> = ({
         </form>
       </div>
       <form onSubmit={handleChatIdForm} className="flex flex-col gap-4 mt-6">
-        <div className="md:w-[50%] w-[100%]">
+        <div className="w-full">
           <label
             htmlFor="chat_id"
             className="block text-sm font-medium text-gray-700"

@@ -114,6 +114,8 @@ const UserSites: React.FC<Props> = ({ setIsLoggedIn }) => {
     return <Loader />;
   }
 
+  console.log(userData);
+
   if (!sitesStatus) {
     return (
       <div className="fixed flex flex-col gap-6 justify-center items-center top-0 left-0 w-full h-full bg-blue-50 text-gray-700">
