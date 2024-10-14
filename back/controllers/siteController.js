@@ -217,7 +217,7 @@ export const updateSite = async (req, res) => {
   const connection = mysql.createConnection(dbConfig);
   const { siteId } = req.params;
   const data = JSON.parse(req.body.data);
-  const { header, slider, services, info, socials, footer, chatId } = data;
+  const { header, slider, services, info, socials, footer } = data;
   const headerLogo = req.files.logo;
 
   console.log(chatId);
@@ -231,10 +231,6 @@ export const updateSite = async (req, res) => {
     const imageLocation = uploadFile(headerLogo[0]);
 
     const queries = [
-      {
-        query: "UPDATE sites SET chatId = ? WHERE id = ?",
-        params: [chatId, siteId],
-      },
       {
         query:
           "UPDATE headers SET visible = ?, logo = ?, menu = ? WHERE site_id = ?",

@@ -7,12 +7,18 @@ export const updateGlobal = async (req, res) => {
   const data = JSON.parse(req.body.data);
 
   const { siteId } = req.params;
-  const { main_bg_color, main_text_color, site_bg_color, site_text_color } =
-    data;
+  const {
+    main_bg_color,
+    main_text_color,
+    site_bg_color,
+    site_text_color,
+    chatId,
+  } = data;
 
   console.log(main_bg_color, main_text_color, site_bg_color, site_text_color);
 
   let params = [
+    chatId,
     JSON.stringify(main_bg_color),
     JSON.stringify(main_text_color),
     JSON.stringify(site_bg_color),
@@ -21,7 +27,7 @@ export const updateGlobal = async (req, res) => {
   ];
 
   const query =
-    "UPDATE global SET  main_bg_color = ?, main_text_color = ?, site_bg_color = ?, site_text_color = ? WHERE site_id = ?";
+    "UPDATE global SET chatId = ?,  main_bg_color = ?, main_text_color = ?, site_bg_color = ?, site_text_color = ? WHERE site_id = ?";
 
   connection.query(query, params, (err, results) => {
     if (err) {

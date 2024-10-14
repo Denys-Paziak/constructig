@@ -18,7 +18,6 @@ const UserCabinetPersonal: React.FC<Props> = ({
   getSites,
 }) => {
   const [username, setUsername] = useState<string>("");
-  const [chatId, setChatId] = useState<string>("");
   const [company, setCompany] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [oldPassword, setOldPassword] = useState<string>("");
@@ -115,33 +114,6 @@ const UserCabinetPersonal: React.FC<Props> = ({
           setOldPassword("");
           setNewPassword("");
           setConfirmNewPassword("");
-        } else {
-          notifyError("Something went wrong...");
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      notifyError("Something went wrong...");
-    }
-  };
-
-  const handleChatIdForm = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const token = localStorage.getItem("token");
-
-    const formData = new FormData();
-    formData.append("chatId", chatId);
-
-    try {
-      if (token) {
-        const data = await updateUserData(formData, token);
-
-        if (data && data.data.token) {
-          notifySuccess(data.data.message);
-          localStorage.setItem("token", data.data.token);
-          await getUserData(data.data.token);
-          getSites();
         } else {
           notifyError("Something went wrong...");
         }
@@ -298,37 +270,6 @@ const UserCabinetPersonal: React.FC<Props> = ({
           </button>
         </form>
       </div>
-      <form onSubmit={handleChatIdForm} className="flex flex-col gap-4 mt-6">
-        <div className="w-full">
-          <label
-            htmlFor="chat_id"
-            className="block text-sm font-medium text-gray-700"
-          >
-            {t("admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel7")}
-          </label>
-          <input
-            id="chat_id"
-            type="text"
-            placeholder={t(
-              "admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel7"
-            )}
-            value={chatId}
-            onChange={(e) => setChatId(e.target.value)}
-            className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            required
-          />
-        </div>
-        <div>
-          <button
-            type="submit"
-            className="w-full py-2.5 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            {t(
-              "admin.adminInfo.adminInfoSettings.adminInfoSettingsButtonSaveChatId"
-            )}
-          </button>
-        </div>
-      </form>
     </>
   );
 };
