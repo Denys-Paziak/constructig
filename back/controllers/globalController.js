@@ -6,11 +6,11 @@ export const updateGlobal = async (req, res) => {
 
   const data = JSON.parse(req.body.data);
 
-
   const { siteId } = req.params;
-  const { main_bg_color, main_text_color, site_bg_color, site_text_color } = data;
+  const { main_bg_color, main_text_color, site_bg_color, site_text_color } =
+    data;
 
-  console.log(main_bg_color, main_text_color, site_bg_color, site_text_color)
+  console.log(main_bg_color, main_text_color, site_bg_color, site_text_color);
 
   let params = [
     JSON.stringify(main_bg_color),
