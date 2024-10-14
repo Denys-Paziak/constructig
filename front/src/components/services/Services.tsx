@@ -22,8 +22,6 @@ interface ServicesProps {
 
 export const Services: React.FC<ServicesProps> = ({
   services,
-  backgroundColor,
-  textColor,
   bodyColorBg,
   headerColorBg,
   bodyTextColor,

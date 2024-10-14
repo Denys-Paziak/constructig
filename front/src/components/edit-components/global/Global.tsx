@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { RgbaColorPicker } from "react-colorful";
 import Button from "../../UI/button/Button";
 import { updateGlobalColors } from "../../../services/global/global";
-import { notify, notifyError } from "../../../helpers/helper";
+import { notify } from "../../../helpers/helper";
 import { useTranslation } from "react-i18next";
 
 interface Props {
