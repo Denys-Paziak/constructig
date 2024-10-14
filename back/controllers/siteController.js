@@ -30,7 +30,7 @@ function getSiteQuery() {
       so.visible AS socials_visible, so.instagram AS socials_instagram, so.facebook AS socials_facebook, so.youtube AS socials_youtube, so.messenger AS socials_messenger, so.whatsApp AS socials_whatsApp, so.viber AS socials_viber, so.x AS socials_x, so.tikTok AS socials_tikTok,
       f.visible AS footer_visible, f.work_time AS footer_work_time, f.web_link AS footer_web_link, f.first_description AS footer_first_description, f.second_description AS footer_second_description, f.end_time AS footer_end_time, f.start_time AS footer_start_time,
       b.visible AS banner_visible,
-      g.main_bg_color AS global_main_bg_color, g.main_text_color AS global_main_text_color,
+      g.main_bg_color AS global_main_bg_color, g.main_text_color AS global_main_text_color, g.chatId AS global_chatId,
       g.site_bg_color AS global_site_bg_color, g.site_text_color AS global_site_text_color
     FROM sites s
     LEFT JOIN headers h ON s.id = h.site_id
@@ -120,6 +120,7 @@ function buildSiteResponse(result, categoriesResult, itemsResult, newsResult) {
       categories: categoriesResult || [],
       items: itemsResult || [],
       news: newsResult || [],
+      chatId: result.global_chatId
     },
   };
 }

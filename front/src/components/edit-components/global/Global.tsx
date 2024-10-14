@@ -13,7 +13,6 @@ interface Props {
 const Global: React.FC<Props> = ({ data, handleInputChange }) => {
   const id = data.site.id;
   const { t } = useTranslation();
-  const [chatId, setChatId] = useState<string>("");
 
   const handleSaveChanges = async () => {
     const token = localStorage.getItem("token");
@@ -21,11 +20,7 @@ const Global: React.FC<Props> = ({ data, handleInputChange }) => {
     try {
       if (token) {
         const formData = new FormData();
-        const editedData = {
-          ...data.global,
-          chatId: chatId,
-        };
-        formData.append("data", JSON.stringify(editedData));
+        formData.append("data", JSON.stringify(data.global));
         const response = await updateGlobalColors(id!, formData, token);
         notify(response.message);
       }
@@ -68,31 +63,6 @@ const Global: React.FC<Props> = ({ data, handleInputChange }) => {
       console.log(error);
     }
   };
-
-  // const handleChatIdForm = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-
-  //   const token = localStorage.getItem("token");
-
-  //   const formData = new FormData();
-  //   formData.append("chatId", chatId);
-
-  //   try {
-  //     if (token) {
-  //       const data = await updateUserData(formData, token);
-
-  //       if (data && data.data.token) {
-  //         notify(data.data.message);
-  //         localStorage.setItem("token", data.data.token);
-  //       } else {
-  //         notifyError("Something went wrong...");
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     notifyError("Something went wrong...");
-  //   }
-  // };
 
   return (
     <div className="w-full bg-gray-100 flex flex-col gap-4 p-4">
@@ -173,8 +143,10 @@ const Global: React.FC<Props> = ({ data, handleInputChange }) => {
           placeholder={t(
             "admin.adminInfo.adminInfoSettings.adminInfoSettingsLabel7"
           )}
-          value={chatId}
-          onChange={(e) => setChatId(e.target.value)}
+          value={data.global.chatId ? data.global.chatId : ""}
+          onChange={(e: any) => {
+            handleInputChange("global", "chatId", e.target.value);
+          }}
           className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           required
         />

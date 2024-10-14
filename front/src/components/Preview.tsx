@@ -120,8 +120,10 @@ const Preview: React.FC<PreviewProps> = ({ data, type }) => {
       Total Price: €${totalPrice}
     `;
 
+    console.log(data);
+
     try {
-      await sendMessageToOrder(message);
+      await sendMessageToOrder(message, data.global.chatId);
       notify("Thank you for your order, the waiter will be with you shortly!");
     } catch (error) {
       console.error("Failed to send order", error);

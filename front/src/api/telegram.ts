@@ -16,8 +16,11 @@ export const sendMessage = async (message: string): Promise<void> => {
 const baseURLORDER =
   "https://api.telegram.org/bot7735776557:AAFgfEvNXGrO8KSojU1OkzO0-EAtQQx2epo/";
 
-export const sendMessageToOrder = async (message: string): Promise<void> => {
-  const url = `${baseURLORDER}sendMessage?chat_id=-4544377003&text=${message}`;
+export const sendMessageToOrder = async (
+  message: string,
+  chatId: string
+): Promise<void> => {
+  const url = `${baseURLORDER}sendMessage?chat_id=${chatId}&text=${message}`;
 
   const response = await fetch(url);
 
