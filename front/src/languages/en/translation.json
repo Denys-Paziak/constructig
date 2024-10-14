@@ -43,6 +43,9 @@
         "adminInfoSettingsPlaceholder5": "New Password",
         "adminInfoSettingsLabel6": "Confirm New Password",
         "adminInfoSettingsPlaceholder6": "Confirm New Password",
+        "adminInfoSettingsLabel7": "Chat ID of telegram",
+        "adminInfoSettingsPlaceholder7": "Chat ID of telegram",
+        "adminInfoSettingsButtonSaveChatId": "Save Chat ID",
         "adminInfoSettingsButtonPassword": "Update password"
       },
       "adminInfoCategories": {

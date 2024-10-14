@@ -43,6 +43,9 @@
         "adminInfoSettingsPlaceholder5": "Новый пароль",
         "adminInfoSettingsLabel6": "Подтвердите новый пароль",
         "adminInfoSettingsPlaceholder6": "Подтвердите новый пароль",
+        "adminInfoSettingsLabel7": "ID чата в Telegram",
+        "adminInfoSettingsPlaceholder7": "ID чата в Telegram",
+        "adminInfoSettingsButtonSaveChatId": "Сохранить ID чата",
         "adminInfoSettingsButtonPassword": "Обновить пароль"
       },
       "adminInfoCategories": {

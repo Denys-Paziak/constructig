@@ -43,6 +43,9 @@
         "adminInfoSettingsPlaceholder5": "Nueva contraseña",
         "adminInfoSettingsLabel6": "Confirmar nueva contraseña",
         "adminInfoSettingsPlaceholder6": "Confirmar nueva contraseña",
+        "adminInfoSettingsLabel7": "ID de chat de Telegram",
+        "adminInfoSettingsPlaceholder7": "ID de chat de Telegram",
+        "adminInfoSettingsButtonSaveChatId": "Guardar ID de chat",
         "adminInfoSettingsButtonPassword": "Actualizar contraseña"
       },
       "adminInfoCategories": {
