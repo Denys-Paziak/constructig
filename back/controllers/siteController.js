@@ -1,5 +1,5 @@
 import { uploadFile } from "../util/uploadFile.js";
-import mysql from "mysql";
+import mysql from "mysql2";
 import dbConfig from "../config/dbConfig.js";
 import { stat } from "fs";
 

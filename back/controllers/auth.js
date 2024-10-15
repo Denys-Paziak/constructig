@@ -1,4 +1,4 @@
-import mysql from "mysql";
+import mysql from "mysql2";
 import dbConfig from "../config/dbConfig.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
