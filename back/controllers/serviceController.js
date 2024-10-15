@@ -1,4 +1,4 @@
-import mysql from "mysql2";
+import mysql from "mysql";
 import dbConfig from '../config/dbConfig.js';
 
 import { uploadFile } from "../util/uploadFile.js";
