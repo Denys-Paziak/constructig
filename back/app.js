@@ -17,7 +17,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/", siteRoutes);
 
 app.get("/api/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Welcome to Menualista API");
 });
 
 app.listen(port, () => {
