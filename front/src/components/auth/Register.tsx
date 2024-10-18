@@ -29,6 +29,12 @@ const Register: React.FC = () => {
     });
   };
 
+  const handleCompanyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Перетворення пробілів на дефіси
+    const newValue = e.target.value.replace(/\s+/g, "-");
+    setCompany(newValue);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -119,7 +125,7 @@ const Register: React.FC = () => {
                 type="text"
                 placeholder="Company"
                 value={company}
-                onChange={(e) => setCompany(e.target.value)}
+                onChange={handleCompanyChange}
                 className="mt-1 py-2 px-4 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 required
               />
